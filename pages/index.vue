@@ -1,40 +1,173 @@
 <template>
-  <section class="main-section min-w-1250">
-    <p class="main-title">업무 협업의 미래를 열다 </p>
-    <p>123</p>
-    <p class="main-text-contents">
-      혁신적인 솔루션으로, 업무 협업의 미래를 현실로 만나보세요.<br>
-      업무 효율성을 향상하고 무료 마켓 사용료로 더욱 경제적으로 업무를 관리하세요.<br>
-      사례비 영업이 필요 없는 저희와 함께 업무 협업을 새로운 수준에서 경험해보세요.
-    </p>
-    <section class="check-your-today">
-      <p class="check-your-today-title">CHECK YOUR TODAY</p>
-    </section>
-  </section>
+  <div class="swiper-container">
+    <swiper
+      slide-per-view="auto"
+      :loop="true"
+      :autoplay="true"
+      :space-between="25"
+      @swiper="onSwiper"
+      @slideChange="onSlideChange">
+      <swiper-slide v-for="(banner, index) in banners" :key="index">
+        <SwiperCard
+          :idx="index"
+          :page="banner.page"
+          :total-page="banner.totalPage"
+          :top-title="banner.topTitle"
+          :middle-title="banner.middleTitle"
+          :content="banner.content"
+          :background-color="banner.backgroundColor"
+          :image="banner.image"/>
+      </swiper-slide>
+    </swiper>
+  </div>
+  <NuxtLink to="/" class="move-case-registration"><span>지난주에만 300건의 사건이 등록되었어요!</span><img src="/img/icon/expand-right-gray.svg" alt="등록된 사건 보기"></NuxtLink>
+  <div class="main-counts">
+    <div class="main-counts-block">
+      <img src="/img/icon/folder.png" aria-hidden class="main-counts-block-icon">
+      <div class="main-counts-block-right">
+        <span class="main-counts-block-title">누적사건 수</span>
+        <span class="main-counts-block-content"><b>2852</b>건</span>
+      </div>
+    </div>
+    <i class="main-counts-line"></i>
+    <div class="main-counts-block">
+      <img src="/img/icon/folder.png" aria-hidden class="main-counts-block-icon">
+      <div class="main-counts-block-right">
+        <span class="main-counts-block-title">등록전문가 수</span>
+        <span class="main-counts-block-content"><b>63</b>명</span>
+      </div>
+    </div>
+  </div>
+  <div class="main-notice-container">
+    <div class="main-notice-top">
+      <p class="main-notice-title">공지사항</p>
+      <p class="main-notice-more">더 알아보기 <img src="/img/icon/expand-right-lightgray.svg" aira-hidden></p>
+    </div>
+    <NoticeCard />
+  </div>
 </template>
-<style scoped lang="scss">
-  .main-title{
-    margin: 150px 0 50px;
-    font-size: 38px;
-    line-height: 16px;
-    font-weight: 700;
-    text-align: center;
+<script>
+import {Swiper, SwiperSlide} from 'swiper/vue'
+import SwiperCard from '~/components/card/SwiperCard.vue'
+import NoticeCard from '~/components/card/NoticeCard.vue'
+import {banners} from '~/assets/js/main/swiperBanner'
+
+import 'swiper/css'
+
+export default {
+  name: 'IndexPage',
+  components: {
+    Swiper,
+    SwiperSlide,
+    SwiperCard,
+    NoticeCard
+  },
+  setup() {
+    definePageMeta({layout: 'in-header'})
+
+    const onSwiper = (swiper) => {
+      console.log(swiper)
+    }
+
+    const onSlideChange = () => {
+      console.log('slide change')
+    }
+
+    return {
+      onSwiper,
+      onSlideChange,
+      banners
+    }
+  },
+}
+</script>
+
+<style lang="scss" scoped>
+@import '~/assets/scss/_variables.scss';
+.swiper-container{
+  margin-top: 32px;
+  padding: 0 34px;
+  &:deep(.swiper) {
+      overflow-y: visible;
   }
-  .main-text-contents {
-    font-size: 18px;
-    line-height: 40px;
-    text-align: center;
-    color: #6b6b6b;
+}
+.move-case-registration{
+  height: 65px;
+  margin: 45px 16px 0 16px;
+  border-radius: 16px;
+  background-color: #f6f6f6;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 18px;
+  text-decoration: none;
+  color: #676767;
+  span{
+    font-size: 15px;
+    font-weight: $ft-semibold;
   }
-  .check-your-today{
-    height: 613px;
-    background-color: #4c4f59;
-    .check-your-today-title {
-      font-size: 24px;
-      line-height: 36px;
-      font-weight: 700;
-      color: #ffffff;
-      padding: 32px 0 56px;
+}
+.main-counts{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+  margin: 26px 0 34px;
+  .main-counts-block {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 11px;
+  }
+  .main-counts-block-icon {
+    width: auto;
+    height: 30px;
+  }
+  .main-counts-block-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+  }
+  .main-counts-block-title {
+    font-size: 12px;
+    color: #8e8e8e;
+    font-weight: $ft-medium;
+  }
+  .main-counts-block-content {
+    font-size: 12px;
+    color: #8e8e8e;
+    font-weight: $ft-bold;
+    b {
+      font-size: 16px;
+      color: #0c0c0c;
+      font-weight: $ft-bold;
+      margin-right: 4px;
     }
   }
+  .main-counts-line {
+    display: inline-block;
+    height: 30px;
+    width: 1px;
+    background-color: #dedede;
+  }
+}
+.main-notice-container {
+  padding: 16px;
+  border-top: 5px solid #f2f3f5;
+  border-bottom: 5px solid #f2f3f5;
+}
+.main-notice-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  .main-notice-title {
+    font-size: 14px;
+    font-weight: $ft-bold;
+  }
+  .main-notice-more {
+    font-size: 12px;
+    color: #cccccc;
+  }
+}
 </style>
