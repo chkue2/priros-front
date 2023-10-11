@@ -1,6 +1,7 @@
 <template>
   <section class="main-section min-w-1250">
-    <p class="main-title">업무 협업의 미래를 열다</p>
+    <p class="main-title">업무 협업의 미래를 열다 </p>
+    <p>123</p>
     <p class="main-text-contents">
       혁신적인 솔루션으로, 업무 협업의 미래를 현실로 만나보세요.<br>
       업무 효율성을 향상하고 무료 마켓 사용료로 더욱 경제적으로 업무를 관리하세요.<br>

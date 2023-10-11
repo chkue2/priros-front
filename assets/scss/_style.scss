@@ -1,9 +1,19 @@
+@import "reset";
+@import "variables";
+@import "fonts";
+
 * {
-  padding: 0;
-  margin: 0;
+
   box-sizing: border-box;
 }
 
-.min-w-1250 {
-  min-width: 1250px;
+body {
+  background-color: $body-bg;
+  color: $font-default;
+  font: {
+    family: 'Roboto', 'Noto Sans', sans-serif;
+    weight: 400;
+    size: 16px;
+  }
+
 }
