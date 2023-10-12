@@ -1,19 +1,4 @@
-@import "reset";
 @import "variables";
 @import "fonts";
-
-* {
-
-  box-sizing: border-box;
-}
-
-body {
-  background-color: $body-bg;
-  color: $font-default;
-  font: {
-    family: 'Roboto', 'Noto Sans', sans-serif;
-    weight: 400;
-    size: 16px;
-  }
-
-}
+@import "base";
+@import "components";

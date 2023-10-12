@@ -63,7 +63,6 @@ export default {
     NoticeCard
   },
   setup() {
-    definePageMeta({layout: 'in-header'})
 
     const onSwiper = (swiper) => {
       console.log(swiper)
