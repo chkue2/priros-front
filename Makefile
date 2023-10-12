@@ -10,8 +10,11 @@ check:
 	@echo Docker Image Name: $(DOCKER_IMAGE_NAME)
     @echo PWD: $(PWD)
 
+install:
+	docker run -w /app -it --rm -v $(CURDIR):/app -p $(PORT):3000 -u node node:$(NODE_VERSION)-alpine npm ci --production=false
+
 dev:
-	docker run -w /app -it --rm -v $(PWD):/app -p $(PORT):3000 node:$(NODE_VERSION)-alpine npm run dev
+	docker run -w /app -it --rm -v $(CURDIR):/app -p $(PORT):3000 -u node node:$(NODE_VERSION)-alpine npm run dev
 
 build:
 	docker build --build-arg NODE_VERSION=$(NODE_VERSION) -t $(DOCKER_IMAGE_NAME):$(BUILD_VERSION) .
