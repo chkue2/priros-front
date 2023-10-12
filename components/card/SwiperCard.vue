@@ -18,7 +18,7 @@ import {defineProps, onMounted} from 'vue'
 const props = defineProps({
   idx: Number,
   page: String,
-  totalPage: String,
+  totalPage: Number,
   topTitle: String,
   middleTitle: String,
   content: String,
