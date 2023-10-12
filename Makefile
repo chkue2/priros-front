@@ -16,10 +16,16 @@ node-image:
 
 install:
 	docker build --target base -t $(RUN_NODE_IMAGE) .
-	docker run -w /app -it --rm -v $(CURDIR):/app -p $(PORT):3000 -u node $(RUN_NODE_IMAGE) npm ci --production=false
+	docker run -w /app -it --rm -v $(CURDIR):/app -p $(PORT):3000 -u node $(RUN_NODE_IMAGE) npm ci
 
-dev:
+local:
 	docker run -w /app -it --rm -v $(CURDIR):/app -p $(PORT):3000 -u node $(RUN_NODE_IMAGE) npm run dev
 
 build:
 	docker build --build-arg NODE_VERSION=$(NODE_VERSION) -t $(DOCKER_IMAGE_NAME):$(BUILD_VERSION) .
+
+start:
+	docker run -d --rm -p $(PORT):3000 --name priros-front $(DOCKER_IMAGE_NAME):$(BUILD_VERSION)
+
+stop:
+	docker stop priros-front
