@@ -1,0 +1,72 @@
+@mixin btn-variant(
+  $bg,
+  $border,
+
+) {
+
+}
+
+.btn {
+  --#{$prefix}-btn-padding-x: #{$btn-padding-x};
+  --#{$prefix}-btn-padding-y: #{$btn-padding-y};
+  --#{$prefix}-btn-bg: transparent;
+  --#{$prefix}-btn-color: #000;
+  --#{$prefix}-btn-border-color: #{$btn-border-color};
+  --#{$prefix}-btn-border-width: #{$btn-border-width};
+  --#{$prefix}-btn-border-style: #{$btn-border-style};
+  --#{$prefix}-btn-border-radius: #{$btn-border-radius};
+  --#{$prefix}-btn-active-bg: #{$btn-active-bg};
+
+  display: inline-block;
+  padding: var(--#{$prefix}-btn-padding-y) var(--#{$prefix}-btn-padding-x);
+  background-color: var(--#{$prefix}-btn-bg);
+  border: var(--#{$prefix}-btn-border-width) var(--#{$prefix}-btn-border-style) var(--#{$prefix}-btn-border-color);
+  border-radius:var(--#{$prefix}-btn-border-radius);
+  color: var(--#{$prefix}-btn-color);
+  font:{
+    size:12px;
+    weight: 500;
+  }
+  line-height: 1;
+  cursor: pointer;
+
+  &:active{
+    color: var(--#{$prefix}-btn-active-color);
+    background-color: var(--#{$prefix}-btn-active-bg);
+  }
+
+  &:disabled,
+  &.disabled,
+  fieldset:disabled & {
+    color: var(--#{$prefix}btn-disabled-color);
+    pointer-events: none;
+    background-color: var(--#{$prefix}btn-disabled-bg);
+
+    border-color: var(--#{$prefix}btn-disabled-border-color);
+    opacity: var(--#{$prefix}btn-disabled-opacity);
+  }
+
+
+  .icon{
+    margin-top: -3px;
+    width: 15px ;
+    height: 15px;
+    vertical-align: middle;
+  }
+}
+
+@each $name , $value in $colors{
+  .btn-#{$name}{
+    background-color: $value;
+  }
+}
+
+.btn-blank{
+  display: inline;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  line-height: 1;
+  vertical-align: middle;
+
+}

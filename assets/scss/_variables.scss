@@ -1,3 +1,5 @@
+$prefix: 'pir';
+
 // color
 $white: #fff;
 $gray:#808080;
@@ -20,6 +22,12 @@ $colors-contrast: (
 // 레이아웃
 // $body-bg: #F2F3F5;
 $body-bg: #ffffff;
+
+$secondary-border: #EAEAEA;
+$secondary-bg: #FBFBFB;
+
+$mobile-header-height: 60px;
+
 
 // 텍스트
 $ft-thin: 100;

@@ -3,6 +3,7 @@ PORT ?= 3000
 BUILD_VERSION ?= latest
 DOCKER_IMAGE_NAME ?= priros-front
 RUN_NODE_IMAGE = prirosnode:latest
+APP_NAME = priros_front_app
 
 check:
 	@echo Node Version: $(NODE_VERSION)
@@ -16,10 +17,16 @@ node-image:
 
 install:
 	docker build --target base -t $(RUN_NODE_IMAGE) .
-	docker run -w /app -it --rm -v $(CURDIR):/app -p $(PORT):3000 -u node $(RUN_NODE_IMAGE) npm ci
+	docker run -w /app --rm -v $(CURDIR):/app -p $(PORT):3000 -u node $(RUN_NODE_IMAGE) npm ci
 
 local:
-	docker run -w /app -it --rm -v $(CURDIR):/app -p $(PORT):3000 -u node $(RUN_NODE_IMAGE) npm run dev
+	docker run -it -w /app --name $(APP_NAME) --rm -v $(CURDIR):/app -p $(PORT):3000 -u node $(RUN_NODE_IMAGE) npm run dev
+
+local_stop:
+	docker stop $(APP_NAME)
+
+run:
+	docker run -it -w /app --rm -v $(CURDIR):/app -u node $(RUN_NODE_IMAGE) $(ARG)
 
 build:
 	docker build --build-arg NODE_VERSION=$(NODE_VERSION) -t $(DOCKER_IMAGE_NAME):$(BUILD_VERSION) .
