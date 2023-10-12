@@ -13,6 +13,10 @@ ENV PORT=${PORT}
 
 WORKDIR /app
 
+RUN npm install -g npm@10.2.0
+
+# 소스 코드 복사 및 빌드
+FROM base as build
 # 의존성 설치
 COPY package.json .
 COPY package-lock.json .
@@ -21,9 +25,6 @@ COPY package-lock.json .
 RUN --mount=type=cache,target=/app/node_modules
 RUN npm ci
 
-
-# 소스 코드 복사 및 빌드
-FROM base as build
 COPY . .
 RUN npm run build
 

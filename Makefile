@@ -2,6 +2,7 @@ NODE_VERSION ?= 20.8.0
 PORT ?= 3000
 BUILD_VERSION ?= latest
 DOCKER_IMAGE_NAME ?= priros-front
+RUN_NODE_IMAGE = prirosnode:latest
 
 check:
 	@echo Node Version: $(NODE_VERSION)
@@ -10,11 +11,15 @@ check:
 	@echo Docker Image Name: $(DOCKER_IMAGE_NAME)
     @echo PWD: $(PWD)
 
+node-image:
+	docker build --target base -t $(RUN_NODE_IMAGE) .
+
 install:
-	docker run -w /app -it --rm -v $(CURDIR):/app -p $(PORT):3000 -u node node:$(NODE_VERSION)-alpine npm ci --production=false
+	docker build --target base -t $(RUN_NODE_IMAGE) .
+	docker run -w /app -it --rm -v $(CURDIR):/app -p $(PORT):3000 -u node $(RUN_NODE_IMAGE) npm ci --production=false
 
 dev:
-	docker run -w /app -it --rm -v $(CURDIR):/app -p $(PORT):3000 -u node node:$(NODE_VERSION)-alpine npm run dev
+	docker run -w /app -it --rm -v $(CURDIR):/app -p $(PORT):3000 -u node $(RUN_NODE_IMAGE) npm run dev
 
 build:
 	docker build --build-arg NODE_VERSION=$(NODE_VERSION) -t $(DOCKER_IMAGE_NAME):$(BUILD_VERSION) .
