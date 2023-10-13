@@ -62,7 +62,7 @@
   </div>
   <div class="main-bottom-buttons">
     <CommonBottomButton id="mainBottomButtonHelpCenter" text="헬프센터" backgroundColor="#c7c7c7" height="72px" width="50%" :font-weight="700" />
-    <CommonBottomButton id="mainBottomButtonLogin" text="로그인" backgroundColor="#000000" height="72px" width="50%" :font-weight="700" />
+    <CommonBottomButton id="mainBottomButtonLogin" text="로그인" backgroundColor="#000000" height="72px" width="50%" :font-weight="700" @handler-click-button="handlerClickLoginButton" />
   </div>
   <CommonFullScreenFadeModal :is-show="isMainIntroLandingModalShow">
     <MainIntroLanding @handler-click-close="toggleMainIntroLandingModal" />
@@ -73,6 +73,7 @@
 </template>
 <script>
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 import {Swiper, SwiperSlide} from 'swiper/vue'
 import SwiperCard from '~/components/card/SwiperCard.vue'
 import NoticeCard from '~/components/card/NoticeCard.vue'
@@ -81,7 +82,7 @@ import CommonBottomButton from '~/components/button/CommonBottomButton.vue'
 import CommonFullScreenFadeModal from '~/components/modal/CommonFullScreenFadeModal.vue'
 import MainIntroLanding from '~/components/landing/MainIntroLanding.vue'
 import MainReviewLanding from '~/components/landing/MainReviewLanding.vue'
-import {banners} from '~/assets/js/main/swiperBanner'
+import { banners } from '~/assets/js/main/swiperBanner'
 import { howToUse } from '~/assets/js/main/howToUse'
 import { partners } from '~/assets/js/main/partners'
 
@@ -126,6 +127,12 @@ export default {
           return
       }
     }
+
+    const router = useRouter()
+    const handlerClickLoginButton = () => {
+      router.push('/user/login')
+    }
+
     return {
       banners,
       howToUse,
@@ -134,7 +141,8 @@ export default {
       isMainReviewLandingModalShow,
       toggleMainIntroLandingModal,
       toggleMainReviewLandingModal,
-      handlerClickMainBanner
+      handlerClickMainBanner,
+      handlerClickLoginButton
     }
   },
 }
