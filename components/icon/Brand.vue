@@ -1,26 +1,23 @@
 <template>
-  <i :style="{ width: displaySize, height: displaySize }"><Image /></i>
+  <i :style="{ width: displaySize, height: displaySize }">
+    <Image/>
+  </i>
 </template>
 
 <script setup>
 
 import Image from "~/assets/images/icon/logo.svg?inline";
+import {computed} from "vue";
+import {formatSize} from "~/utils/formatSize.js";
 
-const {size} = defineProps({
+const props =  defineProps({
   size: {
     type: [String, Number],
     default: "24px"
   }
 });
 
-const displaySize = computed(() => {
-  if (typeof size === 'number') {
-    return `${size}px`;
-  } else if (!/[\d\s]px|%|em|rem|vh|vw|vmin|vmax|cm|mm|in|pt|pc|ex|ch|cap|ic|lh|rlh$/i.test(size)) {
-    return `${size}px`;
-  }
-  return size;
-});
+const displaySize = computed(() => formatSize(props.size));
 
 </script>
 <style scoped lang="scss">

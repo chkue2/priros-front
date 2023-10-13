@@ -1,15 +1,18 @@
 <template>
   <i :class="classes">
-    <svg :width="displaySize" :height="displaySize"><use :href="iconHref"></use></svg>
+    <svg :width="displaySize" :height="displaySize">
+      <use :href="iconHref"></use>
+    </svg>
   </i>
 
 </template>
 
 <script setup>
 import {computed} from 'vue';
+import {formatSize} from "~/utils/formatSize.js";
 import svgSprite from "assets/images/icon/svg-sprite.svg";
 
-const {variant, size} = defineProps({
+const props = defineProps({
   variant: {
     type: String,
     required: true
@@ -20,9 +23,11 @@ const {variant, size} = defineProps({
   }
 });
 
-const displaySize = computed(() => typeof size === 'number' ? `${size}px` : size);
-const iconHref = computed(() => `${svgSprite}#${variant}`);
-const classes = computed(() => `icon icon-${variant}`);
+
+const displaySize = computed(() => formatSize(props.size));
+
+const iconHref = computed(() => `${svgSprite}#${props.variant}`);
+const classes = computed(() => `icon icon-${props.variant}`);
 </script>
 <style scoped lang="scss">
 

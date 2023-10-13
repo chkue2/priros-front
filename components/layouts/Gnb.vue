@@ -1,18 +1,17 @@
 <template>
-  <div id="gnb" :class="{active: isActive}">
-    <UserMyPage v-if="user" />
-    <UserLogin v-else />
+  <div id="gnb" :class="{active: gnbStore.isActive}">
+    <UserMyPage v-if="auth.user"/>
+    <UserLogin v-else/>
   </div>
 </template>
-
 <script setup>
 import {useAuthStore} from "~/store/auth.js";
+import {useGnbStore} from "~/store/gnbState.js";
 
-const {isActive} = defineProps(['isActive']);
+const gnbStore = useGnbStore();
 const auth = useAuthStore();
-const {user} = auth;
-</script>
 
-<style scoped lang="scss">
+</script>
+<style lang="scss">
 @import "gnb";
 </style>

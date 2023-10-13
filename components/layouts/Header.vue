@@ -2,33 +2,31 @@
   <header id="header">
     <div class="brand">
       <NuxtLink to="/">
-        <Brand size="30"/>
+        <IconBrand size="30"/>
       </NuxtLink>
     </div>
     <ul class="nav">
       <li class="nav-item">
         <button type="button" class="btn-blank">
-          <SvgIcon variant="alert" size="24"/>
+          <IconSvgIcon variant="alert" size="24"/>
         </button>
       </li>
       <li class="nav-item">
         <button type="button" class="btn-blank" @click="handleToggleMenu">
-          <SvgIcon variant="menu" size="24"/>
+          <IconSvgIcon :variant="variantType" size="24"/>
         </button>
       </li>
     </ul>
   </header>
 </template>
 <script setup>
+import {useGnbStore} from "~/store/gnbState.js";
 
-import SvgIcon from "~/components/icon/SvgIcon.vue";
-import Brand from "~/components/icon/Brand.vue";
-
-const emits = defineEmits(['toggle-menu']);
+const gnbStore = useGnbStore();
+const variantType = computed(() => gnbStore.isActive ? 'close' : 'menu');
 
 const handleToggleMenu = () => {
-  emits('toggle-menu');
-  console.log("o");
+  gnbStore.toggle();
 }
 
 </script>

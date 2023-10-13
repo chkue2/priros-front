@@ -4,10 +4,12 @@
     <p class="join-subtitle">로그인하셔야 사용가능한 서비스입니다.</p>
     <div class="login-form">
       <div class="join-form-input-container mb-11">
-        <input type="text" class="join-form-input" placeholder="아이디를 입력해주세요">
+        <input v-model="credentials.userName" type="text" name="user_name" class="join-form-input"
+               placeholder="아이디를 입력해주세요">
       </div>
       <div class="join-form-input-container">
-        <input type="password" id="passwordInput" class="join-form-input" placeholder="비밀번호를 입력해주세요">
+        <input v-model="credentials.password" type="password" name="user_password" id="passwordInput"
+               class="join-form-input" placeholder="비밀번호를 입력해주세요">
         <i class="login-toggle-password" @click="handlerClickPasswordToggle"></i>
       </div>
       <div class="login-form-middle-container">
@@ -30,17 +32,26 @@
 </template>
 
 <script setup>
-import { ref, watch } from 'vue'
+import {ref, watch} from 'vue'
+import {useAuthStore} from "~/store/auth.js";
+import {useGnbStore} from "~/store/gnbState.js";
+import {useRouter} from "vue-router";
 
+const router = useRouter();
+const gnbStore = useGnbStore();
+const auth = useAuthStore();
+
+// 비밀번호 확인 토글
 let isPasswordToggle = ref(false)
 watch(() => isPasswordToggle.value, () => {
   const target = document.querySelector('#passwordInput')
-  if(isPasswordToggle.value) {
+  if (isPasswordToggle.value) {
     target.setAttribute('type', 'text')
   } else {
     target.setAttribute('type', 'password')
   }
 })
+
 const handlerClickPasswordToggle = () => {
   isPasswordToggle.value = !isPasswordToggle.value
 }
@@ -50,18 +61,29 @@ const handlerClickSwitchToggle = () => {
   isSwitchToggle.value = !isSwitchToggle.value
 }
 
-const handlerClickLoginButton = () => {
-  alert('로그인 성공!')
-  location.replace('/')
+const credentials = ref({
+  'userName': '',
+  'password': ''
+});
+
+const handlerClickLoginButton = async () => {
+  const isSuccess = await auth.login(credentials.value);
+  if (isSuccess) {
+
+  } else {
+    alert("실패");
+  }
 }
 </script>
 
 <style lang="scss" scoped>
 @import '~/assets/scss/join/common.scss';
+
 .login-form {
   margin-top: 65px;
   padding: 0 14px;
 }
+
 .login-toggle-password {
   width: 16px;
   height: 11px;
@@ -73,14 +95,17 @@ const handlerClickLoginButton = () => {
   right: 16px;
   transform: translateY(-50%);
 }
+
 .login-form-middle-container {
   display: flex;
   justify-content: space-between;
   align-items: center;
+
   .login-form-middle-left {
     display: flex;
     align-items: center;
   }
+
   .login-form-middle-toggle {
     width: 40px;
     height: 20px;
@@ -89,12 +114,15 @@ const handlerClickLoginButton = () => {
     background-color: #f2f2f2;
     position: relative;
     transition: background-color .3s ease-in-out;
+
     &.active {
       background-color: #235bed;
+
       i {
         transform: translateX(20px);
       }
     }
+
     i {
       display: inline-block;
       width: 16px;
@@ -109,17 +137,20 @@ const handlerClickLoginButton = () => {
       transition: transform .3s ease-in-out;
     }
   }
+
   .login-form-middle-toggle-text {
     font-size: 12px;
     color: #7a7a7a;
     margin-left: 8px;
   }
+
   .login-form-middle-find-password {
     font-size: 12px;
     color: #007aff;
     text-decoration: none;
   }
 }
+
 .login-form-apply-button {
   width: 100%;
   height: 48px;
@@ -134,14 +165,17 @@ const handlerClickLoginButton = () => {
   font-weight: $ft-bold;
   border: none;
 }
+
 .login-form-button-container {
   display: flex;
   justify-content: center;
   align-items: center;
+
   a {
     font-size: 14px;
     color: #5b5b5b;
     text-decoration: none;
+
     & + a {
       &::before {
         content: '|';
