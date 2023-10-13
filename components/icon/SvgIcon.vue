@@ -6,7 +6,7 @@
 </template>
 
 <script setup>
-import {defineProps, computed} from 'vue';
+import {computed} from 'vue';
 import svgSprite from "assets/images/icon/svg-sprite.svg";
 
 const {variant, size} = defineProps({

@@ -16,7 +16,6 @@ node-image:
 	docker build --target base -t $(RUN_NODE_IMAGE) .
 
 install:
-	docker build --target base -t $(RUN_NODE_IMAGE) .
 	docker run -w /app --rm -v $(CURDIR):/app -p $(PORT):3000 -u node $(RUN_NODE_IMAGE) npm ci
 
 local:
