@@ -1,5 +1,5 @@
 <template>
-  <header id="header">
+  <header id="header" :class="{bb: isNotMain}">
     <div class="brand">
       <NuxtLink to="/">
         <Brand size="30"/>
@@ -20,7 +20,8 @@
   </header>
 </template>
 <script setup>
-
+import { watch, ref, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
 import SvgIcon from "~/components/icon/SvgIcon.vue";
 import Brand from "~/components/icon/Brand.vue";
 
@@ -30,6 +31,15 @@ const handleToggleMenu = () => {
   emits('toggle-menu');
   console.log("o");
 }
+
+const router = useRouter()
+let isNotMain = ref(false)
+onMounted(() => {
+  isNotMain.value = window.location.pathname !== '/'
+})
+watch(() => router, () => {
+  isNotMain.value = router.options.history.location !== '/'
+}, {deep: true})
 
 </script>
 <style scoped lang="scss">
@@ -50,6 +60,9 @@ const handleToggleMenu = () => {
   .brand {
     display: flex;
     margin-right: auto;
+  }
+  &.bb {
+    border-bottom: $border-bottom-between-header;
   }
 }
 </style>
