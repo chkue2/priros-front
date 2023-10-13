@@ -1,6 +1,6 @@
 <template>
   <Gnb :isActive="isGnbActive"/>
-  <Header @toggle-menu="toggleMenu" />
+  <Header @toggle-menu="toggleMenu"/>
   <div id="wrapper">
     <main id="main">
       <slot/>
@@ -11,14 +11,12 @@
 <script setup>
 import {ref} from 'vue';
 import Header from "~/components/layouts/Header.vue";
-import Footer from "~/components/layouts/Header.vue";
+import Footer from "~/components/layouts/Footer.vue";
 import Gnb from "~/components/layouts/Gnb.vue";
 
 const isGnbActive = ref(false);
 const toggleMenu = () => {
   isGnbActive.value = !isGnbActive.value;
-
-  console.log("나야");
 }
 
 </script>
