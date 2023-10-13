@@ -57,6 +57,7 @@ const handlerClickCancelButton = () => {
 
 const handlerClickApplyButton = () => {
   alert('validation check')
+  router.push('/user/join/general-success')
 }
 
 </script>
