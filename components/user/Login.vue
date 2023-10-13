@@ -7,7 +7,8 @@
         <input type="text" class="join-form-input" placeholder="아이디를 입력해주세요">
       </div>
       <div class="join-form-input-container">
-        <input type="password" class="join-form-input" placeholder="비밀번호를 입력해주세요">
+        <input type="password" id="passwordInput" class="join-form-input" placeholder="비밀번호를 입력해주세요">
+        <i class="login-toggle-password" @click="handlerClickPasswordToggle"></i>
       </div>
       <div class="login-form-middle-container">
         <div class="login-form-middle-left">
@@ -29,7 +30,20 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
+
+let isPasswordToggle = ref(false)
+watch(() => isPasswordToggle.value, () => {
+  const target = document.querySelector('#passwordInput')
+  if(isPasswordToggle.value) {
+    target.setAttribute('type', 'text')
+  } else {
+    target.setAttribute('type', 'password')
+  }
+})
+const handlerClickPasswordToggle = () => {
+  isPasswordToggle.value = !isPasswordToggle.value
+}
 
 let isSwitchToggle = ref(false)
 const handlerClickSwitchToggle = () => {
@@ -47,6 +61,17 @@ const handlerClickLoginButton = () => {
 .login-form {
   margin-top: 65px;
   padding: 0 14px;
+}
+.login-toggle-password {
+  width: 16px;
+  height: 11px;
+  background: url(/img/icon/eye-gray.svg) no-repeat center/cover;
+  cursor: pointer;
+  z-index: 11;
+  position: absolute;
+  top: 50%;
+  right: 16px;
+  transform: translateY(-50%);
 }
 .login-form-middle-container {
   display: flex;
