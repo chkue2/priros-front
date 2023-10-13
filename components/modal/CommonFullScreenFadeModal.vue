@@ -4,7 +4,7 @@
   </div>
 </template>
 <script setup>
-import { defineProps, watch } from 'vue'
+import { watch } from 'vue'
 
 const props = defineProps({
   isShow: Boolean,

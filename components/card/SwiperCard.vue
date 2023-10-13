@@ -13,7 +13,7 @@
   </div>
 </template>
 <script setup>
-import {defineProps, onMounted} from 'vue'
+import { onMounted } from 'vue'
 
 const props = defineProps({
   idx: Number,

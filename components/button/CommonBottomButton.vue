@@ -1,16 +1,16 @@
 <template>
-  <button :id="id" class="common-bottom-button">
+  <button :id="id" class="common-bottom-button" @click="handlerClickButton">
     {{ text }}
   </button>
 </template>
 <script setup>
-import { defineProps, onMounted } from 'vue'
+import { onMounted } from 'vue'
 const props = defineProps({
   id: String,
   text: String,
   backgroundColor: {
     type: String,
-    default: '#00000'
+    default: '#000000'
   },
   color: {
     type: String,
@@ -34,6 +34,8 @@ const props = defineProps({
   }
 })
 
+const emit = defineEmits(['handler-click-button'])
+
 onMounted(() => {
   const target = document.querySelector(`#${props.id}`)
 
@@ -44,6 +46,10 @@ onMounted(() => {
   target.style.fontSize = `${props.fontSize}px`
   target.style.fontWeight = props.fontWeight
 })
+
+const handlerClickButton = () => {
+  emit('handler-click-button')
+}
 </script>
 <style scoped lang="scss">
 .common-bottom-button {

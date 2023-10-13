@@ -37,8 +37,6 @@
   </div>
 </template>
 <script setup>
-import { defineEmits } from 'vue'
-
 const emit = defineEmits(['handler-click-close'])
 const handlerClickClose = () => {
   emit('handler-click-close')
