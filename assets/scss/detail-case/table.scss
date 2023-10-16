@@ -1,0 +1,42 @@
+
+.detail-case-common-table-header {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  & > div {
+    background-color: #323232;
+    color: #ffffff;
+    text-align: center;
+    padding: 5px;
+    font-size: 12px;
+  }
+}
+.detail-case-common-table-contents {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  margin-top: 7px;
+  box-shadow: 3px 3px 8px 0px #0000001A;
+  padding: 11px 5px;
+  grid-gap: 12px;
+  & > div {
+    font-size: 12px;
+    &.detail-case-common-table-small {
+      text-align: center;
+    }
+  }
+}
+.detail-case-common-table-small {
+  grid-column: span 1;
+}
+.detail-case-common-table-big {
+  grid-column: span 2;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+.detail-case-common-table-empty {
+  grid-column: span 4;
+  line-height: 38px;
+  text-align: center;
+  font-size: 12px;
+}

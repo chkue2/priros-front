@@ -1,5 +1,5 @@
 <template>
-  <div class="my-case-card">
+  <div class="my-case-card" @click="handlerClickCard">
     <div class="my-case-card-title">
       <p class="my-case-card-name">{{ caseConfig.name }}</p>
       <div class="my-case-card-dates">
@@ -36,6 +36,7 @@
 
 <script setup>
 import { computed } from 'vue'
+import { useRouter } from 'vue-router'
 const props = defineProps({
   caseConfig: Object,
 })
@@ -58,6 +59,16 @@ const bankIcon = computed(() => {
 const tags = computed(() => {
   return props.caseConfig.tags.map((c) => `#${c}`)
 })
+
+const router = useRouter()
+const handlerClickCard = () => {
+  router.push({
+    path: '/case/detail-case',
+    query: {
+      uid: props.caseConfig.uid
+    }
+  })
+}
 </script>
 
 <style scoped lang="scss">
