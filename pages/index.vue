@@ -60,10 +60,7 @@
       </swiper-slide>
     </swiper>
   </div>
-  <div class="main-bottom-buttons">
-    <CommonBottomButton id="mainBottomButtonHelpCenter" text="헬프센터" backgroundColor="#c7c7c7" height="72px" width="50%" :font-weight="700" />
-    <CommonBottomButton id="mainBottomButtonLogin" text="로그인" backgroundColor="#000000" height="72px" width="50%" :font-weight="700" @handler-click-button="handlerClickLoginButton" />
-  </div>
+
   <CommonFullScreenFadeModal :is-show="isMainIntroLandingModalShow">
     <MainIntroLanding @handler-click-close="toggleMainIntroLandingModal" />
   </CommonFullScreenFadeModal>
@@ -271,12 +268,5 @@ export default {
     width: fit-content;
   }
 }
-.main-bottom-buttons{
-  display: flex;
-  position: sticky;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: $zi-sticky;
-}
+
 </style>

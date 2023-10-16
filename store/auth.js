@@ -1,24 +1,25 @@
 import {defineStore} from 'pinia';
 
-const userDataKey = 'auth-user';
-const isWin = typeof window !== "undefined";
+const userSessionKey = 'auth-user';
+
 export const useAuthStore = defineStore("auth", {
 
-    state: () => {
-        return {
-            user: null
-        };
-    },
+    state: () => ({
+        user: null,
+    }),
     actions: {
+
+        initialize() {
+            this.user = typeof window !== 'undefined' && JSON.parse(sessionStorage.getItem(userSessionKey)) || null;
+        },
         async login(credentials) {
             try {
                 // const response = await useApi('/login', credentials, {method: "POST"});
                 // if (response && response.data) {
                 //     this.user = response.data.user;
-                //     if (process.client) {
-                //         sessionStorage.setItem('auth-user', JSON.stringify(this.user));
+                //     if (typeof window !== 'undefined'){
+                //         sessionStorage.setItem(userSessionKey, JSON.stringify(this.user));
                 //     }
-                //     sessionStorage.setItem('auth-user', JSON.stringify(this.user));
                 //     return true;
                 // } else {
                 //     throw new Error('로그인 실패');
@@ -34,9 +35,10 @@ export const useAuthStore = defineStore("auth", {
                         'firmName': '법무사무소'
                     }
                 }
+                if (typeof window !== 'undefined') {
+                    sessionStorage.setItem(userSessionKey, JSON.stringify(this.user));
+                }
 
-
-                //
 
                 return true;
             } catch (error) {
@@ -47,12 +49,13 @@ export const useAuthStore = defineStore("auth", {
             }
         },
         logout() {
-            console.log("?");
             this.user = null;
+            // userState.value = null;
+            if (typeof window !== 'undefined') {
+                sessionStorage.removeItem(userSessionKey);
+            }
+            console.log("logout !");
             return true;
         }
-    },
-    persist: {
-        storage: persistedState.sessionStorage,
-    },
+    }
 });

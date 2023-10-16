@@ -11,7 +11,6 @@ export default defineNuxtConfig({
     },
     modules: [
         '@pinia/nuxt',
-        '@pinia-plugin-persistedstate/nuxt',
         '@nuxt/image',
     ],
     plugins:[

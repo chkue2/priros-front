@@ -15,12 +15,12 @@
   </div>
   <div class="sub-menu">
     <ul class="nav">
-      <li class="nav-item">
-        <button type="button" class="btn-blank" @click="logout()">
-          <IconSvgIcon variant="log-out" size="16"/>
-        </button>
+      <li class="nav-item" @click="logout()">
 
+        <IconSvgIcon variant="log-out" size="16"/>
         로그아웃
+
+
       </li>
       <li class="nav-item">
         <IconSvgIcon variant="headset-help" size="16"/>
@@ -38,7 +38,7 @@
         <div v-if="item.submenu" class="menu-nav-sub">
           <ul class="v-nav">
             <li class="menu-nav-sub-item" v-for="subItem in item.submenu" :key="subItem.title">
-              <NuxtLink :to="subItem.to" @click.stop="goRoute">{{ subItem.title }}</NuxtLink>
+              <NuxtLink :to="subItem.to" @click="goRoute">{{ subItem.title }}</NuxtLink>
             </li>
           </ul>
         </div>
@@ -62,11 +62,10 @@ const profile = computed(() => auth.user.profile);
 const menuItems = ref([
   {
     type: "link",
-    subtitle: "부제목",
-    title: "주제목",
-    to: "#",
+    subtitle: "오늘이 잔금일인 사건에 보고할 수 있어요",
+    title: "내 사건",
+    to: "/case/my-case",
     active: false,
-
   },
   {
     type: "toggle",
@@ -76,10 +75,10 @@ const menuItems = ref([
     submenu: [
       {
         title: "계층형 메뉴1",
-        to: '#'
+        to: '/'
       }, {
         title: "계층형 메뉴2",
-        to: '#'
+        to: '/'
       }],
   },
   {
@@ -90,17 +89,17 @@ const menuItems = ref([
     submenu: [
       {
         title: "계층형 메뉴1",
-        to: '#'
+        to: '/'
       }, {
         title: "계층형 메뉴2",
-        to: '#'
+        to: '/'
       }],
   },
   {
     type: "link",
     subtitle: "부제목",
     title: "주제목",
-    to: "#",
+    to: "/",
     active: false,
   }
 ]);
@@ -122,7 +121,6 @@ function goRoute() {
 }
 
 function handleMenuClick(item) {
-  console.log("menu click");
   if (item.type === 'toggle') {
     item.active = !item.active;
   } else {

@@ -1,7 +1,7 @@
 <template>
-  <header id="header" :class="{bb: isNotMain}">
+  <header id="header">
     <div class="brand">
-      <NuxtLink to="/">
+      <NuxtLink to="/" @click="gnbStore.deactivate()">
         <IconBrand size="30"/>
       </NuxtLink>
     </div>
@@ -22,27 +22,13 @@
 <script setup>
 import {useGnbStore} from "~/store/gnbState.js";
 
+
 const gnbStore = useGnbStore();
 const variantType = computed(() => gnbStore.isActive ? 'close' : 'menu');
-import { watch, ref, onMounted } from 'vue'
-import { useRouter } from 'vue-router'
-import SvgIcon from "~/components/icon/SvgIcon.vue";
-import Brand from "~/components/icon/Brand.vue";
-
-const emits = defineEmits(['toggle-menu']);
 
 const handleToggleMenu = () => {
   gnbStore.toggle();
 }
-
-const router = useRouter()
-let isNotMain = ref(false)
-onMounted(() => {
-  isNotMain.value = window.location.pathname !== '/'
-})
-watch(() => router, () => {
-  isNotMain.value = router.options.history.location !== '/'
-}, {deep: true})
 
 </script>
 <style scoped lang="scss">
@@ -64,8 +50,7 @@ watch(() => router, () => {
     display: flex;
     margin-right: auto;
   }
-  &.bb {
-    border-bottom: $border-bottom-between-header;
-  }
+
+
 }
 </style>

@@ -30,15 +30,10 @@
     </div>
   </div>
 </template>
-
 <script setup>
 import {ref, watch} from 'vue'
 import {useAuthStore} from "~/store/auth.js";
-import {useGnbStore} from "~/store/gnbState.js";
-import {useRouter} from "vue-router";
 
-const router = useRouter();
-const gnbStore = useGnbStore();
 const auth = useAuthStore();
 
 // 비밀번호 확인 토글

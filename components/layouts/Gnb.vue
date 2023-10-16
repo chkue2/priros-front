@@ -7,10 +7,14 @@
 <script setup>
 import {useAuthStore} from "~/store/auth.js";
 import {useGnbStore} from "~/store/gnbState.js";
+import { onMounted } from 'vue';
 
 const gnbStore = useGnbStore();
 const auth = useAuthStore();
 
+onMounted(() => {
+  auth.initialize();
+});
 </script>
 <style lang="scss">
 #gnb {

@@ -23,9 +23,10 @@ $colors-contrast: (
 $body-bg: #F2F3F5;
 $secondary-border: #EAEAEA;
 $secondary-bg: #FBFBFB;
+$footer-bg : #f6f6f6;
 
 $mobile-header-height: 60px;
-$border-bottom-between-header: 8px solid #f2f3f5;
+$border-bottom-between-header: 8px solid $body-bg;
 
 
 // 텍스트

@@ -1,24 +1,41 @@
 <template>
-  <Gnb :isActive="isGnbActive"/>
-  <Header @toggle-menu="toggleMenu"/>
+  <Gnb/>
+  <Header/>
   <div id="wrapper">
-    <main id="main">
+    <main id="main" :class="{bt: isNotMain}">
       <slot/>
     </main>
     <Footer/>
   </div>
+  <div class="main-bottom-buttons" v-if="!auth.user">
+    <CommonBottomButton id="mainBottomButtonHelpCenter" text="헬프센터" backgroundColor="#c7c7c7" height="72px" width="50%"
+                        :font-weight="700"/>
+    <CommonBottomButton id="mainBottomButtonLogin" text="로그인" backgroundColor="#000000" height="72px" width="50%"
+                        :font-weight="700" @handler-click-button="handlerClickLoginButton"/>
+  </div>
 </template>
 <script setup>
-import {ref} from 'vue';
+import {useRouter} from "vue-router";
+import {onMounted, ref, watch} from "vue";
+
+import {useAuthStore} from "~/store/auth.js";
+
 import Header from "~/components/layouts/Header.vue";
 import Footer from "~/components/layouts/Footer.vue";
 import Gnb from "~/components/layouts/Gnb.vue";
+import CommonBottomButton from "~/components/button/CommonBottomButton.vue";
 
-const isGnbActive = ref(false);
-const toggleMenu = () => {
-  isGnbActive.value = !isGnbActive.value;
-}
+const router = useRouter()
+const auth = useAuthStore();
 
+
+let isNotMain = ref(false)
+onMounted(() => {
+  isNotMain.value = window.location.pathname !== '/'
+})
+watch(() => router, () => {
+  isNotMain.value = router.options.history.location !== '/'
+}, {deep: true})
 </script>
 <style lang="scss">
 
@@ -31,5 +48,18 @@ const toggleMenu = () => {
   &.locked {
     overflow: hidden;
   }
+
+  .bt {
+    border-top: $border-bottom-between-header;
+  }
+}
+
+.main-bottom-buttons {
+  display: flex;
+  position: sticky;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: $zi-sticky;
 }
 </style>
