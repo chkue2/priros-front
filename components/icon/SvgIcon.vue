@@ -25,13 +25,11 @@ const props = defineProps({
 
 
 const displaySize = computed(() => formatSize(props.size));
-
 const iconHref = computed(() => `${svgSprite}#${props.variant}`);
 const classes = computed(() => `icon icon-${props.variant}`);
+
 </script>
 <style scoped lang="scss">
-
-
 .icon {
   display: inline-block;
   vertical-align: middle;

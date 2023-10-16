@@ -10,7 +10,12 @@ export default defineNuxtConfig({
         }
     },
     modules: [
-        '@pinia/nuxt'
+        '@pinia/nuxt',
+        '@pinia-plugin-persistedstate/nuxt',
+        '@nuxt/image',
+    ],
+    plugins:[
+
     ],
     css: ['~/assets/scss/_style.scss'],
     vite: {

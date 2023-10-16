@@ -1,16 +1,24 @@
 import {defineStore} from 'pinia';
 
+const userDataKey = 'auth-user';
+const isWin = typeof window !== "undefined";
 export const useAuthStore = defineStore("auth", {
 
-    state: () => ({
-        user: null
-    }),
+    state: () => {
+        return {
+            user: null
+        };
+    },
     actions: {
         async login(credentials) {
             try {
                 // const response = await useApi('/login', credentials, {method: "POST"});
                 // if (response && response.data) {
                 //     this.user = response.data.user;
+                //     if (process.client) {
+                //         sessionStorage.setItem('auth-user', JSON.stringify(this.user));
+                //     }
+                //     sessionStorage.setItem('auth-user', JSON.stringify(this.user));
                 //     return true;
                 // } else {
                 //     throw new Error('로그인 실패');
@@ -27,6 +35,7 @@ export const useAuthStore = defineStore("auth", {
                     }
                 }
 
+
                 //
 
                 return true;
@@ -38,8 +47,12 @@ export const useAuthStore = defineStore("auth", {
             }
         },
         logout() {
+            console.log("?");
             this.user = null;
             return true;
         }
-    }
+    },
+    persist: {
+        storage: persistedState.sessionStorage,
+    },
 });

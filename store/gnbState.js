@@ -9,7 +9,7 @@ export const useGnbStore = defineStore('gnb', {
             this.isActive = true;
         },
         deactivate() {
-            this.isActive = false
+            this.isActive = false;
         },
         toggle() {
             this.isActive = !this.isActive;
