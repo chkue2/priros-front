@@ -23,7 +23,7 @@ const toggleMenu = () => {
 <style lang="scss">
 
 #wrapper {
-  padding-top: 68px;
+  padding-top: 60px;
   height: 100vh;
   overflow: auto;
   position: relative;

@@ -19,7 +19,7 @@ const handlerClickHomeButton = () => {
 <style scoped lang="scss">
 @import '~/assets/scss/join/common.scss';
 .success-title {
-  margin-top: 180px;
+  padding-top: 180px;
   text-align: center;
 }
 .success-content {
