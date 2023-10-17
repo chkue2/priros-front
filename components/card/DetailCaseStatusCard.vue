@@ -1,5 +1,5 @@
 <template>
-  <div class="detail-case-status-card" :class="{active: statusConfig.state === '완료'}">
+  <div class="detail-case-status-card" :class="{active: statusConfig.state === '완료'}" @click="handlerClickStatusCard">
     <p class="detail-case-status-top">
       {{topText}}
     </p>
@@ -14,6 +14,7 @@
 </template>
 <script setup>
 import { computed } from 'vue'
+import { useRouter } from 'vue-router'
 const props = defineProps({
   statusConfig: Object,
 })
@@ -26,6 +27,17 @@ const topText = computed(() => {
       return '클릭하여 진행하기'
   }
 })
+
+const router = useRouter()
+const handlerClickStatusCard = () => {
+    switch(props.statusConfig.title) {
+      case '송금요청':
+        router.push('/request/transfer')
+        break
+      default:
+        return
+    }
+}
 </script>
 
 <style scoped lang="scss">

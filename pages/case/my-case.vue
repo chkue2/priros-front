@@ -60,6 +60,7 @@ const handlerClickCaseTab = (v) => {
     width: 80%;
     border: none;
     font-size: 16px;
+    background-color: transparent;
   }
 }
 .my-case-filters {

@@ -48,7 +48,6 @@ const handlerClickLoginButton = () => {
 #wrapper {
   padding-top: 60px;
   height: 100vh;
-  overflow: auto;
   position: relative;
 
   &.locked {

@@ -24,10 +24,14 @@ watch(() => router, () => {
   headerTitleText.value = returnTitle(router.options.history.location)
 }, {deep: true})
 
+
+// 해당 레이아웃 사용하는 페이지 추가시 아래 switch에 case 추가.
 const returnTitle = (path) => {
   switch(path) {
     case '/notice/list':
       return '공지사항'
+    case '/request/transfer':
+      return '송금요청'
     default:
       return ''
   }
