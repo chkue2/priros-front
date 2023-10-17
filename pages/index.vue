@@ -39,7 +39,7 @@
   <div class="main-notice-container">
     <div class="main-notice-top">
       <p class="main-notice-title">공지사항</p>
-      <p class="main-notice-more">더 알아보기 <img src="/img/icon/expand-right-lightgray.svg" aira-hidden></p>
+      <p class="main-notice-more" @click="handlerClickMoveToNoticeList">더 알아보기 <img src="/img/icon/expand-right-lightgray.svg" aira-hidden></p>
     </div>
     <NoticeCard />
   </div>
@@ -118,7 +118,7 @@ export default {
           toggleMainReviewLandingModal()
           break
         case '3':
-          alert('공지사항으로 이동!')
+          handlerClickMoveToNoticeList()
           break
         default:
           return
@@ -126,8 +126,9 @@ export default {
     }
 
     const router = useRouter()
-    const handlerClickLoginButton = () => {
-      router.push('/user/login')
+
+    const handlerClickMoveToNoticeList = () => {
+      router.push('/notice/list')
     }
 
     return {
@@ -139,7 +140,7 @@ export default {
       toggleMainIntroLandingModal,
       toggleMainReviewLandingModal,
       handlerClickMainBanner,
-      handlerClickLoginButton
+      handlerClickMoveToNoticeList
     }
   },
 }

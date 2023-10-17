@@ -19,6 +19,7 @@ import {useRouter} from "vue-router";
 import {onMounted, ref, watch} from "vue";
 
 import {useAuthStore} from "~/store/auth.js";
+import {useGnbStore} from "~/store/gnbState.js";
 
 import Header from "~/components/layouts/Header.vue";
 import Footer from "~/components/layouts/Footer.vue";
@@ -27,6 +28,7 @@ import CommonBottomButton from "~/components/button/CommonBottomButton.vue";
 
 const router = useRouter()
 const auth = useAuthStore();
+const gnbStore = useGnbStore();
 
 
 let isNotMain = ref(false)
@@ -36,6 +38,10 @@ onMounted(() => {
 watch(() => router, () => {
   isNotMain.value = router.options.history.location !== '/'
 }, {deep: true})
+
+const handlerClickLoginButton = () => {
+  gnbStore.toggle();
+}
 </script>
 <style lang="scss">
 

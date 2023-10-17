@@ -1,0 +1,65 @@
+<template>
+  <header class="close-header">
+    <p class="close-header-title">{{headerTitleText}}</p>
+    <button class="close-button" @click="handlerClickCloseButton"></button>
+  </header>
+  <div id="wrapper">
+    <slot />
+  </div>
+</template>
+<script setup>
+import { onMounted, watch, ref } from 'vue'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
+const handlerClickCloseButton = () => {
+  router.back()
+}
+
+let headerTitleText = ref('')
+onMounted(() => {
+  headerTitleText.value = returnTitle(window.location.pathname)
+})
+watch(() => router, () => {
+  headerTitleText.value = returnTitle(router.options.history.location)
+}, {deep: true})
+
+const returnTitle = (path) => {
+  switch(path) {
+    case '/notice/list':
+      return '공지사항'
+    default:
+      return ''
+  }
+}
+</script>
+<style scoped lang="scss">
+.close-header {
+  height: 60px;
+  padding: 0 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: #ffffff;
+  border-bottom: $border-bottom-between-header;
+  z-index: $zi-fixed;
+}
+.close-header-title {
+  font-size: 20px;
+  font-weight: $ft-semibold;
+}
+.close-button {
+  display: block;
+  width: 24px;
+  height: 24px;
+  background: url(/img/icon/close-black.svg) no-repeat center/16px;
+  border: none;
+}
+#wrapper {
+  padding-top: 60px;
+}
+</style>
