@@ -21,9 +21,9 @@ import {onMounted, ref, watch} from "vue";
 import {useAuthStore} from "~/store/auth.js";
 import {useGnbStore} from "~/store/gnbState.js";
 
-import Header from "~/components/layouts/Header.vue";
-import Footer from "~/components/layouts/Footer.vue";
-import Gnb from "~/components/layouts/Gnb.vue";
+import Header from "~/components/layout/Header.vue";
+import Footer from "~/components/layout/Footer.vue";
+import Gnb from "~/components/layout/Gnb.vue";
 import CommonBottomButton from "~/components/button/CommonBottomButton.vue";
 
 const router = useRouter()

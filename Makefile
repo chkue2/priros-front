@@ -13,12 +13,14 @@ check:
     @echo PWD: $(PWD)
 
 node-image:
+	-docker rmi $(RUN_NODE_IMAGE)
 	docker build --target base -t $(RUN_NODE_IMAGE) .
 
 install:
 	docker run -w /app --rm -v $(CURDIR):/app -p $(PORT):3000 -u node $(RUN_NODE_IMAGE) npm ci
 
 local:
+	-docker stop $(APP_NAME)
 	docker run -it -w /app --name $(APP_NAME) --rm -v $(CURDIR):/app -p $(PORT):3000 -u node $(RUN_NODE_IMAGE) npm run dev
 
 local_stop:

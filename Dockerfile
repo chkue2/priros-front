@@ -22,8 +22,8 @@ COPY package.json .
 COPY package-lock.json .
 
 # BuildKit의 캐시 마운트 사용하여 node_modules 캐싱
-RUN --mount=type=cache,target=/app/node_modules
-RUN npm ci
+RUN --mount=type=cache,target=/app/node_modules \
+    npm ci
 
 COPY . .
 RUN npm run build

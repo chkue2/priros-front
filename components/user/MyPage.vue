@@ -38,7 +38,12 @@
         <div v-if="item.submenu" class="menu-nav-sub">
           <ul class="v-nav">
             <li class="menu-nav-sub-item" v-for="subItem in item.submenu" :key="subItem.title">
-              <NuxtLink :to="subItem.to" @click="goRoute">{{ subItem.title }}</NuxtLink>
+              <NuxtLink :to="subItem.to" @click="goRoute" :class="{d_flex: isDisplayFlex(subItem)}">
+                <span>{{ subItem.title }}</span>
+                <BaseButton type="button" v-if="subItem.sub_btn"
+                            @click="handleSubBtnClick($event,subItem.sub_btn_click)"> {{ subItem.sub_btn }}
+                </BaseButton>
+              </NuxtLink>
             </li>
           </ul>
         </div>
@@ -50,59 +55,19 @@
 
 import {useAuthStore} from "~/store/auth.js";
 import {useGnbStore} from "~/store/gnbState.js";
+import BaseButton from "~/components/button/BaseButton.vue";
 
+
+import defaultMypageMenu from './DefaultMypageMenu.js';
 
 const router = useRouter();
 const gnbStore = useGnbStore();
 const auth = useAuthStore();
 
 const profile = computed(() => auth.user.profile);
-// const profileImage = computed(() => auth.user.profile.profileImage);
 
-const menuItems = ref([
-  {
-    type: "link",
-    subtitle: "오늘이 잔금일인 사건에 보고할 수 있어요",
-    title: "내 사건",
-    to: "/case/my-case",
-    active: false,
-  },
-  {
-    type: "toggle",
-    subtitle: "부제목",
-    title: "주제목",
-    active: false,
-    submenu: [
-      {
-        title: "계층형 메뉴1",
-        to: '/'
-      }, {
-        title: "계층형 메뉴2",
-        to: '/'
-      }],
-  },
-  {
-    type: "toggle",
-    subtitle: "부제목2",
-    title: "주제목2",
-    active: false,
-    submenu: [
-      {
-        title: "계층형 메뉴1",
-        to: '/'
-      }, {
-        title: "계층형 메뉴2",
-        to: '/'
-      }],
-  },
-  {
-    type: "link",
-    subtitle: "부제목",
-    title: "주제목",
-    to: "/",
-    active: false,
-  }
-]);
+
+const menuItems = ref(defaultMypageMenu);
 
 
 function logout() {
@@ -127,6 +92,18 @@ function handleMenuClick(item) {
     goRoute();
   }
 }
+
+const handleSubBtnClick = (event, callback) => {
+
+  // 이벤트 버블링 중단
+  event.preventDefault();
+  event.stopPropagation();
+  if (callback) {
+    callback();
+  }
+}
+
+const isDisplayFlex = subItem => !!subItem.sub_btn;
 
 </script>
 <style lang="scss" scoped>
@@ -184,7 +161,6 @@ function handleMenuClick(item) {
 
 .menu {
   --#{$prefix}-menu-icon-bg: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="8" height="14" viewBox="0 0 8 14" fill="none"><path d="M1 1L7 7L1 13" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>');
-
   padding: 12px $grid-margin;
 
   .menu-nav-item {
@@ -242,17 +218,41 @@ function handleMenuClick(item) {
   .menu-nav-sub {
     display: none;
     padding-left: 18px;
-    margin-top: 20px;
+    padding-right: 18px;
+    margin-top: 8px;
     margin-bottom: 16px;
 
     .menu-nav-sub-item {
-      font: {
-        size: 14px
+      a {
+        color: inherit;
+        font: {
+          size: 14px
+        }
+        text-decoration: none;
       }
 
       & + .menu-nav-sub-item {
         margin-top: 20px;
       }
+    }
+  }
+}
+
+.d_flex {
+  display: flex;
+  align-items: center; // 수직 중앙 정렬
+  span {
+    display: inline-block;
+    margin-right: auto;
+  }
+
+  .btn {
+    --#{$prefix}-btn-border-color: #DFDFDF;
+    --#{$prefix}-btn-border-radius: 4px;
+    --#{$prefix}-btn-padding-y: 8px;
+    font: {
+      size: 12px;
+      weight: 400;
     }
   }
 }
