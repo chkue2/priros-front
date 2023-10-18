@@ -2,7 +2,7 @@ $prefix: 'pir';
 
 // color
 $white: #fff;
-$gray:#808080;
+$gray: #808080;
 $black: #000;
 
 $primary: #7EF422 !default;
@@ -10,20 +10,32 @@ $secondary: #EAEAEA !default;
 $accent: #FC3E36 !default;
 
 $colors: (
-        'primary':$primary,
-        'secondary':$secondary
+  'primary':$primary,
+  'secondary':$secondary
 );
 
 $colors-contrast: (
-        'primary':$black,
-        'secondary':$black
+  'primary':$black,
+  'secondary':$black
+);
+
+$theme-colors: (
+  "primary":$primary,
+  "secondary":$secondary
+);
+
+$theme-gradient-colors: (
+  "primary": (
+    #C0FF8E,
+    #31FF77
+  )
 );
 
 // 레이아웃
 $body-bg: #F2F3F5;
 $secondary-border: #EAEAEA;
 $secondary-bg: #FBFBFB;
-$footer-bg : #f6f6f6;
+$footer-bg: #f6f6f6;
 
 $mobile-header-height: 60px;
 $border-bottom-between-header: 8px solid $body-bg;

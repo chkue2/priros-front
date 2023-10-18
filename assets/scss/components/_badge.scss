@@ -1,0 +1,26 @@
+
+.badge{
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 14.5px;
+  font:{
+    size:12px;
+    weight: 600;
+  }
+  line-height: 1;
+}
+
+@each $key, $color in $theme-colors {
+  .badge-#{$key}{
+    background-color: $color;
+  }
+}
+
+@each $key, $gradient-colors in $theme-gradient-colors {
+  $start-color: nth($gradient-colors, 1);
+  $end-color: nth($gradient-colors, 2);
+
+  .badge-#{$key}-gradient {
+    background: linear-gradient(270deg, $start-color 7.92%, $end-color 92.08%);
+  }
+}

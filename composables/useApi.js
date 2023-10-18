@@ -1,11 +1,12 @@
-
-export default (url,data = null, options = {}) => {
+export default (url, options = {}, data = null,) => {
 
     const method = options.method || 'GET';
-    return useFetch(url,{
+    const useData = {...data, ...data2}
+
+    return useFetch(url, {
         baseURL: $config.public.apiURL,
         method: method,
-        data: data,
+        data: useData,
         onRequest(context) {
 
             // 토큰 방식일때 샘플

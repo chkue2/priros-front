@@ -2,7 +2,7 @@
   <Gnb/>
   <Header/>
   <div id="wrapper">
-    <main id="main" :class="{bt: isNotMain}">
+    <main id="main" :class="{bt: isNotMain, bm: !auth.user}">
       <slot/>
     </main>
     <Footer/>
@@ -48,15 +48,18 @@ const handlerClickLoginButton = () => {
 #wrapper {
   padding-top: 60px;
   height: 100vh;
-  overflow: auto;
   position: relative;
-
+  overflow: auto;
   &.locked {
     overflow: hidden;
   }
 
   .bt {
     border-top: $border-bottom-between-header;
+  }
+
+  .bm{
+    margin-bottom: 72px;
   }
 }
 
