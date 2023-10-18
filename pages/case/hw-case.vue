@@ -6,9 +6,9 @@
   </NuxtLayout>
 </template>
 <script setup >
-
-
-
+definePageMeta({
+  layout: false
+});
 </script>
 
 <style scoped lang="scss">
