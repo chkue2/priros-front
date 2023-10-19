@@ -9,7 +9,7 @@
   </div>
   <div class="main-bottom-buttons" v-if="!auth.user">
     <CommonBottomButton id="mainBottomButtonHelpCenter" text="헬프센터" backgroundColor="#c7c7c7" height="72px" width="50%"
-                        :font-weight="700"/>
+                        :font-weight="700" @handler-click-button="handlerClickHelpCenter"/>
     <CommonBottomButton id="mainBottomButtonLogin" text="로그인" backgroundColor="#000000" height="72px" width="50%"
                         :font-weight="700" @handler-click-button="handlerClickLoginButton"/>
   </div>
@@ -41,6 +41,9 @@ watch(() => router, () => {
 
 const handlerClickLoginButton = () => {
   gnbStore.toggle();
+}
+const handlerClickHelpCenter = () => {
+  router.push('/faq/list')
 }
 </script>
 <style lang="scss">

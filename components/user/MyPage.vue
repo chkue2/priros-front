@@ -22,7 +22,7 @@
 
 
       </li>
-      <li class="nav-item">
+      <li class="nav-item" @click="handlerClickHelpCenter">
         <IconSvgIcon variant="headset-help" size="16"/>
         헬프센터
       </li>
@@ -104,6 +104,10 @@ const handleSubBtnClick = (event, callback) => {
 }
 
 const isDisplayFlex = subItem => !!subItem.sub_btn;
+
+const handlerClickHelpCenter = () => {
+  router.push('/faq/list')
+}
 
 </script>
 <style lang="scss" scoped>
