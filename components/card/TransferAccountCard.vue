@@ -27,6 +27,7 @@
 
 <script setup>
 import { ref, computed, watch } from 'vue'
+import { useTransferStore } from '~/store/transfer.js'
 import DropDown from '~/components/form/DropDown'
 const cardOptions = [
   {
@@ -76,10 +77,10 @@ const bankOptions = [
 const props = defineProps({
   idx: Number,
 })
-const emit = defineEmits(['change-data'])
+const transferStore = useTransferStore()
 
 const selectedValue = ref({})
-const accountInfoSelectedValue = ref({})
+const accountInfoSelectedValue = ref(transferStore.transfer[props.idx])
 
 const handlerSelectValue = ({value}) => {
   selectedValue.value = value
@@ -109,7 +110,7 @@ const bankSelectedText = computed(() => {
 })
 
 watch(() => accountInfoSelectedValue, () => {
-  emit('change-data', {value: accountInfoSelectedValue.value, idx: props.idx})
+  transferStore.setTransferData({value: accountInfoSelectedValue.value, idx: props.idx})
 }, {deep: true})
 
 </script>

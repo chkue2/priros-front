@@ -4,7 +4,7 @@
   </button>
 </template>
 <script setup>
-import { onMounted } from 'vue'
+import { onMounted, watch } from 'vue'
 const props = defineProps({
   id: String,
   text: String,
@@ -37,6 +37,18 @@ const props = defineProps({
 const emit = defineEmits(['handler-click-button'])
 
 onMounted(() => {
+  changeStyle()
+})
+
+watch(() => props, () => {
+  changeStyle()
+}, {deep: true})
+
+const handlerClickButton = () => {
+  emit('handler-click-button')
+}
+
+const changeStyle = () => {
   const target = document.querySelector(`#${props.id}`)
 
   target.style.width = props.width
@@ -45,10 +57,6 @@ onMounted(() => {
   target.style.color = props.color
   target.style.fontSize = `${props.fontSize}px`
   target.style.fontWeight = props.fontWeight
-})
-
-const handlerClickButton = () => {
-  emit('handler-click-button')
 }
 </script>
 <style scoped lang="scss">
