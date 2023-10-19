@@ -7,7 +7,7 @@
 <script setup>
 import {useAuthStore} from "~/store/auth.js";
 import {useGnbStore} from "~/store/gnbState.js";
-import { onMounted } from 'vue';
+import { onMounted, watch } from 'vue';
 
 const gnbStore = useGnbStore();
 const auth = useAuthStore();
@@ -15,10 +15,18 @@ const auth = useAuthStore();
 onMounted(() => {
   auth.initialize();
 });
+
+watch(() => gnbStore.isActive, () => {
+  if(gnbStore.isActive) {
+    document.querySelector('body').style.overflow = 'hidden'
+  } else {
+    document.querySelector('body').removeAttribute('style')
+  }
+}, {deep: true})
 </script>
 <style lang="scss">
 #gnb {
-  position: absolute;
+  position: fixed;
   width: 100%;
   height: calc(100vh - $mobile-header-height);
   border-top: 8px solid $body-bg;
