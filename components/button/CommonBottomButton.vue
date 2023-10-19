@@ -1,10 +1,11 @@
 <template>
-  <button :id="id" class="common-bottom-button" @click="handlerClickButton">
+  <button :id="id" class="common-bottom-button" @click="handlerClickButton" :class="{disabled:props.disabled}">
     {{ text }}
   </button>
 </template>
 <script setup>
-import { onMounted } from 'vue'
+import {onMounted} from 'vue'
+
 const props = defineProps({
   id: String,
   text: String,
@@ -31,32 +32,57 @@ const props = defineProps({
   fontWeight: {
     type: Number,
     default: 400
+  },
+  disabled: {
+    type: Boolean,
+    default: false
   }
 })
 
 const emit = defineEmits(['handler-click-button'])
+const handlerClickButton = () => {
+  if (!props.disabled) {
+    emit('handler-click-button')
+  }
+}
 
 onMounted(() => {
+
   const target = document.querySelector(`#${props.id}`)
 
-  target.style.width = props.width
-  target.style.height = props.height
-  target.style.backgroundColor = props.backgroundColor
-  target.style.color = props.color
-  target.style.fontSize = `${props.fontSize}px`
-  target.style.fontWeight = props.fontWeight
-})
+  target.style.width = props.width;
+  target.style.height = props.height;
+  target.style.backgroundColor = props.backgroundColor;
+  target.style.color = props.color;
+  target.style.fontSize = `${props.fontSize}px`;
+  target.style.fontWeight = props.fontWeight;
 
-const handlerClickButton = () => {
-  emit('handler-click-button')
-}
+});
+
 </script>
 <style scoped lang="scss">
 .common-bottom-button {
+
+  display: flex;
+  position: relative;
   border: none;
   cursor: pointer;
-  display: flex;
   justify-content: center;
   align-items: center;
+
+  &.disabled {
+    &::before {
+      content: "";
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ffffff;
+      opacity: 0.852; /* 1 - 0.148 */
+      z-index: 1;
+    }
+  }
 }
 </style>

@@ -4,7 +4,7 @@
       <p class="my-case-card-name">{{ caseConfig.name }}</p>
       <div class="my-case-card-dates">
         <div class="my-case-card-date">
-          <img src="/img/icon/check-circle-green.svg" aria-hidden>
+          <img src="/img/icon/check-circle-green.svg" aria-hidden alt="">
           {{ caseConfig.date }}
         </div>
         <div class="my-case-card-date">
@@ -15,7 +15,7 @@
     <p class="my-case-card-address">{{ caseConfig.address }}</p>
     <div class="my-case-card-tags">
       <div class="my-case-card-bank">
-        <img :src="bankIcon" aria-hidden>
+        <img :src="bankIcon" aria-hidden alt="">
         <p>{{ caseConfig.bank }}</p>
       </div>
       <span class="my-case-card-tag" v-for="(tag, index) in tags" :key="index">{{ tag }}</span>
@@ -62,12 +62,7 @@ const tags = computed(() => {
 
 const router = useRouter()
 const handlerClickCard = () => {
-  router.push({
-    path: '/case/detail-case',
-    query: {
-      uid: props.caseConfig.uid
-    }
-  })
+  router.push(`/case/${props.caseConfig.uid}`);
 }
 </script>
 
@@ -78,7 +73,7 @@ const handlerClickCard = () => {
   }
   padding: 13px 18px 18px;
   border-radius: 8px;
-  box-shadow: 2px 3px 12px 0px #00000026;
+  box-shadow: 2px 3px 12px 0 #00000026;
   .my-case-card-title {
     display: flex;
     justify-content: space-between;

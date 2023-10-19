@@ -11,10 +11,14 @@
 
 import {useRouter} from "vue-router";
 
-const router = useRouter()
-const layoutProps = useAttrs();
+const router = useRouter();
 
-const headerTitleText = computed(() => layoutProps.headerTitle || '팝업');
+const props = defineProps({
+  headerTitle: String
+});
+
+
+const headerTitleText = computed(() => props.headerTitle || '팝업');
 const handlerClickCloseButton = () => {
   router.back()
 }

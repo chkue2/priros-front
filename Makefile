@@ -29,6 +29,9 @@ local_stop:
 run:
 	docker run -it -w /app --rm -v $(CURDIR):/app -u node $(RUN_NODE_IMAGE) $(ARG)
 
+json-server:
+	docker run -it -w /app --rm -p 3001:3000 -v $(CURDIR):/app -u node $(RUN_NODE_IMAGE) npm run json-server
+
 build:
 	docker build --build-arg NODE_VERSION=$(NODE_VERSION) -t $(DOCKER_IMAGE_NAME):$(BUILD_VERSION) .
 

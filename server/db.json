@@ -1,0 +1,68 @@
+{
+  "tradeCase": [
+    {
+      "id": 1,
+      "acceptFirmCode": "FIRMCODE1"
+    },
+    {
+      "id": 2,
+      "acceptFirmCode": "FIRMCODE2"
+    }
+  ],
+  "charge": [
+    {
+      "userId": "id1",
+      "firmCode": "FIRMCODE1",
+      "firmName": "회사이름",
+      "position": "대리",
+      "userName": "김대리",
+      "phone": "010-1234-1234",
+      "tradeCaseId": 1
+    },
+    {
+      "userId": "id2",
+      "firmCode": "FIRMCODE1",
+      "firmName": "회사이름",
+      "position": "사원",
+      "userName": "김사원",
+      "phone": "010-1234-1234",
+      "tradeCaseId": 1
+    },
+    {
+      "userId": "id3",
+      "firmCode": "FIRMCODE1",
+      "firmName": "회사이름",
+      "position": "법무사",
+      "userName": "김법무사",
+      "phone": "010-1234-1234",
+      "tradeCaseId": 1
+    },
+    {
+      "userId": "id4",
+      "firmCode": "FIRMCODE2",
+      "firmName": "회사이름",
+      "position": "대리",
+      "userName": "김대리2",
+      "phone": "010-1234-1234",
+      "tradeCaseId": 2
+    },
+    {
+      "userId": "id5",
+      "firmCode": "FIRMCODE2",
+      "firmName": "회사이름",
+      "position": "사원",
+      "userName": "김사원2",
+      "phone": "010-1234-1234",
+      "tradeCaseId": 2
+    },
+    {
+      "userId": "id6",
+      "firmCode": "FIRMCODE2",
+      "firmName": "회사이름",
+      "position": "법무사",
+      "userName": "김법무사2",
+      "phone": "010-1234-1234",
+      "tradeCaseId": 2
+    }
+  ]
+}
