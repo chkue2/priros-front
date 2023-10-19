@@ -31,6 +31,10 @@ const props = defineProps({
   fontWeight: {
     type: Number,
     default: 400
+  },
+  border: {
+    type: String,
+    default: 'none'
   }
 })
 
@@ -57,6 +61,7 @@ const changeStyle = () => {
   target.style.color = props.color
   target.style.fontSize = `${props.fontSize}px`
   target.style.fontWeight = props.fontWeight
+  target.style.border = props.border
 }
 </script>
 <style scoped lang="scss">

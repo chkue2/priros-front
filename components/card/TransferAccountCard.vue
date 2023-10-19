@@ -1,15 +1,18 @@
 <template>
-  <div class="transfer-account-card">
+  <div class="transfer-account-card" :class="[{'bd': idx > 0 || isSaved}, {'saved': isSaved}]">
     <p class="transfer-account-card-title">계좌 {{ idx + 1 }}</p>
+    <button v-if="idx > 0 && !isSaved" class="transfer-account-delete-button" @click="transferStore.setTransferDataMinus">
+      삭제<img src="/img/icon/delete-black.svg">
+    </button>
     <div class="transfer-account-amount">
       <p class="transfer-account-amount-title">이체금액</p>
       <div class="transfer-account-amount-input">
-        <input v-model="accountInfoSelectedValue['amount']" type="text">
+        <input v-model="accountInfoSelectedValue['amount']" type="text" :readonly="isSaved">
         <span>원</span>
       </div>
     </div>
     <p class="transfer-account-card-title ft-16">계좌 정보</p>
-    <DropDown placeholder="계좌 선택하기" :options="cardOptions" :selected-text="selectedText" @click-option="handlerSelectValue"/>
+    <DropDown placeholder="계좌 선택하기" :is-readonly="isSaved" :options="cardOptions" :selected-text="selectedText" @click-option="handlerSelectValue"/>
     <p class="transfer-account-card-title ft-14 mt-12">은행명</p>
     <DropDown placeholder="은행 선택하기" :is-readonly="isReadonly" :options="bankOptions" :selected-text="bankSelectedText" @click-option="handlerBankSelectValue"/>
     <div class="transfer-account-card-double-block">
@@ -76,6 +79,7 @@ const bankOptions = [
 
 const props = defineProps({
   idx: Number,
+  isSaved: Boolean,
 })
 const transferStore = useTransferStore()
 
@@ -100,7 +104,7 @@ const selectedText = computed(() => {
 })
 
 const isReadonly = computed(() => {
-  return selectedValue.value['bank'] !== '직접 입력하기'
+  return selectedValue.value['bank'] !== '직접 입력하기' || props.isSaved
 })
 const handlerBankSelectValue = ({value}) => {
   accountInfoSelectedValue.value['bank'] = value
@@ -117,8 +121,17 @@ watch(() => accountInfoSelectedValue, () => {
 
 <style lang="scss" scoped>
 .transfer-account-card {
-  padding: 10px 16px 12px 16px;
+  padding: 16px 7px 27px 7px;
   border-top: $border-bottom-between-header;
+  position: relative;
+  &.bd {
+    padding: 16px 7px 27px;
+    border: 1px dotted #2d2d2d;
+    border-radius: 4px;
+  }
+  &.saved {
+    background-color: #f8f8f8;
+  }
 }
 .transfer-account-card-title {
   font-size: 19px;
@@ -133,6 +146,25 @@ watch(() => accountInfoSelectedValue, () => {
   }
   &.mt-12 {
     margin-top: 12px;
+  }
+}
+.transfer-account-delete-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 5px 3px;
+  border-radius: 5px;
+  border: 1px solid #000000;
+  background-color: #ffffff;
+  font-size: 12px;
+  font-weight: $ft-medium;
+  gap: 4px;
+  position: absolute;
+  top: 10px;
+  right: 13px;
+  & > img {
+    width: 13px;
+    height: 13px;
   }
 }
 .transfer-account-amount {
@@ -163,6 +195,7 @@ watch(() => accountInfoSelectedValue, () => {
       font-weight: $ft-bold;
       border: none;
       text-align: right;
+      background-color: transparent;
     }
     & > span {
       font-size: 16px;

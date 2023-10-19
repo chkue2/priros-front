@@ -128,7 +128,7 @@ import { detailCaseStatus } from '~/assets/js/case/detailCaseStatus'
 const route = useRoute()
 
 onMounted(() => {
-  console.log(route.query.uid)
+  console.log(route.params.id)
 })
 
 const tab = ref('changed')

@@ -62,12 +62,7 @@ const tags = computed(() => {
 
 const router = useRouter()
 const handlerClickCard = () => {
-  router.push({
-    path: '/case/detail-case',
-    query: {
-      uid: props.caseConfig.uid
-    }
-  })
+  router.push(`/case/detail-case/${props.caseConfig.uid}`)
 }
 </script>
 
