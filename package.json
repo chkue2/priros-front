@@ -1,26 +1,20 @@
 {
-  "name": "nuxt-app",
-  "private": true,
-  "type": "module",
+  "name": "@priros",
+  "version": "1.0.0",
+  "description": "프리로스 프론트",
+  "main": "index.js",
   "scripts": {
-    "build": "nuxt build",
-    "dev": "nuxt dev",
-    "generate": "nuxt generate",
-    "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "pc": "pnpm -F @priros/pc",
+    "mo": "pnpm -F @priros/mo",
+    "common": "pnpm -F @priros/common",
+    "pc:dev": "pnpm pc dev --port=3001",
+    "mo:dev": "pnpm mo dev --port=3000",
+    "dev": "concurrently \"pnpm pc:dev\" \"pnpm mo:dev\""
   },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
   "devDependencies": {
-    "@nuxt/devtools": "latest",
-    "@vuetter/vite-plugin-vue-svg": "^0.1.2",
-    "nuxt": "^3.7.4",
-    "vue": "^3.3.4",
-    "vue-router": "^4.2.5"
-  },
-  "dependencies": {
-    "@nuxt/image": "^1.0.0-rc.3",
-    "@pinia/nuxt": "^0.4.11",
-    "pinia": "^2.1.6",
-    "sass": "^1.69.2",
-    "swiper": "^10.3.1"
+    "concurrently": "^8.2.2"
   }
 }

@@ -1,0 +1,27 @@
+version: '3'
+
+services:
+  nginx:
+    image: nginx:latest
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./conf/nginx/priros.local.conf:/etc/nginx/conf.d/priros.local.conf
+      - ./conf/ssl:/etc/nginx/ssl
+    depends_on:
+      - prirosfront
+
+  prirosfront:
+    image: priros-node-pnpm:latest
+    build:
+      context: .
+    volumes:
+      - ./:/app
+    ports:
+      - 3000:3000
+      - 3001:3001
+    expose:
+      - 3000
+      - 3001
+    command: ["sh","-c","pnpm dev"]

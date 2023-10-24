@@ -1,7 +1,10 @@
-# .dockerignore
 /.nuxt
 /.output
 /node_modules
+
+/packages/*/node_modules
+/packages/*/.nuxt
+/packages/*/.output
 
 .gitignore
 README.md

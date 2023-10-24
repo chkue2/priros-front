@@ -1,0 +1,17 @@
+@font-face {
+  font-family: 'Roboto';
+  src: url(https://fonts.gstatic.com/s/roboto/v30/KFOmCnqEu92Fr1Mu4mxK.woff2) format('woff2');
+  font-weight: 400;
+  font-display: swap;
+  unicode-range: U+0030-0039;
+}
+
+// @font-face {
+//   font-family: 'Noto Sans';
+//   src: url("@priros/common/assets/fonts/SourceHanSansK-VF.otf.woff2") format("woff2-variations"),
+//   url("@priros/common/assets/fonts/SourceHanSansK-VF.otf") format("opentype-variations");
+//   font-weight: 100 900;
+//   font-style: normal;
+// }
+
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;600;700&display=swap');
