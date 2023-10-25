@@ -34,10 +34,22 @@ const router = useRouter()
 const handlerClickStatusCard = () => {
   switch (props.statusConfig.title) {
     case '송금요청':
-      router.push('/request/transfer')
+      router.push(`/request/transfer/${props.tradeCaseId}`)
       break
     case '담당자 보고':
       router.push(`/case/${props.tradeCaseId}/charge-report`);
+      break;
+    case '일정 보고':
+      router.push(`/case/${props.tradeCaseId}/schedule-report`);
+      break;
+    case '신청정보보고':
+      router.push(`/case/${props.tradeCaseId}/application-report`);
+      break;
+    case '상환보고':
+      router.push(`/case/${props.tradeCaseId}/repayment-report`);
+      break;
+    case '접수보고':
+      router.push(`/case/${props.tradeCaseId}/reception-report`);
       break;
     default:
 

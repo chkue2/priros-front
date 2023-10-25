@@ -56,7 +56,7 @@ const handlerClickCloseButton = () => {
 #wrapper {
   padding-top: 68px;
   height: 100vh;
-  overflow: auto;
+  // overflow: auto;
   position: relative;
 
   &.locked {

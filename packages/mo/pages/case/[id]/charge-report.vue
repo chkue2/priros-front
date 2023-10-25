@@ -1,19 +1,19 @@
 <template>
-  <NuxtLayout name="dialog" headerTitle="담당자 보고">
+  <NuxtLayout name="dialog-header" headerTitle="담당자 보고">
     <div class="dialog-wrapper">
       <div class="container">
         <div class="inner-header">
-          <span class="badge" :class="captionClass">{{ captionText }}</span>
+          <span class="badge badge-primary-gradient">담당자 보고전 확인</span>
           <div class="txt-help" v-html="description"></div>
         </div>
         <div class="inner-body">
-          <div class="form-group" v-if="!isChargeCompleted">
+          <div class="form-group">
             <div class="label">
               <label class="form-label">담당자 정보</label>
             </div>
 
             <DropDown
-                placeholder="담당자 정보"
+                placeholder="담당자 선택하기"
                 :options="chargeOptions"
                 :selected-text="chargeSelectText"
                 @click-option="handleChargeOption"
@@ -53,8 +53,8 @@
         <div>
           <CommonBottomButton
               id="btn-send"
-              :text="btnSendText"
-              backgroundColor="#000000" height="72px" width="100%" color="#fff"
+              text="담당자 보고"
+              backgroundColor="#000000" height="60px" width="100%" color="#fff"
               :font-weight="700"
               :disabled="btnSendDisable"
               @handler-click-button="handleBtnSendClick"
@@ -89,14 +89,11 @@ const isChargeCompleted = ref(false);
 
 const tradeCaseId = useRoute().params.id;
 
-const captionClass = computed(() => chargeData.value ? "badge-primary-gradient" : "badge-secondary");
-const captionText = computed(() => isChargeCompleted.value ? '담당자보고 완료' : "담당자 보고전 확인");
 const description = computed(() => {
   if (isChargeCompleted.value) {
     return `
-      담당자 프로필이 발송되었습니다.
-      <br>고객님께 안내된 담당자와 현장방문자가
-      <br>동일하도록 관리해주세요
+    담당자의 프로필이 고객에게 알림톡으로 전송됩니다.
+    <br>담당자보고를 수행하시겠습니까?
     `;
   } else {
     return `
@@ -108,7 +105,6 @@ const description = computed(() => {
 
 const chargeSelectText = computed(() => chargeData.value?.userName || "");
 
-const btnSendText = computed(() => isChargeCompleted.value ? '닫기' : '담당자 보고');
 const btnSendDisable = computed(() => !chargeData.value);
 
 const fetchChargeState = async (tradeCaseId) => {
@@ -117,8 +113,9 @@ const fetchChargeState = async (tradeCaseId) => {
     chargeData.value = data || null;
     isChargeCompleted.value = !!data;
 
-    if (!data)
+    if (!data){
       fetchChargeList(tradeCaseId);
+    }
 
   } catch (error) {
     console.error("STATE 예외가 발생했습니다:", error.message);
@@ -128,6 +125,7 @@ const fetchChargeState = async (tradeCaseId) => {
 const fetchChargeList = async (tradeCaseId) => {
   try {
     const {data} = await tradeCaseChargeService.list(tradeCaseId);
+    console.log(data)
 
     if (data?.value) {
       chargeOptions.value = data.value.map(item => ({
@@ -157,3 +155,6 @@ onMounted(() => {
 });
 </script>
 
+<style scoped lang="scss">
+@import '@priros/common/assets/scss/views/dialog'
+</style>

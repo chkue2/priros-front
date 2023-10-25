@@ -1,10 +1,13 @@
 <template>
-  <NuxtLayout name="dialog" headerTitle="일정등록">
+  <NuxtLayout name="dialog-header" headerTitle="일정등록">
     <div class="dialog-wrapper">
       <div class="container">
         <div class="inner-header">
-          <span class="badge" :class="captionClass">{{ captionText }}</span>
-          <div class="txt-help" v-html="description"></div>
+          <span class="badge badge-primary-gradient">일정등록 전 확인</span>
+          <div class="txt-help">
+            등록된 담당자와 잔금현장에 방문할 담당자가 동일한지
+            <br>다시 한번 확인하세요.
+          </div>
         </div>
         <div class="inner-body">
           <div v-if="!isCompleted && chargeData" class="inner-content">
@@ -35,16 +38,17 @@
               <div class="label">
                 <label for="" class="form-label">잔금시간</label>
               </div>
-              <div>
-
+              <div class="form-input">
+                <select><option value="시간"></option></select>
+                <select><option value="분"></option></select>
               </div>
             </div>
             <div class="form-group">
               <div class="label">
                 <label for="" class="form-label">잔금일</label>
               </div>
-              <div>
-
+              <div class="form-input">
+                <input type="date" readonly>
               </div>
             </div>
           </div>
@@ -58,8 +62,8 @@
         <div>
           <CommonBottomButton
               id="btn-send"
-              :text="btnSendText"
-              backgroundColor="#000000" height="72px" width="100%" color="#fff"
+              text="일정보고"
+              backgroundColor="#000000" height="60px" width="100%" color="#fff"
               :font-weight="700"
               :disabled="btnSendDisable"
               @handler-click-button="handleBtnSendClick"
@@ -82,29 +86,22 @@ definePageMeta({
   layout: false
 });
 
-const isCompleted = ref(false);
-
-const captionClass = computed(() => chargeData.value ? "badge-primary-gradient" : "badge-secondary");
-const captionText = computed(() => isCompleted.value ? '담당자보고 완료' : "담당자 보고전 확인");
-const description = computed(() => {
-  if (isCompleted.value) {
-    return `
-      잔금일 아침, 당일 채권할인율이
-      <br>적용된 견적을 저장하고 공유하면 편리합니다!
-    `;
-  } else {
-    return `
-      등록된 담당자와 잔금현장에 방문할 담당자가 동일한지
-      <br>다시 한번 확인하세요.
-    `;
-  }
+const chargeData = ref({
+    "userId": "id1",
+    "firmCode": "FIRMCODE1",
+    "firmName": "회사이름",
+    "position": "대리",
+    "userName": "김대리",
+    "phone": "010-1234-1234",
+    "tradeCaseId": 1
 });
 
-const btnSendText = computed(() => isCompleted.value ? '닫기' : '일정보고');
+const isCompleted = ref(false);
+
 const btnSendDisable = false;
 
 </script>
 
 <style scoped lang="scss">
-
+@import '@priros/common/assets/scss/views/dialog'
 </style>

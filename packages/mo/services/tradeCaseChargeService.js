@@ -22,7 +22,26 @@ export const tradeCaseChargeService = {
         switch (tradeCaseId) {
             case 1:
             case '1':
-                data = null;
+                data = [
+                    {
+                        "userId": "id1",
+                        "firmCode": "FIRMCODE1",
+                        "firmName": "회사이름",
+                        "position": "대리",
+                        "userName": "김대리",
+                        "phone": "010-1234-1234",
+                        "tradeCaseId": 1
+                    },
+                    {
+                        "userId": "id2",
+                        "firmCode": "FIRMCODE2",
+                        "firmName": "사명",
+                        "position": "과장",
+                        "userName": "강호동",
+                        "phone": "020-2234-2234",
+                        "tradeCaseId": 2
+                    }
+                ];
                 break;
             case 2:
             case '2':
