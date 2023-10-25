@@ -19,7 +19,7 @@
   </div>
 </template>
 <script setup>
-import Pagination from '~/components/paging/Pagination'
+import Pagination from '@priros/common/components/paging/Pagination'
 </script>
 <style scoped lang="scss">
 @import '@priros/common/assets/scss/detail-case/table.scss';

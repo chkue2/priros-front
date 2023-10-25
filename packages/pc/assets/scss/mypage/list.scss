@@ -1,0 +1,132 @@
+
+.payment-filter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  .payment-filter-left {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    & > input[type=date] {
+      width: 155px;
+      height: 43px;
+      border-radius: 5px;
+      border: 1px solid #bebebe;
+      padding-left: 15px;
+    }
+    .search-button {
+      width: 110px;
+      height: 43px;
+      background-color: #414141;
+      border-radius: 4px;
+      border: none;
+      color: #ffffff;
+      font-weight: $ft-bold;
+      cursor: pointer;
+    }
+  }
+  .payment-filter-right {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    .filter-button {
+      width: 64px;
+      height: 43px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border: 1px solid #808080;
+      font-size: 14px;
+      font-weight: $ft-medium;
+      background-color: #ffffff;
+      cursor: pointer;
+      &.active {
+        border: 1px solid #128dff;
+        color: #128dff;
+        background-color: #f3f7ff;
+      }
+    }
+  }
+}
+.payment-warning {
+  margin: 23px 0 10px;
+  font-size: 12px;
+  color: #e92c2c;
+  text-align: right;
+}
+.payment-list  {
+  width: 994px;
+  .payment-date {
+    width: 140px;
+  }
+  .payment-requester {
+    width: 110px;
+  }
+  .payment-alias {
+    width: 80px;
+  }
+  .payment-buyer {
+    width: 180px;
+  }
+  .payment-method {
+    width: 80px;
+  }
+  .payment-info {
+    width: 170px;
+  }
+  .payment-memo {
+    width: 140px;
+  }
+  .payment-memo-2 {
+    width: 200px;
+  }
+  .payment-price {
+    width: 110px;
+  }
+  .payment-state {
+    width: 70px;
+  }
+  .payment-other {
+    width: 90px;
+    .payment-other-button {
+      width: 67px;
+      height: 33px;
+      background-color: #ffffff;
+      border-radius: 5px;
+      border: 1px solid #000000;
+      cursor: pointer;
+    }
+  }
+}
+.payment-list-buttons {
+  margin: 23px 0 47px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  & > div {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 8px;
+  }
+  button {
+    min-width: 132px;
+    height: 44px;
+    border: none;
+    border-radius: 4px;
+    color: #ffffff;
+    font-weight: $ft-bold;
+    padding: 0 9px;
+    font-size: 16px;
+    cursor: pointer;
+    &.button--blue {
+      background-color: #0075e1;
+    }
+    &.button--darkgray {
+      background-color: #414141;
+    }
+    &.button--gray {
+      background-color: #808080;
+    }
+  }
+}

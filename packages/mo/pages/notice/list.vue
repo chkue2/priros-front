@@ -9,7 +9,7 @@
 
 <script setup>
 import NoticeListCard from '~/components/card/NoticeListCard'
-import Pagination from '~/components/paging/Pagination'
+import Pagination from '@priros/common/components/paging/Pagination'
 definePageMeta({
   layout: false
 })
