@@ -2,9 +2,7 @@
   <Gnb/>
   <Header/>
   <div id="wrapper">
-    <main id="main" :class="{bt: isNotMain}">
-      <Yes></Yes>
-
+    <main id="main" :class="{bt: isNotMain, bm: !auth.user}">
       <slot/>
     </main>
     <Footer/>
@@ -59,13 +57,17 @@ watch(() => router, () => {
   padding-top: 60px;
   height: 100vh;
   position: relative;
-
+  overflow: auto;
   &.locked {
     overflow: hidden;
   }
 
   .bt {
     border-top: $border-bottom-between-header;
+  }
+
+  .bm{
+    margin-bottom: 72px;
   }
 }
 

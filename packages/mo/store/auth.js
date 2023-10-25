@@ -14,7 +14,7 @@ export const useAuthStore = defineStore("auth", {
         },
         async login(credentials) {
             try {
-                // const response = await useApi('/login', credentials, {method: "POST"});
+                // const response = await useApi('/login', {method: "POST",data:credentials});
                 // if (response && response.data) {
                 //     this.user = response.data.user;
                 //     if (typeof window !== 'undefined'){

@@ -1,12 +1,12 @@
+const useApi = async (endpoint, options = {}, data = null) => {
 
-export default (url,data = null, options = {}) => {
-
+    const $config = useRuntimeConfig();
     const method = options.method || 'GET';
-    return useFetch(url,{
-        baseURL: $config.public.apiURL,
-        method: method,
-        data: data,
-        onRequest(context) {
+    const useData = {...options.data, ...data};
+
+
+    return await useFetch(endpoint, {
+        baseURL: $config.public.apiURL, method: method, data: useData, onRequest(context) {
 
             // 토큰 방식일때 샘플
             // context.options.headers = new Headers(context.options.headers)
@@ -16,3 +16,24 @@ export default (url,data = null, options = {}) => {
     })
 }
 
+const callApi = async (endpoint, options = {}, data = null) => {
+    const response = await useApi(endpoint, options, data);
+    if (response.error.value) {
+        console.log("throw error");
+        throw new Error(response.error.value);
+    }
+    return response;
+}
+
+const getEndpoint = (url, params) => {
+    let endpoint = url;
+
+    for (const key in params) {
+        endpoint = endpoint.replace(`$${key}`, params[key]);
+    }
+
+    return endpoint;
+}
+
+export default useApi;
+export {callApi, getEndpoint};

@@ -99,7 +99,7 @@ const handleSubBtnClick = (event, callback) => {
   event.preventDefault();
   event.stopPropagation();
   if (callback) {
-    callback();
+    callback(router);
   }
 }
 

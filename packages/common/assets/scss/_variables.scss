@@ -2,7 +2,18 @@ $prefix: 'pir';
 
 // color
 $white: #fff;
-$gray:#808080;
+$gray: #808080;
+
+$gray-100: #f8f9fa !default;
+$gray-200: #f0f2f5 !default;
+$gray-300: #dee2e6 !default;
+$gray-400: #ced4da !default;
+$gray-500: #adb5bd !default;
+$gray-600: #6c757d !default;
+$gray-700: #495057 !default;
+$gray-800: #343a40 !default;
+$gray-900: #212529 !default;
+
 $black: #000;
 
 $primary: #7EF422 !default;
@@ -10,20 +21,32 @@ $secondary: #EAEAEA !default;
 $accent: #FC3E36 !default;
 
 $colors: (
-        'primary':$primary,
-        'secondary':$secondary
+  'primary':$primary,
+  'secondary':$secondary
 );
 
 $colors-contrast: (
-        'primary':$black,
-        'secondary':$black
+  'primary':$black,
+  'secondary':$black
+);
+
+$theme-colors: (
+  "primary":$primary,
+  "secondary":$secondary
+);
+
+$theme-gradient-colors: (
+  "primary": (
+    #C0FF8E,
+    #31FF77
+  )
 );
 
 // 레이아웃
 $body-bg: #F2F3F5;
 $secondary-border: #EAEAEA;
 $secondary-bg: #FBFBFB;
-$footer-bg : #f6f6f6;
+$footer-bg: #f6f6f6;
 
 $mobile-header-height: 60px;
 $border-bottom-between-header: 8px solid $body-bg;

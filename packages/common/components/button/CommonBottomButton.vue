@@ -1,5 +1,5 @@
 <template>
-  <button :id="id" class="common-bottom-button" @click="handlerClickButton">
+  <button :id="id" class="common-bottom-button" @click="handlerClickButton" :class="{disabled:props.disabled}">
     {{ text }}
   </button>
 </template>
@@ -35,6 +35,10 @@ const props = defineProps({
   border: {
     type: String,
     default: 'none'
+  },
+  disabled: {
+    type: Boolean,
+    default: false
   }
 })
 
@@ -66,10 +70,27 @@ const changeStyle = () => {
 </script>
 <style scoped lang="scss">
 .common-bottom-button {
+
+  display: flex;
+  position: relative;
   border: none;
   cursor: pointer;
-  display: flex;
   justify-content: center;
   align-items: center;
+
+  &.disabled {
+    &::before {
+      content: "";
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ffffff;
+      opacity: 0.852; /* 1 - 0.148 */
+      z-index: 1;
+    }
+  }
 }
 </style>

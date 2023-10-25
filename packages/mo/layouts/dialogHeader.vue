@@ -1,30 +1,32 @@
 <template>
   <header class="close-header">
-    <div class="close-header-title">{{headerTitleText}}</div>
+    <div class="close-header-title">{{ headerTitleText }}</div>
     <button class="close-button" @click="handlerClickCloseButton"></button>
   </header>
   <div id="wrapper">
-    <slot />
+    <slot/>
   </div>
 </template>
 <script setup>
 
 import {useRouter} from "vue-router";
 
-const router = useRouter()
-const layoutProps = useAttrs();
+const router = useRouter();
 
-const headerTitleText = computed(() => layoutProps.headerTitle || '팝업');
+const props = defineProps({
+  headerTitle: String
+});
+
+
+const headerTitleText = computed(() => props.headerTitle || '팝업');
 const handlerClickCloseButton = () => {
   router.back()
 }
-
-
-
 </script>
 <style scoped lang="scss">
+
 .close-header {
-  height: 60px;
+  height: 68px;
   padding: 0 16px;
   display: flex;
   justify-content: space-between;
@@ -37,10 +39,12 @@ const handlerClickCloseButton = () => {
   border-bottom: $border-bottom-between-header;
   z-index: $zi-fixed;
 }
+
 .close-header-title {
   font-size: 20px;
   font-weight: $ft-semibold;
 }
+
 .close-button {
   display: block;
   width: 24px;
@@ -48,7 +52,17 @@ const handlerClickCloseButton = () => {
   background: url(/img/icon/close-black.svg) no-repeat center/16px;
   border: none;
 }
+
 #wrapper {
-  padding-top: 60px;
+  padding-top: 68px;
+  height: 100vh;
+  overflow: auto;
+  position: relative;
+
+  &.locked {
+    overflow: hidden;
+  }
+
+
 }
 </style>

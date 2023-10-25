@@ -18,7 +18,8 @@ export default [
             }, {
                 title: "채권할인율 조회",
                 to: '/'
-            }],
+            }
+        ],
     },
     {
         type: "toggle",
@@ -34,8 +35,10 @@ export default [
                 title: "사용자 정보",
                 to: '/',
                 sub_btn: '행정안전부 모바일 신분증',
-                sub_btn_click: () => {
+                sub_btn_click: (router) => {
+                    router.push('/');
                 }
-            }],
+            }
+        ],
     }
 ];

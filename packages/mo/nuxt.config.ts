@@ -3,6 +3,7 @@
 import pluginSvgVue from '@vuetter/vite-plugin-vue-svg';
 
 export default defineNuxtConfig({
+    ssr:false,
     devtools: {enabled: true},
     build:{
         extend(config, ctx) {
@@ -11,7 +12,7 @@ export default defineNuxtConfig({
     },
     runtimeConfig: {
         public: {
-            apiURL: process.env.API_URL || 'https://api.priros.co.kr'
+            apiURL: process.env.API_URL || 'http://localhost:3001'
         }
     },
     modules: [
