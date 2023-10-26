@@ -49,8 +49,7 @@
               </div>
               <div class="form-input">
                 <input type="file">
-                <p class="input-file">매수인의 주민등록초본을 첨부해주세요</p>
-                <img src="/img/icon/file-gray.png" alt="">
+                <p class="input-file">매수인의 주민등록초본을 첨부해주세요 <img src="/img/icon/file-gray.png" alt=""></p>
               </div>
             </div>
             <div class="form-group">

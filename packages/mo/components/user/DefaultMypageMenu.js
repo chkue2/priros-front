@@ -29,7 +29,7 @@ export default [
         submenu: [
             {
                 title: "회원(사업자)정보",
-                to: '/'
+                to: '/user/mypage/info'
             },
             {
                 title: "사용자 정보",
