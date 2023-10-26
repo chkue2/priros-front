@@ -4,7 +4,7 @@
       <NuxtLink to="/"><img class="header-logo" src="/img/icon/logo-pc.png" alt="홈으로"></NuxtLink>
       <div class="header-menu">
         <div class="header-menus">
-          <NuxtLink to="/">마켓의뢰</NuxtLink>
+          <NuxtLink :class="{active: isCommission}" to="/market/commission/match">마켓의뢰</NuxtLink>
           <NuxtLink to="/">마켓수임</NuxtLink>
           <NuxtLink to="/user/mypage/info">마이페이지</NuxtLink>
         </div>
@@ -21,14 +21,32 @@
           <b>김마리</b>님, 반갑습니다.
         </div>
         <div class="header-info-right">
-          <img src="/img/icon/download-black.svg" alt=""> 매뉴얼 다운로드
+          <div v-if="isCommission" class="header-sub-menus">
+            <NuxtLink :class="{active: route.fullPath === '/market/commission/match'}" to="/market/commission/match">매칭</NuxtLink>
+            <NuxtLink to="/">진행</NuxtLink>
+            <NuxtLink to="/">완료</NuxtLink>
+          </div>
+          <div class="header-download">
+            <img src="/img/icon/download-black.svg" alt=""> 매뉴얼 다운로드
+          </div>
         </div>
       </div>
     </div>
   </header>
 </template>
-<style scoped lang="scss">
 
+<script setup>
+import { computed } from 'vue'
+import { useRoute } from 'vue-router'
+
+const route = useRoute()
+
+const isCommission = computed(() => {
+  return route.fullPath.includes('/commission/')
+})
+</script>
+
+<style scoped lang="scss">
 header {
   width: 100vw;
   position: fixed;
@@ -63,6 +81,9 @@ header {
       color: #000000;
       font-weight: $ft-medium;
       text-decoration: none;
+      &.active {
+        font-weight: $ft-bold;
+      }
     }
   }
   .header-info {
@@ -77,6 +98,7 @@ header {
     justify-content: space-between;
     align-items: center;
     margin: 0 auto;
+    position: relative;
   }
   .header-info-left {
     display: flex;
@@ -95,11 +117,29 @@ header {
     align-items: center;
     font-weight: $ft-bold;
     cursor: pointer;
-    & > img {
-      width: 16px;
-      height: 16px;
-      margin-right: 4px;
-      margin-bottom: 3px;
+    gap: 180px;
+    .header-sub-menus {
+      display: flex;
+      gap: 50px;
+      & > a {
+        text-decoration: none;
+        color: #000000;
+        font-size: 16px;
+        font-weight: $ft-medium;
+        &.active {
+          font-weight: $ft-bold;
+        }
+      }
+    }
+    .header-download {
+      display: flex;
+      align-items: center;
+      img {
+        width: 16px;
+        height: 16px;
+        margin-right: 4px;
+        margin-bottom: 4px;
+      }
     }
   }
 }

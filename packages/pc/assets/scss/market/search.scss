@@ -1,0 +1,52 @@
+.market-search {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 93px;
+  gap: 9px;
+  & > button {
+    border: none;
+    border-radius: 4px;
+    height: 42px;
+    padding: 0 24px;
+    &.button--black {
+      background-color: #000000;
+      color: #ffffff;
+    }
+  }
+  .search-date {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    input {
+      width: 123px;
+    }
+  }
+  input,
+  select {
+    flex: 1;
+    height: 43px;
+    padding: 0 10px;
+    border-radius: 5px;
+    border: 1px solid #dedede;
+  }
+  select {
+    min-width: 144px;
+    appearance: none;
+    background-image: url(/img/icon/expand-down-black.svg);
+    background-repeat: no-repeat;
+    background-position-x: calc(100% - 12px);
+    background-position-y: center;
+  }
+  .search-text {
+    flex: 1;
+    position: relative;
+    & > img {
+      position: absolute;
+      top: 50%;
+      right: 12px;
+      transform: translateY(-50%);
+    }
+  }
+}

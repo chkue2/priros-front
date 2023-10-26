@@ -24,9 +24,13 @@
   align-items: center;
   text-align: center;
   font-size: 14px;
+  &.contents-column {
+    flex-direction: column;
+  }
 }
 .table-empty {
-  width: 994px;
+  width: 100%;
+  min-width: 994px;
   height: 359px;
   display: flex;
   justify-content: center;
@@ -36,4 +40,5 @@
   font-size: 16px;
   font-weight: $ft-bold;
   color: #acacac;
+  margin-top: 9px;
 }
