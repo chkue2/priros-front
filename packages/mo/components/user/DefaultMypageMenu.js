@@ -14,10 +14,10 @@ export default [
         submenu: [
             {
                 title: "등기필정보 조회",
-                to: '/case/hw-case'
+                to: '/enquiry/registered'
             }, {
                 title: "채권할인율 조회",
-                to: '/'
+                to: '/enquiry/bond-discount'
             }
         ],
     },

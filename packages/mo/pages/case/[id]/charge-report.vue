@@ -58,7 +58,6 @@
               :font-weight="700"
               :disabled="btnSendDisable"
               @handler-click-button="handleBtnSendClick"
-
           />
         </div>
       </div>
