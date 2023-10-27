@@ -1,5 +1,5 @@
 <template>
-  <CommonHeaderModal modal-id="commonCalendarModal" modal-title="달력보기" width="1248px">
+  <CommonHeaderModal modal-id="commonCalendarModal" modal-title="달력보기" width="1248px" @close-modal="closeModal">
     <div class="calendar-container">
       <div class="calendar-wrapper">
         <FullCalendar :options="calendarOptions" />
@@ -77,6 +77,11 @@ const leftPad = (num) => {
   if(typeof num !== 'number') num = parseInt(num)
   
   return num >= 10 ? num : `0${num}`
+}
+
+const emits = defineEmits(['close-modal'])
+const closeModal = () => {
+  emits('close-modal')
 }
 
 </script>
