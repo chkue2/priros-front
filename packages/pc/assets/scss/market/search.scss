@@ -13,6 +13,11 @@
       background-color: #000000;
       color: #ffffff;
     }
+    &.button--white {
+      background-color: #ffffff;
+      color: #000000;
+      border: 1px solid #000000;
+    }
   }
   .search-date {
     display: flex;

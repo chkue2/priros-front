@@ -79,14 +79,16 @@
         <select><option value="">의뢰</option></select>
         <button class="state-change-button">사건상태 변경</button>
       </div>
-      <button class="apply-button">사건 등록</button>
+      <NuxtLink to="/market/commission/write" class="apply-button">사건 등록</NuxtLink>
     </div>
     <Pagination />
   </div>
 </template>
+
 <script setup>
 import Pagination from '@priros/common/components/paging/Pagination.vue'
 </script>
+
 <style scoped lang="scss">
 @import '~/assets/scss/market/common.scss';
 @import '~/assets/scss/market/search.scss';
@@ -196,6 +198,10 @@ import Pagination from '@priros/common/components/paging/Pagination.vue'
     font-size: 16px;
     font-weight: $ft-bold;
     color: #ffffff;
+    text-decoration: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     cursor: pointer;
   }
 }

@@ -104,10 +104,10 @@ import {onMounted, ref} from 'vue'
 import {useRoute} from 'vue-router'
 
 import DetailCaseStatusCard from '~/components/card/DetailCaseStatusCard.vue'
-import DetailCaseChangedTable from '~/components/table/DetailCaseChangedTable.vue'
-import DetailCaseMemoTable from '~/components/table/DetailCaseMemoTable.vue'
-import DetailCaseProcessedTable from '~/components/table/DetailCaseProcessedTable.vue'
-import DetailCaseFilesTable from '~/components/table/DetailCaseFilesTable.vue'
+import DetailCaseChangedTable from '@priros/common/components/table/DetailCaseChangedTable.vue'
+import DetailCaseMemoTable from '@priros/common/components/table/DetailCaseMemoTable.vue'
+import DetailCaseProcessedTable from '@priros/common/components/table/DetailCaseProcessedTable.vue'
+import DetailCaseFilesTable from '@priros/common/components/table/DetailCaseFilesTable.vue'
 
 import {detailCaseStatus} from '~/assets/js/case/detailCaseStatus'
 

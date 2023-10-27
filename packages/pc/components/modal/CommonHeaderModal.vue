@@ -1,7 +1,7 @@
 <template>
   <div class="common-header-modal">
     <div class="common-header-modal-bg" @click="handlerClickCloseModal"></div>
-    <div :id="modalId" class="common-header-modal-container">
+    <div :id="modalId" class="common-header-modal-container" :style="{width}">
       <div class="common-modal-header">
         <p class="common-modal-title">{{ modalTitle }}</p>
         <img class="common-modal-close" src="/img/icon/close-gray.svg" alt="모달 닫기" @click="handlerClickCloseModal">
@@ -35,7 +35,6 @@ const handlerClickCloseModal = () => {
 
 onMounted(() => {
   document.querySelector('body').style.overflow = 'hidden'
-  document.querySelector(`#${props.modalId}`).style.width = props.width
 })
 
 onBeforeUnmount(() => {
@@ -62,7 +61,7 @@ onBeforeUnmount(() => {
   }
   .common-header-modal-container {
     width: 500px;
-    max-height: calc(100vh - 100px);
+    height: calc(100vh - 100px);
     overflow-y: auto;
     box-shadow: 3px 3px 8px 0px #00000040;
     background-color: #ffffff;

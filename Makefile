@@ -20,6 +20,8 @@ local_stop:
 local: local_stop
 	docker run -it --name $(APP_NAME) --rm -v $(CURDIR):/app -p 3000-3001:3000-3001 -u node $(NODE_IMAGE) pnpm dev
 
+run:
+	docker run -it --rm -v $(CURDIR):/app -u node $(NODE_IMAGE) $(ARG)
 server:
 	-docker compose down
 	docker compose up

@@ -11,6 +11,7 @@
   }
 }
 .detail-case-common-table-contents {
+  height: 60px;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   margin-top: 7px;
@@ -26,6 +27,10 @@
 }
 .detail-case-common-table-small {
   grid-column: span 1;
+  line-height: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .detail-case-common-table-big {
   grid-column: span 2;
@@ -33,6 +38,7 @@
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
+  line-height: 22px;
 }
 .detail-case-common-table-empty {
   grid-column: span 4;
