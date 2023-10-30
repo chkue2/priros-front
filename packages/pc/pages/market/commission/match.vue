@@ -79,7 +79,7 @@
         <select><option value="">의뢰</option></select>
         <button class="state-change-button">사건상태 변경</button>
       </div>
-      <NuxtLink to="/market/commission/write" class="apply-button">사건 등록</NuxtLink>
+      <NuxtLink to="/market/commission/match-detail/0" class="apply-button">사건 등록</NuxtLink>
     </div>
     <Pagination />
   </div>
