@@ -37,7 +37,7 @@
         <div class="table-header table-state">진행상태</div>
         <div class="table-header table-alarm">알림</div>
       </div>
-      <div class="table-column column-box">
+      <div class="table-column column-box" @click="handlerClickTableRow(1)">
         <div class="table-contents table-no">1</div>
         <div class="table-contents table-reg">2023-07-06</div>
         <div class="table-contents table-blance">2023-07-14</div>
@@ -75,7 +75,13 @@
 </template>
 
 <script setup>
+import { useRouter } from 'vue-router'
 import Pagination from '@priros/common/components/paging/Pagination.vue'
+
+const router = useRouter()
+const handlerClickTableRow = (id) => {
+  router.push(`/market/commission/progress-detail/${id}`)
+}
 </script>
 
 <style scoped lang="scss">

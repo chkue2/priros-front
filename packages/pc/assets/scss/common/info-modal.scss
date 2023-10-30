@@ -1,0 +1,27 @@
+.info-column {
+  display: flex;
+  border-top: 1px solid #ebebeb;
+  border-bottom: 1px solid #ebebeb;
+  & + .agent-info-column {
+    border-top: none;
+  }
+}
+.info-title {
+  width: 100px;
+  min-height: 64px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f9f9f9;
+  font-size: 16px;
+  font-weight: $ft-semibold;
+}
+.info-contents  {
+  flex: 1;
+  padding: 12px 34px;
+  font-size: 16px;
+  font-weight: $ft-medium;
+  color: #6f6f6f;
+  display: flex;
+  align-items: center;
+}

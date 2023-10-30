@@ -38,6 +38,7 @@ onMounted(() => {
       font-weight: $ft-semibold;
       justify-content: center;
       align-items: center;
+      cursor: pointer;
       &.active {
         color: #7949FF;
       }

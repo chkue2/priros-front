@@ -47,3 +47,13 @@ table {
 input, textarea, button {
   outline: none;
 }
+input[type=date]::-webkit-calendar-picker-indicator {
+  appearance: none;
+  color: rgba(0, 0, 0, 0);
+  opacity: 1;
+  display: block;
+  background: url(/img/icon/calendar-gray.svg) no-repeat 98% 50%;
+  width: 30px;
+  height: 25px;
+  border-width: thin;
+}

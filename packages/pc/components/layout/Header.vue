@@ -23,7 +23,7 @@
         <div class="header-info-right">
           <div v-if="isCommission" class="header-sub-menus">
             <NuxtLink to="/market/commission/match" :class="{active: ['/market/commission/match', '/market/commission/write'].includes(route.fullPath)}">매칭</NuxtLink>
-            <NuxtLink to="/market/commission/progress" :class="{active: route.fullPath === '/market/commission/progress'}">진행</NuxtLink>
+            <NuxtLink to="/market/commission/progress" :class="{active: route.fullPath.includes('/market/commission/progress')}">진행</NuxtLink>
             <NuxtLink to="/">완료</NuxtLink>
           </div>
           <div class="header-download">
