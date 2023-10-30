@@ -47,6 +47,7 @@
   .search-text {
     flex: 1;
     position: relative;
+    display: flex;
     & > img {
       position: absolute;
       top: 50%;

@@ -2,8 +2,6 @@
   <div class="market-container">
     <div class="market-search">
       <button class="button--black">전체</button>
-      <button class="button--white">오늘</button>
-      <button class="button--white">내일</button>
       <div class="search-date">
         <input type="date"> ~ <input type="date">
       </div>
@@ -17,11 +15,10 @@
     </div>
     <div class="market-filter">
       <div class="filter-buttons">
-        <button class="button--blue">단기미접속 사건 <i>4</i></button>
+        <button class="button--blue">매칭완료 <i>2</i></button>
+        <button class="button--blue">지정의뢰 <i>0</i></button>
       </div>
       <span class="active">검색결과 (9)</span>
-      <span>진행중 (9)</span>
-      <span>업무지연 (9)</span>
     </div>
     <div class="market-table">
       <div class="table-column">
@@ -80,7 +77,7 @@ import Pagination from '@priros/common/components/paging/Pagination.vue'
 
 const router = useRouter()
 const handlerClickTableRow = (id) => {
-  router.push(`/market/commission/progress-detail/${id}`)
+  router.push(`/market/accept/match-detail/${id}`)
 }
 </script>
 
@@ -124,5 +121,61 @@ const handlerClickTableRow = (id) => {
 }
 .table-alarm {
   width: 220px;
+}
+.bank-name {
+  display: flex;
+  gap: 3px;
+  align-items: center;
+  font-size: 14px;
+}
+.bank-tag {
+  font-size: 12px;
+  color: #235bed;
+  line-height: 17px;
+}
+.alarm-top {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 5px;
+  .alarm-top-box {
+    padding: 8px 13px;
+    border-radius: 4px;
+    border: 1px solid #dfdfdf;
+    display: flex;
+    gap: 10px;
+    & > span {
+      font-size: 14px;
+      font-weight: $ft-semibold;
+      color: #c2c2c2;
+      cursor: pointer;
+      &.active {
+        color: #000000;
+        font-weight: $ft-bold;
+        text-decoration: underline;
+      }
+    }
+  }
+  .alarm-top-info {
+    font-size: 12px;
+    font-weight: $ft-medium;
+    color: #235bed;
+    cursor: pointer; 
+  }
+}
+.alarm-bottom {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  font-weight: $ft-medium;
+  .alarm-bottom-underline {
+    font-size: 12px;
+    font-weight: $ft-medium;
+    text-decoration: underline;
+    cursor: pointer;
+  }
 }
 </style>

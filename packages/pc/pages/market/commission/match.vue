@@ -146,17 +146,6 @@ import Pagination from '@priros/common/components/paging/Pagination.vue'
 .table-alarm {
   width: 100px;
 }
-.bank-name {
-  display: flex;
-  gap: 3px;
-  align-items: center;
-  font-size: 14px;
-}
-.bank-tag {
-  font-size: 12px;
-  color: #235bed;
-  line-height: 17px;
-}
 .market-bottom {
   display: flex;
   justify-content: space-between;

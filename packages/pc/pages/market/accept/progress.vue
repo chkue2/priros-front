@@ -16,12 +16,9 @@
       </div>
     </div>
     <div class="market-filter">
-      <div class="filter-buttons">
-        <button class="button--blue">단기미접속 사건 <i>4</i></button>
-      </div>
       <span class="active">검색결과 (9)</span>
       <span>진행중 (9)</span>
-      <span>업무지연 (9)</span>
+      <span>할 일 (9)</span>
     </div>
     <div class="market-table">
       <div class="table-column">

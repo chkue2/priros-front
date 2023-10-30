@@ -10,3 +10,59 @@
 .market-tables {
   margin: 30px 0 250px;
 }
+.bank-name {
+  display: flex;
+  gap: 3px;
+  align-items: center;
+  font-size: 14px;
+}
+.bank-tag {
+  font-size: 12px;
+  color: #235bed;
+  line-height: 17px;
+}
+.alarm-top {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 5px;
+  .alarm-top-box {
+    padding: 8px 13px;
+    border-radius: 4px;
+    border: 1px solid #dfdfdf;
+    display: flex;
+    gap: 10px;
+    & > span {
+      font-size: 14px;
+      font-weight: $ft-semibold;
+      color: #c2c2c2;
+      cursor: pointer;
+      &.active {
+        color: #000000;
+        font-weight: $ft-bold;
+        text-decoration: underline;
+      }
+    }
+  }
+  .alarm-top-info {
+    font-size: 12px;
+    font-weight: $ft-medium;
+    color: #235bed;
+    cursor: pointer; 
+  }
+}
+.alarm-bottom {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  font-weight: $ft-medium;
+  .alarm-bottom-underline {
+    font-size: 12px;
+    font-weight: $ft-medium;
+    text-decoration: underline;
+    cursor: pointer;
+  }
+}
