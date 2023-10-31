@@ -1,5 +1,5 @@
 <template>
-  <div class="transfer-account-card" :class="[{'bd': idx > 0 || isSaved}, {'saved': isSaved}]">
+  <div class="transfer-account-card" :class="[{'bd': idx > 0 || isSaved}, {'saved': isSaved}, {pc: isPc}]">
     <p class="transfer-account-card-title">계좌 {{ idx + 1 }}</p>
     <button v-if="idx > 0 && !isSaved" class="transfer-account-delete-button" @click="transferStore.setTransferDataMinus">
       삭제<img src="/img/icon/delete-black.svg">
@@ -12,9 +12,9 @@
       </div>
     </div>
     <p class="transfer-account-card-title ft-16">계좌 정보</p>
-    <DropDown placeholder="계좌 선택하기" :is-readonly="isSaved" :options="cardOptions" :selected-text="selectedText" @click-option="handlerSelectValue"/>
+    <DropDown placeholder="계좌 선택하기" :is-readonly="isSaved" :options="cardOptions" :selected-text="selectedText" :is-body-lock="!isPc" @click-option="handlerSelectValue"/>
     <p class="transfer-account-card-title ft-14 mt-12">은행명</p>
-    <DropDown placeholder="은행 선택하기" :is-readonly="isReadonly" :options="bankOptions" :selected-text="bankSelectedText" @click-option="handlerBankSelectValue"/>
+    <DropDown placeholder="은행 선택하기" :is-readonly="isReadonly" :options="bankOptions" :selected-text="bankSelectedText" :is-body-lock="!isPc" @click-option="handlerBankSelectValue"/>
     <div class="transfer-account-card-double-block">
       <div class="transfer-account-card-block">
         <p class="transfer-account-card-title ft-14">예금주</p>
@@ -30,8 +30,8 @@
 
 <script setup>
 import { ref, computed, watch } from 'vue'
-import { useTransferStore } from '~/store/transfer.js'
-import DropDown from '~/components/form/DropDown'
+import { useTransferStore } from '@priros/common/store/transfer.js'
+import DropDown from '@priros/common/components/form/DropDown.vue'
 const cardOptions = [
   {
     text: '직접 입력하기',
@@ -80,6 +80,10 @@ const bankOptions = [
 const props = defineProps({
   idx: Number,
   isSaved: Boolean,
+  isPc: {
+    type: Boolean,
+    default: false
+  }
 })
 const transferStore = useTransferStore()
 
@@ -124,6 +128,10 @@ watch(() => accountInfoSelectedValue, () => {
   padding: 16px 7px 27px 7px;
   border-top: $border-bottom-between-header;
   position: relative;
+  &.pc {
+    width: calc(50% - 24px);
+    flex: 1;
+  }
   &.bd {
     padding: 16px 7px 27px;
     border: 1px dotted #2d2d2d;
@@ -131,6 +139,9 @@ watch(() => accountInfoSelectedValue, () => {
   }
   &.saved {
     background-color: #f8f8f8;
+  }
+  &.pc:not(.bd) {
+    border-top: none;
   }
 }
 .transfer-account-card-title {
@@ -172,10 +183,11 @@ watch(() => accountInfoSelectedValue, () => {
   align-items: center;
   margin-bottom: 16px;
   .transfer-account-amount-title {
+    min-width: 70px;
     height: 40px;
     display: flex;
     align-items: center;
-    padding: 0 13px;
+    padding: 0 8px;
     font-size: 14px;
     color: #4f4f4f;
     border-radius: 4px 0 0 4px;
@@ -183,6 +195,7 @@ watch(() => accountInfoSelectedValue, () => {
   }
   .transfer-account-amount-input {
     flex: 1;
+    width: 70%;
     height: 40px;
     display: flex;
     justify-content: flex-end;
@@ -200,7 +213,6 @@ watch(() => accountInfoSelectedValue, () => {
     & > span {
       font-size: 16px;
       font-weight: $ft-bold;
-      margin-bottom: 4px;
     }
   }
 }

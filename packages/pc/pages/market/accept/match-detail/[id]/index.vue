@@ -26,7 +26,7 @@
           <img src="/img/icon/expand-right-black.svg">
         </div>
       </div>
-      <div class="type-item">
+      <div class="type-item" @click="toggleTransferAccountModal">
         <span class="type-item-top">클릭하여 진행하기</span>
         <div class="type-item-bottom">
           <i><img src="/img/icon/check-white.svg"></i>
@@ -154,6 +154,7 @@
       <DetailCaseFilesTable v-if="tab === 'files'" />
     </div>
   </div>
+  <TransferAccountModal v-if="isTransferAccountModalShow" @close-modal="toggleTransferAccountModal" />
 </template>
 
 <script setup>
@@ -164,10 +165,16 @@ import DetailCaseChangedTable from '@priros/common/components/table/DetailCaseCh
 import DetailCaseMemoTable from '@priros/common/components/table/DetailCaseMemoTable.vue'
 import DetailCaseProcessedTable from '@priros/common/components/table/DetailCaseProcessedTable.vue'
 import DetailCaseFilesTable from '@priros/common/components/table/DetailCaseFilesTable.vue'
+import TransferAccountModal from '~/components/modal/market/TransferAccountModal.vue'
 
 const tab = ref('changed')
 const handlerClickTab = (v) => {
   tab.value = v
+}
+
+const isTransferAccountModalShow = ref(false)
+const toggleTransferAccountModal = () => {
+  isTransferAccountModalShow.value = !isTransferAccountModalShow.value
 }
 </script>
 

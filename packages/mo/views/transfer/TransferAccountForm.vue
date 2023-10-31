@@ -73,10 +73,10 @@
 <script setup>
 import { computed } from 'vue'
 import { useRouter } from 'vue-router'
-import { useTransferStore } from '~/store/transfer.js'
-import TransferAccountCard from '~/components/card/TransferAccountCard'
+import { useTransferStore } from '@priros/common/store/transfer.js'
+import TransferAccountCard from '@priros/common/components/card/TransferAccountCard.vue'
 import CommonBottomButton from '@priros/common/components/button/CommonBottomButton.vue'
-import CommonAlertModal from '~/components/modal/CommonAlertModal'
+import CommonAlertModal from '@priros/common/components/modal/CommonAlertModal.vue'
 
 const router = useRouter()
 

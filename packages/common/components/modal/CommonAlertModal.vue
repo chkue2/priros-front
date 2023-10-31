@@ -14,6 +14,10 @@ const props = defineProps({
   text: {
     type: String,
     default: ''
+  },
+  isBodyLock: {
+    type: Boolean,
+    default: true
   }
 })
 const emit = defineEmits(['handler-click-button'])
@@ -23,16 +27,16 @@ const handlerClickOkButton = () => {
 }
 
 onMounted(() => {
-  document.querySelector('body').style.overflow = 'hidden'
+  if(props.isBodyLock === true) document.querySelector('body').style.overflow = 'hidden'
 })
 onBeforeUnmount(() => {
-  document.querySelector('body').removeAttribute('style')
+  if(props.isBodyLock === true) document.querySelector('body').removeAttribute('style')
 })
 </script>
 
 <style scoped lang="scss">
   .common-alert-modal {
-    width: 100vw;
+    width: 100%;
     height: 100vh;
     position: fixed;
     top: 0;

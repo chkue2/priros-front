@@ -72,7 +72,7 @@ import {ref, computed, onMounted} from "vue";
 import {useRoute, useRouter} from "vue-router";
 
 //
-import DropDown from "~/components/form/DropDown";
+import DropDown from '@priros/common/components/form/DropDown'
 import CommonBottomButton from "~/components/button/CommonBottomButton";
 import {tradeCaseChargeService} from "~/services/tradeCaseChargeService.js";
 
@@ -216,7 +216,7 @@ onMounted(() => {
     margin-bottom: 16px;
     text-align: center;
     color: #9f9f9f;
-    font:{
+    font: {
       size:12px;
       weight: 500;
     }

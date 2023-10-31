@@ -36,6 +36,9 @@
 }
 .transfer-memo-container {
   padding: 24px 16px 0;
+  &.pt-0 {
+    padding-top: 0;
+  }
   .transfer-memo-title {
     font-size: 12px;
     line-height: 17px;

@@ -29,7 +29,7 @@
 
 <script setup> 
 import { useRouter } from 'vue-router'
-import { useTransferStore } from '~/store/transfer.js'
+import { useTransferStore } from '@priros/common/store/transfer.js'
 import TransferAccountTextCard from '~/components/card/TransferAccountTextCard.vue'
 import CommonBottomButton from '@priros/common/components/button/CommonBottomButton.vue'
 const transferStore = useTransferStore()

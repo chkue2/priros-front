@@ -25,6 +25,10 @@ const props = defineProps({
     type: String,
     default: ''
   },
+  isBodyLock: {
+    type: Boolean,
+    default: true
+  },
   options: Array,
 })
 const emit = defineEmits(['click-option'])
@@ -43,10 +47,12 @@ const handlerToggleSelectOpen = () => {
 }
 
 watch(() => isOpen.value, () => {
-  if(isOpen.value) {
-    document.querySelector('body').style.overflow = 'hidden'
-  } else {
-    document.querySelector('body').removeAttribute('style')
+  if(props.isBodyLock) {
+    if(isOpen.value) {
+      document.querySelector('body').style.overflow = 'hidden'
+    } else {
+      document.querySelector('body').removeAttribute('style')
+    }
   }
 })
 

@@ -66,7 +66,7 @@
 import {ref, computed, onMounted} from "vue";
 import {useRoute, useRouter} from "vue-router";
 
-import DropDown from "~/components/form/DropDown.vue";
+import DropDown from '@priros/common/components/form/DropDown'
 import CommonBottomButton from '@priros/common/components/button/CommonBottomButton.vue'
 
 definePageMeta({
