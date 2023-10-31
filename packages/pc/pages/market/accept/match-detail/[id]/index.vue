@@ -10,7 +10,7 @@
           <img src="/img/icon/expand-right-black.svg">
         </div>
       </div>
-      <div class="type-item active">
+      <div class="type-item active" @click="toggleChargeReportModal">
         <span class="type-item-top">보고를 완료했어요</span>
         <div class="type-item-bottom">
           <i><img src="/img/icon/check-white.svg"></i>
@@ -18,7 +18,7 @@
           <img src="/img/icon/expand-right-black.svg">
         </div>
       </div>
-      <div class="type-item active">
+      <div class="type-item active" @click="toggleScheduleReportModal">
         <span class="type-item-top">보고를 완료했어요</span>
         <div class="type-item-bottom">
           <i><img src="/img/icon/check-white.svg"></i>
@@ -34,7 +34,7 @@
           <img src="/img/icon/expand-right-black.svg">
         </div>
       </div>
-      <div class="type-item">
+      <div class="type-item" @click="toggleApplicationReportModal">
         <span class="type-item-top">클릭하여 진행하기</span>
         <div class="type-item-bottom">
           <i><img src="/img/icon/check-white.svg"></i>
@@ -155,6 +155,9 @@
     </div>
   </div>
   <TransferAccountModal v-if="isTransferAccountModalShow" @close-modal="toggleTransferAccountModal" />
+  <ChargeReportModal v-if="isChargeReportModalShow" @close-modal="toggleChargeReportModal" />
+  <ScheduleReportModal v-if="isScheduleReportModalShow" @close-modal="toggleScheduleReportModal" />
+  <ApplicationReportModal v-if="isApplicationReportModalShow" @close-modal="toggleApplicationReportModal" />
 </template>
 
 <script setup>
@@ -166,6 +169,9 @@ import DetailCaseMemoTable from '@priros/common/components/table/DetailCaseMemoT
 import DetailCaseProcessedTable from '@priros/common/components/table/DetailCaseProcessedTable.vue'
 import DetailCaseFilesTable from '@priros/common/components/table/DetailCaseFilesTable.vue'
 import TransferAccountModal from '~/components/modal/market/TransferAccountModal.vue'
+import ChargeReportModal from '~/components/modal/market/ChargeReportModal.vue'
+import ScheduleReportModal from '~/components/modal/market/ScheduleReportModal.vue'
+import ApplicationReportModal from '~/components/modal/market/ApplicationReportModal.vue'
 
 const tab = ref('changed')
 const handlerClickTab = (v) => {
@@ -175,6 +181,18 @@ const handlerClickTab = (v) => {
 const isTransferAccountModalShow = ref(false)
 const toggleTransferAccountModal = () => {
   isTransferAccountModalShow.value = !isTransferAccountModalShow.value
+}
+const isChargeReportModalShow = ref(false)
+const toggleChargeReportModal = () => {
+  isChargeReportModalShow.value = !isChargeReportModalShow.value
+}
+const isScheduleReportModalShow = ref(false)
+const toggleScheduleReportModal = () => {
+  isScheduleReportModalShow.value = !isScheduleReportModalShow.value
+}
+const isApplicationReportModalShow = ref(false)
+const toggleApplicationReportModal = () => {
+  isApplicationReportModalShow.value = !isApplicationReportModalShow.value
 }
 </script>
 
