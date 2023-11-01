@@ -140,7 +140,7 @@
       <div class="info-header">보험료</div>
       <div class="info-contents contents-3 flex-column">
         <div class="contents-top">
-          <div class="info-contents-buttons"><button>등기필정보 보완보고</button></div>
+          <div class="info-contents-buttons"><button @click="toggleRegInformationModal">등기필정보 보완보고</button></div>
           <button class="button--edit"><img src="/img/icon/edit-gray.svg">입력완료</button>
         </div>
         <textarea class="contents-area" placeholder="등기신청서 작성 ID 및 작성번호를 입력하세요 (매도인별 식별번호 뒷자리 입력으로 대체 가능)"></textarea>
@@ -158,6 +158,7 @@
   <ChargeReportModal v-if="isChargeReportModalShow" @close-modal="toggleChargeReportModal" />
   <ScheduleReportModal v-if="isScheduleReportModalShow" @close-modal="toggleScheduleReportModal" />
   <ApplicationReportModal v-if="isApplicationReportModalShow" @close-modal="toggleApplicationReportModal" />
+  <RegInformationModal v-if="isRegInformationModalShow" @close-modal="toggleRegInformationModal" />
 </template>
 
 <script setup>
@@ -172,6 +173,7 @@ import TransferAccountModal from '~/components/modal/market/TransferAccountModal
 import ChargeReportModal from '~/components/modal/market/ChargeReportModal.vue'
 import ScheduleReportModal from '~/components/modal/market/ScheduleReportModal.vue'
 import ApplicationReportModal from '~/components/modal/market/ApplicationReportModal.vue'
+import RegInformationModal from '~/components/modal/market/RegInformationModal.vue'
 
 const tab = ref('changed')
 const handlerClickTab = (v) => {
@@ -193,6 +195,10 @@ const toggleScheduleReportModal = () => {
 const isApplicationReportModalShow = ref(false)
 const toggleApplicationReportModal = () => {
   isApplicationReportModalShow.value = !isApplicationReportModalShow.value
+}
+const isRegInformationModalShow = ref(false)
+const toggleRegInformationModal = () => {
+  isRegInformationModalShow.value = !isRegInformationModalShow.value
 }
 </script>
 
