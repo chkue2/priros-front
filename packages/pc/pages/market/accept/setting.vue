@@ -1,0 +1,218 @@
+<template>
+  <div class="market-container">
+    <div class="market-search">
+      <button class="button--black">전체</button>
+      <button class="button--white">오늘</button>
+      <button class="button--white">내일</button>
+      <div class="search-date">
+        <input type="date"> ~ <input type="date">
+      </div>
+      <select><option value="">지역 선택</option></select>
+      <select><option value="">상품 전체</option></select>
+      <select><option value="">정보 선택</option></select>
+      <div class="search-text">
+        <input type="text" placeholder="검색어를 입력해주세요">
+        <img src="/img/icon/search-black.svg">
+      </div>
+    </div>
+    <div class="market-filter">
+      <div class="filter-buttons">
+        <button class="button--blue">송금요청 <i>2</i></button>
+        <button class="button--blue">보완완료 <i>0</i></button>
+      </div>
+      <span class="active">검색결과 (9)</span>
+      <span>매칭지연 (9)</span>
+      <span>업무지연 (9)</span>
+      <span>진행중 (9)</span>
+      <span>완료 (9)</span>
+      <span>설정 (9)</span>
+      <span>철회 (9)</span>
+      <span>보완요청 (9)</span>
+    </div>
+    <div class="market-table">
+      <div class="table-column">
+        <div class="table-header table-no">No.</div>
+        <div class="table-header table-reg">등록일</div>
+        <div class="table-header table-blance">잔금일</div>
+        <div class="table-header table-repayment">상환</div>
+        <div class="table-header table-bank">대출기관</div>
+        <div class="table-header table-address">소재지</div>
+        <div class="table-header table-buyer">매수인</div>
+        <div class="table-header table-fagent">이전대리인</div>
+        <div class="table-header table-sprice">설정비용</div>
+        <div class="table-header table-state">진행상태</div>
+        <div class="table-header table-alarm">알림</div>
+      </div>
+      <div class="table-column column-box" @click="handlerClickTableRow(1)">
+        <div class="table-contents table-no">1</div>
+        <div class="table-contents table-reg">
+          <span class="reg-bedge">
+            <i></i> 보완요청 +3일
+          </span>
+          2023-07-06
+        </div>
+        <div class="table-contents table-blance">2023-07-14</div>
+        <div class="table-contents table-repayment">N</div>
+        <div class="table-contents contents-column table-bank">
+          <span class="bank-name">카카오뱅크</span>
+          <span class="bank-tag">#보금자리론</span>
+        </div>
+        <div class="table-contents table-address">경기도 과천시 갈현동 135 과천푸르지오 벨라...</div>
+        <div class="table-contents table-buyer">박명수</div>
+        <div class="table-contents contents-column table-fagent">
+          다이렉트로 법무사무소
+        </div>
+        <div class="table-contents table-sprice">해당없음</div>
+        <div class="table-contents table-state">일정등록</div>
+        <div class="table-contents table-alarm">
+          <div class="alarm-left">
+            <div class="alarm-top">
+              <div class="alarm-top-box">
+                <span class="active">송금</span>
+                <span>상환</span>
+                <span>정보</span>
+              </div>
+            </div>
+            <div class="alarm-bottom">
+              <span class="alarm-bottom-underline">일정보고</span>
+              <span class="alarm-bottom-underline">담당자보고</span>
+              를 수행해요
+            </div>
+          </div>
+          <label>
+            <input type="checkbox">
+            <span>설정</span>
+          </label>
+        </div>
+      </div>
+    </div>
+    <Pagination />
+  </div>
+</template>
+
+<script setup>
+import Pagination from '@priros/common/components/paging/Pagination.vue'
+</script>
+
+
+<style scoped lang="scss">
+@import '~/assets/scss/market/common.scss';
+@import '~/assets/scss/market/search.scss';
+@import '~/assets/scss/market/filter.scss';
+@import '~/assets/scss/common/table.scss';
+.market-table {
+  margin-bottom: 32px;
+}
+.table-no {
+  width: 40px;
+}
+.table-reg {
+  width: 100px;
+  position: relative;
+  .reg-bedge {
+    padding: 3px 4px 1px;
+    border: 1px solid #cdad3d;
+    border-radius: 11px;
+    font-size: 12px;
+    color: #202020;
+    font-weight: $ft-bold;
+    background-color: #fff6d6;
+    position: absolute;
+    top: 2px;
+    display: flex;
+    gap: 2px;
+    align-items: center;
+    & > i {
+      display: block;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background-color: #cdad3d;
+      margin-bottom: 3px;
+    }
+  }
+}
+.table-blance {
+  width: 100px;
+}
+.table-repayment {
+  width: 70px;
+}
+.table-bank {
+  width: 120px;
+}
+.table-address {
+  width: 210px;
+}
+.table-buyer {
+  width: 75px;
+}
+.table-fagent {
+  width: 160px;
+}
+.table-sprice {
+  width: 160px;
+}
+.table-state {
+  width: 80px;
+}
+.table-alarm {
+  width: 220px;
+}
+.bank-name {
+  display: flex;
+  gap: 3px;
+  align-items: center;
+  font-size: 14px;
+}
+.bank-tag {
+  font-size: 12px;
+  color: #235bed;
+  line-height: 17px;
+}
+.alarm-top {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 5px;
+  .alarm-top-box {
+    padding: 8px 13px;
+    border-radius: 4px;
+    border: 1px solid #dfdfdf;
+    display: flex;
+    gap: 10px;
+    & > span {
+      font-size: 14px;
+      font-weight: $ft-semibold;
+      color: #c2c2c2;
+      cursor: pointer;
+      &.active {
+        color: #000000;
+        font-weight: $ft-bold;
+        text-decoration: underline;
+      }
+    }
+  }
+  .alarm-top-info {
+    font-size: 12px;
+    font-weight: $ft-medium;
+    color: #235bed;
+    cursor: pointer; 
+  }
+}
+.alarm-bottom {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  font-weight: $ft-medium;
+  .alarm-bottom-underline {
+    font-size: 12px;
+    font-weight: $ft-medium;
+    text-decoration: underline;
+    cursor: pointer;
+  }
+}
+</style>

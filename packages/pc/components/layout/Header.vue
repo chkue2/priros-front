@@ -5,7 +5,7 @@
       <div class="header-menu">
         <div class="header-menus">
           <NuxtLink :class="{active: isCommission}" to="/market/commission/match">마켓의뢰</NuxtLink>
-          <NuxtLink to="/market/accept/match">마켓수임</NuxtLink>
+          <NuxtLink :class="{active: isAccept}" to="/market/accept/match">마켓수임</NuxtLink>
           <NuxtLink to="/user/mypage/info">마이페이지</NuxtLink>
         </div>
         <div class="header-menus">
@@ -60,9 +60,10 @@
             <NuxtLink to="/">완료</NuxtLink>
           </div>
           <div v-if="isAccept" class="header-sub-menus">
-            <NuxtLink to="/market/accept/match" :class="{active: ['/market/accept/match', '/market/accept/write'].includes(route.fullPath)}">매칭</NuxtLink>
+            <NuxtLink to="/market/accept/match" :class="{active: route.fullPath.includes('/market/accept/match') || route.fullPath.includes('market/accept/write')}">매칭</NuxtLink>
             <NuxtLink to="/market/accept/progress" :class="{active: route.fullPath.includes('/market/accept/progress')}">진행</NuxtLink>
-            <NuxtLink to="/">완료</NuxtLink>
+            <NuxtLink to="/market/accept/complete" :class="{active: route.fullPath.includes('/market/accept/complete')}">완료</NuxtLink>
+            <NuxtLink to="/market/accept/setting" :class="{active: route.fullPath.includes('/market/accept/setting')}">설정</NuxtLink>
           </div>
           <div class="header-download">
             <img src="/img/icon/download-black.svg" alt=""> 매뉴얼 다운로드

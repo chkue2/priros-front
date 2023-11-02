@@ -27,6 +27,21 @@
   &.contents-column {
     flex-direction: column;
   }
+  label {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-left: 8px;
+    & > input {
+      width: 16px;
+      height: 16px;
+    }
+    & > span {
+      font-size: 12px;
+      font-weight: $ft-bold;
+      color: #235bed;
+    }
+  }
 }
 .table-empty {
   width: 100%;

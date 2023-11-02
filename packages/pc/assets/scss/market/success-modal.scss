@@ -1,0 +1,36 @@
+
+.modal-image {
+  display: flex;
+  justify-content: center;
+  margin-top: 22px;
+  & > img {
+    width: 88px;
+    height: auto;
+  }
+}
+.modal-title {
+  font-weight: $ft-bold;
+  margin-top: 10px;
+  text-align: center;
+}
+.modal-subtitle {
+  font-size: 14px;
+  font-weight: $ft-medium;
+  text-align: center;
+  margin-top: 4px;
+}
+.modal-button {
+  display: flex;
+  justify-content: center;
+  margin-top: 18px;
+  & > button {
+    width: 173px;
+    height: 44px;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: $ft-bold;
+    border: none;
+    background-color: #000000;
+    color: #ffffff;
+  }
+}

@@ -2,7 +2,7 @@
   <div class="market-container">
     <div class="market-nav">마켓수임 > 매칭 > 사건상세정보</div>
     <div class="market-write-type">
-      <div class="type-item active">
+      <div class="type-item active" @click="toggleEstimateReportModal">
         <span class="type-item-top">보고를 완료했어요</span>
         <div class="type-item-bottom">
           <i><img src="/img/icon/check-white.svg"></i>
@@ -64,7 +64,7 @@
       <div class="info-contents contents-3">
         일정등록
         <div class="info-contents-buttons">
-          <button>견적보기</button>
+          <button @click="toggleEstimateCheckModal">견적보기</button>
         </div>
       </div>
       <div class="info-header">담당자</div>
@@ -159,6 +159,11 @@
   <ScheduleReportModal v-if="isScheduleReportModalShow" @close-modal="toggleScheduleReportModal" />
   <ApplicationReportModal v-if="isApplicationReportModalShow" @close-modal="toggleApplicationReportModal" />
   <RegInformationModal v-if="isRegInformationModalShow" @close-modal="toggleRegInformationModal" />
+  <EstimateReportModal v-if="isEstimateReportModalShow" @close-modal="toggleEstimateReportModal" />
+  <EstimateCheckModal v-if="isEstimateCheckModalShow" @close-modal="toggleEstimateCheckModal" />
+  <KakaoRemittanceRequestModal v-if="false" :is-re-send="true" />
+  <KakaoRemittanceSuccessModal v-if="false" :is-re-send="false" />
+  <EarlyRemittanceModal v-if="false" />
 </template>
 
 <script setup>
@@ -174,6 +179,11 @@ import ChargeReportModal from '~/components/modal/market/ChargeReportModal.vue'
 import ScheduleReportModal from '~/components/modal/market/ScheduleReportModal.vue'
 import ApplicationReportModal from '~/components/modal/market/ApplicationReportModal.vue'
 import RegInformationModal from '~/components/modal/market/RegInformationModal.vue'
+import EstimateReportModal from '~/components/modal/market/EstimateReportModal.vue'
+import EstimateCheckModal from '~/components/modal/market/EstimateCheckModal.vue'
+import KakaoRemittanceRequestModal from '~/components/modal/market/KakaoRemittanceRequestModal.vue'
+import KakaoRemittanceSuccessModal from '~/components/modal/market/KakaoRemittanceSuccessModal.vue'
+import EarlyRemittanceModal from '~/components/modal/market/EarlyRemittanceModal.vue'
 
 const tab = ref('changed')
 const handlerClickTab = (v) => {
@@ -199,6 +209,14 @@ const toggleApplicationReportModal = () => {
 const isRegInformationModalShow = ref(false)
 const toggleRegInformationModal = () => {
   isRegInformationModalShow.value = !isRegInformationModalShow.value
+}
+const isEstimateReportModalShow = ref(false)
+const toggleEstimateReportModal = () => {
+  isEstimateReportModalShow.value = !isEstimateReportModalShow.value
+}
+const isEstimateCheckModalShow = ref(false)
+const toggleEstimateCheckModal = () => {
+  isEstimateCheckModalShow.value = !isEstimateCheckModalShow.value
 }
 </script>
 

@@ -1,7 +1,7 @@
 <template>
   <div class="common-header-modal">
     <div class="common-header-modal-bg" @click="handlerClickCloseModal"></div>
-    <div :id="modalId" class="common-header-modal-container" :style="{width}">
+    <div :id="modalId" class="common-header-modal-container" :style="{width, height}">
       <div class="common-modal-header">
         <p class="common-modal-title">{{ modalTitle }}</p>
         <img class="common-modal-close" src="/img/icon/close-gray.svg" alt="모달 닫기" @click="handlerClickCloseModal">
@@ -25,6 +25,10 @@ const props = defineProps({
   width: {
     type: String,
     default: '500px'
+  },
+  height: {
+    type: String,
+    default: 'calc(100vh - 100px)'
   }
 })
 

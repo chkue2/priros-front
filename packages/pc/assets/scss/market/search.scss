@@ -38,11 +38,6 @@
   }
   select {
     min-width: 144px;
-    appearance: none;
-    background-image: url(/img/icon/expand-down-black.svg);
-    background-repeat: no-repeat;
-    background-position-x: calc(100% - 12px);
-    background-position-y: center;
   }
   .search-text {
     flex: 1;

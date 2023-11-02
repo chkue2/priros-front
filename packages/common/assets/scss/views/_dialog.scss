@@ -88,11 +88,6 @@
       }
       & > select {
         flex: 1;
-        appearance: none;
-        background-image: url(/img/icon/expand-down-black.svg);
-        background-repeat: no-repeat;
-        background-position-x: calc(100% - 12px);
-        background-position-y: center;
         height: 48px;
         border-radius: 8px;
         border: 1px solid #000000;

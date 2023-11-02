@@ -53,7 +53,15 @@ input[type=date]::-webkit-calendar-picker-indicator {
   opacity: 1;
   display: block;
   background: url(/img/icon/calendar-gray.svg) no-repeat 98% 50%;
+  background-size: 55%;
   width: 30px;
   height: 25px;
   border-width: thin;
+}
+select {
+  appearance: none;
+  background-image: url(/img/icon/expand-down-black.svg);
+  background-repeat: no-repeat;
+  background-position-x: calc(100% - 12px);
+  background-position-y: center;
 }

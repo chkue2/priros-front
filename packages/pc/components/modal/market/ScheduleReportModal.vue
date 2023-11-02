@@ -1,5 +1,5 @@
 <template>
-  <CommonHeaderModal modal-id="chargeReportModal" modal-title="담당자 보고" width="420px">
+  <CommonHeaderModal modal-id="scheduleReportModal" modal-title="일정 보고" width="420px">
     <div class="report-container">
       <span class="report-tag">일정등록 전 확인</span>
       <p class="report-intro-text">
