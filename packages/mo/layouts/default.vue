@@ -2,12 +2,12 @@
   <Gnb/>
   <Header/>
   <div id="wrapper">
-    <main id="main" :class="{bt: isNotMain, bm: !auth.user}">
+    <main id="main" :class="{bt: isNotMain}">
       <slot/>
     </main>
     <Footer/>
   </div>
-  <div class="main-bottom-buttons" v-if="!auth.user">
+  <div class="main-bottom-buttons" v-if="!auth.user && !isNotMain">
     <CommonBottomButton id="mainBottomButtonHelpCenter" text="헬프센터" backgroundColor="#c7c7c7" height="72px" width="50%"
                         :font-weight="700" @handler-click-button="handlerClickHelpCenter"/>
     <CommonBottomButton id="mainBottomButtonLogin" text="로그인" backgroundColor="#000000" height="72px" width="50%"

@@ -6,9 +6,9 @@
       <button class="join-gray-select-button" :class="{selected: joinType === 'general'}" @click="handlerClickTypeSelectButton('general')">일반 회원가입</button>
       <button class="join-gray-select-button" :class="{selected: joinType === 'expert'}" @click="handlerClickTypeSelectButton('expert')">전문가 회원가입</button>
     </div>
-    <div class="join-bottom-buttons">
-      <CommonBottomButton id="joinBottomButton" text="다음" width="100%" height="60px" @handler-click-button="handlerClickNextButton" />
-    </div>
+  </div>
+  <div class="join-bottom-buttons sticky">
+    <CommonBottomButton id="joinBottomButton" text="다음" width="100%" height="60px" @handler-click-button="handlerClickNextButton" />
   </div>
 </template>
 

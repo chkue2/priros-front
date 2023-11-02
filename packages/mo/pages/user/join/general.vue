@@ -3,11 +3,12 @@
     <p class="join-title">반갑습니다.<br>아래 정보를 입력해주세요.</p>
     <p class="join-subtitle">*는 필수 입력 항목입니다.</p>
     <div class="general-profile-container">
-      <img src="/img/join/profile-empty.png" alt="프로필 사진 미리보기" class="general-profile-preview">
-      <button class="general-profile-upload-button">
+      <img id="profileImageFile" src="/img/join/profile-empty.png" alt="프로필 사진 미리보기" class="general-profile-preview">
+      <button class="general-profile-upload-button" @click="handlerClickProfileUploadButton">
         <img src="/img/icon/upload-gray.svg" aria-hidden />
         <span>프로필사진 업로드</span>
       </button>
+      <input type="file" ref="profileImageFile" accept="image/*" @change="handlerChangeProfileImageFile">
       <p class="general-profile-intro">
         증명사진 또는 여권 사진으로<br><b>네모</b> 안에 얼굴 전체가 나오도록 프로필 첨부 바랍니다.
       </p>
@@ -15,28 +16,28 @@
     <div class="join-form">
       <p class="join-form-title">아이디 *</p>
       <div class="join-form-input-container">
-        <input type="text" class="join-form-input w-60" placeholder="아이디를 입력해주세요">
+        <input v-model="form['id']" type="text" class="join-form-input w-60" placeholder="아이디를 입력해주세요">
         <button class="join-form-gray-button">중복확인</button>
       </div>
       <p class="join-form-title">비밀번호 *</p>
       <div class="join-form-input-container">
-        <input type="password" class="join-form-input" placeholder="영문/숫자/특수문자 혼합 8자 이상">
+        <input v-model="form['password']" type="password" class="join-form-input" placeholder="영문/숫자/특수문자 혼합 8자 이상">
       </div>
       <p class="join-form-title">비밀번호 확인 *</p>
       <div class="join-form-input-container">
-        <input type="password" class="join-form-input" placeholder="영문/숫자/특수문자 혼합 8자 이상">
+        <input v-model="passwordConfirm" type="password" class="join-form-input" placeholder="영문/숫자/특수문자 혼합 8자 이상">
       </div>
       <p class="join-form-title">이름 *</p>
       <div class="join-form-input-container">
-        <input type="text" class="join-form-input w-60" placeholder="이름을 입력해주세요">
+        <input v-model="form['name']" type="text" class="join-form-input w-60" placeholder="이름을 입력해주세요">
       </div>
       <p class="join-form-title">휴대폰번호 *</p>
       <div class="join-form-input-container">
-        <input type="tel" class="join-form-input" placeholder="휴대폰번호를 입력해주세요">
+        <input v-model="form['phone']" type="tel" class="join-form-input" placeholder="휴대폰번호를 입력해주세요">
       </div>
       <p class="join-form-title">이메일주소</p>
       <div class="join-form-input-container mb-44">
-        <input type="email" class="join-form-input" placeholder="이메일주소를 입력해주세요">
+        <input v-model="form['email']" type="email" class="join-form-input" placeholder="이메일주소를 입력해주세요">
       </div>
     </div>
   </div>
@@ -47,16 +48,59 @@
 </template>
 
 <script setup>
+import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import CommonBottomButton from '@priros/common/components/button/CommonBottomButton.vue'
+import { base64 } from '@priros/common/assets/js/filePreview.js'
 
 const router = useRouter()
 const handlerClickCancelButton = () => {
   router.back()
 }
 
+const form = ref({})
+const passwordConfirm = ref('')
+const validateEnum = ['profileImage', 'id', 'password', 'name', 'phone']
+
+const formValidation = computed(() => {
+  for(const e of validateEnum) {
+    if(form.value[e] === undefined || form.value[e] === null || form.value[e] === '') return false
+  }
+
+  if(passwordConfirm.value === '') return false
+
+  return true
+})
+
+const profileImageFile = ref(null)
+const handlerClickProfileUploadButton = () => {
+  profileImageFile.value.click()
+}
+const handlerChangeProfileImageFile = (e) => {
+  const v = e.target.files[0]
+  base64(v, 'profileImageFile')
+  form.value['profileImage'] = v
+}
+
 const handlerClickApplyButton = () => {
-  alert('validation check')
+  if(!formValidation.value) {
+    if(form.value['profileImage'] === undefined) {
+      alert('프로필사진을 업로드해주세요')
+    } else if(form.value['id'] === undefined || form.value['id'] === ''){
+      alert('아이디를 입력해주세요')
+    } else if(form.value['password'] === undefined || form.value['password'] === ''){
+      alert('비밀번호를 입력해주세요')
+    } else if(passwordConfirm.value === '') {
+      alert('비밀번호 확인을 입력해주세요')
+    } else if(form.value['password'] !== passwordConfirm.value){
+      alert('비밀번호와 비밀번호 확인이 다릅니다')
+    } else if(form.value['name'] === undefined || form.value['name'] === ''){
+      alert('이름을 입력해주세요')
+    } else if(form.value['phone'] === undefined || form.value['phone'] === ''){
+      alert('휴대폰번호를 입력해주세요')
+    } 
+    return false
+  }
   router.push('/user/join/general-success')
 }
 
@@ -75,6 +119,8 @@ const handlerClickApplyButton = () => {
   .general-profile-preview {
     width: 125px;
     height: 148px;
+    border: 1px solid #bebebe;
+    object-fit: cover;
   }
   .general-profile-upload-button {
     width: 100%;
@@ -100,6 +146,9 @@ const handlerClickApplyButton = () => {
       color: #7ef422;
       font-weight: $ft-bold;
     }
+  }
+  input[type=file] {
+    display: none;
   }
 }
 </style>

@@ -23,7 +23,7 @@
       </div>
       <button class="login-form-apply-button" @click="handlerClickLoginButton">로그인</button>
       <div class="login-form-button-container">
-        <NuxtLink to="/user/signup">회원가입</NuxtLink>
+        <NuxtLink to="/user/signup" @click="gnbStore.deactivate();">회원가입</NuxtLink>
         <NuxtLink to="/">아이디찾기</NuxtLink>
         <NuxtLink to="/faq/list">헬프센터</NuxtLink>
       </div>
@@ -33,8 +33,10 @@
 <script setup>
 import {ref, watch} from 'vue'
 import {useAuthStore} from "@priros/common/store/auth.js";
+import {useGnbStore} from "~/store/gnbState.js";
 
 const auth = useAuthStore();
+const gnbStore = useGnbStore();
 
 // 비밀번호 확인 토글
 let isPasswordToggle = ref(false)
