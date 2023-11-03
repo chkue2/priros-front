@@ -12,14 +12,25 @@
       <div class="detail-case-common-table-big">내용</div>
       <div class="detail-case-common-table-small">발신자</div>
     </div>
-    <div class="detail-case-common-table-contents">
+    <div v-if="detailCaseStore.fetchedMemoList.length === 0" class="detail-case-common-table-contents">
       <div class="detail-case-common-table-empty">등록된 메모가 없습니다</div>
+    </div>
+    <div v-if="detailCaseStore.fetchedMemoList.length > 0">
+      <div v-for="(m, index) in detailCaseStore.fetchedMemoList" :key="index" class="detail-case-common-table-contents">
+        <div class="detail-case-common-table-small">{{ m.date }}</div>
+        <div class="detail-case-common-table-big">{{ m.comment }}</div>
+        <div class="detail-case-common-table-small">{{ m.sender }}</div>
+      </div>
     </div>
     <Pagination :margin-top="50" />
   </div>
 </template>
 <script setup>
+import { useDetailCaseStore } from '@priros/common/store/case/detail.js'
+
 import Pagination from '@priros/common/components/paging/Pagination.vue'
+
+const detailCaseStore = useDetailCaseStore()
 </script>
 <style scoped lang="scss">
 @import '@priros/common/assets/scss/detail-case/table.scss';

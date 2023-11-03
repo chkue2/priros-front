@@ -3,13 +3,13 @@
     <div class="detail-case-top-container">
       <div class="detail-case-table">
         <div class="detail-case-table-header">진행상태</div>
-        <div class="detail-case-table-contents flex-spacebetween ft-14 ft-bold">견적보고 <button class="detail-case-button" @click="toggleEstimateModalShow">견적확인</button></div>
+        <div class="detail-case-table-contents flex-spacebetween ft-14 ft-bold">{{detailCaseStore.fetchedDetailCase['state']}} <button class="detail-case-button" @click="toggleEstimateModalShow">견적확인</button></div>
         <div class="detail-case-table-header">담당자/방문담당자</div>
-        <div class="detail-case-table-contents">조성화/다이렉트로 오택상TL</div>
+        <div class="detail-case-table-contents">{{detailCaseStore.fetchedDetailCase['charge']}}/{{detailCaseStore.fetchedDetailCase['visitCharge']}}</div>
         <div class="detail-case-table-header">잔금일/잔금시간</div>
-        <div class="detail-case-table-contents">2023-09-10 / 오후 12시 20분</div>
+        <div class="detail-case-table-contents">{{ balanceDate }} / {{ balanceTime }}</div>
         <div class="detail-case-table-header">접수일/접수번호</div>
-        <div class="detail-case-table-contents">2023-09-01 / 1234-f1</div>
+        <div class="detail-case-table-contents">{{detailCaseStore.fetchedDetailCase['receptionDate']}} / {{detailCaseStore.fetchedDetailCase['receptionUid']}}</div>
       </div>
     </div>
     <div class="detail-case-status-container">
@@ -21,7 +21,7 @@
         <button class="detail-case-button button--gray">매수인/매도인 등록</button>
       </div>
       <div class="detail-case-status-card-container">
-        <DetailCaseStatusCard v-for="(status, index) in detailCaseStatus" :key="index" :statusConfig="status" :trade-case-id="route.params.id" />
+        <DetailCaseStatusCard v-for="(status, index) in detailCaseStore.fetchedDetailCase['status']" :key="index" :statusConfig="status" :trade-case-id="route.params.id" />
       </div>
     </div>
     <div class="detail-case-title-container">
@@ -31,38 +31,38 @@
     <div class="detail-case-info-container">
       <div class="detail-case-table pd">
         <div class="detail-case-table-header">목적물</div>
-        <div class="detail-case-table-contents ft-14">경기도 과천시 갈현동 135 과천 푸르지오 벨라르테103단지 1310호</div>
+        <div class="detail-case-table-contents ft-14">{{ detailCaseStore.fetchedDetailCase['address'] }}</div>
         <div class="detail-case-table-header">관할등기소</div>
         <div class="detail-case-table-contents flex-column pt-0">
           <p class="detail-case-table-contents-warning">! 필증우편금지 !</p>
-          수원지방법원 안양지원 안양등기소
+          {{ detailCaseStore.fetchedDetailCase['competentRegOffice'] }}
         </div>
         <div class="detail-case-table-header">계약서</div>
         <div class="detail-case-table-contents flex-spacebetween">매매계약서 <button class="detail-case-button" @click="toggleContactModalShow">확인</button></div>
         <div class="detail-case-table-header">매매대금</div>
-        <div class="detail-case-table-contents">875,000,000원</div>
+        <div class="detail-case-table-contents">{{ salesPrice }}원</div>
         <div class="detail-case-table-header">상환여부</div>
-        <div class="detail-case-table-contents">상환있음</div>
+        <div class="detail-case-table-contents">{{ repaymentStatus }}</div>
         <div class="detail-case-table-header">매수인</div>
-        <div class="detail-case-table-contents">유재석</div>
+        <div class="detail-case-table-contents">{{ detailCaseStore.fetchedDetailCase['buyer'] }}</div>
         <div class="detail-case-table-header">휴대폰번호</div>
-        <div class="detail-case-table-contents">010-4545-4545</div>
+        <div class="detail-case-table-contents">{{ detailCaseStore.fetchedDetailCase['phone'] }}</div>
         <div class="detail-case-table-header">이메일주소</div>
-        <div class="detail-case-table-contents"></div>
+        <div class="detail-case-table-contents">{{ detailCaseStore.fetchedDetailCase['email'] }}</div>
         <div class="detail-case-table-header">대출기관</div>
-        <div class="detail-case-table-contents">카카오뱅크</div>
+        <div class="detail-case-table-contents">{{ detailCaseStore.fetchedDetailCase['lendingBank'] }}</div>
         <div class="detail-case-table-header">상품명</div>
-        <div class="detail-case-table-contents">일반주담대</div>
+        <div class="detail-case-table-contents">{{ detailCaseStore.fetchedDetailCase['lendingName'] }}</div>
         <div class="detail-case-table-header">대출금</div>
-        <div class="detail-case-table-contents">250,000,000원</div>
+        <div class="detail-case-table-contents">{{ lendingAmount }}원</div>
         <div class="detail-case-table-header">설정대리인</div>
-        <div class="detail-case-table-contents flex-spacebetween">박명수 법무사 <button class="detail-case-button" @click="toggleConfigAgentModalShow">확인</button></div>
+        <div class="detail-case-table-contents flex-spacebetween">{{ eataAgentCharge }} <button class="detail-case-button" @click="toggleConfigAgentModalShow">확인</button></div>
         <div class="detail-case-table-header">등록기관</div>
-        <div class="detail-case-table-contents flex-spacebetween">국민은행 <button class="detail-case-button" @click="toggleRegistrarModalShow">확인</button></div>
+        <div class="detail-case-table-contents flex-spacebetween">{{ regAuth }} <button class="detail-case-button" @click="toggleRegistrarModalShow">확인</button></div>
         <div class="detail-case-table-header">배상책임보험</div>
-        <div class="detail-case-table-contents">가입대상</div>
+        <div class="detail-case-table-contents">{{ liabilityInsurance }}</div>
         <div class="detail-case-table-header">보험료</div>
-        <div class="detail-case-table-contents">15,000원</div>
+        <div class="detail-case-table-contents">{{ insurnaceFee }}원</div>
         <div class="detail-case-table-header">등기신청서 작성정보</div>
         <div class="detail-case-table-contents flex-column flex-align-start">
           <button class="detail-case-button">등기필정보 보완보고</button>
@@ -101,7 +101,7 @@
       <button class="info-modal-button" @click="toggleConfigAgentModalShow">확인</button>
     </CommonBlackTitleModal>
     <CommonBlackTitleModal v-if="isRegistrarModalShow" title="등록기관 정보확인" @handler-click-close="toggleRegistrarModalShow">
-      <DetailCaseInfoCard />
+      <DetailCaseRegAuthCard />
       <button class="info-modal-button" @click="toggleRegistrarModalShow">확인</button>
     </CommonBlackTitleModal>
     <CommonBlackTitleModal v-if="isEstimateModalShow" title="견적확인" @handler-click-close="toggleEstimateModalShow">
@@ -112,8 +112,9 @@
 </template>
 
 <script setup>
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, computed } from 'vue'
 import { useRoute } from 'vue-router'
+import { useDetailCaseStore } from '@priros/common/store/case/detail.js'
 
 import CommonBlackTitleModal from '~/components/modal/CommonBlackTitleModal.vue'
 import DetailCaseStatusCard from '~/components/card/DetailCaseStatusCard.vue'
@@ -122,19 +123,54 @@ import DetailCaseMemoTable from '@priros/common/components/table/DetailCaseMemoT
 import DetailCaseProcessedTable from '@priros/common/components/table/DetailCaseProcessedTable.vue'
 import DetailCaseFilesTable from '@priros/common/components/table/DetailCaseFilesTable.vue'
 import DetailCaseInfoCard from '~/components/card/DetailCaseInfoCard.vue'
+import DetailCaseRegAuthCard from '~/components/card/DetailCaseRegAuthCard.vue'
 import DetailCaseEstimateCard from '~/components/card/DetailCaseEstimateCard.vue'
 
-import { detailCaseStatus } from '~/assets/js/case/detailCaseStatus'
+import { isEmpty, changeTimeFormatAmPm } from '@priros/common/assets/js/utils.js'
 
 definePageMeta({
   layout: false
 })
 
 const route = useRoute()
+const detailCaseStore = useDetailCaseStore()
 
 onMounted(() => {
   console.log(route.params.id)
+  detailCaseStore.fetchDetailCase()
+  detailCaseStore.fetchChangedList()
+  detailCaseStore.fetchMemoList()
+  detailCaseStore.fetchProcessedList()
+  detailCaseStore.fetchFilesList()
 })
+
+const balanceDate = computed(() => 
+  !isEmpty(detailCaseStore.fetchedDetailCase.balanceDate) ? detailCaseStore.fetchedDetailCase.balanceDate.split(' ')[0] : ''
+)
+const balanceTime = computed(() => 
+  !isEmpty(detailCaseStore.fetchedDetailCase.balanceDate) ? changeTimeFormatAmPm(detailCaseStore.fetchedDetailCase.balanceDate.split(' ')[1]) : ''
+)
+const salesPrice = computed(() => 
+  !isEmpty(detailCaseStore.fetchedDetailCase.salesPrice) ? detailCaseStore.fetchedDetailCase.salesPrice.toLocaleString() : ''
+)
+const repaymentStatus = computed(() => 
+  detailCaseStore.fetchedDetailCase.repaymentStatus === 'Y' ? '상환있음' : '싱환없음'
+)
+const lendingAmount = computed(() => 
+  !isEmpty(detailCaseStore.fetchedDetailCase.lendingAmount) ? detailCaseStore.fetchedDetailCase.lendingAmount.toLocaleString() : ''
+)
+const eataAgentCharge = computed(() =>
+  !isEmpty(detailCaseStore.fetchedDetailCase.estaAgent) ? detailCaseStore.fetchedDetailCase.estaAgent.charge : ''
+)
+const regAuth = computed(() =>
+  !isEmpty(detailCaseStore.fetchedDetailCase.regAuth) ? detailCaseStore.fetchedDetailCase.regAuth.name : ''
+)
+const liabilityInsurance = computed(() => 
+  detailCaseStore.fetchedDetailCase.liabilityInsurance === 'Y' ? '가입대상' : '가입비대상'
+)
+const insurnaceFee = computed(() => 
+!isEmpty(detailCaseStore.fetchedDetailCase.insurnaceFee) ? detailCaseStore.fetchedDetailCase.insurnaceFee.toLocaleString() : ''
+)
 
 const tab = ref('changed')
 const handlerClickTab = (v) => {

@@ -16,7 +16,12 @@
       <div class="my-case-tab tab-right" :class="{active: tab === 'tomorrow'}" @click="handlerClickCaseTab('tomorrow')">내일(25)</div>
     </div>
   </div>
-  <div class="my-case-list">
+  <div v-if="myCaseList.length === 0" class="my-case-empty">
+    <img src="/img/cha/cha-empty.png">
+    <p class="empty-title">진행중인 내사건이 없습니다.</p>
+    <p class="empty-subtitle">우리동네 주변 사건을 둘러보세요</p>
+  </div>
+  <div v-if="myCaseList.length > 0" class="my-case-list">
     <MyCaseCard v-for="(c, index) in myCaseList" :key="index" :case-config="c" />
   </div>
 </template>
@@ -95,5 +100,28 @@ const handlerClickCaseTab = (v) => {
 }
 .my-case-list {
   padding: 23px 16px;
+}
+.my-case-empty {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 110px 0;
+  & > img {
+    width: 124px;
+    height: auto;
+  }
+  .empty-title {
+    margin: 6px 0 3px;
+    font-size: 14px;
+    font-weight: $ft-bold;
+    color: #808080;
+    line-height: 20px;
+  }
+  .empty-subtitle {
+    font-size: 14px;
+    font-weight: $ft-medium;
+    color: #bebebe;
+  }
 }
 </style>

@@ -27,8 +27,8 @@
         <span class="my-case-card-state" :class="{active: caseConfig.state === '상환'}">상환</span>
       </div>
       <div class="my-case-card-status-right">
-        <NuxtLink class="my-case-card-state active">담당자보고</NuxtLink>
-        <NuxtLink class="my-case-card-state active">일정보고</NuxtLink>
+        <NuxtLink class="my-case-card-state active" @click="handlerClickChargeReport">담당자보고</NuxtLink>
+        <NuxtLink class="my-case-card-state active" @click="handlerClickScheduleReport">일정보고</NuxtLink>
       </div>
     </div>
   </div>
@@ -63,6 +63,18 @@ const tags = computed(() => {
 const router = useRouter()
 const handlerClickCard = () => {
   router.push(`/case/detail-case/${props.caseConfig.uid}`)
+}
+
+const handlerClickChargeReport = (e) => {
+  e.preventDefault()
+  e.stopPropagation()
+  router.push(`/case/${props.caseConfig.uid}/charge-report`)
+}
+
+const handlerClickScheduleReport = (e) => {
+  e.preventDefault()
+  e.stopPropagation()
+  router.push(`/case/${props.caseConfig.uid}/schedule-report`)
 }
 </script>
 

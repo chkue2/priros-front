@@ -100,6 +100,10 @@ const isCompleted = ref(false);
 
 const btnSendDisable = false;
 
+const handleBtnSendClick = () => {
+  console.log('send')
+}
+
 </script>
 
 <style scoped lang="scss">

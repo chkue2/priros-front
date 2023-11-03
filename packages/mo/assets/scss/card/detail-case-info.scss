@@ -1,0 +1,24 @@
+.detail-case-info-card {
+  padding: 68px 12px;
+  .detail-case-info-column {
+    display: flex;
+    align-items: flex-start;
+    & + .detail-case-info-column {
+      margin-top: 12px;
+    }
+  }
+  .detail-case-info-title {
+    width: 50px;
+    font-size: 14px;
+    line-height: 18px;
+    color: #acacac;
+    text-align: left;
+  }
+  .detail-case-info-content {
+    flex: 1;
+    font-size: 14px;
+    line-height: 16px;
+    text-align: left;
+    word-break: keep-all;
+  }
+}
