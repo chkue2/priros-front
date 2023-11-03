@@ -111,7 +111,7 @@ const fetchChargeState = async (tradeCaseId) => {
     const {data} = await tradeCaseChargeService.state(tradeCaseId);
     chargeData.value = data || null;
     isChargeCompleted.value = !!data;
-
+    
     if (!data){
       fetchChargeList(tradeCaseId);
     }

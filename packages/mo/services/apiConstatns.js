@@ -10,16 +10,24 @@
 
 
 const API_TRADE_CASE = {
-    LIST: '/market/',
+  LIST: '/market/',
 };
 const API_TRADE_CASE_CHARGER = {
-    LIST:   '/trade-case/$tradeCaseId/charge',
-    REPORT: '/trade-case/$tradeCaseId/charge',
-    STATE:  '/trade-case/$tradeCaseId/charge/state'
+  LIST:   '/trade-case/$tradeCaseId/charge',
+  REPORT: '/trade-case/$tradeCaseId/charge',
+  STATE:  '/trade-case/$tradeCaseId/charge/state'
+}
+const API_TRADE_DETAIL_CASE = {
+  GET: '/trade-case/$tradeCaseId/detail',
+  CHANGED: '/trade-case/$tradeCaseId/changed',
+  MEMO: '/trade-case/$tradeCaseId/memo',
+  PROCESSED: '/trade-case/$tradeCaseId/proceessed',
+  FILES: '/trade-case/$tradeCaseId/files'
 }
 
 
 export {
-    API_TRADE_CASE,
-    API_TRADE_CASE_CHARGER
+  API_TRADE_CASE,
+  API_TRADE_CASE_CHARGER,
+  API_TRADE_DETAIL_CASE
 };
