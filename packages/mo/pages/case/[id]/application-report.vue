@@ -16,7 +16,7 @@
                 <label for="" class="form-label">등기신청서 작성정보</label>
               </div>
               <div class="form-input">
-                <textarea placeholder="등기신청서 작성 ID 및 작성번호를 입력하세요"></textarea>
+                <textarea v-model="form['writeInfo']" placeholder="등기신청서 작성 ID 및 작성번호를 입력하세요"></textarea>
               </div>
             </div>
             <div class="form-group">
@@ -24,15 +24,15 @@
                 <label for="" class="form-label">매수인별 취득지분</label>
                 <div class="label-radio">
                   <label class="form-label">
-                    <input type="radio"><span>단독명의</span>
+                    <input v-model="form['name']" name="name" type="radio" value="단독명의"><span>단독명의</span>
                   </label>
                   <label class="form-label">
-                    <input type="radio"><span>공동명의</span>
+                    <input v-model="form['name']" name="name" type="radio" value="공동명의"><span>공동명의</span>
                   </label>
                 </div>
               </div>
               <div class="form-input">
-                <textarea placeholder="매수인별로 이름과 취득지분을 입력하세요"></textarea>
+                <textarea v-model="form['interest']" placeholder="매수인별로 이름과 취득지분을 입력하세요"></textarea>
               </div>
             </div>
             <div class="form-group">
@@ -40,16 +40,16 @@
                 <label for="" class="form-label">매수인 주소변동</label>
                 <div class="label-radio">
                   <label class="form-label">
-                    <input type="radio"><span>동일</span>
+                    <input v-model="form['addressChange']" name="addressChange" type="radio" value="동일"><span>동일</span>
                   </label>
                   <label class="form-label">
-                    <input type="radio"><span>변동발생</span>
+                    <input v-model="form['addressChange']" name="addressChange" type="radio" value="변동발생"><span>변동발생</span>
                   </label>
                 </div>
               </div>
               <div class="form-input">
-                <input type="file">
-                <p class="input-file">매수인의 주민등록초본을 첨부해주세요 <img src="/img/icon/file-gray.png" alt=""></p>
+                <input ref="registration" type="file" @change="handlerChangeRegistration">
+                <p class="input-file" @click="handlerClickRegistration">{{ registrationText }} <img src="/img/icon/file-gray.png" alt=""></p>
               </div>
             </div>
             <div class="form-group">
@@ -57,7 +57,7 @@
                 <label for="" class="form-label">기타사항</label>
               </div>
               <div class="form-input">
-                <textarea placeholder="설정대리인에게 전달할 내용을 입력하세요"></textarea>
+                <textarea v-model="form['other']" placeholder="설정대리인에게 전달할 내용을 입력하세요"></textarea>
               </div>
             </div>
           </div>
@@ -80,10 +80,9 @@
 </template>
 
 <script setup>
-import {ref, computed, onMounted} from "vue";
-import {useRoute, useRouter} from "vue-router";
+import {ref, computed} from "vue";
+import { isEmpty } from '@priros/common/assets/js/utils.js'
 
-import DropDown from '@priros/common/components/form/DropDown'
 import CommonBottomButton from '@priros/common/components/button/CommonBottomButton.vue'
 
 definePageMeta({
@@ -93,6 +92,48 @@ definePageMeta({
 const isCompleted = ref(false);
 
 const btnSendDisable = false;
+
+const form = ref({})
+const registration = ref(null)
+
+const registrationText = computed(() => {
+  return !form.value['registration'] ? '매수인의 주민등록초본을 첨부해주세요' : form.value['registration'].name
+})
+
+const formValidation = computed(() => {
+  const validateEnum = ['writeInfo', 'name', 'interest', 'addressChange', 'registration']
+  for(const v of validateEnum) {
+    if(isEmpty(form.value[v])) return false
+  }
+
+  return true
+})
+
+const handlerClickRegistration = () => {
+  registration.value.click()
+}
+const handlerChangeRegistration = (e) => {
+  form.value['registration'] = e.target.files[0]
+}
+
+const handleBtnSendClick = () => {
+  if(!formValidation.value) {
+    if(isEmpty(form.value['writeInfo'])) {
+      alert('등기신청서 작성정보를 입력해주세요')
+    } else if(isEmpty(form.value['name'])) {
+      alert('매수인별 취득지분 명의를 선택해주세요')
+    } else if(isEmpty(form.value['interest'])) {
+      alert('매수인별 취득지분을 입력해주세요')
+    } else if(isEmpty(form.value['addressChange'])) {
+      alert('매수인 주소변동 여부를 선택해주세요')
+    } else if(isEmpty(form.value['registration'])) {
+      alert('매수인의 주민등록초본을 첨부해주세요')
+    }
+    return false
+  }
+
+  console.log('send')
+}
 
 </script>
 

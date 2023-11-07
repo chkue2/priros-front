@@ -9,8 +9,9 @@ const isEmpty = (param) => {
     param === undefined ||
     param === null ||
     param === '' ||
+    !param instanceof File ||
     (typeof param === 'array' ? param.length === 0 : false) ||
-    (typeof param === 'object' ? Object.keys(param).length === 0 : false)
+    (!param instanceof File  && typeof param === 'object' ? Object.keys(param).length === 0 : false)
   )
 }
 
