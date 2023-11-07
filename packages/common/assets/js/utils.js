@@ -33,4 +33,14 @@ const changeTimeFormatAmPm = (time) => {
   return `${ampm} ${hour}시 ${min}분`
 }
 
-export { isEmpty, changeTimeFormatAmPm }
+/**
+ * 원하는 길이만큼 앞에 0을 붙여서 리턴
+ * 
+ * @param {number | string} x 
+ * @param {number} len 
+ */
+const zeroStr = (x, len) => {
+  return String(x).padStart(len, '0')
+}
+
+export { isEmpty, changeTimeFormatAmPm, zeroStr }

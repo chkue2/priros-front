@@ -39,8 +39,14 @@
                 <label for="" class="form-label">잔금시간</label>
               </div>
               <div class="form-input">
-                <select><option value="시간"></option></select>
-                <select><option value="분"></option></select>
+                <select v-model="hour">
+                  <option value="">시간</option>
+                  <option v-for="i in 24" :value="zeroStr(i, 2)" :key="`h-${i}`">{{ zeroStr(i, 2) }}시</option>
+                </select>
+                <select v-model="minute">
+                  <option value="">분</option>
+                  <option v-for="m in ['00', '10', '20', '30', '40', '50']" :key="`m-${m}`" :value="m">{{ m }}분</option>
+                </select>
               </div>
             </div>
             <div class="form-group">
@@ -48,7 +54,7 @@
                 <label for="" class="form-label">잔금일</label>
               </div>
               <div class="form-input">
-                <input type="date" readonly>
+                <input v-model="date" type="date">
               </div>
             </div>
           </div>
@@ -79,6 +85,8 @@
 import {ref, computed, onMounted} from "vue";
 import {useRoute, useRouter} from "vue-router";
 
+import { isEmpty, zeroStr } from '@priros/common/assets/js/utils.js'
+
 import DropDown from '@priros/common/components/form/DropDown'
 import CommonBottomButton from '@priros/common/components/button/CommonBottomButton.vue'
 
@@ -96,11 +104,34 @@ const chargeData = ref({
     "tradeCaseId": 1
 });
 
+const hour = ref('')
+const minute = ref('')
+const date = ref('')
+
+const formValidation = computed(() => {
+  return (
+    !isEmpty(hour.value) &&
+    !isEmpty(minute.value) && 
+    !isEmpty(date.value)
+  )
+})
+
 const isCompleted = ref(false);
 
 const btnSendDisable = false;
 
 const handleBtnSendClick = () => {
+  if(!formValidation.value) {
+    if(isEmpty(hour.value)){
+      alert('잔금 시간(시간)을 선택해주세요')
+    } else if(isEmpty(minute.value)) {
+      alert('잔금 시간(분)을 선택해주세요')
+    } else if(isEmpty(date.value)) {
+      alert('잔금일을 선택해주세요')
+    }
+
+    return false
+  }
   console.log('send')
 }
 
