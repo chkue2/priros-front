@@ -16,7 +16,16 @@ const props = defineProps({
   },
   paging: {
     type: Object,
-    default: () => {}
+    default: () => {
+      return {
+        startPage: 1,
+        endPage: 1,
+        pageNo: 1,
+        totalPage: 1,
+        prevPageGroup: 1,
+        nextPageGroup: 1,
+      }
+    }
   }
 })
 const emits = defineEmits(['click-page'])
