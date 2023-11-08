@@ -2,19 +2,33 @@
   <div class="notice-list-card" :class="{open: isOpen}" @click="handlerToggleNoticeCardOpen">
     <div class="notice-list-card-top">
       <div class="notice-list-card-left">
-        <p class="notice-list-card-title">사건 수임방식 변경 관련 안내 <img src="/img/icon/board-new.svg" aria-hidden></p>
-        <p class="notice-list-card-date">2023.04.14</p>
+        <p class="notice-list-card-title">{{ title }} <img src="/img/icon/board-new.svg" aria-hidden></p>
+        <p class="notice-list-card-date">{{ created }}</p>
       </div>
       <img src="/img/icon/expand-right-gray.svg" aria-hidden class="notice-list-card-expand">
     </div>
-    <div class="notice-list-card-contents">
-      안녕하세요.<br>등기마켓 프리로스 입니다.<br><br>기존 간편결제와 별도로<br>법인결제(일반결제) 기능이 추가되었습니다.<br>법인결제(일반결제)는 카드사마다 결제방법이 달라서<br>결제에 대한 문의사항은 나이스페이쪽으로 문의바랍니다.<br>(결제창 하단의 버튼 클릭하여 문의하시면 됩니다.)<br><br>프리로스에서 수임시 일반결제를 사용하는 방법은 프리로스 메뉴얼을 참고 바랍니다.
+    <div class="notice-list-card-contents" v-html="notice.content">
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
+
+const props = defineProps({
+  notice: {
+    type: Object,
+    default: () => {}
+  }
+})
+
+const title = computed(() => {
+  return !props.notice.title ? '' : props.notice.title.replace(/&quot;/gi, '"')
+})
+const created = computed(() => {
+  return !props.notice.created ? '' : props.notice.created.split(' ')[0]
+})
+
 let isOpen = ref(false)
 const handlerToggleNoticeCardOpen = () => {
   isOpen.value = !isOpen.value
@@ -41,6 +55,7 @@ const handlerToggleNoticeCardOpen = () => {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 12px;
     .notice-list-card-title {
       display: flex;
       gap: 4px;
@@ -67,6 +82,15 @@ const handlerToggleNoticeCardOpen = () => {
     max-height: 0;
     overflow: hidden;
     transition: all .3s ease-in-out;
+    &::v-deep(p, span){
+      font-size: 12px;
+      font-weight: $ft-medium;
+      line-height: 17px;
+    }
+    &::v-deep(img){
+      max-width: 100%;
+      height: auto;
+    }
   }
 }
 </style>

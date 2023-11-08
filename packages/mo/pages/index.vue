@@ -18,13 +18,13 @@
       </swiper-slide>
     </swiper>
   </div>
-  <NuxtLink to="/" class="move-case-registration"><span>지난주에만 300건의 사건이 등록되었어요!</span><img src="/img/icon/expand-right-gray.svg" alt="등록된 사건 보기"></NuxtLink>
+  <NuxtLink to="/" class="move-case-registration"><span>지난주에만 {{ recentCaseCnt }}건의 사건이 등록되었어요!</span><img src="/img/icon/expand-right-gray.svg" alt="등록된 사건 보기"></NuxtLink>
   <div class="main-counts">
     <div class="main-counts-block">
       <img src="/img/icon/folder.png" aria-hidden class="main-counts-block-icon">
       <div class="main-counts-block-right">
         <span class="main-counts-block-title">누적사건 수</span>
-        <span class="main-counts-block-content"><b>2852</b>건</span>
+        <span class="main-counts-block-content"><b>{{ totalCaseCnt }}</b>건</span>
       </div>
     </div>
     <i class="main-counts-line"></i>
@@ -32,7 +32,7 @@
       <img src="/img/icon/chat-green.png" aria-hidden class="main-counts-block-icon">
       <div class="main-counts-block-right">
         <span class="main-counts-block-title">등록전문가 수</span>
-        <span class="main-counts-block-content"><b>63</b>명</span>
+        <span class="main-counts-block-content"><b>{{ userCnt }}</b>명</span>
       </div>
     </div>
   </div>
@@ -41,7 +41,7 @@
       <p class="main-notice-title">공지사항</p>
       <p class="main-notice-more" @click="handlerClickMoveToNoticeList">더 알아보기 <img src="/img/icon/expand-right-lightgray.svg" aira-hidden></p>
     </div>
-    <NoticeCard />
+    <NoticeCard :board="recentBoard" />
   </div>
   <p class="main-title-text">프리로스마켓은 어떤 앱인가요?</p>
   <p class="main-content-text">프리로스마켓은 부동산 등기가 필요한 사람과 등기사건을 수행하는 전문가가 만나는 공간입니다.</p>
@@ -68,81 +68,70 @@
     <MainReviewLanding @handler-click-close="toggleMainReviewLandingModal" />
   </CommonFullScreenFadeModal>
 </template>
-<script>
-import { ref } from 'vue'
+<script setup>
+import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import {Swiper, SwiperSlide} from 'swiper/vue'
 import SwiperCard from '~/components/card/SwiperCard.vue'
 import NoticeCard from '~/components/card/NoticeCard.vue'
 import MainHowToUseCard from '~/components/card/MainHowToUseCard.vue'
-import CommonBottomButton from '@priros/common/components/button/CommonBottomButton.vue'
 import CommonFullScreenFadeModal from '~/components/modal/CommonFullScreenFadeModal.vue'
 import MainIntroLanding from '~/components/landing/MainIntroLanding.vue'
 import MainReviewLanding from '~/components/landing/MainReviewLanding.vue'
 import { banners } from '~/assets/js/main/swiperBanner'
 import { howToUse } from '~/assets/js/main/howToUse'
 import { partners } from '~/assets/js/main/partners'
+import { intro } from "~/services/intro.js";
 
 import 'swiper/css'
 
-export default {
-  name: 'IndexPage',
-  components: {
-    Swiper,
-    SwiperSlide,
-    SwiperCard,
-    NoticeCard,
-    MainHowToUseCard,
-    CommonBottomButton,
-    CommonFullScreenFadeModal,
-    MainIntroLanding,
-    MainReviewLanding,
-  },
-  setup() {
-    let isMainIntroLandingModalShow = ref(false)
-    const toggleMainIntroLandingModal = () => {
-      isMainIntroLandingModalShow.value = !isMainIntroLandingModalShow.value
-    }
-    let isMainReviewLandingModalShow = ref(false)
-    const toggleMainReviewLandingModal = () => {
-      isMainReviewLandingModalShow.value = !isMainReviewLandingModalShow.value
-    }
+const totalCaseCnt = ref(0)
+const recentCaseCnt = ref(0)
+const userCnt = ref(0)
+const recentBoard = ref({})
 
-    // 배너 추가되면 따로 수정해줘야하는 방식
-    const handlerClickMainBanner = ({page}) => {
-      switch(page){
-        case '1':
-          toggleMainIntroLandingModal()
-          break
-        case '2':
-          toggleMainReviewLandingModal()
-          break
-        case '3':
-          handlerClickMoveToNoticeList()
-          break
-        default:
-          return
-      }
-    }
+onMounted(() => {
+  intro.get().then(({data}) => {
+    totalCaseCnt.value = data.value.totalCaseCnt
+    recentCaseCnt.value = data.value.recentCaseCnt
+    userCnt.value = data.value.userCnt
+    recentBoard.value = data.value.recentBoardList[0]
+    console.log(recentBoard.value)
+  }).catch(e => {
+    console.log(e)
+  })
+})
 
-    const router = useRouter()
+let isMainIntroLandingModalShow = ref(false)
+const toggleMainIntroLandingModal = () => {
+  isMainIntroLandingModalShow.value = !isMainIntroLandingModalShow.value
+}
+let isMainReviewLandingModalShow = ref(false)
+const toggleMainReviewLandingModal = () => {
+  isMainReviewLandingModalShow.value = !isMainReviewLandingModalShow.value
+}
 
-    const handlerClickMoveToNoticeList = () => {
-      router.push('/notice/list')
-    }
+// 배너 추가되면 따로 수정해줘야하는 방식
+const handlerClickMainBanner = ({page}) => {
+  switch(page){
+    case '1':
+      toggleMainIntroLandingModal()
+      break
+    case '2':
+      toggleMainReviewLandingModal()
+      break
+    case '3':
+      handlerClickMoveToNoticeList()
+      break
+    default:
+      return
+  }
+}
 
-    return {
-      banners,
-      howToUse,
-      partners,
-      isMainIntroLandingModalShow,
-      isMainReviewLandingModalShow,
-      toggleMainIntroLandingModal,
-      toggleMainReviewLandingModal,
-      handlerClickMainBanner,
-      handlerClickMoveToNoticeList
-    }
-  },
+const router = useRouter()
+
+const handlerClickMoveToNoticeList = () => {
+  router.push('/notice/list')
 }
 </script>
 

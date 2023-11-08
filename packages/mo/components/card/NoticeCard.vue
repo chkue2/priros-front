@@ -1,9 +1,18 @@
 <template>
   <div class="notice-card">
-    <p class="notice-card-title">사건 수임방식 변경 안내 <img src="/img/icon/board-new.svg" aria-hidden></p>
-    <p class="notice-card-date">2023.10.14</p>
+    <p class="notice-card-title">{{board.title}} <img src="/img/icon/board-new.svg" aria-hidden></p>
+    <p class="notice-card-date">{{ board.created }}</p>
   </div>
 </template>
+
+<script setup>
+const props = defineProps({
+  board: {
+    type: Object,
+    default: () => {}
+  }
+})
+</script>
 
 <style lang="scss" scoped>
 .notice-card {
