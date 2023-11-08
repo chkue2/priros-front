@@ -27,6 +27,10 @@ const fetchNoticeList = (page) => {
   notice.list(page).then(({data}) => {
     noticeList.value = data.value.noticeList
     paging.value = data.value.paging
+
+    document.querySelectorAll('.notice-list-card').forEach(elm => {
+      elm.classList.remove('open')
+    })
   })
   .catch(e => {
     console.log(e)

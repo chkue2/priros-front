@@ -27,6 +27,10 @@ const fetchFaqList = (page) => {
   faq.list(page).then(({data}) => {
     faqList.value = data.value.faqList
     paging.value = data.value.paging
+
+    document.querySelectorAll('.notice-list-card').forEach(elm => {
+      elm.classList.remove('open')
+    })
   })
   .catch(e => {
     console.log(e)

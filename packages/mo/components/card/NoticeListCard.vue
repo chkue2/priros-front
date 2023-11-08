@@ -85,7 +85,7 @@ const handlerToggleNoticeCardOpen = () => {
     padding: 0 8px;
     max-height: 0;
     overflow: hidden;
-    transition: all .3s ease-in-out;
+    transition: all .15s ease-in-out;
     &::v-deep(p, span){
       font-size: 12px;
       font-weight: $ft-medium;
