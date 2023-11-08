@@ -4,9 +4,8 @@ const useApi = async (endpoint, options = {}, data = null) => {
     const method = options.method || 'GET';
     const useData = {...options.data, ...data};
 
-
     return await useFetch(endpoint, {
-        baseURL: $config.public.apiURL, method: method, data: useData, onRequest(context) {
+        baseURL: $config.public.apiURL, method: method, params: useData, onRequest(context) {
 
             // 토큰 방식일때 샘플
             // context.options.headers = new Headers(context.options.headers)
@@ -27,7 +26,7 @@ const callApi = async (endpoint, options = {}, data = null) => {
 
 const getEndpoint = (url, params) => {
     let endpoint = url;
-
+ 
     for (const key in params) {
         endpoint = endpoint.replace(`$${key}`, params[key]);
     }

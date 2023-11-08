@@ -2,23 +2,50 @@
 import { Style } from '#build/components';
 <template>
   <div id="pagination" class="pagination">
-    <span class="page-prev"></span>
-    <span class="active">1</span>
-    <span>2</span>
-    <span>3</span>
-    <span>4</span>
-    <span>5</span>
-    <span class="page-next active"></span>
+    <span class="page-prev" :class="{active: isPrevEnable}" @click="handlerClickPrevPage"></span>
+    <span v-for="i in pages" :key="i" :class="{active: paging.pageNo === i}" @click="handlerClickPage(i)">{{ i }}</span>
+    <span class="page-next" :class="{active: isNextEnable}" @click="handlerClickNextPage"></span>
   </div>
 </template>
 <script setup>
-import { onMounted } from 'vue'
+import { onMounted, computed } from 'vue'
 const props = defineProps({
   marginTop: {
     type: [Number, String],
     default: '0px'
+  },
+  paging: {
+    type: Object,
+    default: () => {}
   }
 })
+const emits = defineEmits(['click-page'])
+
+const pages = computed(() => {
+  const res = []
+  for(let i = props.paging.startPage; i <= props.paging.endPage; i++) {
+    res.push(i)
+  }
+  return res
+})
+const isPrevEnable = computed(() => {
+  return props.paging.pageNo > 1
+})
+const isNextEnable = computed(() => {
+  return props.paging.totalPage !== props.paging.pageNo
+})
+
+const handlerClickPrevPage = () => {
+  if(!isPrevEnable.value) return false
+  handlerClickPage(props.paging.prevPageGroup)
+}
+const handlerClickNextPage = () => {
+  if(!isNextEnable.value) return false
+  handlerClickPage(props.paging.nextPageGroup)
+}
+const handlerClickPage = (page) => {
+  emits('click-page', page)
+}
 
 onMounted(() => {
   document.querySelector('#pagination').style.marginTop = typeof props.marginTop === 'number' ? `${props.marginTop}px` : props.marginTop

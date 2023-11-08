@@ -2,7 +2,7 @@
   <NuxtLayout name="dialog-header" headerTitle="공지사항">
     <div v-if="noticeList.length > 0" class="notice-list">
       <NoticeListCard v-for="(notice, index) in noticeList" :key="index" :notice="notice" />
-      <Pagination :margin-top="64" />
+      <Pagination :margin-top="64" :paging="paging" @click-page="fetchNoticeList" />
     </div>
   </NuxtLayout>
 </template>
@@ -17,14 +17,21 @@ definePageMeta({
 })
 
 const noticeList = ref([])
+const paging = ref({})
 onMounted(() => {
-  notice.list().then(({data}) => {
+  fetchNoticeList(1)
+})
+
+
+const fetchNoticeList = (page) => {
+  notice.list(page).then(({data}) => {
     noticeList.value = data.value.noticeList
+    paging.value = data.value.paging
   })
   .catch(e => {
     console.log(e)
   })
-})
+}
 </script>
 
 <style scoped lang="scss">

@@ -2,8 +2,8 @@ import {callApi, getEndpoint} from "~/composables/useApi.js";
 import {API_FAQ} from "./apiConstatns.js";
 
 export const faq = {
-  async list() {
-    const endpoint = getEndpoint(API_FAQ.LIST)
-    return await callApi(endpoint)
+  async list(pageNo) {
+    const endpoint = getEndpoint(API_FAQ.LIST, {pageNo})
+    return await callApi(endpoint, {data: {pageNo}})
   }
 }

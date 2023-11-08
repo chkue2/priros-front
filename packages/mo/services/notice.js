@@ -2,8 +2,8 @@ import {callApi, getEndpoint} from "~/composables/useApi.js";
 import {API_NOTICE} from "./apiConstatns.js";
 
 export const notice = {
-  async list() {
-    const endpoint = getEndpoint(API_NOTICE.LIST)
-    return await callApi(endpoint)
+  async list(pageNo) {
+    const endpoint = getEndpoint(API_NOTICE.LIST, {pageNo})
+    return await callApi(endpoint, {data: {pageNo}})
   }
 }
