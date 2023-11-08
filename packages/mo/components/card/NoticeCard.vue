@@ -1,16 +1,24 @@
 <template>
   <div class="notice-card">
-    <p class="notice-card-title">{{board.title}} <img src="/img/icon/board-new.svg" aria-hidden></p>
-    <p class="notice-card-date">{{ board.created }}</p>
+    <p class="notice-card-title">{{notice.title}} <img v-if="isNew" src="/img/icon/board-new.svg" aria-hidden></p>
+    <p class="notice-card-date">{{ created }}</p>
   </div>
 </template>
 
 <script setup>
+import { computed } from 'vue'
+import dayjs from '@priros/common/node_modules/dayjs'
 const props = defineProps({
-  board: {
+  notice: {
     type: Object,
     default: () => {}
   }
+})
+const created = computed(() => {
+  return !props.notice.created ? '' : dayjs(props.notice.created).format('YYYY-MM-DD')
+})
+const isNew = computed(() => {
+  return !props.notice.created ? false : dayjs(props.notice.created).diff(dayjs(), 'day') > -7
 })
 </script>
 

@@ -1,6 +1,6 @@
 <template>
   <NuxtLayout name="dialog-header" headerTitle="공지사항">
-    <div class="notice-list">
+    <div v-if="noticeList.length > 0" class="notice-list">
       <NoticeListCard v-for="(notice, index) in noticeList" :key="index" :notice="notice" />
       <Pagination :margin-top="64" />
     </div>

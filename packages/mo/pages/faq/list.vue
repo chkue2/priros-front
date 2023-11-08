@@ -1,17 +1,30 @@
 <template>
   <NuxtLayout name="dialog-header" headerTitle="헬프센터">
-    <div class="faq-list">
-      <NoticeListCard v-for="i in 10" :key="i" />
+    <div v-if="faqList.length > 0" class="faq-list">
+      <NoticeListCard v-for="(faq, index) in faqList" :key="index" :notice="faq" />
       <Pagination :margin-top="64" />
     </div>
   </NuxtLayout>
 </template>
 
 <script setup>
+import { ref, onMounted } from 'vue'
 import NoticeListCard from '~/components/card/NoticeListCard'
 import Pagination from '@priros/common/components/paging/Pagination'
+import { faq } from '~/services/faq.js'
 definePageMeta({
   layout: false
+})
+
+const faqList = ref([])
+
+onMounted(() => {
+  faq.list().then(({data}) => {
+    faqList.value = data.value.faqList
+  })
+  .catch(e => {
+    console.log(e)
+  })
 })
 </script>
 

@@ -14,6 +14,9 @@ const API_INTRO = {
 const API_NOTICE = {
   LIST: '/notice/list'
 }
+const API_FAQ = { 
+  LIST: '/faq/list'
+}
 const API_TRADE_CASE = {
   LIST: '/market/',
 };
@@ -34,6 +37,7 @@ const API_TRADE_DETAIL_CASE = {
 export {
   API_INTRO,
   API_NOTICE,
+  API_FAQ,
   API_TRADE_CASE,
   API_TRADE_CASE_CHARGER,
   API_TRADE_DETAIL_CASE

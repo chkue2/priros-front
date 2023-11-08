@@ -2,7 +2,7 @@
   <div class="notice-list-card" :class="{open: isOpen}" @click="handlerToggleNoticeCardOpen">
     <div class="notice-list-card-top">
       <div class="notice-list-card-left">
-        <p class="notice-list-card-title">{{ title }} <img src="/img/icon/board-new.svg" aria-hidden></p>
+        <p class="notice-list-card-title">{{ title }} <img v-if="isNew" src="/img/icon/board-new.svg" aria-hidden></p>
         <p class="notice-list-card-date">{{ created }}</p>
       </div>
       <img src="/img/icon/expand-right-gray.svg" aria-hidden class="notice-list-card-expand">
@@ -14,6 +14,7 @@
 
 <script setup>
 import { ref, computed } from 'vue'
+import dayjs from '@priros/common/node_modules/dayjs'
 
 const props = defineProps({
   notice: {
@@ -26,7 +27,10 @@ const title = computed(() => {
   return !props.notice.title ? '' : props.notice.title.replace(/&quot;/gi, '"')
 })
 const created = computed(() => {
-  return !props.notice.created ? '' : props.notice.created.split(' ')[0]
+  return !props.notice.created ? '' : dayjs(props.notice.created).format('YYYY-MM-DD')
+})
+const isNew = computed(() => {
+  return !props.notice.created ? false : dayjs(props.notice.created).diff(dayjs(), 'day') > -7
 })
 
 let isOpen = ref(false)

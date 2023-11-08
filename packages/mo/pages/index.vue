@@ -41,7 +41,7 @@
       <p class="main-notice-title">공지사항</p>
       <p class="main-notice-more" @click="handlerClickMoveToNoticeList">더 알아보기 <img src="/img/icon/expand-right-lightgray.svg" aira-hidden></p>
     </div>
-    <NoticeCard :board="recentBoard" />
+    <NoticeCard :notice="recentBoard" />
   </div>
   <p class="main-title-text">프리로스마켓은 어떤 앱인가요?</p>
   <p class="main-content-text">프리로스마켓은 부동산 등기가 필요한 사람과 등기사건을 수행하는 전문가가 만나는 공간입니다.</p>
@@ -96,7 +96,6 @@ onMounted(() => {
     recentCaseCnt.value = data.value.recentCaseCnt
     userCnt.value = data.value.userCnt
     recentBoard.value = data.value.recentBoardList[0]
-    console.log(recentBoard.value)
   }).catch(e => {
     console.log(e)
   })
