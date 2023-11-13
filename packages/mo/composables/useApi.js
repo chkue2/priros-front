@@ -13,14 +13,12 @@ const useApi = async (endpoint, options = {}, data = null) => {
         baseURL: $config.public.apiURL, method: method, ...optionsForMethod, onRequest({request, options}) {
 
             const token = sessionStorage.getItem(userSessionKey);
-
-
             options.headers = options.headers || {};
-            options.headers.Accept = "application/json";
+            // options.headers.Accept = "application/json";
 
-            // 토큰 방식일때 샘플
+            //
             if (token) {
-                options.headers.Authrization = `Bearer ${JSON.parse(token).token}`;
+                options.headers.Authorization = `Bearer ${JSON.parse(token).token}`;
             }
 
         }, onResponse({request, response, options}) {
