@@ -10,17 +10,19 @@ const useApi = async (endpoint, options = {}, data = null) => {
     console.log(optionsForMethod)
 
     return await useFetch(endpoint, {
-        baseURL: $config.public.apiURL, method: method, ...optionsForMethod, onRequest(context) {
+        baseURL: $config.public.apiURL, method: method, ...optionsForMethod, onRequest({request, options}) {
+
+            const token = sessionStorage.getItem(userSessionKey);
+
+
+            options.headers = options.headers || {};
+            options.headers.Accept = "application/json";
 
             // 토큰 방식일때 샘플
-            const token = sessionStorage.getItem(userSessionKey)
-            console.log(token)
-            if(token) {
-                context.options.headers = new Headers(context.options.headers)
-                context.options.headers.append('Authrization', `Bearer ${JSON.parse(token).token}`)
-                // context.options.headers.append('Authrization', JSON.parse(token).token)
+            if (token) {
+                options.headers.Authrization = `Bearer ${JSON.parse(token).token}`;
             }
-            return context;
+
         }, onResponse({request, response, options}) {
             console.log(request, 'request')
             console.log(response, 'response')
@@ -40,7 +42,7 @@ const callApi = async (endpoint, options = {}, data = null) => {
 
 const getEndpoint = (url, params) => {
     let endpoint = url;
- 
+
     for (const key in params) {
         endpoint = endpoint.replace(`$${key}`, params[key]);
     }
