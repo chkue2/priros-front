@@ -4,7 +4,7 @@
     <p class="join-subtitle">로그인하셔야 사용가능한 서비스입니다.</p>
     <div class="login-form">
       <div class="join-form-input-container mb-11">
-        <input v-model="credentials.userName" type="text" name="user_name" class="join-form-input"
+        <input v-model="credentials.userId" type="text" name="user_name" class="join-form-input"
                placeholder="아이디를 입력해주세요">
       </div>
       <div class="join-form-input-container">
@@ -59,8 +59,8 @@ const handlerClickSwitchToggle = () => {
 }
 
 const credentials = ref({
-  'userName': '',
-  'password': ''
+  'userId': 'remagine4',
+  'password': 'dhxortkd2319!'
 });
 
 const handlerClickLoginButton = async () => {

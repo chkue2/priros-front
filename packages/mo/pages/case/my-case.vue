@@ -8,12 +8,14 @@
   </div>
   <div class="my-case-filters">
     <div class="my-case-tabs">
-      <div class="my-case-tab tab-left" :class="{active: tab === 'all'}" @click="handlerClickCaseTab('all')">전체(40)</div>
-      <div class="my-case-tab tab-center" :class="{active: tab === 'today'}" @click="handlerClickCaseTab('today')">
-        <img src="/img/icon/check-circle-green.svg" aria-hidden>
-        오늘(15)
-      </div>
-      <div class="my-case-tab tab-right" :class="{active: tab === 'tomorrow'}" @click="handlerClickCaseTab('tomorrow')">내일(25)</div>
+      <div class="my-case-tab tab-left" :class="{active: filter === 'all'}" @click="handlerClickCaseFilter('all')">전체(40)</div>
+      <div class="my-case-tab tab-center" :class="{active: filter === 'ing'}" @click="handlerClickCaseFilter('ing')">진행중(15)</div>
+      <div class="my-case-tab tab-right" :class="{active: filter === 'success'}" @click="handlerClickCaseFilter('success')">완료(25)</div>
+    </div>
+    <div class="my-case-date-filters">
+      <div class="my-case-date-filter" :class="{active: tab === 'all'}" @click="handlerClickCaseTab('all')">전체</div>
+      <div class="my-case-date-filter" :class="{active: tab === 'today'}" @click="handlerClickCaseTab('today')">오늘</div>
+      <div class="my-case-date-filter" :class="{active: tab === 'tomorrow'}" @click="handlerClickCaseTab('tomorrow')">내일</div>
     </div>
   </div>
   <div v-if="myCaseList.length === 0" class="my-case-empty">
@@ -32,6 +34,11 @@ import MyCaseCard from '~/components/card/MyCaseCard.vue'
 import { myCaseList } from '~/assets/js/case/myCase'
 
 let tab = ref('today')
+let filter = ref('all')
+
+const handlerClickCaseFilter = (v) => {
+  filter.value = v
+}
 const handlerClickCaseTab = (v) => {
   tab.value = v
 }
@@ -98,8 +105,40 @@ const handlerClickCaseTab = (v) => {
     }
   }
 }
+.my-case-date-filters {
+  padding: 0 16px 12px;
+  display: flex;
+  margin-top: 12px;
+  .my-case-date-filter {
+    flex: 1;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0px 2px 5px 0px #26334D08;
+    border: 2px solid #f5f6f7;
+    font-size: 12px;
+    font-weight: $ft-bold;
+    color: #c5c6cc;
+    transform: color .2s ease-in-out;
+    & + .my-case-date-filter {
+      border-left: none;
+    }
+    &.active {
+      color: #343434;
+    }
+    &:nth-child(1) {
+      border-top-left-radius: 30px;
+      border-bottom-left-radius: 30px;
+    }
+    &:nth-child(3) {
+      border-top-right-radius: 30px;
+      border-bottom-right-radius: 30px;
+    }
+  }
+}
 .my-case-list {
-  padding: 23px 16px;
+  padding: 12px 16px 23px;
 }
 .my-case-empty {
   display: flex;
