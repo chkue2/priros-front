@@ -92,10 +92,10 @@ const recentBoard = ref({})
 
 onMounted(() => {
   intro.get().then(({data}) => {
-    totalCaseCnt.value = data.value.totalCaseCnt
-    recentCaseCnt.value = data.value.recentCaseCnt
-    userCnt.value = data.value.userCnt
-    recentBoard.value = data.value.recentBoardList[0]
+    totalCaseCnt.value = data.totalCaseCnt
+    recentCaseCnt.value = data.recentCaseCnt
+    userCnt.value = data.userCnt
+    recentBoard.value = data.recentBoardList[0]
   }).catch(e => {
     console.log(e)
   })

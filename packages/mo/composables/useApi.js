@@ -1,4 +1,8 @@
+import axios from 'axios'
+
 const userTokenkey = 'token-user';
+
+const $runtimeConfig = useRuntimeConfig();
 
 const useApi = async (endpoint, options = {}, data = null) => {
 
@@ -43,5 +47,34 @@ const getEndpoint = (url, params) => {
     return endpoint;
 }
 
+// axios 활용
+
+const POST = async (url, data = {}) => {
+    return await axios.post($runtimeConfig.public.apiURL + url, data)
+}
+
+const GET = async (url, data = {}) => {
+    return await axios.get($runtimeConfig.public.apiURL + url, {
+        params: {
+            ...data
+        }
+    })
+}
+
+const GET_AUTH = async (url, data = {}) => {
+    const token = sessionStorage.getItem(userTokenkey);
+    if(!token) {
+        alert('토큰 없슴')
+    }
+    return await axios.get($runtimeConfig.public.apiURL + url, {
+        params: {
+            ...data
+        }, 
+        headers: {
+            Authorization: `Bearer ${JSON.parse(token).token}`
+        }
+    })
+}
+
 export default useApi;
-export {callApi, getEndpoint};
+export {callApi, getEndpoint, POST, GET, GET_AUTH};

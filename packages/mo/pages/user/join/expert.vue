@@ -5,7 +5,7 @@
     <div class="join-form">
       <p class="join-form-title">회원유형 *</p>
       <div class="join-form-input-container">
-        <select v-model="form['userType']" class="join-form-input">
+        <select v-model="form['firmType']" class="join-form-input">
           <option value="">선택해주세요</option>
           <option v-for="t in userTypeEnum" :key="t" :value="t">{{ t }}</option>
         </select>
@@ -72,6 +72,7 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import CommonBottomButton from '@priros/common/components/button/CommonBottomButton.vue'
+import { join } from '~/services/join.js'
 
 const userTypeEnum = ['법무사', '합동법무사', '법무사법인', '변호사', '합동변호사', '법무법인', '금융기관', '일반사용자', '공인중개사']
 
@@ -80,7 +81,7 @@ const handlerClickCancelButton = () => {
   router.back()
 }
 
-const validateEnum = ['userType', 'position', 'name', 'phone', 'tel', 'businessLicense', 'expertLicense', 'expiredDate', 'cert']
+const validateEnum = ['firmType', 'position', 'name', 'phone', 'tel', 'businessLicense', 'expertLicense', 'expiredDate', 'cert']
 const form = ref({})
 const isAgree = ref(false)
 
@@ -137,7 +138,7 @@ const certButtonText = computed(() =>
 
 const handlerClickApplyButton = () => {
   if(!formValidation.value) {
-    if(form.value['userType'] === undefined || form.value['userType'] === '') {
+    if(form.value['firmType'] === undefined || form.value['firmType'] === '') {
       alert('회원유형을 선택해주세요')
     } else if(form.value['position'] === undefined || form.value['position'] === ''){
       alert('직책을 입력해주세요')
@@ -159,7 +160,30 @@ const handlerClickApplyButton = () => {
 
     return false
   }
-  router.push('/user/join/expert-success')
+
+  const formData = new FormData()
+  formData.append('firmType', form.value['firmType'])
+  formData.append('position', form.value['position'])
+  formData.append('charge', form.value['name'])
+  // formData.append('responseNumber', form.value['responseNumber']) // 본인확인 도입 후에 설정
+  formData.append('responseNumber', 'test')
+  formData.append('mobile', form.value['phone'])
+  formData.append('phone', form.value['tel'])
+  formData.append('email', form.value['email'] || '')
+  formData.append('expirationDate', form.value['expiredDate'])
+  formData.append('taxFile', form.value['businessLicense'])
+  formData.append('insureFile', form.value['expertLicense'])
+  formData.append('insureFile', form.value['cert'])
+
+  join.expert(formData).then(response => {
+    console.log(response)
+  })
+  .catch(e => {
+    console.log(e)
+  })
+
+
+  // router.push('/user/join/expert-success')
 }
 </script>
 

@@ -1,4 +1,5 @@
 import {defineStore} from 'pinia';
+import {POST, GET_AUTH} from '~/composables/useApi.js'
 
 const userTokenkey = 'token-user';
 const userSessionKey = 'auth-user';
@@ -15,13 +16,13 @@ export const useAuthStore = defineStore("auth", {
         },
         async login(credentials) {
             try {
-                const response = await useApi('/auth/login', {method: "POST",data: credentials});
-                if (response && response.data) {
-                    if (typeof window !== 'undefined'){
-                        sessionStorage.setItem(userTokenkey, JSON.stringify({token: response.data.value.token}));
+                await POST('/auth/login', credentials).then((response) => {
+                    if (response && response.data) {
+                        if (typeof window !== 'undefined'){
+                            sessionStorage.setItem(userTokenkey, JSON.stringify({token: response.data.token}));
+                        }
                     }
-                }
-                //     return true;
+                })
                 // } else {
                 //     throw new Error('로그인 실패');
                 // }
@@ -60,11 +61,11 @@ export const useAuthStore = defineStore("auth", {
         },
         userProfile() {
             try {
-                useApi('/user/profile').then((response) => {
+                GET_AUTH('/user/profile').then((response) => {
                     if(response && response.data) {
                         this.user = {
                             profile : { 
-                                ...response.data.value
+                                ...response.data
                             }
                         }
                         if (typeof window !== 'undefined'){

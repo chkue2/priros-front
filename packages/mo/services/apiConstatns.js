@@ -8,6 +8,9 @@
 *
 * */
 
+const API_JOIN = {
+  EXPERT: '/join-firm'
+}
 const API_INTRO = {
   GET: '/intro'
 }
@@ -35,6 +38,7 @@ const API_TRADE_DETAIL_CASE = {
 
 
 export {
+  API_JOIN,
   API_INTRO,
   API_NOTICE,
   API_FAQ,

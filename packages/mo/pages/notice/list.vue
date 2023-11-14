@@ -25,8 +25,8 @@ onMounted(() => {
 
 const fetchNoticeList = (page) => {
   notice.list(page).then(({data}) => {
-    noticeList.value = data.value.noticeList
-    paging.value = data.value.paging
+    noticeList.value = data.noticeList
+    paging.value = data.paging
 
     document.querySelectorAll('.notice-list-card').forEach(elm => {
       elm.classList.remove('open')
