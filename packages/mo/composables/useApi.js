@@ -53,6 +53,16 @@ const POST = async (url, data = {}) => {
     return await axios.post($runtimeConfig.public.apiURL + url, data)
 }
 
+const POST_AUTH = async (url, data = {}) => {
+    const token = sessionStorage.getItem(userTokenkey);
+    if(!token) {
+        alert('토큰 없슴')
+    }
+    return await axios.post($runtimeConfig.public.apiURL + url, data, {
+        headers: {Authorization: `Bearer ${JSON.parse(token).token}`}
+    })
+}
+
 const GET = async (url, data = {}) => {
     return await axios.get($runtimeConfig.public.apiURL + url, {
         params: {
@@ -77,4 +87,4 @@ const GET_AUTH = async (url, data = {}) => {
 }
 
 export default useApi;
-export {callApi, getEndpoint, POST, GET, GET_AUTH};
+export {callApi, getEndpoint, POST, POST_AUTH, GET, GET_AUTH};
