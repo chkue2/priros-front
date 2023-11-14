@@ -1,4 +1,4 @@
-const userSessionKey = 'auth-user';
+const userTokenkey = 'token-user';
 
 const useApi = async (endpoint, options = {}, data = null) => {
 
@@ -7,12 +7,11 @@ const useApi = async (endpoint, options = {}, data = null) => {
     const useData = {...options.data, ...data};
 
     const optionsForMethod = options.method === 'POST' ? {body: useData} : {params: useData}
-    console.log(optionsForMethod)
 
     return await useFetch(endpoint, {
         baseURL: $config.public.apiURL, method: method, ...optionsForMethod, onRequest({request, options}) {
 
-            const token = sessionStorage.getItem(userSessionKey);
+            const token = sessionStorage.getItem(userTokenkey);
             options.headers = options.headers || {};
             // options.headers.Accept = "application/json";
 
@@ -20,11 +19,6 @@ const useApi = async (endpoint, options = {}, data = null) => {
             if (token) {
                 options.headers.Authorization = `Bearer ${JSON.parse(token).token}`;
             }
-
-        }, onResponse({request, response, options}) {
-            console.log(request, 'request')
-            console.log(response, 'response')
-            console.log(options, 'options')
         }
     })
 }
@@ -32,6 +26,7 @@ const useApi = async (endpoint, options = {}, data = null) => {
 const callApi = async (endpoint, options = {}, data = null) => {
     const response = await useApi(endpoint, options, data);
     if (response.error.value) {
+        console.log(response.error.value.data.status)
         console.log("throw error");
         throw new Error(response.error.value);
     }

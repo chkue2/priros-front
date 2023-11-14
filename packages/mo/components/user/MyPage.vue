@@ -3,7 +3,7 @@
     <div class="profile-content">
       <div class="title">
         <p>
-          <strong class="fw(800)">{{ profile.name }} {{ profile.position }}</strong> 님의
+          <strong class="fw(800)">{{ profile.userName }} {{ profile.position }}</strong> 님의
         </p>
         <p>마이페이지</p>
       </div>

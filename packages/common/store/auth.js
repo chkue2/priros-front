@@ -1,5 +1,6 @@
 import {defineStore} from 'pinia';
 
+const userTokenkey = 'token-user';
 const userSessionKey = 'auth-user';
 
 export const useAuthStore = defineStore("auth", {
@@ -15,18 +16,9 @@ export const useAuthStore = defineStore("auth", {
         async login(credentials) {
             try {
                 const response = await useApi('/auth/login', {method: "POST",data: credentials});
-                console.log(response.data)
                 if (response && response.data) {
-                    this.user = {
-                        userId: response.data.value.userId,
-                        profile: {
-                            name: 'test',
-                            position: 'test',
-                            profileImage: ''
-                        }
-                    };
                     if (typeof window !== 'undefined'){
-                        sessionStorage.setItem(userSessionKey, JSON.stringify({token: response.data.value.token, ...this.user}));
+                        sessionStorage.setItem(userTokenkey, JSON.stringify({token: response.data.value.token}));
                     }
                 }
                 //     return true;
@@ -62,9 +54,28 @@ export const useAuthStore = defineStore("auth", {
             // userState.value = null;
             if (typeof window !== 'undefined') {
                 sessionStorage.removeItem(userSessionKey);
+                sessionStorage.removeItem(userTokenkey);
             }
-            console.log("logout !");
             return true;
+        },
+        userProfile() {
+            try {
+                useApi('/user/profile').then((response) => {
+                    if(response && response.data) {
+                        this.user = {
+                            profile : { 
+                                ...response.data.value
+                            }
+                        }
+                        if (typeof window !== 'undefined'){
+                            sessionStorage.setItem(userSessionKey, JSON.stringify(this.user));
+                        }
+                    }
+                })
+            } catch (e) {
+                console.log(e)
+                return false
+            }
         }
     }
 });
