@@ -14,8 +14,9 @@ axiosAuth.interceptors.request.use(
         if (!token) {
             throw new Error("토큰 없어");
         }
-        config.headers = {Authorization: `Bearer ${JSON.parse(token).token}`}
+        config.headers.Authorization = `Bearer ${JSON.parse(token).token}`;
 
+        return config;
     },
     error => {
         return Promise.reject(error)
