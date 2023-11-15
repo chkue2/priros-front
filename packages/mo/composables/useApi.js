@@ -1,8 +1,45 @@
 import axios from 'axios'
+import {useAuthStore, accessTokenKey} from "@priros/common/store/auth.js";
 
-const userTokenkey = 'token-user';
 
+const auth = useAuthStore();
 const $runtimeConfig = useRuntimeConfig();
+
+// axios
+const axiosAuth = axios.create();
+
+axiosAuth.interceptors.request.use(
+    async config => {
+        const token = sessionStorage.getItem(accessTokenKey);
+        if (!token) {
+            throw new Error("토큰 없어");
+        }
+        config.headers = {Authorization: `Bearer ${JSON.parse(token).token}`}
+
+    },
+    error => {
+        return Promise.reject(error)
+    }
+);
+
+axiosAuth.interceptors.response.use(
+    response => {
+        return response;
+    }, error => {
+        const request = error.config;
+        const response = error.response;
+        if (response.status === 401 && !request._retry) {
+            // token 재발급
+            auth.requestRefreshTokenUpdate().then(() => {
+                request._retry = 1;
+                return axiosAuth(request);
+            });
+        }
+
+        return Promise.reject(error)
+    }
+);
+
 
 const useApi = async (endpoint, options = {}, data = null) => {
 
@@ -15,7 +52,7 @@ const useApi = async (endpoint, options = {}, data = null) => {
     return await useFetch(endpoint, {
         baseURL: $config.public.apiURL, method: method, ...optionsForMethod, onRequest({request, options}) {
 
-            const token = sessionStorage.getItem(userTokenkey);
+            const token = sessionStorage.getItem(accessTokenKey);
             options.headers = options.headers || {};
             // options.headers.Accept = "application/json";
 
@@ -54,11 +91,11 @@ const POST = async (url, data = {}) => {
 }
 
 const POST_AUTH = async (url, data = {}) => {
-    const token = sessionStorage.getItem(userTokenkey);
-    if(!token) {
-        alert('토큰 없슴')
-    }
-    return await axios.post($runtimeConfig.public.apiURL + url, data, {
+    // const token = sessionStorage.getItem(accessTokenKey);
+    // if (!token) {
+    //     alert('토큰 없슴')
+    // }
+    return await axiosAuth.post($runtimeConfig.public.apiURL + url, data, {
         headers: {Authorization: `Bearer ${JSON.parse(token).token}`}
     })
 }
@@ -72,16 +109,13 @@ const GET = async (url, data = {}) => {
 }
 
 const GET_AUTH = async (url, data = {}) => {
-    const token = sessionStorage.getItem(userTokenkey);
-    if(!token) {
-        alert('토큰 없슴')
-    }
-    return await axios.get($runtimeConfig.public.apiURL + url, {
+    // const token = sessionStorage.getItem(accessTokenKey);
+    // if (!token) {
+    //     alert('토큰 없슴')
+    // }
+    return await axiosAuth.get($runtimeConfig.public.apiURL + url, {
         params: {
             ...data
-        }, 
-        headers: {
-            Authorization: `Bearer ${JSON.parse(token).token}`
         }
     })
 }

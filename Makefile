@@ -9,7 +9,7 @@ APP_NAME = priros_front_app
 
 node-image:
 	-docker rmi $(NODE_IMAGE)
-	docker build --target base -t $(NODE_IMAGE) .
+	docker build --target base --no-cache -t $(NODE_IMAGE) .
 
 install:
 	docker run --rm -v $(CURDIR):/app -u node $(NODE_IMAGE) pnpm install -r
