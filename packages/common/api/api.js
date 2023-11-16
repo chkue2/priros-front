@@ -13,9 +13,9 @@ const getEndpoint = (url, params) => {
 
 const defineApi = (config) => {
     const {host, tokenApi} = config;
-
     // axios
     axios.defaults.baseURL = host;
+
     const api = axios.create();
     const apiAuth = axios.create();
 
@@ -55,18 +55,18 @@ const defineApi = (config) => {
         response => {
             return response;
         }, async error => {
-            console.log("response ERROR");
-            console.log(error);
+
             const response = error.response;
             if (response) {
                 const request = error.config;
                 if (response.status === 401 && !request._retry) {
-                    console.log(response.data);
-                    // token 재발급
-                    const isOk = await requestRefreshTokenUpdate();
-                    if (isOk) {
-                        request._retry = 1;
-                        return apiAuth(request);
+                    // token 인증만료
+                    if (response.data.errorCode === 'A010'){
+                        const isOk = await requestRefreshTokenUpdate();
+                        if (isOk) {
+                            request._retry = 1;
+                            return apiAuth(request);
+                        }
                     }
                 }
             }

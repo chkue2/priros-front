@@ -11,7 +11,7 @@ export default defineNuxtConfig({
   },
   runtimeConfig: {
       public: {
-          apiURL: process.env.API_URL || 'https://api.priros.co.kr'
+          apiURL: process.env.API_URL || 'http://localhost:8080'
       }
   },
   modules: [
