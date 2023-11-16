@@ -1,5 +1,5 @@
 
-import {tokenApi} from "@priros/common/store/auth.js";
+import { tokenApi } from '@priros/common/utils/tokenApi';
 import {API_URL, defineApi, getEndpoint} from "@priros/common/api/api.js";
 
 
