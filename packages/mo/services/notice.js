@@ -1,8 +1,8 @@
-import {GET} from "~/composables/useApi.js";
-import {API_NOTICE} from "./apiConstatns.js";
+import {API_URL, GET} from "~/composables/useApi.js";
+import {GET_AUTH} from "../composables/useApi.js";
 
 export const notice = {
-  async list(pageNo) {
-    return await GET(API_NOTICE.LIST, {pageNo})
-  }
+    async list(pageNo) {
+        return await GET_AUTH(API_URL.NOTICE.LIST, {pageNo})
+    }
 }

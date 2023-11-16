@@ -66,7 +66,7 @@ const credentials = ref({
 const handlerClickLoginButton = async () => {
   const isSuccess = await auth.login(credentials.value);
   if (isSuccess) {
-    await auth.userProfile()
+    await auth.userProfile();
   } else {
     alert("실패");
   }

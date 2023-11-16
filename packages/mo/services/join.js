@@ -1,8 +1,7 @@
-import {POST} from "~/composables/useApi.js";
-import {API_JOIN} from "./apiConstatns.js";
+import {API_URL, POST} from "~/composables/useApi.js";
 
 export const join = {
-  async expert(formData) {
-    return await POST(API_JOIN.EXPERT, formData)
-  }
+    async expert(formData) {
+        return await POST(API_URL.JOIN.EXPERT, formData)
+    }
 }

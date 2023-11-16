@@ -1,15 +1,13 @@
-import {callApi, getEndpoint} from "~/composables/useApi.js";
-import {API_TRADE_CASE_CHARGER} from "./apiConstatns.js";
+import {API_URL,getEndpoint, GET, POST_AUTH} from "~/composables/useApi.js";
 
 export const tradeCaseChargeService = {
     async list(tradeCaseId) {
-        const endpoint = getEndpoint(API_TRADE_CASE_CHARGER.LIST, {tradeCaseId: tradeCaseId});
-        return await callApi(endpoint);
-
+        const endpoint = getEndpoint(API_URL.TRADE_CASE_CHARGER.LIST, {trade_case_id: tradeCaseId});
+        return await GET(endpoint);
     },
     async report(data) {
-        const endpoint = getEndpoint(API_TRADE_CASE_CHARGER.REPORT, {tradeCaseId: data.tradeCaseId});
-        return await callApi(endpoint, {data: data});
+        const endpoint = getEndpoint(API_URL.TRADE_CASE_CHARGER.REPORT, {trade_case_id: data.tradeCaseId});
+        return await POST_AUTH(endpoint, {data: data});
     },
     async state(tradeCaseId) {
         // const endpoint = getEndpoint(API_TRADE_CASE_CHARGER.STATE, {tradeCaseId: tradeCaseId});

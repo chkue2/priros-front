@@ -1,5 +1,5 @@
-import {callApi, getEndpoint} from "~/composables/useApi.js";
-import {API_TRADE_DETAIL_CASE} from "./apiConstatns.js";
+// import {callApi, getEndpoint} from "~/composables/useApi.js";
+// import {API_TRADE_DETAIL_CASE} from "./apiConstatns.js";
 
 export const tradeDetailCaseService = {
   async get(tradeCaseId) {

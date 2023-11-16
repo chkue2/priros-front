@@ -1,8 +1,8 @@
-import {GET} from "~/composables/useApi.js";
-import {API_INTRO} from "./apiConstatns.js";
+import {API_URL, GET} from "~/composables/useApi.js";
+
 
 export const intro = {
-  async get() {
-    return await GET(API_INTRO.GET)
-  }
+    async get() {
+        return await GET(API_URL.INTRO.GET)
+    }
 }

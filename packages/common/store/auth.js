@@ -5,16 +5,35 @@ const accessTokenKey = 'access_token';
 const refreshTokenKey = 'refresh_token';
 const userSessionKey = 'auth-user';
 
+export const tokenApi = {
+    setToken: (accessToken, refreshToken) => {
+        if (typeof window !== 'undefined') {
+            sessionStorage.setItem(accessTokenKey, JSON.stringify({token: accessToken}));
+            localStorage.setItem(refreshTokenKey, JSON.stringify({token: refreshToken}));
+        }
+    },
+    getAccessToken: () => {
 
-function saveToken(accessToken, refreshToken) {
-    sessionStorage.setItem(accessTokenKey, JSON.stringify({token: accessToken}));
-    localStorage.setItem(refreshTokenKey, JSON.stringify({token: refreshToken}));
-}
+        const tokenValue = sessionStorage.getItem(accessTokenKey);
+        if (tokenValue) {
+            return JSON.parse(tokenValue).token;
+        }
 
-function removeToken() {
-    sessionStorage.removeItem(accessTokenKey);
-    localStorage.removeItem(refreshTokenKey);
-}
+        return null;
+    },
+    getRefreshToken: () => {
+        const tokenValue = localStorage.getItem(refreshTokenKey);
+        if (tokenValue) {
+            return JSON.parse(tokenValue).token;
+        }
+
+        return null;
+    },
+    clear: () => {
+        sessionStorage.removeItem(accessTokenKey);
+        localStorage.removeItem(refreshTokenKey);
+    }
+};
 
 
 export const useAuthStore = defineStore("auth", {
@@ -28,40 +47,15 @@ export const useAuthStore = defineStore("auth", {
         },
         async login(credentials) {
             try {
-                await POST('/auth/login', credentials).then((response) => {
-                    if (response && response.data) {
-                        if (typeof window !== 'undefined') {
-                            saveToken(response.data.token, response.data.refreshToken);
-                        }
-                    }
-                });
-
-
-                return true;
-            } catch (error) {
-                console.log(error);
+                const response = await POST('/auth/login', credentials);
+                if (response && response.data) {
+                    tokenApi.setToken(response.data.token, response.data.refreshToken);
+                    return true;
+                }
 
                 return false;
-            }
-        },
-        async requestRefreshTokenUpdate() {
-            try {
-                const refreshToken = JSON.parse(localStorage.getItem(refreshToken));
-                if (refreshToken) {
-                    const response = await POST('/auth/refresh', {
-                        "refreshToken": refreshToken.token
-                    });
-                    if (response && response.data) {
-                        saveToken(response.data.token, response.data.refreshToken);
-                    }
-
-                    return true;
-                } else {
-
-                    throw new Error('refresh Token 없음');
-                }
             } catch (error) {
-                console.error("refresh 갱신 실패");
+                console.log(error);
                 return false;
             }
         },
@@ -69,7 +63,7 @@ export const useAuthStore = defineStore("auth", {
             this.user = null;
             if (typeof window !== 'undefined') {
                 sessionStorage.removeItem(userSessionKey);
-                removeToken();
+                tokenApi.clear();
             }
             return true;
         },
@@ -95,4 +89,3 @@ export const useAuthStore = defineStore("auth", {
     }
 });
 
-export {accessTokenKey, refreshTokenKey};
