@@ -66,6 +66,9 @@ const defineApi = (config) => {
                         if (isOk) {
                             request._retry = 1;
                             return apiAuth(request);
+                        } else {
+                            alert('로그아웃')
+                            tokenApi.clearAll()
                         }
                     }
                 }

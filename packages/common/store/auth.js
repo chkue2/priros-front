@@ -32,6 +32,10 @@ export const tokenApi = {
     clear: () => {
         sessionStorage.removeItem(accessTokenKey);
         localStorage.removeItem(refreshTokenKey);
+    },
+    clearAll: () => {
+        tokenApi.clear()
+        localStorage.removeItem(userSessionKey);
     }
 };
 
@@ -43,7 +47,7 @@ export const useAuthStore = defineStore("auth", {
     }),
     actions: {
         initialize() {
-            this.user = typeof window !== 'undefined' && JSON.parse(sessionStorage.getItem(userSessionKey)) || null;
+            this.user = typeof window !== 'undefined' && JSON.parse(localStorage.getItem(userSessionKey)) || null;
         },
         async login(credentials) {
             try {
@@ -62,8 +66,7 @@ export const useAuthStore = defineStore("auth", {
         logout() {
             this.user = null;
             if (typeof window !== 'undefined') {
-                sessionStorage.removeItem(userSessionKey);
-                tokenApi.clear();
+                tokenApi.clearAll();
             }
             return true;
         },
@@ -77,7 +80,7 @@ export const useAuthStore = defineStore("auth", {
                             }
                         }
                         if (typeof window !== 'undefined') {
-                            sessionStorage.setItem(userSessionKey, JSON.stringify(this.user));
+                            localStorage.setItem(userSessionKey, JSON.stringify(this.user));
                         }
                     }
                 })
