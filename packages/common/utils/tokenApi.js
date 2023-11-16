@@ -1,7 +1,8 @@
 const accessTokenKey = 'access_token';
 const refreshTokenKey = 'refresh_token';
+const userSessionKey = 'auth-user';
 
-export const tokenApi = {
+const tokenApi = {
   setToken: (accessToken, refreshToken) => {
       if (typeof window !== 'undefined') {
           sessionStorage.setItem(accessTokenKey, JSON.stringify({token: accessToken}));
@@ -34,3 +35,5 @@ export const tokenApi = {
       localStorage.removeItem(userSessionKey);
   }
 };
+
+export { tokenApi, userSessionKey }

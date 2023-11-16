@@ -1,8 +1,6 @@
 import {defineStore} from 'pinia';
 import {POST, GET_AUTH} from '~/composables/useApi.js'
-import { tokenApi } from '@priros/common/utils/tokenApi';
-
-const userSessionKey = 'auth-user';
+import { tokenApi, userSessionKey } from '@priros/common/utils/tokenApi';
 
 export const useAuthStore = defineStore("auth", {
 
