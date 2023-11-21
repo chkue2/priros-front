@@ -16,19 +16,19 @@
     <div class="my-case-card-tags">
       <div class="my-case-card-bank">
         <img :src="bankIcon" aria-hidden alt="">
-        <p>{{ caseConfig.venderId }}</p>
+        <p>{{ bankTitle }}</p>
       </div>
       <span class="my-case-card-tag" v-for="(tag, index) in tags" :key="index">{{ tag }}</span>
     </div>
     <div class="my-case-card-status">
       <div class="my-case-card-status-left">
-        <span class="my-case-card-state" :class="{active: caseConfig.state === 'TS_13'}">견적</span>
-        <span class="my-case-card-state" :class="{active: caseConfig.state === 'TS_15'}">송금</span>
-        <span class="my-case-card-state" :class="{active: caseConfig.state === 'TS_20'}">상환</span>
+        <span class="my-case-card-state" :class="{active: caseConfig.estimateFlag === 'Y'}">견적</span>
+        <span class="my-case-card-state" :class="{active: caseConfig.remitFlag === 'Y'}">송금</span>
+        <span class="my-case-card-state" :class="{active: caseConfig.repayReportFlag === 'Y'}">상환</span>
       </div>
       <div class="my-case-card-status-right">
-        <NuxtLink class="my-case-card-state active" @click="handlerClickChargeReport">담당자보고</NuxtLink>
-        <NuxtLink class="my-case-card-state active" @click="handlerClickScheduleReport">일정보고</NuxtLink>
+        <NuxtLink class="my-case-card-state" :class="{active: caseConfig.acceptChargeFlag === 'Y'}" @click="handlerClickChargeReport">담당자보고</NuxtLink>
+        <NuxtLink class="my-case-card-state" :class="{active: caseConfig.issueTimeFlag === 'Y'}" @click="handlerClickScheduleReport">일정보고</NuxtLink>
       </div>
     </div>
   </div>
@@ -38,6 +38,8 @@
 import { computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { changeTimeFormatAmPm } from '@priros/common/assets/js/utils.js'
+import { bankSVG } from '@priros/common/assets/js/case/bankSVG.js'
+
 const props = defineProps({
   caseConfig: Object,
 })
@@ -51,13 +53,10 @@ const time = computed(() => {
 
 const bankIcon = computed(() => {
   const basePath = '/img/icon/'
-  switch(props.caseConfig.bank){
-    case '카카오뱅크':
-      return basePath + 'kakaobank.png'
-    default:
-      return ''
-  }
+  return basePath + bankSVG[props.caseConfig.venderId].icon
 })
+
+const bankTitle = computed(() => bankSVG[props.caseConfig.venderId].title)
 
 const tags = computed(() => {
   //return props.caseConfig.tags.map((c) => `#${c}`)

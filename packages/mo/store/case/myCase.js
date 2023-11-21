@@ -16,6 +16,11 @@ export const myCaseStore = defineStore('myCase', {
     }
   }),
   actions: {
+    fetchCaseCounter() {
+      tradeCaseList.counter().then(({data}) => {
+        this.counter = data
+      })
+    },
     fetchCaseList(searchDate) {
       const filterData = {
         fromDate: searchDate,
@@ -26,17 +31,14 @@ export const myCaseStore = defineStore('myCase', {
       if(this.filter === 'progress') {
         tradeCaseList.listProgress(filterData).then(({data}) => {
           this.fetchedCaseList = data.list
-          this.counter = data.acceptCounter
         })
       } else if(this.filter === 'receive') {
         tradeCaseList.listReceive(filterData).then(({data}) => {
           this.fetchedCaseList = data.list
-          this.counter = data.acceptCounter
         })
       } else {
         tradeCaseList.listAll(filterData).then(({data}) => {
           this.fetchedCaseList = data.list
-          this.counter = data.acceptCounter
         })
       }
     },

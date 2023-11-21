@@ -114,8 +114,7 @@
 <script setup>
 import { onMounted, ref, computed } from 'vue'
 import { useRoute } from 'vue-router'
-import { tradeDetailCaseService } from "~/services/tradeDetailCaseService.js";
-import { useDetailCaseStore } from '@priros/common/store/case/detail.js'
+import { useDetailCaseStore } from '~/store/case/detailCase.js'
 
 import CommonBlackTitleModal from '~/components/modal/CommonBlackTitleModal.vue'
 import DetailCaseStatusCard from '~/components/card/DetailCaseStatusCard.vue'
@@ -137,53 +136,8 @@ const route = useRoute()
 const detailCaseStore = useDetailCaseStore()
 const tradeCaseId = route.params.id
 
-const fetchDetailCase = async (tradeCaseId) => {
-  try {
-    const { data } = await tradeDetailCaseService.get(tradeCaseId)
-    detailCaseStore.setFetchedDetailCase(data)
-  } catch (e) {
-    console.log(e)
-  }
-}
-const fetchChangedList = async (tradeCaseId) => {
-  try {
-    const { data } = await tradeDetailCaseService.changed(tradeCaseId)
-    detailCaseStore.setFetchedChangedList(data)
-  } catch (e) {
-    console.log(e)
-  }
-}
-const fetchMemoList = async (tradeCaseId) => {
-  try {
-    const { data } = await tradeDetailCaseService.memo(tradeCaseId)
-    detailCaseStore.setFetchedMemoList(data)
-  } catch (e) {
-    console.log(e)
-  }
-}
-const fetchProcessedList = async (tradeCaseId) => {
-  try {
-    const { data } = await tradeDetailCaseService.processed(tradeCaseId)
-    detailCaseStore.setFetchedProcessedList(data)
-  } catch (e) {
-    console.log(e)
-  }
-}
-const fetchFilesList = async (tradeCaseId) => {
-  try {
-    const { data } = await tradeDetailCaseService.files(tradeCaseId)
-    detailCaseStore.setFetchedFilesList(data)
-  } catch (e) {
-    console.log(e)
-  }
-}
-
 onMounted(() => {
-  fetchDetailCase(tradeCaseId)
-  fetchChangedList(tradeCaseId)
-  fetchMemoList(tradeCaseId)
-  fetchProcessedList(tradeCaseId)
-  fetchFilesList(tradeCaseId)
+  detailCaseStore.fetchDetailCase(tradeCaseId)
 })
 
 const balanceDate = computed(() => 

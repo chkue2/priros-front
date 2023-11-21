@@ -51,6 +51,7 @@ const caseList = computed(() => caseStore.fetchedCaseList || [])
 const counter = computed(() => caseStore.counter)
 
 onMounted(() => {
+  caseStore.fetchCaseCounter()
   caseStore.fetchCaseList(searchDate.value)
 })
 

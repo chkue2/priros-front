@@ -27,9 +27,11 @@ const API_URL = {
         LIST: '/faq/list'
     },
     TRADE_CASE: {
+        COUNTER: '/tradecases/accept/counter',
         LIST_ALL: '/tradecases/accept',
         LIST_PROGRESS: '/tradecases/accept/progress',
         LIST_RECEIVE: '/tradecases/accept/receive',
+        DETAIL: '/tradecases/:trade_case_id'
     },
     TRADE_CASE_CHARGER: {
         LIST: '/trade-case/:trade_case_id/charge',
