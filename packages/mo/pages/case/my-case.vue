@@ -3,44 +3,70 @@
     <p class="my-case-search-title">진행중인 내 사건</p>
     <div class="my-case-search">
       <img src="/img/icon/search-gray.svg" aria-hidden class="my-case-search-icon">
-      <input type="text" class="my-case-search-input" placeholder="검색어를 입력해주세요">
+      <input v-model="myCaseStore.keyword" type="text" class="my-case-search-input" placeholder="검색어를 입력해주세요" @keyup="handlerKeyupCaseKeywrod" @keydown.enter="handlerClickEnterKeyword">
     </div>
   </div>
   <div class="my-case-filters">
     <div class="my-case-tabs">
-      <div class="my-case-tab tab-left" :class="{active: filter === 'all'}" @click="handlerClickCaseFilter('all')">전체(40)</div>
-      <div class="my-case-tab tab-center" :class="{active: filter === 'ing'}" @click="handlerClickCaseFilter('ing')">진행중(15)</div>
-      <div class="my-case-tab tab-right" :class="{active: filter === 'success'}" @click="handlerClickCaseFilter('success')">완료(25)</div>
+      <div class="my-case-tab tab-left" :class="{active: caseStore.filter === 'all'}" @click="handlerClickCaseFilter('all')">전체({{counter.total}})</div>
+      <div class="my-case-tab tab-center" :class="{active: caseStore.filter === 'progress'}" @click="handlerClickCaseFilter('progress')">진행중({{counter.progress}})</div>
+      <div class="my-case-tab tab-right" :class="{active: caseStore.filter === 'receive'}" @click="handlerClickCaseFilter('receive')">완료({{counter.receive}})</div>
     </div>
     <div class="my-case-date-filters">
-      <div class="my-case-date-filter" :class="{active: tab === 'all'}" @click="handlerClickCaseTab('all')">전체</div>
-      <div class="my-case-date-filter" :class="{active: tab === 'today'}" @click="handlerClickCaseTab('today')">오늘</div>
-      <div class="my-case-date-filter" :class="{active: tab === 'tomorrow'}" @click="handlerClickCaseTab('tomorrow')">내일</div>
+      <div class="my-case-date-filter" :class="{active: caseStore.tab === 'all'}" @click="handlerClickCaseTab('all')">전체</div>
+      <div class="my-case-date-filter" :class="{active: caseStore.tab === 'today'}" @click="handlerClickCaseTab('today')">오늘</div>
+      <div class="my-case-date-filter" :class="{active: caseStore.tab === 'tomorrow'}" @click="handlerClickCaseTab('tomorrow')">내일</div>
     </div>
   </div>
-  <div v-if="myCaseList.length === 0" class="my-case-empty">
+  <div v-if="caseList.length === 0" class="my-case-empty">
     <img src="/img/cha/cha-empty.png">
-    <p class="empty-title">진행중인 내사건이 없습니다.</p>
+    <p class="empty-title">조회된 내사건이 없습니다.</p>
     <p class="empty-subtitle">우리동네 주변 사건을 둘러보세요</p>
   </div>
-  <div v-if="myCaseList.length > 0" class="my-case-list">
-    <MyCaseCard v-for="(c, index) in myCaseList" :key="index" :case-config="c" />
+  <div v-if="caseList.length > 0" class="my-case-list">
+    <MyCaseCard v-for="(c, index) in caseList" :key="index" :case-config="c" />
   </div>
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { computed, onMounted } from 'vue'
+import dayjs from '@priros/common/node_modules/dayjs'
 import MyCaseCard from '~/components/card/MyCaseCard.vue'
-import { myCaseList } from '~/assets/js/case/myCase'
+import { myCaseStore } from '~/store/case/myCase.js'
 
-let tab = ref('today')
-let filter = ref('all')
+const caseStore = myCaseStore()
+
+const searchDate = computed(() => {
+  switch(caseStore.tab) {
+    case 'today':
+      return dayjs(new Date()).format('YYYY-MM-DD')
+    case 'tomorrow':
+      return dayjs(new Date()).add(1, 'd').format('YYYY-MM-DD')
+    default: 
+      return ''
+  }
+})
+
+const caseList = computed(() => caseStore.fetchedCaseList || [])
+const counter = computed(() => caseStore.counter)
+
+onMounted(() => {
+  caseStore.fetchCaseList(searchDate.value)
+})
 
 const handlerClickCaseFilter = (v) => {
-  filter.value = v
+  caseStore.setFilter(v)
+  caseStore.fetchCaseList(searchDate.value)
 }
 const handlerClickCaseTab = (v) => {
-  tab.value = v
+  caseStore.setTab(v)
+  caseStore.fetchCaseList(searchDate.value)
+}
+const handlerKeyupCaseKeywrod = (e) => {
+  caseStore.setKeyword(e.target.value)
+}
+const handlerClickEnterKeyword = () => {
+  caseStore.fetchCaseList(searchDate.value)
 }
 
 </script>

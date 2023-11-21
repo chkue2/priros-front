@@ -1,30 +1,30 @@
 <template>
   <div class="my-case-card" @click="handlerClickCard">
     <div class="my-case-card-title">
-      <p class="my-case-card-name">{{ caseConfig.name }}</p>
+      <p class="my-case-card-name">{{ caseConfig.buyer }}</p>
       <div class="my-case-card-dates">
         <div class="my-case-card-date">
           <img src="/img/icon/check-circle-green.svg" aria-hidden alt="">
-          {{ caseConfig.date }}
+          {{ date }}
         </div>
         <div class="my-case-card-date">
           {{ time }}
         </div>
       </div>
     </div>
-    <p class="my-case-card-address">{{ caseConfig.address }}</p>
+    <p class="my-case-card-address">{{ caseConfig.estateAddr }} {{ caseConfig.estateRestAddr }}</p>
     <div class="my-case-card-tags">
       <div class="my-case-card-bank">
         <img :src="bankIcon" aria-hidden alt="">
-        <p>{{ caseConfig.bank }}</p>
+        <p>{{ caseConfig.venderId }}</p>
       </div>
       <span class="my-case-card-tag" v-for="(tag, index) in tags" :key="index">{{ tag }}</span>
     </div>
     <div class="my-case-card-status">
       <div class="my-case-card-status-left">
-        <span class="my-case-card-state" :class="{active: caseConfig.state === '견적'}">견적</span>
-        <span class="my-case-card-state" :class="{active: caseConfig.state === '송금'}">송금</span>
-        <span class="my-case-card-state" :class="{active: caseConfig.state === '상환'}">상환</span>
+        <span class="my-case-card-state" :class="{active: caseConfig.state === 'TS_13'}">견적</span>
+        <span class="my-case-card-state" :class="{active: caseConfig.state === 'TS_15'}">송금</span>
+        <span class="my-case-card-state" :class="{active: caseConfig.state === 'TS_20'}">상환</span>
       </div>
       <div class="my-case-card-status-right">
         <NuxtLink class="my-case-card-state active" @click="handlerClickChargeReport">담당자보고</NuxtLink>
@@ -37,13 +37,16 @@
 <script setup>
 import { computed } from 'vue'
 import { useRouter } from 'vue-router'
+import { changeTimeFormatAmPm } from '@priros/common/assets/js/utils.js'
 const props = defineProps({
   caseConfig: Object,
 })
 
+const date = computed(() => {
+  return props.caseConfig.issueDate.split(' ')[0]
+})
 const time = computed(() => {
-  const ampm = parseInt(props.caseConfig.time.split(':')[0])
-  return `${ampm >= 12 ? '오후' : '오전'} ${ampm > 12 ? (apmp - 12) : ampm}시 ${props.caseConfig.time.split(':')[1]}분`
+  return changeTimeFormatAmPm(props.caseConfig.issueTime.replace(/(\d)(?=(?:\d{2})+(?!\d))/g, '$1:'))
 })
 
 const bankIcon = computed(() => {
@@ -57,24 +60,25 @@ const bankIcon = computed(() => {
 })
 
 const tags = computed(() => {
-  return props.caseConfig.tags.map((c) => `#${c}`)
+  //return props.caseConfig.tags.map((c) => `#${c}`)
+  return []
 })
 
 const router = useRouter()
 const handlerClickCard = () => {
-  router.push(`/case/detail-case/${props.caseConfig.uid}`)
+  router.push(`/case/detail-case/${props.caseConfig.tradeCaseId}`)
 }
 
 const handlerClickChargeReport = (e) => {
   e.preventDefault()
   e.stopPropagation()
-  router.push(`/case/${props.caseConfig.uid}/charge-report`)
+  router.push(`/case/${props.caseConfig.tradeCaseId}/charge-report`)
 }
 
 const handlerClickScheduleReport = (e) => {
   e.preventDefault()
   e.stopPropagation()
-  router.push(`/case/${props.caseConfig.uid}/schedule-report`)
+  router.push(`/case/${props.caseConfig.tradeCaseId}/schedule-report`)
 }
 </script>
 

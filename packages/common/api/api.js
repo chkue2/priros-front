@@ -25,13 +25,19 @@ const defineApi = (config) => {
         if (refreshToken) {
             const response = await api.post(API_URL.AUTH.REFRESH, {
                 refreshToken: refreshToken
+            }).catch(e => {
+                if(e.response.data.errorCode === 'A011') {
+                    tokenApi.clearAll()
+                    alert('로그아웃되었습니다. 다시 로그인해주세요.')
+                    location.href = '/'
+                }
             });
 
             if (response && response.data) {
                 tokenApi.setToken(response.data.token, response.data.refreshToken);
                 return true;
             }
-        }
+        } 
 
         return false;
     }
@@ -41,6 +47,8 @@ const defineApi = (config) => {
         async config => {
             const token = tokenApi.getAccessToken();
             if (!token) {
+                location.href = '/'
+                alert('로그아웃되었습니다. 다시 로그인해주세요.')
                 return Promise.reject("토큰 없어")
             }
             config.headers.Authorization = `Bearer ${token}`;
@@ -66,9 +74,6 @@ const defineApi = (config) => {
                         if (isOk) {
                             request._retry = 1;
                             return apiAuth(request);
-                        } else {
-                            alert('로그아웃')
-                            tokenApi.clearAll()
                         }
                     }
                 }

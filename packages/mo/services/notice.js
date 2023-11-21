@@ -1,5 +1,4 @@
-import {API_URL, GET} from "~/composables/useApi.js";
-import {GET_AUTH} from "../composables/useApi.js";
+import {API_URL, GET_AUTH} from "~/composables/useApi.js";
 
 export const notice = {
     async list(pageNo) {
