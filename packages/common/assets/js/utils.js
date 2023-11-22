@@ -34,6 +34,12 @@ const changeTimeFormatAmPm = (time) => {
   return `${ampm} ${hour}시 ${min}분`
 }
 
+/**
+ * 0000 포멧으로 된 시간을 00:00 포멧으로 변경
+ * 
+ * @param {string} time 
+ * @returns 
+ */
 const changeTimeFormatAddDot = (time) => {
   if(time === undefined || time === null || time === '') return ''
 
@@ -50,9 +56,17 @@ const zeroStr = (x, len) => {
   return String(x).padStart(len, '0')
 }
 
+const rexFormatPhone = (text) => {
+  console.log(text)
+  return text
+          .replace(/[^0-9]/g, '')
+          .replace(/^(\d{2,3})(\d{3,4})(\d{4})$/, '$1-$2-$3')
+}
+
 export {
   isEmpty,
   changeTimeFormatAmPm,
   changeTimeFormatAddDot,
   zeroStr,
+  rexFormatPhone,
  }

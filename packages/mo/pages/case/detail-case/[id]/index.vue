@@ -67,7 +67,7 @@
         <div class="detail-case-table-header">매수인</div>
         <div class="detail-case-table-contents">{{ detailCaseStore.fetchedDetailCase['buyer'] }}</div>
         <div class="detail-case-table-header">휴대폰번호</div>
-        <div class="detail-case-table-contents">{{ detailCaseStore.fetchedDetailCase['buyerPhone'] }}</div>
+        <div class="detail-case-table-contents">{{ buyerPhone }}</div>
         <div class="detail-case-table-header">이메일주소</div>
         <div class="detail-case-table-contents">{{ detailCaseStore.fetchedDetailCase['buyerEmail'] }}</div>
         <div class="detail-case-table-header">대출기관</div>
@@ -204,7 +204,7 @@ import DetailCaseInfoCard from '~/components/card/DetailCaseInfoCard.vue'
 import DetailCaseRegAuthCard from '~/components/card/DetailCaseRegAuthCard.vue'
 import DetailCaseEstimateCard from '~/components/card/DetailCaseEstimateCard.vue'
 
-import { isEmpty, changeTimeFormatAmPm, changeTimeFormatAddDot } from '@priros/common/assets/js/utils.js'
+import { isEmpty, changeTimeFormatAmPm, changeTimeFormatAddDot, rexFormatPhone } from '@priros/common/assets/js/utils.js'
 import { bankSVG } from '@priros/common/assets/js/case/bankSVG.js'
 import { caseStatus } from '@priros/common/assets/js/case/status.js'
 
@@ -236,6 +236,10 @@ const recevDate = computed(() =>
 const salesPrice = computed(() => 
   !isEmpty(detailCaseStore.fetchedDetailCase.tradePrice) ? 
     Number(detailCaseStore.fetchedDetailCase.tradePrice).toLocaleString() : ''
+)
+const buyerPhone = computed(() => 
+  !isEmpty(detailCaseStore.fetchedDetailCase.buyerPhone) ?
+    rexFormatPhone(detailCaseStore.fetchedDetailCase.buyerPhone) : ''
 )
 const bankName = computed(() => 
   !isEmpty(bankSVG[detailCaseStore.fetchedDetailCase.venderId]) ? 
