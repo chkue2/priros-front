@@ -90,7 +90,7 @@
         <div class="detail-case-table-contents">{{ insuranceAmt }}원</div>
         <div class="detail-case-table-header">등기신청서 작성정보</div>
         <div class="detail-case-table-contents flex-column flex-align-start">
-          <button class="detail-case-button">등기필정보 보완보고</button>
+          <button class="detail-case-button" @click="toggleSupplementationModalShow">등기필정보 보완보고</button>
           <textarea placeholder="등기신청서 작성 ID 및 작성번호를 입력하세요. (매도인별 식별번호 뒷자리 입력으로 대체 가능)"></textarea>
           <div class="detail-case-table-edit-button">
             <button><img src="/img/icon/edit-gray.svg">입력완료</button>
@@ -165,6 +165,14 @@
       <DetailCaseEstimateCard />
       <button class="info-modal-button" @click="toggleEstimateModalShow">확인</button>
     </CommonBlackTitleModal>
+    <CommonBlackTitleModal
+      v-if="isSupplementationModalShow"
+      title="등기필정보 보완"
+      @handler-click-close="toggleSupplementationModalShow"
+    >
+      <SupplementationRegInfo />
+      <button class="info-modal-button" @click="handlerClickSupplementationButton">보완보고</button>
+    </CommonBlackTitleModal>
     <CommonAlertModalDoubleButton
       v-if="isKakaoRemitSendModalShow"
       text="송금요청 후, 대출금 지급까지는<br><b>약1~2분이 소요</b>됩니다.<br><br>입금이 지연되는 경우 카카오뱅크에 문의하세요" 
@@ -203,6 +211,7 @@ import DetailCaseFilesTable from '@priros/common/components/table/DetailCaseFile
 import DetailCaseInfoCard from '~/components/card/DetailCaseInfoCard.vue'
 import DetailCaseRegAuthCard from '~/components/card/DetailCaseRegAuthCard.vue'
 import DetailCaseEstimateCard from '~/components/card/DetailCaseEstimateCard.vue'
+import SupplementationRegInfo from '~/components/form/SupplementationRegInfo.vue'
 
 import { isEmpty, changeTimeFormatAmPm, changeTimeFormatAddDot, rexFormatPhone } from '@priros/common/assets/js/utils.js'
 import { bankSVG } from '@priros/common/assets/js/case/bankSVG.js'
@@ -323,6 +332,10 @@ const isEstimateModalShow = ref(false)
 const toggleEstimateModalShow = () => {
   isEstimateModalShow.value = !isEstimateModalShow.value
 }
+const isSupplementationModalShow = ref(false)
+const toggleSupplementationModalShow = () => {
+  isSupplementationModalShow.value = !isSupplementationModalShow.value
+}
 
 const isKakaoRemitSendModalShow = ref(false)
 const toggleKaKaoRemitSendModalShow = () => {
@@ -352,6 +365,11 @@ const handlerClickKakaoRemitSendButton = () => {
   } else {
     toggleKaKaoRemitSendModalShow()
   }
+}
+
+const handlerClickSupplementationButton = () => {
+  alert('보완보고 완료')
+  toggleSupplementationModalShow()
 }
 </script>
 

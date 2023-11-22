@@ -80,5 +80,5 @@ const btnSendDisable = false;
 </script>
 
 <style scoped lang="scss">
-@import '@priros/common/assets/scss/views/dialog'
+@import '@priros/common/assets/scss/views/dialog';
 </style>

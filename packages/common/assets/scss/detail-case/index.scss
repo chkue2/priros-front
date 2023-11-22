@@ -34,6 +34,7 @@
     padding: 8px;
     &.ft-14{
       font-size: 14px;
+      line-height: 19px;
     }
     &.ft-bold {
       font-weight: $ft-bold;
@@ -220,6 +221,7 @@
   align-items: center;
   border: none;
   border-top: 1px solid #dfdfdf;
+  font-size: 16px;
   font-weight: $ft-medium;
   background-color: #ffffff;
 }
