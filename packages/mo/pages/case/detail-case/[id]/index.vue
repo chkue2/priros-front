@@ -31,7 +31,13 @@
         <button v-if="false" class="detail-case-button button--gray">매수인/매도인 등록</button>
       </div>
       <div class="detail-case-status-card-container">
-        <DetailCaseStatusCard v-for="(state, index) in status" :key="index" :statusConfig="state" :trade-case-id="route.params.id" />
+        <DetailCaseStatusCard 
+          v-for="(state, index) in status" :key="index"
+          :statusConfig="state"
+          :trade-case-id="route.params.id"
+          :vender-id="detailCaseStore.fetchedDetailCase.venderId"
+          @kakao-modal-show="handlerClickKakaoRemitSendButton"
+        />
       </div>
     </div>
     <div class="detail-case-title-container">
@@ -159,6 +165,25 @@
       <DetailCaseEstimateCard />
       <button class="info-modal-button" @click="toggleEstimateModalShow">확인</button>
     </CommonBlackTitleModal>
+    <CommonAlertModalDoubleButton
+      v-if="isKakaoRemitSendModalShow"
+      text="송금요청 후, 대출금 지급까지는<br><b>약1~2분이 소요</b>됩니다.<br><br>입금이 지연되는 경우 카카오뱅크에 문의하세요" 
+      left-button-text="송금요청"
+      right-button-text="닫기" 
+      @handler-click-left-button="handlerClickKakaoSendButton"
+      @handler-click-right-button="toggleKaKaoRemitSendModalShow" />
+    <CommonAlertModal
+      v-if="isKakaoRemitSendSuccessModalShow"
+      text="송금요청 완료<br><br>입금이 지연되는 경우 카카오뱅크에 문의하세요"
+      @handler-click-button="toggleKakaoRemitSendSuccessModalShow"
+    />
+    <CommonAlertModalDoubleButton
+      v-if="isKakaoRemitReSendModalShow"
+      text="송금요청을 이미 진행하셨습니다.<br><br>입금이 지연되는 경우 카카오뱅크에 문의하세요" 
+      left-button-text="재요청"
+      right-button-text="닫기" 
+      @handler-click-left-button="handlerClickKakaoSendButton"
+      @handler-click-right-button="toggleKaKaoRemitReSendModalShow" />
   </NuxtLayout>
 </template>
 
@@ -168,6 +193,8 @@ import { useRoute } from 'vue-router'
 import { useDetailCaseStore } from '~/store/case/detailCase.js'
 
 import CommonBlackTitleModal from '~/components/modal/CommonBlackTitleModal.vue'
+import CommonAlertModal from '@priros/common/components/modal/CommonAlertModal.vue'
+import CommonAlertModalDoubleButton from '@priros/common/components/modal/CommonAlertModalDoubleButton.vue'
 import DetailCaseStatusCard from '~/components/card/DetailCaseStatusCard.vue'
 import DetailCaseChangedTable from '@priros/common/components/table/DetailCaseChangedTable.vue'
 import DetailCaseMemoTable from '@priros/common/components/table/DetailCaseMemoTable.vue'
@@ -291,6 +318,36 @@ const toggleRegistrarModalShow = () => {
 const isEstimateModalShow = ref(false)
 const toggleEstimateModalShow = () => {
   isEstimateModalShow.value = !isEstimateModalShow.value
+}
+
+const isKakaoRemitSendModalShow = ref(false)
+const toggleKaKaoRemitSendModalShow = () => {
+  isKakaoRemitSendModalShow.value = !isKakaoRemitSendModalShow.value
+}
+const handlerClickKakaoSendButton = () => {
+  if(true) {
+    // 카카오 송금요청 이미 한 경우
+    toggleKaKaoRemitReSendModalShow()
+  } else {
+    toggleKaKaoRemitSendModalShow()
+  }
+  toggleKakaoRemitSendSuccessModalShow()
+}
+const isKakaoRemitSendSuccessModalShow = ref(false)
+const toggleKakaoRemitSendSuccessModalShow = () => {
+  isKakaoRemitSendSuccessModalShow.value = !isKakaoRemitSendSuccessModalShow.value
+}
+const isKakaoRemitReSendModalShow = ref(false)
+const toggleKaKaoRemitReSendModalShow = () => {
+  isKakaoRemitReSendModalShow.value = !isKakaoRemitReSendModalShow.value
+}
+const handlerClickKakaoRemitSendButton = () => {
+  if(true) {
+    // 카카오 송금요청 이미 한 경우
+    toggleKaKaoRemitReSendModalShow()
+  } else {
+    toggleKaKaoRemitSendModalShow()
+  }
 }
 </script>
 

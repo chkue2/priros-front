@@ -3,7 +3,10 @@
     <div class="alert-modal-container">
       <img src="/img/icon/logo-mo.svg" alt="" class="alert-modal-logo">
       <p class="alert-modal-text" v-html="text"></p>
-      <button class="alert-modal-bottom-button" @click="handlerClickOkButton">확인</button>
+      <div class="alert-modal-buttons">
+        <button class="button--left" @click="handlerClickLeftButton">{{leftButtonText}}</button>
+        <button class="button--right" @click="handlerClickRightButton">{{rightButtonText}}</button>
+      </div>
     </div>
   </div>
 </template>
@@ -18,12 +21,23 @@ const props = defineProps({
   isBodyLock: {
     type: Boolean,
     default: true
+  },
+  leftButtonText: {
+    type: String,
+    default: ''
+  },
+  rightButtonText: {
+    type: String,
+    default: '',
   }
 })
-const emit = defineEmits(['handler-click-button'])
+const emit = defineEmits(['handler-click-left-button', 'handler-click-right-button'])
 
-const handlerClickOkButton = () => {
-  emit('handler-click-button')
+const handlerClickLeftButton = () => {
+  emit('handler-click-left-button')
+}
+const handlerClickRightButton = () => {
+  emit('handler-click-right-button')
 }
 
 onMounted(() => {
@@ -67,17 +81,27 @@ onBeforeUnmount(() => {
       text-align: center;
       color: #1a1a1a;
     }
-    .alert-modal-bottom-button {
-      width: 100%;
-      height: 60px;
+    .alert-modal-buttons {
       display: flex;
-      justify-content: center;
-      align-items: center;
-      border: none;
-      border-top: 1px solid #dfdfdf;
-      font-size: 16px;
-      font-weight: $ft-medium;
-      background-color: #ffffff;
+      & > button {
+        flex: 1;
+        height: 60px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: none;
+        border-top: 1px solid #dfdfdf;
+        font-size: 16px;
+        font-weight: $ft-medium;
+        background-color: #ffffff;
+        & + button {
+          border-left: 1px solid #dfdfdf;
+        }
+        &.button--left {
+          color: #235bed;
+          font-weight: $ft-bold;
+        }
+      }
     }
   }
 </style>
