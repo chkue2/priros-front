@@ -34,6 +34,12 @@ const changeTimeFormatAmPm = (time) => {
   return `${ampm} ${hour}시 ${min}분`
 }
 
+const changeTimeFormatAddDot = (time) => {
+  if(time === undefined || time === null || time === '') return ''
+
+  return time.replace(/(\d)(?=(?:\d{2})+(?!\d))/g, '$1:')
+}
+
 /**
  * 원하는 길이만큼 앞에 0을 붙여서 리턴
  * 
@@ -44,4 +50,9 @@ const zeroStr = (x, len) => {
   return String(x).padStart(len, '0')
 }
 
-export { isEmpty, changeTimeFormatAmPm, zeroStr }
+export {
+  isEmpty,
+  changeTimeFormatAmPm,
+  changeTimeFormatAddDot,
+  zeroStr,
+ }

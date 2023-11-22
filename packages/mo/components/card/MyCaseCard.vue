@@ -21,15 +21,13 @@
       <span class="my-case-card-tag" v-for="(tag, index) in tags" :key="index">{{ tag }}</span>
     </div>
     <div class="my-case-card-status">
-      <div class="my-case-card-status-left">
         <span class="my-case-card-state" :class="{active: caseConfig.estimateFlag === 'Y'}">견적</span>
-        <span class="my-case-card-state" :class="{active: caseConfig.remitFlag === 'Y'}">송금</span>
+        <span class="my-case-card-state" :class="{active: caseConfig.acceptChargeFlag === 'Y'}">담당자</span>
+        <span class="my-case-card-state" :class="{active: caseConfig.issueTimeFlag === 'Y'}">일정</span>
+        <span class="my-case-card-state" :class="{active: caseConfig.remitFlag === 'Y'}">송금요청</span>
+        <span class="my-case-card-state" :class="{active: caseConfig.requestReportFlag === 'Y'}">신청정보</span>
         <span class="my-case-card-state" :class="{active: caseConfig.repayReportFlag === 'Y'}">상환</span>
-      </div>
-      <div class="my-case-card-status-right">
-        <NuxtLink class="my-case-card-state" :class="{active: caseConfig.acceptChargeFlag === 'Y'}" @click="handlerClickChargeReport">담당자보고</NuxtLink>
-        <NuxtLink class="my-case-card-state" :class="{active: caseConfig.issueTimeFlag === 'Y'}" @click="handlerClickScheduleReport">일정보고</NuxtLink>
-      </div>
+        <span class="my-case-card-state" :class="{active: caseConfig.receiveFlag === 'Y'}">접수</span>
     </div>
   </div>
 </template>
@@ -37,7 +35,7 @@
 <script setup>
 import { computed } from 'vue'
 import { useRouter } from 'vue-router'
-import { changeTimeFormatAmPm } from '@priros/common/assets/js/utils.js'
+import { changeTimeFormatAmPm, changeTimeFormatAddDot } from '@priros/common/assets/js/utils.js'
 import { bankSVG } from '@priros/common/assets/js/case/bankSVG.js'
 
 const props = defineProps({
@@ -48,7 +46,7 @@ const date = computed(() => {
   return props.caseConfig.issueDate.split(' ')[0]
 })
 const time = computed(() => {
-  return changeTimeFormatAmPm(props.caseConfig.issueTime.replace(/(\d)(?=(?:\d{2})+(?!\d))/g, '$1:'))
+  return changeTimeFormatAmPm(changeTimeFormatAddDot(props.caseConfig.issueTime))
 })
 
 const bankIcon = computed(() => {
@@ -66,18 +64,6 @@ const tags = computed(() => {
 const router = useRouter()
 const handlerClickCard = () => {
   router.push(`/case/detail-case/${props.caseConfig.tradeCaseId}`)
-}
-
-const handlerClickChargeReport = (e) => {
-  e.preventDefault()
-  e.stopPropagation()
-  router.push(`/case/${props.caseConfig.tradeCaseId}/charge-report`)
-}
-
-const handlerClickScheduleReport = (e) => {
-  e.preventDefault()
-  e.stopPropagation()
-  router.push(`/case/${props.caseConfig.tradeCaseId}/schedule-report`)
 }
 </script>
 
@@ -157,17 +143,7 @@ const handlerClickScheduleReport = (e) => {
   border-radius: 4px;
   border: 1px solid #dfdfdf;
   margin-top: 13px;
-  .my-case-card-status-left {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-  .my-case-card-status-right {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    gap: 10px;
-  }
+  gap: 9px;
   .my-case-card-state {
     font-size: 12px;
     font-weight: $ft-semibold;

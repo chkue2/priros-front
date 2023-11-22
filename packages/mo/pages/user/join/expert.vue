@@ -6,7 +6,6 @@
       <p class="join-form-title">회원유형 *</p>
       <div class="join-form-input-container">
         <select v-model="form['firmType']" class="join-form-input">
-          <option value="">선택해주세요</option>
           <option v-for="t in userTypeEnum" :key="t" :value="t">{{ t }}</option>
         </select>
       </div>

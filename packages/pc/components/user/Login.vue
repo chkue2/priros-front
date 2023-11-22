@@ -20,7 +20,7 @@
       </div>
   </BorderGrayBoxCard>
   <div class="login-form-button-container">
-    <NuxtLink to="/user/signup">회원가입</NuxtLink>
+    <NuxtLink to="/user/join/expert">회원가입</NuxtLink>
     <span>|</span>
     <NuxtLink to="/">아이디찾기</NuxtLink>
     <span>|</span>

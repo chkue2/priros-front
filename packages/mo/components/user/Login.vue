@@ -23,7 +23,7 @@
       </div>
       <button class="login-form-apply-button" @click="handlerClickLoginButton">로그인</button>
       <div class="login-form-button-container">
-        <NuxtLink to="/user/signup" @click="gnbStore.deactivate();">회원가입</NuxtLink>
+        <NuxtLink to="/user/join/expert" @click="gnbStore.deactivate();">회원가입</NuxtLink>
         <NuxtLink to="/">아이디찾기</NuxtLink>
         <NuxtLink to="/faq/list">헬프센터</NuxtLink>
       </div>

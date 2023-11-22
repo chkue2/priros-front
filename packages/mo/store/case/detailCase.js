@@ -11,9 +11,9 @@ export const useDetailCaseStore = defineStore('detailCase', {
   }),
   actions: {
     fetchDetailCase(tradeCaseId) {
+      this.fetchedDetailCase = {}
       tradeCaseDetail.detail(tradeCaseId).then(({data}) => {
         this.fetchedDetailCase = data
-        console.log(data)
       })
     },
   }
