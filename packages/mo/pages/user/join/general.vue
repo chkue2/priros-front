@@ -19,6 +19,10 @@
         <input v-model="form['id']" type="text" class="join-form-input w-60" placeholder="아이디를 입력해주세요">
         <button class="join-form-gray-button">중복확인</button>
       </div>
+      <p class="join-form-title">직책 *</p>
+      <div class="join-form-input-container">
+        <input v-model="form['position']" type="text" class="join-form-input" placeholder="직책을 입력해주세요">
+      </div>
       <p class="join-form-title">비밀번호 *</p>
       <div class="join-form-input-container">
         <input v-model="form['password']" type="password" class="join-form-input" placeholder="영문/숫자/특수문자 혼합 8자 이상">
@@ -60,7 +64,7 @@ const handlerClickCancelButton = () => {
 
 const form = ref({})
 const passwordConfirm = ref('')
-const validateEnum = ['profileImage', 'id', 'password', 'name', 'phone']
+const validateEnum = ['profileImage', 'id', 'position', 'password', 'name', 'phone']
 
 const formValidation = computed(() => {
   for(const e of validateEnum) {
@@ -88,6 +92,8 @@ const handlerClickApplyButton = () => {
       alert('프로필사진을 업로드해주세요')
     } else if(form.value['id'] === undefined || form.value['id'] === ''){
       alert('아이디를 입력해주세요')
+    } else if(form.value['position'] === undefined || form.value['position'] === ''){
+      alert('직책을 입력해주세요')
     } else if(form.value['password'] === undefined || form.value['password'] === ''){
       alert('비밀번호를 입력해주세요')
     } else if(passwordConfirm.value === '') {
