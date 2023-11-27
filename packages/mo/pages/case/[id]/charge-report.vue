@@ -33,11 +33,11 @@
               </tr>
               <tr>
                 <th>이름</th>
-                <td>{{ chargeData.userName }}</td>
+                <td>{{ chargeData.userName }} (ID:{{ chargeData.userId }})</td>
               </tr>
               <tr>
                 <th>연락처</th>
-                <td>{{ chargeData.phone }}</td>
+                <td>{{ rexFormatPhone(chargeData.mobile) }}</td>
               </tr>
               </tbody>
 
@@ -62,18 +62,25 @@
         </div>
       </div>
     </div>
+    <CommonAlertModal
+      v-if="isSuccessModalShow"
+      text="담당자 보고가 완료되었습니다."
+      @handler-click-button="toggleSuccessModal"
+    />
   </NuxtLayout>
 </template>
 
 <script setup>
 
 import {ref, computed, onMounted} from "vue";
-import {useRoute, useRouter} from "vue-router";
+import {useRoute} from "vue-router";
 
-//
 import DropDown from '@priros/common/components/form/DropDown'
 import CommonBottomButton from '@priros/common/components/button/CommonBottomButton.vue'
-import {tradeCaseChargeService} from "~/services/tradeCaseChargeService.js";
+import CommonAlertModal from "@priros/common/components/modal/CommonAlertModal.vue"
+
+import { tradeCaseChargeReport } from "~/services/tradeCaseChargeReport.js";
+import { rexFormatPhone } from '@priros/common/assets/js/utils.js'
 
 
 definePageMeta({
@@ -81,15 +88,13 @@ definePageMeta({
 });
 
 
-const router = useRouter();
 const chargeOptions = ref([]);
 const chargeData = ref(null);
-const isChargeCompleted = ref(false);
 
 const tradeCaseId = useRoute().params.id;
 
 const description = computed(() => {
-  if (isChargeCompleted.value) {
+  if (chargeData.value === null) {
     return `
     담당자의 프로필이 고객에게 알림톡으로 전송됩니다.
     <br>담당자보고를 수행하시겠습니까?
@@ -102,56 +107,54 @@ const description = computed(() => {
   }
 });
 
-const chargeSelectText = computed(() => chargeData.value?.userName || "");
+const chargeSelectText = computed(() => `${chargeData.value?.userName} (${chargeData.value?.userId})` || "");
 
 const btnSendDisable = computed(() => !chargeData.value);
 
-const fetchChargeState = async (tradeCaseId) => {
-  try {
-    const {data} = await tradeCaseChargeService.state(tradeCaseId);
-    chargeData.value = data || null;
-    isChargeCompleted.value = !!data;
-    
-    if (!data){
-      fetchChargeList(tradeCaseId);
-    }
+onMounted(() => {
+  fetchChargeList()
+});
 
-  } catch (error) {
-    console.error("STATE 예외가 발생했습니다:", error.message);
-  }
+const isSuccessModalShow = ref(false)
+const toggleSuccessModal = () => {
+  isSuccessModalShow.value = !isSuccessModalShow.value
+}
+
+const fetchChargeList = () => {
+  tradeCaseChargeReport.get(tradeCaseId)
+    .then(({data}) => {
+      console.log(data)
+      chargeOptions.value = data.userList.map(u => {
+        return {
+          text: `${u.userName} (${u.userId})`,
+          value: u
+        }
+      })
+      chargeData.value = data.charger
+    })
 };
 
-const fetchChargeList = async (tradeCaseId) => {
-  try {
-    const {data} = await tradeCaseChargeService.list(tradeCaseId);
-    console.log(data)
-
-    if (data?.value) {
-      chargeOptions.value = data.value.map(item => ({
-        text: item.userName,
-        value: item
-      }));
-    }
-  } catch (error) {
-    console.error("예외가 발생했습니다:", error.message);
-  }
-};
+const requestCharge = () => {
+  tradeCaseChargeReport.post(tradeCaseId, {tradeCaseId, userId: chargeData.value.userId})
+    .then(() => {
+      toggleSuccessModal()
+    })
+    .catch((e) => {
+      alert('담당자보고 실패')
+      console.log(e)
+    })
+}
 
 const handleChargeOption = ({value}) => (chargeData.value = value);
 
 const handleBtnSendClick = () => {
-  if (isChargeCompleted.value) {
-    router.back();
-    return;
+  if(chargeData.value === null) {
+    alert('담당자를 선택해주세요')
+    return false
   }
 
-  // TODO: validation 및 통신
-  console.log("send");
+  requestCharge()
 }
-
-onMounted(() => {
-  fetchChargeState(tradeCaseId);
-});
 </script>
 
 <style scoped lang="scss">

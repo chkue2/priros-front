@@ -20,6 +20,7 @@ const props = defineProps({
 
 const headerTitleText = computed(() => props.headerTitle || '팝업');
 const handlerClickCloseButton = () => {
+  document.querySelector('body').removeAttribute('style')
   router.back()
 }
 </script>

@@ -40,6 +40,10 @@ const API_URL = {
         GET: '/tradecases/:trade_case_id/schedule',
         POST: '/tradecases/:trade_case_id/schedule',
     },
+    TRADE_CASE_CHARGE_REPORT: {
+        GET: '/tradecases/:trade_case_id/charge',
+        POST: '/tradecases/:trade_case_id/charge',
+    },
     TRADE_CASE_CHARGER: {
         LIST: '/trade-case/:trade_case_id/charge',
         REPORT: '/trade-case/:trade_case_id/charge',
