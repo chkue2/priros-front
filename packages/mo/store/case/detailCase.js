@@ -7,7 +7,8 @@ export const useDetailCaseStore = defineStore('detailCase', {
     fetchedChangedList: [],
     fetchedMemoList: [],
     fetchedProcessedList: [],
-    fetchedFilesList: []
+    fetchedFilesList: [],
+    fetcehdEstimate: {}
   }),
   actions: {
     fetchDetailCase(tradeCaseId) {
@@ -16,5 +17,11 @@ export const useDetailCaseStore = defineStore('detailCase', {
         this.fetchedDetailCase = data
       })
     },
+    fetchDetailEstimate(tradeCaseId) {
+      this.fetcehdEstimate = {}
+      tradeCaseDetail.estimate(tradeCaseId).then(({data}) => {
+        this.fetcehdEstimate = data
+      })
+    }
   }
 })

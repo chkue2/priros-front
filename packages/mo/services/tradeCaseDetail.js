@@ -4,5 +4,9 @@ export const tradeCaseDetail = {
   async detail(tradeCaseId) {
     const endpoint = getEndpoint(API_URL.TRADE_CASE_ACCEPT.DETAIL, {trade_case_id: tradeCaseId})
     return await GET_AUTH(endpoint)
+  },
+  async estimate(tradeCaseId) {
+    const endpoint = getEndpoint(API_URL.TRADE_CASE.ESTIMATE, {trade_case_id: tradeCaseId})
+    return await GET_AUTH(endpoint)
   }
 }

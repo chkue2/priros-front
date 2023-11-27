@@ -58,7 +58,8 @@
         </div>
         <div class="detail-case-table-header">계약서</div>
         <div class="detail-case-table-contents flex-spacebetween">
-          매매계약서 <button class="detail-case-button" @click="toggleContactModalShow">확인</button>
+          {{contractFileText}} 
+          <button v-if="detailCaseStore.fetchedDetailCase.contractFileFlag === 'Y'" class="detail-case-button" @click="toggleContactModalShow">확인</button>
         </div>
         <div class="detail-case-table-header">매매대금</div>
         <div class="detail-case-table-contents">{{ salesPrice }}원</div>
@@ -162,7 +163,7 @@
       title="견적확인"
       @handler-click-close="toggleEstimateModalShow"
     >
-      <DetailCaseEstimateCard />
+      <DetailCaseEstimateCard :trade-case-id="tradeCaseId" />
       <button class="info-modal-button" @click="toggleEstimateModalShow">확인</button>
     </CommonBlackTitleModal>
     <CommonBlackTitleModal
@@ -259,7 +260,7 @@ const insuranceAmt = computed(() =>
     Number(detailCaseStore.fetchedDetailCase.insuranceAmt).toLocaleString() : '0'
 )
 const repaymentStatus = computed(() => 
-  detailCaseStore.fetchedDetailCase.repaymentStatus === 'Y' ? '상환있음' : '싱환없음'
+  detailCaseStore.fetchedDetailCase.repaymentStatus === 'Y' ? '상환있음' : '상환없음'
 )
 const mortgageLoan = computed(() => 
   !isEmpty(detailCaseStore.fetchedDetailCase.mortgageLoan) ? 
@@ -267,6 +268,9 @@ const mortgageLoan = computed(() =>
 )
 const liabilityInsurance = computed(() => 
   detailCaseStore.fetchedDetailCase.insuranceYn === 'Y' ? '가입 대상' : '가입 비대상'
+)
+const contractFileText = computed(() => 
+  detailCaseStore.fetchedDetailCase.contractFileFlag === 'Y' ? '매매계약서' : ''
 )
 
 const product = computed(() => {

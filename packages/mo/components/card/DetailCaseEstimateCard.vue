@@ -4,24 +4,24 @@
       <div class="estimate-accordion-top">
         <p class="estimate-accordion-top-title">견적요약 정보</p>
         <div class="estimate-accordion-top-right">
-          <span class="estimate-accordion-top-amount">3,667,492 원</span>
+          <span class="estimate-accordion-top-amount">{{ taxAndPaySum }} 원</span>
           <img src="/img/icon/expand-down-gray.svg" class="estimate-accordion-top-icon">
         </div>
       </div>
       <div class="estimate-accordion-contents">
         <div class="estimate-accordion-contents-grid">
           <p class="estimate-accordion-contents-title">등기비용</p>
-          <p class="estimate-accordion-contents-text">3,667,492 원</p>
+          <p class="estimate-accordion-contents-text">{{ taxAndPaySum }} 원</p>
           <p class="estimate-accordion-contents-title">입금계좌</p>
-          <p class="estimate-accordion-contents-text">110-11-12302123-23</p>
+          <p class="estimate-accordion-contents-text">{{ estimateAccount }}</p>
           <p class="estimate-accordion-contents-title">대출기관</p>
-          <p class="estimate-accordion-contents-text">광주은행</p>
+          <p class="estimate-accordion-contents-text">{{ bankName }}</p>
           <p class="estimate-accordion-contents-title">대출금</p>
-          <p class="estimate-accordion-contents-text">110,000,000 원</p>
+          <p class="estimate-accordion-contents-text">{{ mortgageLoan }} 원</p>
           <p class="estimate-accordion-contents-title">대출실행금</p>
-          <p class="estimate-accordion-contents-text">110,000,000 원</p>
+          <p class="estimate-accordion-contents-text">{{ mortgageExecution }} 원</p>
           <p class="estimate-accordion-contents-title">견적발행일</p>
-          <p class="estimate-accordion-contents-text">2023-10-01</p>
+          <p class="estimate-accordion-contents-text">{{ summaryCreated }}</p>
         </div>
       </div>
     </div>
@@ -36,20 +36,20 @@
       </div>
       <div class="estimate-accordion-contents">
         <p class="estimate-accordion-object-title">목적물</p>
-        <p class="estimate-accordion-object-address">경상남도 창원시 마산합포구 월영동 736 월영에스케이오션뷰 제 104동 제 1805호</p>
+        <p class="estimate-accordion-object-address">{{ estateAddr }}</p>
         <div class="estimate-accordion-contents-grid">
-          <p class="estimate-accordion-contents-title">등기비용</p>
-          <p class="estimate-accordion-contents-text">3,667,492 원</p>
-          <p class="estimate-accordion-contents-title">입금계좌</p>
-          <p class="estimate-accordion-contents-text">110-11-12302123-23</p>
-          <p class="estimate-accordion-contents-title">대출기관</p>
-          <p class="estimate-accordion-contents-text">광주은행</p>
-          <p class="estimate-accordion-contents-title">대출금</p>
-          <p class="estimate-accordion-contents-text">110,000,000 원</p>
-          <p class="estimate-accordion-contents-title">대출실행금</p>
-          <p class="estimate-accordion-contents-text">110,000,000 원</p>
-          <p class="estimate-accordion-contents-title">견적발행일</p>
-          <p class="estimate-accordion-contents-text">2023-10-01</p>
+          <p class="estimate-accordion-contents-title">매수인</p>
+          <p class="estimate-accordion-contents-text">{{ buyer }}</p>
+          <p class="estimate-accordion-contents-title">산출조건</p>
+          <p class="estimate-accordion-contents-text">{{ estateCondition }}</p>
+          <p class="estimate-accordion-contents-title">농특세</p>
+          <p class="estimate-accordion-contents-text">{{ farmTaxApply }}</p>
+          <p class="estimate-accordion-contents-title">매매대금</p>
+          <p class="estimate-accordion-contents-text">{{ tradePrice }} 원</p>
+          <p class="estimate-accordion-contents-title">시가표준액</p>
+          <p class="estimate-accordion-contents-text">{{ estimatePrice }} 원</p>
+          <p class="estimate-accordion-contents-title">채권매입금</p>
+          <p class="estimate-accordion-contents-text">{{ estimateBond }} 원</p>
         </div>
       </div>
     </div>
@@ -57,28 +57,28 @@
       <div class="estimate-accordion-top">
         <p class="estimate-accordion-top-title">제세공과금</p>
         <div class="estimate-accordion-top-right">
-          <span class="estimate-accordion-top-amount">5,507,092 원</span>
+          <span class="estimate-accordion-top-amount">{{ taxSum }} 원</span>
           <img src="/img/icon/expand-down-gray.svg" class="estimate-accordion-top-icon">
         </div>
       </div>
       <div class="estimate-accordion-contents">
         <div class="estimate-accordion-contents-grid pd-sm">
           <p class="estimate-accordion-contents-title">취득세</p>
-          <p class="estimate-accordion-contents-text">4,000,000 원</p>
+          <p class="estimate-accordion-contents-text">{{ regTax }} 원</p>
           <p class="estimate-accordion-contents-title">지방교육세</p>
-          <p class="estimate-accordion-contents-text">400,000 원</p>
+          <p class="estimate-accordion-contents-text">{{ eduTax }} 원</p>
           <p class="estimate-accordion-contents-title">농특세</p>
-          <p class="estimate-accordion-contents-text">0 원</p>
+          <p class="estimate-accordion-contents-text">{{ farmTax }} 원</p>
           <p class="estimate-accordion-contents-title">인지</p>
-          <p class="estimate-accordion-contents-text">150,000 원</p>
+          <p class="estimate-accordion-contents-text">{{ goveStamp }} 원</p>
           <p class="estimate-accordion-contents-title">중지</p>
-          <p class="estimate-accordion-contents-text">13,000 원</p>
+          <p class="estimate-accordion-contents-text">{{ courtStamp }} 원</p>
           <p class="estimate-accordion-contents-title">채권부담금</p>
-          <p class="estimate-accordion-contents-text">944,092 원</p>
+          <p class="estimate-accordion-contents-text">{{ bondPay }} 원</p>
         </div>
         <div class="estimate-accordion-total">
           <p class="estimate-accordion-total-title">소계</p>
-          <p class="estimate-accordion-total-amount">5,507,092 원</p>
+          <p class="estimate-accordion-total-amount">{{ taxSum }} 원</p>
         </div>
       </div>
     </div>
@@ -86,30 +86,30 @@
       <div class="estimate-accordion-top">
         <p class="estimate-accordion-top-title">수수료</p>
         <div class="estimate-accordion-top-right">
-          <span class="estimate-accordion-top-amount">463,100 원</span>
+          <span class="estimate-accordion-top-amount">{{ paySum }} 원</span>
           <img src="/img/icon/expand-down-gray.svg" class="estimate-accordion-top-icon">
         </div>
       </div>
       <div class="estimate-accordion-contents">
         <div class="estimate-accordion-contents-grid pd-sm">
           <p class="estimate-accordion-contents-title">적용수수료</p>
-          <p class="estimate-accordion-contents-text">381,000 원</p>
+          <p class="estimate-accordion-contents-text">{{ discountedLegalPay }} 원</p>
           <p class="estimate-accordion-contents-title">거래신고대행</p>
-          <p class="estimate-accordion-contents-text">40,000 원</p>
+          <p class="estimate-accordion-contents-text">{{ rtmsApplyPay }} 원</p>
           <p class="estimate-accordion-contents-title">다중매매</p>
-          <p class="estimate-accordion-contents-text">0 원</p>
+          <p class="estimate-accordion-contents-text">{{ multiPay }} 원</p>
           <p class="estimate-accordion-contents-title">수수료계</p>
-          <p class="estimate-accordion-contents-text">421,000 원</p>
+          <p class="estimate-accordion-contents-text">{{ payedPaySum }} 원</p>
           <p class="estimate-accordion-contents-title">부가세</p>
-          <p class="estimate-accordion-contents-text">42,100 원</p>
+          <p class="estimate-accordion-contents-text">{{ vatLegalPay }} 원</p>
         </div>
         <div class="estimate-accordion-total">
           <p class="estimate-accordion-total-title">소계</p>
-          <p class="estimate-accordion-total-amount">463,100 원</p>
+          <p class="estimate-accordion-total-amount">{{ paySum }} 원</p>
         </div>
       </div>
     </div>
-    <p class="estimate-info-text mt-18 mb-42">기본 법정수수료(소계) : 642,400원 (VAT포함)</p>
+    <p class="estimate-info-text mt-18 mb-42">기본 법정수수료(소계) : {{ legalFee }}원 (VAT포함)</p>
     <div class="estimate-accordion open">
       <div class="estimate-accordion-top">
         <p class="estimate-accordion-top-title">견적서 안내문</p>
@@ -118,17 +118,165 @@
         </div>
       </div>
       <div class="estimate-accordion-contents">
-        <p class="estimate-accordion-intro mb-24">※ 준비서류 ※</p>
-        <p class="estimate-accordion-intro">- 매매계약서 원본<br>- 주민등록초본 각 1통 (주소변동내역 포함, 주민등록번호 공개)<br>- 주민등록등본 각 1통 (주소변동내역 포함, 주민등록번호 공개)<br>- 가족관계증명서 각 1통 (상세증명서)<br>- 도장<br>- 신분증<br></p>
-        <p class="estimate-accordion-intro mt-24">※ 국민주택채권 매입부담금은 매입일의 할인율에 따라 소폭의 가감이 있을 수 있습니다 ※</p>
+        <p class="estimate-accordion-intro" v-html="estimateMemo"></p>
       </div>
     </div>
-    <p class="estimate-charge-info">다이렉트로 법무사 (견적담당자 : 김프리 )<br><a href="tel:02-453-7896">T. 02-453-7896</a></p>
+    <p class="estimate-charge-info">{{ registryFirmName }} (견적담당자 : {{ estimateChargerName }} )<br><a :href="`tel:${registryFirmPhone}`">T. {{ registryFirmPhone }}</a></p>
   </div>
 </template>
+<script setup>
+import { onMounted, computed } from 'vue'
+import { useDetailCaseStore } from '~/store/case/detailCase.js'
+import { isEmpty, rexFormatPhone } from '@priros/common/assets/js/utils.js'
+import { bankSVG } from '@priros/common/assets/js/case/bankSVG.js'
+
+const props = defineProps({
+  tradeCaseId: {
+    type: String,
+    default: ''
+  }
+})
+const detailCaseStore = useDetailCaseStore()
+
+onMounted(() => {
+  detailCaseStore.fetchDetailEstimate(props.tradeCaseId)
+})
+
+// 견적 요약 정보
+const taxAndPaySum = computed(() =>
+  !isEmpty(detailCaseStore.fetcehdEstimate.summary) ?
+    Number(detailCaseStore.fetcehdEstimate.summary.taxAndPaySum).toLocaleString() : ''
+)
+const estimateAccount = computed(() => 
+  !isEmpty(detailCaseStore.fetcehdEstimate.summary) ?
+  detailCaseStore.fetcehdEstimate.summary.estimateAccount : ''
+)
+const bankName = computed(() => 
+  !isEmpty(detailCaseStore.fetcehdEstimate.summary) ? 
+    bankSVG[detailCaseStore.fetcehdEstimate.summary.venderId].title : ''
+)
+const mortgageLoan = computed(() =>
+  !isEmpty(detailCaseStore.fetcehdEstimate.summary) ? 
+      Number(detailCaseStore.fetcehdEstimate.summary.mortgageLoan).toLocaleString() : ''
+)
+const mortgageExecution = computed(() =>
+  !isEmpty(detailCaseStore.fetcehdEstimate.summary) ? 
+      Number(detailCaseStore.fetcehdEstimate.summary.mortgageExecution).toLocaleString() : ''
+)
+const summaryCreated = computed(() =>
+  !isEmpty(detailCaseStore.fetcehdEstimate.summary) ? 
+      detailCaseStore.fetcehdEstimate.summary.created : ''
+)
+
+// 사건정보
+const estateAddr = computed(() => 
+  !isEmpty(detailCaseStore.fetcehdEstimate.tradeCaseInfo) ?
+    `${detailCaseStore.fetcehdEstimate.tradeCaseInfo.estateAddr} ${detailCaseStore.fetcehdEstimate.tradeCaseInfo.estateRestAddr}` : ''
+)
+const buyer = computed(() => 
+  !isEmpty(detailCaseStore.fetcehdEstimate.tradeCaseInfo) ?
+    detailCaseStore.fetcehdEstimate.tradeCaseInfo.buyer.join(', ') : ''
+)
+const estateCondition = computed(() => 
+  !isEmpty(detailCaseStore.fetcehdEstimate.tradeCaseInfo) ?
+    detailCaseStore.fetcehdEstimate.tradeCaseInfo.estateCondition : ''
+)
+const farmTaxApply = computed(() => 
+  !isEmpty(detailCaseStore.fetcehdEstimate.tradeCaseInfo) ?
+    detailCaseStore.fetcehdEstimate.tradeCaseInfo.farmTaxApply : ''
+)
+const tradePrice = computed(() => 
+  !isEmpty(detailCaseStore.fetcehdEstimate.tradeCaseInfo) ?
+    Number(detailCaseStore.fetcehdEstimate.tradeCaseInfo.tradePrice).toLocaleString() : ''
+)
+const estimatePrice = computed(() => 
+  !isEmpty(detailCaseStore.fetcehdEstimate.tradeCaseInfo) ?
+    Number(detailCaseStore.fetcehdEstimate.tradeCaseInfo.estimatePrice).toLocaleString() : ''
+)
+const estimateBond = computed(() => 
+  !isEmpty(detailCaseStore.fetcehdEstimate.tradeCaseInfo) ?
+    Number(detailCaseStore.fetcehdEstimate.tradeCaseInfo.estimateBond).toLocaleString() : ''
+)
+
+// 제세공과금
+const taxSum = computed(() => 
+  !isEmpty(detailCaseStore.fetcehdEstimate.taxesAndDues) ?
+    Number(detailCaseStore.fetcehdEstimate.taxesAndDues.taxSum).toLocaleString() : ''
+)
+const regTax = computed(() => 
+  !isEmpty(detailCaseStore.fetcehdEstimate.taxesAndDues) ?
+    Number(detailCaseStore.fetcehdEstimate.taxesAndDues.regTax).toLocaleString() : ''
+)
+const eduTax = computed(() => 
+  !isEmpty(detailCaseStore.fetcehdEstimate.taxesAndDues) ?
+    Number(detailCaseStore.fetcehdEstimate.taxesAndDues.eduTax).toLocaleString() : ''
+)
+const farmTax = computed(() => 
+  !isEmpty(detailCaseStore.fetcehdEstimate.taxesAndDues) ?
+    Number(detailCaseStore.fetcehdEstimate.taxesAndDues.farmTax).toLocaleString() : ''
+)
+const goveStamp = computed(() => 
+  !isEmpty(detailCaseStore.fetcehdEstimate.taxesAndDues) ?
+    Number(detailCaseStore.fetcehdEstimate.taxesAndDues.goveStamp).toLocaleString() : ''
+)
+const courtStamp = computed(() => 
+  !isEmpty(detailCaseStore.fetcehdEstimate.taxesAndDues) ?
+    Number(detailCaseStore.fetcehdEstimate.taxesAndDues.courtStamp).toLocaleString() : ''
+)
+const bondPay = computed(() => 
+  !isEmpty(detailCaseStore.fetcehdEstimate.taxesAndDues) ?
+    Number(detailCaseStore.fetcehdEstimate.taxesAndDues.bondPay).toLocaleString() : ''
+)
+
+// 수수료
+const paySum = computed(() => 
+  !isEmpty(detailCaseStore.fetcehdEstimate.fee) ?
+    Number(detailCaseStore.fetcehdEstimate.fee.paySum).toLocaleString() : ''
+)
+const discountedLegalPay = computed(() => 
+  !isEmpty(detailCaseStore.fetcehdEstimate.fee) ?
+    Number(detailCaseStore.fetcehdEstimate.fee.discountedLegalPay).toLocaleString() : ''
+)
+const rtmsApplyPay = computed(() => 
+  !isEmpty(detailCaseStore.fetcehdEstimate.fee) ?
+    Number(detailCaseStore.fetcehdEstimate.fee.rtmsApplyPay).toLocaleString() : ''
+)
+const multiPay = computed(() => 
+  !isEmpty(detailCaseStore.fetcehdEstimate.fee) ?
+    Number(detailCaseStore.fetcehdEstimate.fee.multiPay).toLocaleString() : ''
+)
+const payedPaySum = computed(() => 
+  !isEmpty(detailCaseStore.fetcehdEstimate.fee) ?
+    Number(detailCaseStore.fetcehdEstimate.fee.payedPaySum).toLocaleString() : ''
+)
+const vatLegalPay = computed(() => 
+  !isEmpty(detailCaseStore.fetcehdEstimate.fee) ?
+    Number(detailCaseStore.fetcehdEstimate.fee.vatLegalPay).toLocaleString() : ''
+)
+const legalFee = computed(() => 
+  !isEmpty(detailCaseStore.fetcehdEstimate.fee) ?
+    Number(detailCaseStore.fetcehdEstimate.fee.legalFee).toLocaleString() : ''
+)
+
+// 견적서 안내문
+const estimateMemo = computed(() => 
+  !isEmpty(detailCaseStore.fetcehdEstimate.info) ?
+    detailCaseStore.fetcehdEstimate.info.estimateMemo : '-'
+)
+const registryFirmName = computed(() => 
+  !isEmpty(detailCaseStore.fetcehdEstimate.info) ?
+    detailCaseStore.fetcehdEstimate.info.registryFirmName : ''
+)
+const estimateChargerName = computed(() => 
+  !isEmpty(detailCaseStore.fetcehdEstimate.info) ?
+    detailCaseStore.fetcehdEstimate.info.estimateChargerName : ''
+)
+const registryFirmPhone = computed(() => 
+  !isEmpty(detailCaseStore.fetcehdEstimate.info) ?
+  rexFormatPhone(detailCaseStore.fetcehdEstimate.info.registryFirmPhone) : ''
+)
+</script>
 <style scoped lang="scss">
-
-
 .estimate-container {
   padding: 20px 16px 58px;
   .estimate-accordion {

@@ -26,6 +26,9 @@ const API_URL = {
     FAQ: {
         LIST: '/faq/list'
     },
+    TRADE_CASE: {
+        ESTIMATE: '/tradecases/:trade_case_id/estimate'
+    },
     TRADE_CASE_ACCEPT: {
         COUNTER: '/tradecases/accept/counter',
         LIST_ALL: '/tradecases/accept',
