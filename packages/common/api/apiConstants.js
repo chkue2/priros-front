@@ -36,6 +36,10 @@ const API_URL = {
         LIST_RECEIVE: '/tradecases/accept/receive',
         DETAIL: '/tradecases/accept/:trade_case_id'
     },
+    TRADE_CASE_SCHEDULE_REPORT: {
+        GET: '/tradecases/:trade_case_id/schedule',
+        POST: '/tradecases/:trade_case_id/schedule',
+    },
     TRADE_CASE_CHARGER: {
         LIST: '/trade-case/:trade_case_id/charge',
         REPORT: '/trade-case/:trade_case_id/charge',

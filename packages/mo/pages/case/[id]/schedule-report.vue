@@ -10,7 +10,7 @@
           </div>
         </div>
         <div class="inner-body">
-          <div v-if="!isCompleted && chargeData" class="inner-content">
+          <div class="inner-content">
             <table class="tbl">
               <colgroup>
                 <col style="width: 60px">
@@ -19,18 +19,17 @@
               <tbody>
               <tr>
                 <th>상호</th>
-                <td>{{ chargeData.firmName }}</td>
+                <td>{{ firmName }}</td>
               </tr>
               <tr>
                 <th>이름</th>
-                <td>{{ chargeData.userName }}</td>
+                <td>{{ userName }} (ID: {{ userId }})</td>
               </tr>
               <tr>
                 <th>연락처</th>
-                <td>{{ chargeData.phone }}</td>
+                <td>{{ userPhone }}</td>
               </tr>
               </tbody>
-
             </table>
           </div>
           <div class="forms">
@@ -71,42 +70,58 @@
               text="일정보고"
               backgroundColor="#000000" height="60px" width="100%" color="#fff"
               :font-weight="700"
-              :disabled="btnSendDisable"
               @handler-click-button="handleBtnSendClick"
 
           />
         </div>
       </div>
     </div>
+    <CommonAlertModal
+      v-if="isSuccessModalShow"
+      text="일정보고가 완료되었습니다."
+      @handler-click-button="toggleSuccessModal"
+    />
   </NuxtLayout>
 </template>
 
 <script setup>
 import {ref, computed, onMounted} from "vue";
-import {useRoute, useRouter} from "vue-router";
+import { useRoute } from "vue-router";
 
-import { isEmpty, zeroStr } from '@priros/common/assets/js/utils.js'
-
-import DropDown from '@priros/common/components/form/DropDown'
 import CommonBottomButton from '@priros/common/components/button/CommonBottomButton.vue'
+import CommonAlertModal from "@priros/common/components/modal/CommonAlertModal.vue"
+import { isEmpty, zeroStr, rexFormatPhone } from '@priros/common/assets/js/utils.js'
+import { tradeCaseScheduleReport } from '~/services/tradeCaseScheduleReport.js'
+
 
 definePageMeta({
   layout: false
 });
 
-const chargeData = ref({
-    "userId": "id1",
-    "firmCode": "FIRMCODE1",
-    "firmName": "회사이름",
-    "position": "대리",
-    "userName": "김대리",
-    "phone": "010-1234-1234",
-    "tradeCaseId": 1
-});
-
 const hour = ref('')
 const minute = ref('')
 const date = ref('')
+
+const route = useRoute()
+const tradeCaseId = route.params.id
+
+const firmName = ref('')
+const userId = ref('')
+const userName = ref('')
+const userPhone = ref('')
+onMounted(() => {
+  tradeCaseScheduleReport.get(tradeCaseId).then(({data}) => {
+    if(!isEmpty.data) {
+      date.value = data.issueDate.split(' ')[0]
+      hour.value = data.issueTime.slice(0, 2)
+      minute.value = data.issueTime.slice(2, 4)
+      firmName.value = data.firmName
+      userId.value = data.userId
+      userName.value = data.userName
+      userPhone.value = rexFormatPhone(data.userPhone)
+    }
+  })
+})
 
 const formValidation = computed(() => {
   return (
@@ -116,9 +131,10 @@ const formValidation = computed(() => {
   )
 })
 
-const isCompleted = ref(false);
-
-const btnSendDisable = false;
+const isSuccessModalShow = ref(false)
+const toggleSuccessModal = () => {
+  isSuccessModalShow.value = !isSuccessModalShow.value
+}
 
 const handleBtnSendClick = () => {
   if(!formValidation.value) {
@@ -132,7 +148,16 @@ const handleBtnSendClick = () => {
 
     return false
   }
-  console.log('send')
+  
+  tradeCaseScheduleReport.post(tradeCaseId, {
+    issueDate: date.value,
+    issueTime: `${hour.value}${minute.value}`
+  }).then(() => {
+    toggleSuccessModal()
+  }).catch(e => {
+    alert('일정보고 실패')
+    console.log(e)
+  })
 }
 
 </script>
