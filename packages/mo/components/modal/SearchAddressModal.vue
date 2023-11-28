@@ -5,8 +5,18 @@
     <button class="close-button" @click="handlerClickCloseModal"></button>
     </div>
     <div class="search-container">
-      <input v-model="searchKeyword" type="text" @keyup.enter="handlerClickSearchAddress">
+      <input v-model="searchKeyword" type="text" placeholder="도로명 또는 지번을 입력하세요" @keyup.enter="handlerClickSearchAddress">
       <img src="/img/icon/search-gray.svg" aria-hidden class="my-case-search-icon" @click="handlerClickSearchIcon">
+    </div>
+    <div v-if="!isError && !isEmpty && !isSuccess" class="search-tip">
+      <p class="search-tip-title">tip</p>
+      <p class="search-tip-content">아래와 같은 조합으로 검색을 하시면 더욱 정확한 결과가 검색됩니다.</p>
+      <p class="search-tip-content">도로명 + 건물번호</p>
+      <p class="search-tip-content content--blue">예) 판교역로 166, 제주 첨단로 242</p>
+      <p class="search-tip-content">지역명(동/리) + 번지</p>
+      <p class="search-tip-content content--blue">예) 백현동 532, 제주 영평동 2181</p>
+      <p class="search-tip-content">지역명(동/리) + 건물명(아파트명)</p>
+      <p class="search-tip-content content--blue">예) 분당 주공, 연수동 주공3차</p>
     </div>
     <div v-if="isError" class="search-error">
     <img class="search-error-image" src="/img/cha/cha-empty.png" aria-hidden>
@@ -70,7 +80,6 @@ const requestSearchAddress = () => {
   const form = `confmKey=U01TX0FVVEgyMDIxMDIwMzE3NTUyODExMDc3Nzc=&currentPage=${currentPage.value}&countPerPage=10&keyword=${searchKeyword.value}&resultType=json`
   axios.get(`https://business.juso.go.kr/addrlink/addrLinkApi.do?${form}`)
     .then(({data}) => {
-      console.log(data)
       if(!data.results.juso) {
         isError.value = true
         errorMessage.value = data.results.common.errorMessage
@@ -196,7 +205,7 @@ const handlerClickAddressItem = (address) => {
   }
 }
 .search-item {
-  padding: 16px;
+  padding: 16px 0;
   border-bottom: 1px solid #d9d9d9;
   .item-column {
     display: flex;
@@ -208,13 +217,30 @@ const handlerClickAddressItem = (address) => {
     .item-title {
       font-size: 14px;
       color: #d9d9d9;
-      width: 70px;
+      width: 80px;
     }
     .item-content {
       font-size: 14px;
       color: #000000;
       font-weight: $ft-medium;
       flex: 1;
+    }
+  }
+}
+.search-tip {
+  padding: 35px 16px;
+  .search-tip-title {
+    font-size: 20px;
+    font-weight: $ft-bold;
+    margin-bottom: 25px;
+  }
+  .search-tip-content {
+    font-size: 15px;
+    & + .search-tip-content {
+      margin-top: 12px;
+    }
+    &.content--blue {
+      color: #649fcc;
     }
   }
 }

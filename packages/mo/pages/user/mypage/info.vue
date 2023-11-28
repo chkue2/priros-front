@@ -33,7 +33,7 @@
               <label for="" class="form-label">상세주소</label>
             </div>
             <div class="form-input">
-              <input type="text">
+              <input ref="detailAddress" type="text">
             </div>
           </div>
           <div class="form-group">
@@ -109,9 +109,10 @@ const toggleAddressModal = () => {
 const form = ref({
   address: ''
 })
-
+const detailAddress = ref(null)
 const setAddress = (value) => {
   form.value.address = value
+  detailAddress.value?.focus()
 }
 
 const handleBtnSendClick = () => {
