@@ -26,6 +26,10 @@ const API_URL = {
     FAQ: {
         LIST: '/faq/list'
     },
+    TASK: {
+        REGIST: '/task/regist-info',
+        BOND: '/task/bond-discount-rate'
+    },
     TRADE_CASE: {
         ESTIMATE: '/tradecases/:trade_case_id/estimate'
     },

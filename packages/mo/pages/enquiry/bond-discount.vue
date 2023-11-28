@@ -10,13 +10,7 @@
             <tr><td>기준일</td><td>채권할인율</td></tr>
           </thead>
           <tbody>
-            <tr><td>2023-10-20</td><td>15.5708%</td></tr>
-            <tr><td>2023-10-19</td><td>15.3484%</td></tr>
-            <tr><td>2023-10-18</td><td>15.146%</td></tr>
-            <tr><td>2023-10-17</td><td>15.0433%</td></tr>
-            <tr><td>2023-10-16</td><td>14.9207%</td></tr>
-            <tr><td>2023-10-13</td><td>14.7421%</td></tr>
-            <tr><td>2023-10-12</td><td>14.8388%</td></tr>
+            <tr v-for="(discount, index) in discountList" :key="index"><td>{{ discount.issueDate }}</td><td>{{ discount.discountRate }}%</td></tr>
           </tbody>
         </table>
       </div>
@@ -25,9 +19,23 @@
 </template>
 
 <script setup>
+import { ref, onMounted } from 'vue'
+import { enquiry } from '~/services/enquiry.js'
+
 definePageMeta({
   layout: false
 });
+
+const discountList = ref([])
+const fetchBondDiscount = () => {
+  enquiry.bond()
+    .then(({data}) => {
+      discountList.value = data.list
+    })
+}
+onMounted(() => {
+  fetchBondDiscount()
+})
 </script>
 
 <style scoped lang="scss">

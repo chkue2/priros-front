@@ -12,7 +12,7 @@
               <label for="" class="form-label">부동산 고유번호</label>
             </div>
             <div class="form-input">
-              <input type="text" placeholder="고유번호">
+              <input v-model="pin" type="text" placeholder="고유번호">
             </div>
           </div>
           <div class="form-group">
@@ -20,7 +20,7 @@
               <label for="" class="form-label">등기필정보 일련번호</label>
             </div>
             <div class="form-input">
-              <input type="text" placeholder="일련번호">
+              <input v-model="serialNo" type="text" placeholder="일련번호">
             </div>
           </div>
         </div>
@@ -43,21 +43,42 @@
   </NuxtLayout>
 </template>
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import CommonBottomButton from '@priros/common/components/button/CommonBottomButton.vue'
 import LoadingModal from '@priros/common/components/modal/LoadingModal.vue'
+
+import { enquiry } from '~/services/enquiry.js'
+
 definePageMeta({
   layout: false
 });
 
+const pin = ref('')
+const serialNo = ref('')
+
+const isSuccess = computed(() => 
+  pin.value !== '' &&
+  serialNo.value !== ''
+)
+
 const isLoading = ref(false)
 
 const handleBtnSendClick = () => {
-  isLoading.value = true
+  if(!isSuccess.value) {
+    alert('부동산 고유번호와 등기필정보 일련번호를 모두 입력해주세요.')
+    return false
+  }
 
-  setTimeout(() => {
+  isLoading.value = true
+  enquiry.get({pin: pin.value, serialNo: serialNo.value}).then(() => {
+    console.log('then')
+  })
+  .catch((e) => {
+    console.log(e)
+  })
+  .finally(() => {
     isLoading.value = false
-  }, 2000)
+  })
 }
 </script>
 <style scoped lang="scss">
