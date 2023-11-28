@@ -240,7 +240,7 @@ const handlerClickAddressItem = (address) => {
       margin-top: 12px;
     }
     &.content--blue {
-      color: #649fcc;
+      color: #008bd3;
     }
   }
 }
