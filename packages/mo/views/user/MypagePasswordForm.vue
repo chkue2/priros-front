@@ -4,12 +4,16 @@
       <p class="form-help-text">프리로스 회원님의 소중한 개인정보를 안전하게 보호하기 위해 한번 더 비밀번호를 입력 해주세요.</p>
       <p class="form-warning-text">※ 비밀번호는 타인에게 노출되지 않도록 주의해 주세요.</p>
       <div class="form-title">비밀번호 재확인</div>
-      <input type="password" autocomplete="off" placeholder="비밀번호를 입력해주세요">
+      <input v-model="myPage.vertifyPassword" type="password" autocomplete="off" placeholder="비밀번호를 입력해주세요">
       <button class="form-button" @click="handlerClickButton">확인</button>
     </div>
   </div>
 </template>
 <script setup>
+import { myPageStore } from '~/store/user/myPage.js'
+
+const myPage = myPageStore()
+
 const emits = defineEmits(['click-button'])
 const handlerClickButton = () => {
   emits('click-button')

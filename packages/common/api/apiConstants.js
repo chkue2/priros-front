@@ -12,7 +12,10 @@ const API_URL = {
     AUTH: {
         LOGIN: '/auth/login',
         LOGOUT: '/auth/logout',
-        REFRESH: '/auth/refresh'
+        REFRESH: '/auth/refresh',
+    },
+    USER: {
+        VERIFY: '/user/verify-password'
     },
     JOIN: {
         EXPERT: '/join-firm'
