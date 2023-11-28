@@ -24,8 +24,8 @@
               <label for="" class="form-label">주소</label>
             </div>
             <div class="form-input">
-              <input type="text" readonly>
-              <button class="form-button">검색</button>
+              <input v-model="form.address" type="text" readonly>
+              <button class="form-button" @click="toggleAddressModal">검색</button>
             </div>
           </div>
           <div class="form-group">
@@ -33,7 +33,7 @@
               <label for="" class="form-label">상세주소</label>
             </div>
             <div class="form-input">
-              <input type="text" readonly>
+              <input type="text">
             </div>
           </div>
           <div class="form-group">
@@ -86,14 +86,33 @@
         />
       </div>
     </div>
+    <SearchAddressModal 
+      :is-show="isAddressModal" 
+      @set-address="setAddress"
+      @close-modal="toggleAddressModal" />
   </NuxtLayout>
 </template>
 
 <script setup>
+import { ref } from 'vue'
 import CommonBottomButton from '@priros/common/components/button/CommonBottomButton.vue'
+import SearchAddressModal from '~/components/modal/SearchAddressModal.vue';
 definePageMeta({
   layout: false,
 })
+
+const isAddressModal = ref(false)
+const toggleAddressModal = () => {
+  isAddressModal.value = !isAddressModal.value
+}
+
+const form = ref({
+  address: ''
+})
+
+const setAddress = (value) => {
+  form.value.address = value
+}
 
 const handleBtnSendClick = () => {
   console.log('send')
