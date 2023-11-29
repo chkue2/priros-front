@@ -56,6 +56,12 @@ const zeroStr = (x, len) => {
   return String(x).padStart(len, '0')
 }
 
+/**
+ * 숫자로만 된 전화번호를 -를 포함한 전화번호로 변경
+ * 
+ * @param {string} text 
+ * @returns 
+ */
 const rexFormatPhone = (text) => {
   return text
           .replace(/[^0-9]/g, '')

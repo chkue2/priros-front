@@ -28,7 +28,7 @@
       <p class="search-error-title">검색 결과가 없습니다.</p>
     </div>
     <div v-if="isSuccess" class="search-list">
-      <div v-for="(address, index) in addressList" :key="index" class="search-item" @click="handlerClickAddressItem(address.roadAddr)">
+      <div v-for="(address, index) in addressList" :key="index" class="search-item" @click="handlerClickAddressItem(address.roadAddr, address.zipNo)">
         <div class="item-column">
           <span class="item-title">우편번호</span>
           <p class="item-content">{{ address.zipNo }}</p>
@@ -115,8 +115,8 @@ const handlerClickNextButton = () => {
 const handlerClickCloseModal = () => {
   emits('close-modal')
 }
-const handlerClickAddressItem = (address) => {
-  emits('set-address', address)
+const handlerClickAddressItem = (address, postCode) => {
+  emits('set-address', {address, postCode})
   handlerClickCloseModal()
 }
 </script>

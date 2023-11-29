@@ -17,6 +17,10 @@ const API_URL = {
     USER: {
         VERIFY: '/user/verify-password'
     },
+    FIRM_INFO: {
+        GET: '/firm/info',
+        POST: '/firm/info'
+    },
     JOIN: {
         EXPERT: '/join-firm'
     },
