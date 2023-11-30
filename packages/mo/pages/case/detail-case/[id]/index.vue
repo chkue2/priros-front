@@ -270,7 +270,7 @@ const liabilityInsurance = computed(() =>
   detailCaseStore.fetchedDetailCase.insuranceYn === 'Y' ? '가입 대상' : '가입 비대상'
 )
 const contractFileText = computed(() => 
-  detailCaseStore.fetchedDetailCase.contractFileFlag === 'Y' ? '매매계약서' : ''
+  detailCaseStore.fetchedDetailCase.contractFileFlag === 'Y' ? '매매계약서' : '매매계약서가 없습니다'
 )
 
 const product = computed(() => {

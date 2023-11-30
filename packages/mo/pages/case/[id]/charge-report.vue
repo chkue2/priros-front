@@ -73,7 +73,7 @@
 <script setup>
 
 import {ref, computed, onMounted} from "vue";
-import {useRoute} from "vue-router";
+import {useRoute, useRouter} from "vue-router";
 
 import DropDown from '@priros/common/components/form/DropDown'
 import CommonBottomButton from '@priros/common/components/button/CommonBottomButton.vue'
@@ -120,6 +120,7 @@ const toggleSuccessModal = () => {
   isSuccessModalShow.value = !isSuccessModalShow.value
 }
 
+const router = useRouter()
 const fetchChargeList = () => {
   tradeCaseChargeReport.get(tradeCaseId)
     .then(({data}) => {
@@ -131,6 +132,10 @@ const fetchChargeList = () => {
         }
       })
       chargeData.value = data.charger
+    })
+    .catch((e) => {
+      alert(e.response.data.message)
+      router.back()
     })
 };
 

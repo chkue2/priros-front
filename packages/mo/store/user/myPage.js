@@ -1,16 +1,22 @@
 import { defineStore } from "pinia"
-import { myPage } from '~/services/myPage.js'
+import { user } from '~/services/user.js'
 
 export const myPageStore = defineStore('myPage', {
   state: () => ({
-    vertifyPassword: ''
+    vertifyPassword: '',
   }),
   actions: {
     requestVertifyPassword() {
-      return myPage.vertifyPassword({password: this.vertifyPassword})
+      return user.vertifyPassword({password: this.vertifyPassword})
     },
     setVertifyPassword(value) {
       this.vertifyPassword = value
+    },
+    fetchUserInfo() {
+      return user.getUserInfo()
+    },
+    requestUserInfo(data) {
+      return user.setUserInfo(data)
     }
   }
 })

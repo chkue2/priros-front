@@ -2,13 +2,13 @@
   <div class="update-wrapper dialog-wrapper">
     <div class="update-form">
       <div class="profile-image">
-        <img src="/img/join/profile-empty.png">
+        <img id="profileImagePreview" src="/img/join/profile-empty.png">
         <div class="profile-image-buttons">
-          <button>
+          <input ref="userProfileImage" type="file" @change="handlerChangeProfileImage">
+          <button @click="handlerClickProfileImageUpload">
             <img src="/img/icon/upload-gray.svg">
             프로필사진 업로드
           </button>
-          <button>적용하기</button>
         </div>
         <p class="profile-image-warning">
           증명사진 또는 여권 사진으로<br>
@@ -21,7 +21,7 @@
             <label for="" class="form-label">이름</label>
           </div>
           <div class="form-input">
-            <input type="text">
+            <input v-model="form['userName']" type="text" readonly>
           </div>
         </div>
         <div class="form-group">
@@ -29,7 +29,7 @@
             <label for="" class="form-label">직책</label>
           </div>
           <div class="form-input">
-            <input type="text">
+            <input v-model="form['position']" type="text" readonly>
           </div>
         </div>
         <div class="form-group">
@@ -37,7 +37,7 @@
             <label for="" class="form-label">휴대전화번호</label>
           </div>
           <div class="form-input">
-            <input type="tel">
+            <input v-model="form['mobile']" type="tel" readonly>
           </div>
         </div>
         <div class="form-group">
@@ -45,7 +45,7 @@
             <label for="" class="form-label">전화번호</label>
           </div>
           <div class="form-input">
-            <input type="tel">
+            <input v-model="form['phone']" type="tel">
           </div>
         </div>
         <div class="form-group">
@@ -53,7 +53,7 @@
             <label for="" class="form-label">이메일</label>
           </div>
           <div class="form-input">
-            <input type="email">
+            <input v-model="form['email']" type="email">
           </div>
         </div>
         <div class="form-group">
@@ -61,7 +61,7 @@
             <label for="" class="form-label">비밀번호 변경</label>
           </div>
           <div class="form-input">
-            <input type="password" autocomplete="off" placeholder="영문/숫자/특수문자 혼합 8자이상">
+            <input v-model="form['password']" type="password" autocomplete="off" placeholder="영문/숫자/특수문자 혼합 8자이상">
           </div>
         </div>
         <div class="form-group">
@@ -69,7 +69,7 @@
             <label for="" class="form-label">비밀번호 확인</label>
           </div>
           <div class="form-input">
-            <input type="password" autocomplete="off" placeholder="비밀번호를 다시 입력하세요">
+            <input v-model="passwordConfirm" type="password" autocomplete="off" placeholder="비밀번호를 다시 입력하세요">
           </div>
         </div>
       </div>
@@ -85,11 +85,109 @@
       />
     </div>
   </div>
+  <LoadingModal v-if="isLoading" text="변경중입니다" />
 </template>
 <script setup>
+import { ref, onMounted } from 'vue'
+import { myPageStore } from '~/store/user/myPage.js'
+import { base64 } from '@priros/common/assets/js/filePreview.js'
+import { isEmpty } from '@priros/common/assets/js/utils.js'
+
 import CommonBottomButton from '@priros/common/components/button/CommonBottomButton.vue'
+import LoadingModal from '@priros/common/components/modal/LoadingModal.vue'
+
+const form = ref({
+  userProfileImage: '',
+  userName: '',
+  position: '',
+  mobile: '',
+  phone: '',
+  email: '',
+  password: '',
+})
+const passwordConfirm = ref('')
+const userProfileImage = ref(null)
+const userProfileImageObj = ref(null)
+const isLoading = ref(false)
+
+const myPage = myPageStore()
+onMounted(() => {
+  myPage.fetchUserInfo()
+    .then(({data}) => {
+      form.value = {...data, password: ''}
+      console.log(form.value)
+    })
+    .catch(e => {
+      console.log(e)
+    })
+})
+
+const handlerClickProfileImageUpload = () => {
+  userProfileImage.value.click()
+}
+const handlerChangeProfileImage = (e) => {
+  userProfileImageObj.value = e.target.files[0]
+  base64(userProfileImageObj.value, 'profileImagePreview')
+}
+
+const formValidation = computed(() => {
+  const validateEnum = ['phone', 'email']
+  for(const v of validateEnum) {
+    if(isEmpty(form.value[v])) return false
+  }
+
+  if(!isEmpty(form.value.password)){
+    return (
+      !isEmpty(passwordConfirm.value) &&
+      form.value.password === passwordConfirm.value
+    )
+  }
+
+  return true
+})
+
 const handleBtnSendClick = () => {
-  console.log('send')
+  if(!formValidation.value){
+    if(isEmpty(form.value.phone)) {
+      alert('전화번호를 입력해주세요')
+    } else if(isEmpty(form.value.email)) {
+      alert('이메일을 입력해주세요')
+    } else if(!isEmpty(form.value.password)){
+      if(isEmpty(passwordConfirm.value)) {
+        alert('비밀번호 확인을 입력해주세요.')
+      } else if(form.value.password !== passwordConfirm.value) {
+        alert('비밀번호와 비밀번호 확인이 다릅니다.')
+      }
+    }
+
+    return false
+  }
+
+  isLoading.value = true
+  const formData = new FormData()
+  formData.append('phone', form.value.phone)
+  formData.append('email', form.value.email)
+  
+  if(!isEmpty(form.value.password)) {
+    formData.append('newPassword', form.value.password)
+    formData.append('newPasswordConfirm', passwordConfirm.value)
+  }
+
+  if(userProfileImageObj.value !== null) {
+    formData.append('profileImage', userProfileImageObj.value)
+  }
+
+  myPage.requestUserInfo(formData)
+    .then(() => {
+      alert('회원정보가 변경되었습니다.')
+    })
+    .catch(e => {
+      console.log(e)
+      alert('회원정보 변경에 실패하였습니다.\n잠시후 다시 시도해주세요.')
+    })
+    .finally(() => {
+      isLoading.value = false
+    })
 }
 </script>
 
@@ -106,6 +204,9 @@ const handleBtnSendClick = () => {
   & > img {
     width: 140px;
     height: 165px;
+  }
+  input[type=file] {
+    display: none;
   }
   .profile-image-buttons {
     margin: 28px 0 12px;

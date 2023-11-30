@@ -108,6 +108,7 @@ import { ref, onMounted, computed } from 'vue'
 import { useRouter } from 'vue-router'
 
 import { firm } from '~/services/firm.js'
+import { isEmpty } from '@priros/common/assets/js/utils.js'
 
 import CommonBottomButton from '@priros/common/components/button/CommonBottomButton.vue'
 import SearchAddressModal from '~/components/modal/SearchAddressModal.vue'
@@ -175,7 +176,35 @@ const togglePreviewModal = () => {
   isPreviewModalShow.value = !isPreviewModalShow.value
 }
 
+const formValidation = computed(() => {
+  const validateEnum = ['postNo', 'addr', 'restAddr', 'phone', 'email', 'expirationDate']
+  for(const v of validateEnum) {
+    if(isEmpty(form.value[v])) return false
+  }
+
+  if(insuranceFileObj.value === null) return false
+
+  return true
+})
+
 const handleBtnSendClick = () => {
+  if(!formValidation.value) {
+    if(isEmpty(form.value['postNo'])|| isEmpty(form.value['addr'])){
+      alert('주소를 입력해주세요')
+    } else if(isEmpty(form.value['restAddr'])) {
+      alert('상세주소를 입력해주세요')
+    } else if(isEmpty(form.value['phone'])) {
+      alert('사업장 대표 전화번호를 입력해주세요')
+    } else if(isEmpty(form.value['email'])) {
+      alert('사업장 대표 이메일을 입력해주세요')
+    } else if(isEmpty(form.value['expirationDate'])) {
+      alert('공제증서 또는 보험증권 만료일을 입력해주세요')
+    } else if(insuranceFileObj.value === null) {
+      alert('공제증서 또는 보험증권 파일을 업로드해주세요')
+    }
+    return false
+  }
+
   isLoading.value = true
   const formData = new FormData()
   formData.append('postNo', form.value.postNo)
@@ -193,7 +222,7 @@ const handleBtnSendClick = () => {
       alert('회원정보가 변경되었습니다.')
     })
     .catch(() => {
-      alert('회원정보 변경에 실패했습니다.\n잠시후 다시 시도해주세요.')
+      alert('회원정보 변경에 실패하였습니다.\n잠시후 다시 시도해주세요.')
     })
     .finally(() => {
       isLoading.value = false

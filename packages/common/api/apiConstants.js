@@ -15,7 +15,8 @@ const API_URL = {
         REFRESH: '/auth/refresh',
     },
     USER: {
-        VERIFY: '/user/verify-password'
+        VERIFY: '/user/verify-password',
+        INFO: '/user/info'
     },
     FIRM_INFO: {
         GET: '/firm/info',
