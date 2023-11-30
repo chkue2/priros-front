@@ -25,6 +25,18 @@
           </div>
         </div>
       </div>
+      <div v-if="bitList.length > 0" class="bit-container">
+        <p class="bit-title">사용여부</p>
+        <div class="bit-flex">
+          <div v-for="(col, index) in bitList" :key="index" class="bit-column">
+            <div v-for="(row, index2) in col" :key="index2" class="bit-row">
+              <span>{{ row.index }}</span>
+              <img v-if="row.value === '1'" src="/img/icon/check-broken.svg" alt="확인">
+              <img v-if="row.value === '0'" src="/img/icon/close-red.svg" alt="취소">
+            </div>
+          </div>
+        </div>
+      </div>
       <div class="bottom">
         <p class="info">본 서비스는 인터넷등기소 조회결과를 단순제공하고 있으며,<br>문서의 진위여부를 보장하지는 않습니다.</p>
         <div>
@@ -53,8 +65,8 @@ definePageMeta({
   layout: false
 });
 
-const pin = ref('')
-const serialNo = ref('')
+const pin = ref('12012018015303')
+const serialNo = ref('8GHB4FRV39NB')
 
 const isSuccess = computed(() => 
   pin.value !== '' &&
@@ -63,6 +75,7 @@ const isSuccess = computed(() =>
 
 const isLoading = ref(false)
 
+const bitList = ref([])
 const handleBtnSendClick = () => {
   if(!isSuccess.value) {
     alert('부동산 고유번호와 등기필정보 일련번호를 모두 입력해주세요.')
@@ -70,8 +83,22 @@ const handleBtnSendClick = () => {
   }
 
   isLoading.value = true
-  enquiry.get({pin: pin.value, serialNo: serialNo.value}).then(() => {
-    console.log('then')
+  enquiry.get({pin: pin.value, serialNo: serialNo.value}).then(({data}) => {
+    let arr = []
+    for(let i=0; i < 5; i++ ) {
+      arr = [...arr, data.bitList.slice(10 * i, 10 * i + 10)]
+    }
+    arr = arr.reduce((prev, curr, index) => {
+      curr = curr.map((c, index2) => {
+        return {
+          value: c,
+          index: (index * 10) + (index2 + 1)
+        }
+      })
+      prev.push(curr)
+      return prev
+    }, [])
+    bitList.value = arr
   })
   .catch((e) => {
     console.log(e)
@@ -104,6 +131,40 @@ const handleBtnSendClick = () => {
   visibility: hidden;
   &.active {
     visibility: visible;
+  }
+}
+.bit-container{
+  padding: 33px 16px;
+  .bit-title {
+    margin-bottom: 6px;
+    font-weight: $ft-semibold;
+    color: #181818;
+  }
+  .bit-flex {
+    display: flex;
+    border: 1px solid #bebebe;
+  }
+  .bit-column {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    & + .bit-column{
+      border-left: 1px solid #bebebe;
+    }
+  }
+  .bit-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 10px;
+    background-color: #f9f9f9;
+    & + .bit-row {
+      border-top: 1px solid #bebebe;
+    }
+    & > span {
+      font-weight: $ft-medium;
+      margin-top: 2px;
+    }
   }
 }
 </style>
