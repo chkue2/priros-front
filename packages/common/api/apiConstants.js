@@ -16,11 +16,12 @@ const API_URL = {
     },
     USER: {
         VERIFY: '/user/verify-password',
-        INFO: '/user/info'
+        INFO: '/user/info',
     },
     FIRM_INFO: {
         GET: '/firm/info',
-        POST: '/firm/info'
+        POST: '/firm/info',
+        FILE: '/firm/insurance-file'
     },
     JOIN: {
         EXPERT: '/join-firm'

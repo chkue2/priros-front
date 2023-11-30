@@ -96,7 +96,7 @@
         <button class="close-button" @click="togglePreviewModal"></button>
       </div>
       <div class="preview-container">
-        <img src="/img/case/contract.png" aria-hidden>
+        <img id="previewImage" :src="previewFileSrc" aria-hidden>
       </div>
     </CommonFullScreenFadeModal>
     <LoadingModal v-if="isLoading" text="변경중입니다" />
@@ -105,10 +105,10 @@
 
 <script setup>
 import { ref, onMounted, computed } from 'vue'
-import { useRouter } from 'vue-router'
 
 import { firm } from '~/services/firm.js'
 import { isEmpty } from '@priros/common/assets/js/utils.js'
+import { base64 } from '@priros/common/assets/js/filePreview.js'
 
 import CommonBottomButton from '@priros/common/components/button/CommonBottomButton.vue'
 import SearchAddressModal from '~/components/modal/SearchAddressModal.vue'
@@ -118,7 +118,6 @@ definePageMeta({
   layout: false,
 })
 
-const router = useRouter()
 const form = ref({
   firmName: '',
   delegater: '',
@@ -172,9 +171,38 @@ const handlerChangeInsuranceFile = (e) => {
 }
 
 const isPreviewModalShow = ref(false)
+const insuranceFileData = ref({
+  insuranceFile: null,
+  insuranceFileName: ''
+})
 const togglePreviewModal = () => {
   isPreviewModalShow.value = !isPreviewModalShow.value
+  if(isPreviewModalShow.value) {
+    if(insuranceFileObj.value === null) {
+      firm.file()
+        .then(({data}) => {
+          insuranceFileData.value = data
+          console.log(insuranceFileData.value)
+        })
+        .catch(e => {
+          alert('파일을 불러올 수 없습니다.\n잠시후 다시 시도해주세요.')
+          console.log(e)
+        })
+    } else {
+      base64(insuranceFileObj.value, 'previewImage')
+    }
+  }
 }
+const previewFileExt = computed(() => 
+  isEmpty(insuranceFileData.value.insuranceFileName) ?
+    '' : insuranceFileData.value.insuranceFileName.split('.')[1]
+)
+const previewFileSrc = computed(() => {
+  const type = ['png', 'jpg', 'jpeg'].includes(previewFileExt.value) ? 'image' : 'appication/pdf'
+  return isEmpty(insuranceFileData.value.insuranceFile) ?
+    '' :
+    `data:${type}/${previewFileExt.value};base64,${insuranceFileData.value.insuranceFile}`
+})
 
 const formValidation = computed(() => {
   const validateEnum = ['postNo', 'addr', 'restAddr', 'phone', 'email', 'expirationDate']

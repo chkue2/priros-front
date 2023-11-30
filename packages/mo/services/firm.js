@@ -7,4 +7,7 @@ export const firm = {
   async post(data) {
     return await POST_AUTH(API_URL.FIRM_INFO.POST, data)
   },
+  async file() {
+    return await GET_AUTH(API_URL.FIRM_INFO.FILE)
+  }
 }

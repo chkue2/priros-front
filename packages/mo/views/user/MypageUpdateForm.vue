@@ -2,7 +2,7 @@
   <div class="update-wrapper dialog-wrapper">
     <div class="update-form">
       <div class="profile-image">
-        <img id="profileImagePreview" src="/img/join/profile-empty.png">
+        <img id="profileImagePreview" :src="imageSrc">
         <div class="profile-image-buttons">
           <input ref="userProfileImage" type="file" @change="handlerChangeProfileImage">
           <button @click="handlerClickProfileImageUpload">
@@ -88,7 +88,7 @@
   <LoadingModal v-if="isLoading" text="변경중입니다" />
 </template>
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import { myPageStore } from '~/store/user/myPage.js'
 import { base64 } from '@priros/common/assets/js/filePreview.js'
 import { isEmpty } from '@priros/common/assets/js/utils.js'
@@ -121,6 +121,12 @@ onMounted(() => {
       console.log(e)
     })
 })
+
+const imageSrc = computed(() => 
+  isEmpty(form.value.userProfileImage) ?
+    '/img/join/profile-empty.png' :
+    `data:image/png;base64,${form.value.userProfileImage}`
+)
 
 const handlerClickProfileImageUpload = () => {
   userProfileImage.value.click()
