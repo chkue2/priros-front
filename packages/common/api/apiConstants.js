@@ -40,7 +40,10 @@ const API_URL = {
         BOND: '/task/bond-discount-rate'
     },
     TRADE_CASE: {
-        ESTIMATE: '/tradecases/:trade_case_id/estimate'
+        ESTIMATE: '/tradecases/:trade_case_id/estimate',
+        REQUEST: '/tradecases/:trade_case_id/request-report',
+        SCHEDULE: '/tradecases/:trade_case_id/schedule',
+        CHARGE: '/tradecases/:trade_case_id/charge',
     },
     TRADE_CASE_ACCEPT: {
         COUNTER: '/tradecases/accept/counter',
@@ -48,14 +51,6 @@ const API_URL = {
         LIST_PROGRESS: '/tradecases/accept/progress',
         LIST_RECEIVE: '/tradecases/accept/receive',
         DETAIL: '/tradecases/accept/:trade_case_id'
-    },
-    TRADE_CASE_SCHEDULE_REPORT: {
-        GET: '/tradecases/:trade_case_id/schedule',
-        POST: '/tradecases/:trade_case_id/schedule',
-    },
-    TRADE_CASE_CHARGE_REPORT: {
-        GET: '/tradecases/:trade_case_id/charge',
-        POST: '/tradecases/:trade_case_id/charge',
     },
     TRADE_CASE_CHARGER: {
         LIST: '/trade-case/:trade_case_id/charge',
