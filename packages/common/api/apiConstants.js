@@ -44,6 +44,7 @@ const API_URL = {
         REQUEST: '/tradecases/:trade_case_id/request-report',
         SCHEDULE: '/tradecases/:trade_case_id/schedule',
         CHARGE: '/tradecases/:trade_case_id/charge',
+        REMIT: '/tradecases/:trade_case_id/remit'
     },
     TRADE_CASE_ACCEPT: {
         COUNTER: '/tradecases/accept/counter',

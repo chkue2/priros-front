@@ -8,14 +8,14 @@
       <div>
         <p class="transfer-top-title">대출금</p>
         <div class="transfer-top-input">
-          <input type="text">
+          <input type="text" readonly>
           <span>원</span>
         </div>
       </div>
       <div>
         <p class="transfer-top-title">대출실행금</p>
         <div class="transfer-top-input">
-          <input type="text">
+          <input type="text" readonly>
           <span>원</span>
         </div>
       </div>

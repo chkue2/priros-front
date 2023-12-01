@@ -148,7 +148,7 @@ const handlerClickFileList = () => {
   fileList.value.click()
 }
 const handlerChangeFileList = (e) => {
-  fileListObj.value = e.target.files
+  fileListObj.value = Array.from(e.target.files)
   form.value.requestReportFileList = fileListObj.value
 }
 
@@ -179,7 +179,9 @@ const handleBtnSendClick = () => {
   formData.append('memo', form.value.memo)
 
   if(fileListObj.value !== null) {
-    formData.append('requestReportFileList', fileListObj.value)
+    fileListObj.value.forEach(file => {
+      formData.append('requestReportFileList', file)
+    })
   }
 
   tradeCaseRequestReport.post(tradeCaseId, formData)
