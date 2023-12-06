@@ -1,32 +1,32 @@
 <template>
-  <div v-if="isTransferApply" class="transfer-result-container">
-    <p class="transfer-result-title">담당자가 서류검토중 입니다</p>
-    <p class="transfer-result-content">담당자 확인까지 최대 30분정도 소요될 수 있습니다.</p>
+  <div v-if="isEdit" class="transfer-result-container">
+    <p class="transfer-result-title" :class="[{'fail': transferStore.remitState === 'N'}, {'success': transferStore.remitState === 'Y'}]">{{ resultContents.title }}</p>
+    <p class="transfer-result-content">{{ resultContents.content }}</p>
   </div>
   <div class="transfer-top-container">
     <div class="transfer-top-amount">
       <div>
         <p class="transfer-top-title">대출금</p>
         <div class="transfer-top-input">
-          <input type="text" readonly>
+          <input v-model="transferStore.mortgageLoan" type="text" readonly>
           <span>원</span>
         </div>
       </div>
       <div>
         <p class="transfer-top-title">대출실행금</p>
         <div class="transfer-top-input">
-          <input type="text" readonly>
+          <input v-model="transferStore.mortgageExecution" type="text" readonly>
           <span>원</span>
         </div>
       </div>
     </div>
     <label class="transfer-top-intro">
-      <input v-if="!isTransferApply" v-model="isChecked" type="checkbox">
+      <input v-if="!isTransferApply && !isEdit" v-model="isChecked" type="checkbox">
       금융기관의 설정비용(채권/인지)을 공제하지 않고 대출금 전액을 송금요청 합니다.
     </label>
   </div>
   <div class="transfer-account-container">
-    <TransferAccountCard v-for="(t, index) in transferStore.transfer" :key="index" :idx="index" :is-saved="isSaved" />
+    <TransferAccountCard v-for="(t, index) in transferStore.transfer" :key="index" :idx="index" :is-saved="isSaved || isSuccess" />
   </div>
   <div class="transfer-account-button-container">
     <button v-if="isPlusButton && !isSaved" class="account-edit-button" :class="{active: isAccountValidation}" @click="handlerClickAccountPlusButton">
@@ -36,7 +36,7 @@
   </div>
   <div class="transfer-memo-container">
     <p class="transfer-memo-title">송금메모</p>
-    <textarea class="transfer-memo-area" placeholder="메모가 없습니다" :readonly="isSaved"></textarea>
+    <textarea v-model="transferStore.memo" class="transfer-memo-area" placeholder="메모가 없습니다" :readonly="isSaved"></textarea>
   </div>
   <div class="transfer-warning-container">
     <span class="title-green-box">송금요청전 확인</span>
@@ -48,21 +48,21 @@
   <div class="transfer-approval-container">
     <p class="approval-title">
       인증번호
-      <button v-if="isApprovalSend && !isApprovalApply" class="approval-re-send">재전송</button>
+      <button v-if="isApprovalSend && !isApprovalApply" class="approval-re-send" @click="handlerClickApprovalSendButton">재전송</button>
     </p>
     <div class="approval-input">
-      <input type="tel" :readonly="!isApprovalSend || isApprovalApply">
-      <span v-if="isApprovalSend && !isApprovalApply" class="approval-timer">2분 33초</span>
+      <input v-model="authNum" :maxlength="MAX_LENGTH" type="tel" :readonly="!isApprovalSend || isApprovalApply">
+      <span v-if="isApprovalSend && !isApprovalApply" class="approval-timer">{{ timerMin }}분 {{ timerSec }}초</span>
       <button v-if="!isApprovalSend" :class="{active: isSaved}" @click="handlerClickApprovalSendButton">인증번호발송</button>
       <button v-if="isApprovalSend" :class="{active: !isApprovalApply}" @click="handlerClickApprovalApplyButton">확인</button>
     </div>
   </div>
-  <div v-if="!isTransferApply" class="transfer-account-bottom-button">
+  <div v-if="!isSuccess" class="transfer-account-bottom-button">
     <CommonBottomButton v-if="!isSaved" id="transferAccountSaveButton" text="저장" height="60px" width="50%" :background-color="isAccountValidation ? '#235BED' : '#d8d9db'" :font-weight="700" @handler-click-button="handlerClickSaveButton" />
     <CommonBottomButton v-if="isSaved" id="transferAccountEditButton" text="수정하기" height="60px" width="50%" background-color="#ffffff" border="1px solid #000000" :font-weight="700" color="#000000" @handler-click-button="handlerClickEditButton" />
-    <CommonBottomButton id="transferAccountApplyButton" text="송금요청" height="60px" width="50%" :background-color="isApprovalApply && isChecked ? '#000000' : '#989898'" :font-weight="700" @handler-click-button="handlerClickTransferApplyButton" />
+    <CommonBottomButton id="transferAccountApplyButton" text="송금요청" height="60px" width="50%" :background-color="isApprovalApply && isSaved ? '#000000' : '#989898'" :font-weight="700" @handler-click-button="handlerClickTransferApplyButton" />
   </div>
-  <div v-if="isTransferApply" class="transfer-account-bottom-button">
+  <div v-if="isSuccess" class="transfer-account-bottom-button">
     <CommonBottomButton id="transferAccountSuccessButton" text="닫기" height="60px" width="100%" :font-weight="700" @handler-click-button="handlerClickSuccessButton" />
   </div>
   <CommonAlertModal v-if="isApprovalSendAlarmModalShow" text="매수인에게 승인번호가 발송되었습니다.<br>프리로스 알림톡을 확인해주세요" @handler-click-button="toggleApprovalSendAlarmModalShow" />
@@ -71,14 +71,16 @@
 </template>
 
 <script setup>
-import { computed } from 'vue'
-import { useRouter } from 'vue-router'
-import { useTransferStore } from '@priros/common/store/transfer.js'
-import TransferAccountCard from '@priros/common/components/card/TransferAccountCard.vue'
+import { computed, onMounted } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+import { useTransferStore } from '~/store/case/transfer.js'
+import TransferAccountCard from '~/components/card/TransferAccountCard.vue'
 import CommonBottomButton from '@priros/common/components/button/CommonBottomButton.vue'
 import CommonAlertModal from '@priros/common/components/modal/CommonAlertModal.vue'
-
+ 
 const router = useRouter()
+const route = useRoute()
+const tradeCaseId = route.params.id
 
 const transferStore = useTransferStore()
 const isChecked = ref(false)
@@ -89,6 +91,29 @@ const isTransferApply = ref(false)
 const isApprovalSendAlarmModalShow = ref(false)
 const isTransferApplyModalShow = ref(false)
 
+onMounted(() => {
+  transferStore.fetchRemit(tradeCaseId)
+})
+
+const isEdit = computed(() => 
+  ['W', 'Y', 'N'].includes(transferStore.remitState)
+)
+const isSuccess = computed(() => 
+  ['W', 'Y'].includes(transferStore.remitState)
+)
+
+const resultContents = computed(() => {
+  return transferStore.remitState === 'W' ? {
+    title: '담당자가 서류검토중 입니다',
+    content: '담당자 확인까지 최대 30분정도 소요될 수 있습니다.'
+  } : transferStore.remitState === 'Y' ? {
+    title: '승인완료',
+    content: '고객님의 송금요청이 승인완료되었습니다.'
+  } : {
+    title: '승인거절',
+    content: transferStore.rejectMessage
+  }
+})
 
 const isPlusButton = computed(() => {
   return transferStore.transfer.length === 1
@@ -125,30 +150,78 @@ const handlerClickSaveButton = () => {
     return
   }
 
-  isSaved.value = true
+  transferStore.postRemit(tradeCaseId)
+    .then(() => {
+      isSaved.value = true
+    })
+    .catch(e => {
+      alert(e.response.data.message)
+    })
 }
 
+const timer = ref(0)
+const timerMin = ref(0)
+const timerSec = ref(0)
+const timerInterval = ref(null)
 const handlerClickApprovalSendButton = () => {
   if(!isSaved.value) {
     alert('계좌 정보를 먼저 저장해주세요.')
     return
   }
-  
-  toggleApprovalSendAlarmModalShow()
-  isApprovalSend.value = true
+
+  transferStore.postAuth(tradeCaseId)
+    .then(() => {
+      clearInterval(timerInterval.value)
+      timerInterval.value = null
+      timer.value = 300
+      timerInterval.value = setInterval(() => {
+        timer.value -= 1
+        timerMin.value = Math.floor(timer.value / 60)
+        timerSec.value = timer.value % 60
+
+        if(timer.value === 0) {
+          clearInterval(timerInterval.value)
+          timerInterval.value = null
+          isApprovalSend.value = false
+        }
+      }, 1000)
+      isApprovalSend.value = true
+      toggleApprovalSendAlarmModalShow()
+    })
+    .catch(e => {
+      console.log(e)
+      alert(e)
+    })
 }
 
+const authNum = ref('')
+const MAX_LENGTH = 6
 const handlerClickApprovalApplyButton = () => {
-  isApprovalApply.value = true
+  if(authNum.value.length < MAX_LENGTH) {
+    alert('인증번호 6자리를 입력해주세요.')
+    return false
+  }
+
+  transferStore.postAuthCheck(tradeCaseId, authNum) 
+    .then(() => {
+      clearInterval(timerInterval.value)
+      timerInterval.value = null
+      isApprovalApply.value = true
+    })
+    .catch(e => {
+      console.log(e)
+      alert(e)
+    })
 }
 
 const handlerClickEditButton = () => {
   isSaved.value = false
   isApprovalSend.value = false
+  isApprovalApply.value = false
 }
 
 const handlerClickTransferApplyButton = () => {
-  if(!isChecked.value) {
+  if(!isChecked.value && !isEdit.value) {
     alert('대출금 전액 송금요청 항목에 동의해주세요.')
     window.scrollTo({top: 0, behavior: 'smooth'})
     return
@@ -158,9 +231,14 @@ const handlerClickTransferApplyButton = () => {
     window.scrollTo({top: 9999, behavior: 'smooth'})
     return
   }
-  toggleTransferApplyModalShow()
-  isTransferApply.value = true
-  window.scrollTo({top: 0, behavior: 'smooth'})
+  transferStore.requestRemit(tradeCaseId)
+    .then(() => {
+      toggleTransferApplyModalShow()
+      transferStore.fetchRemit(tradeCaseId)
+    })
+    .catch(e => {
+      alert(e.response.data.message)
+    })
 }
 
 const handlerClickSuccessButton = () => {

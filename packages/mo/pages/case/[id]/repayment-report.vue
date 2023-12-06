@@ -10,9 +10,9 @@
               </div>
               <DropDown
                 placeholder="선택하기"
-                :options="[]"
-                selected-text=""
-                @click-option="() => console.log(1)"
+                :options="options"
+                :selected-text="selectedText"
+                @click-option="handlerClickOption"
               />
             </div>
             <div class="form-group">
@@ -53,8 +53,7 @@
               text="상환보고"
               backgroundColor="#000000" height="60px" width="100%" color="#fff"
               :font-weight="700"
-              :disabled="btnSendDisable"
-              @handler-click-button="handleBtnSendClick"
+              @handler-click-button="() => {}"
           />
         </div>
       </div>
@@ -64,7 +63,9 @@
 
 <script setup>
 import {ref, computed, onMounted} from "vue";
-import {useRoute, useRouter} from "vue-router";
+import {useRoute} from "vue-router";
+
+import { tradeCaseRepay } from '~/services/tradeCaseRepay.js'
 
 import DropDown from '@priros/common/components/form/DropDown'
 import CommonBottomButton from '@priros/common/components/button/CommonBottomButton.vue'
@@ -73,9 +74,45 @@ definePageMeta({
   layout: false
 });
 
-const isCompleted = ref(false);
+const tradeCaseId = useRoute().params.id
+const form = ref({
+  repaySubjectYn: '',
+  remitFileList: [],
+  profFileList: [],
+  etcFileList: [],
+})
+const options = [
+  {
+    text: '상환보고 대상이 있습니다.',
+    value: 'Y'
+  },
+  {
+    text: '상환보고 대상이 없습니다.',
+    value: 'N'
+  },
+]
+const selectedText = computed(() => 
+  form.value.repaySubjectYn === 'Y' ?
+    '상환보고 대상이 있습니다.' :
+  form.value.repaySubjectYn === 'N' ?
+    '상환보고 대상이 없습니다.'
+  : ''  
+)
 
-const btnSendDisable = false;
+onMounted(() => {
+  tradeCaseRepay.get(tradeCaseId)
+    .then(({data}) => {
+      console.log(data)
+    })
+    .catch(e => {
+      console.log(e)
+    })
+})
+
+const handlerClickOption = ({value}) => {
+  console.log(value)
+  form.value.repaySubjectYn = value
+}
 
 </script>
 

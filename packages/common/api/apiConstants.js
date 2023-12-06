@@ -44,7 +44,11 @@ const API_URL = {
         REQUEST: '/tradecases/:trade_case_id/request-report',
         SCHEDULE: '/tradecases/:trade_case_id/schedule',
         CHARGE: '/tradecases/:trade_case_id/charge',
-        REMIT: '/tradecases/:trade_case_id/remit'
+        REPAY: '/tradecases/:trade_case_id/repay',
+        REMIT: '/tradecases/:trade_case_id/remit',
+        REMIT_REQUEST: '/tradecases/:trade_case_id/remit/request',
+        REMIT_AUTH: '/tradecases/:trade_case_id/remit/auth',
+        REMIT_AUTH_CHECK: '/tradecases/:trade_case_id/remit/auth/check',
     },
     TRADE_CASE_ACCEPT: {
         COUNTER: '/tradecases/accept/counter',

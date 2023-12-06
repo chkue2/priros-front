@@ -26,13 +26,11 @@ const GET = async (url, data = {}) => {
 }
 
 const GET_AUTH = async (url, data = {}) => {
-
     return await apiAuth.get(url, {
         params: {
             ...data
         }
     })
 }
-
 
 export {API_URL, getEndpoint, POST, POST_AUTH, GET, GET_AUTH};

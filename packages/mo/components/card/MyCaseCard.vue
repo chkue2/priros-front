@@ -43,7 +43,7 @@ const props = defineProps({
 })
 
 const date = computed(() => {
-  return props.caseConfig.issueDate.split(' ')[0]
+  return props.caseConfig.issueDate.split('T')[0]
 })
 const time = computed(() => {
   return changeTimeFormatAmPm(changeTimeFormatAddDot(props.caseConfig.issueTime))

@@ -5,10 +5,8 @@
 </template>
 
 <script setup>
-import { useTransferStore } from '@priros/common/store/transfer.js'
 import TransferAccountForm from '~/views/transfer/TransferAccountForm.vue'
 definePageMeta({
   layout: false
 })
-const transferStore = useTransferStore()
 </script>

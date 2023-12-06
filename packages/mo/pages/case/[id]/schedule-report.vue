@@ -86,7 +86,7 @@
 
 <script setup>
 import {ref, computed, onMounted} from "vue";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 
 import CommonBottomButton from '@priros/common/components/button/CommonBottomButton.vue'
 import CommonAlertModal from "@priros/common/components/modal/CommonAlertModal.vue"
@@ -103,6 +103,7 @@ const minute = ref('')
 const date = ref('')
 
 const route = useRoute()
+const router = useRouter()
 const tradeCaseId = route.params.id
 
 const firmName = ref('')
@@ -120,6 +121,10 @@ onMounted(() => {
       userName.value = data.userName
       userPhone.value = rexFormatPhone(data.userPhone)
     }
+  })
+  .catch(e => {
+    alert(e.response.data.message.replace(/<br>/gi, '\n'))
+    router.back()
   })
 })
 
