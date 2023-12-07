@@ -5,4 +5,8 @@ export const tradeCaseRepay = {
     const endpoint = getEndpoint(API_URL.TRADE_CASE.REPAY, {trade_case_id: tradeCaseId})
     return await GET_AUTH(endpoint)
   },
+  async post(tradeCaseId, data) {
+    const endpoint = getEndpoint(API_URL.TRADE_CASE.REPAY, {trade_case_id: tradeCaseId})
+    return await POST_AUTH(endpoint, data)
+  },
 }

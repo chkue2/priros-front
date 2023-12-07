@@ -234,7 +234,7 @@ const statusText = computed(() =>
   caseStatus[detailCaseStore.fetchedDetailCase.state]
 )
 const issueDate = computed(() => 
-  !isEmpty(detailCaseStore.fetchedDetailCase.issueDate) ? detailCaseStore.fetchedDetailCase.issueDate.split(' ')[0] : ''
+  !isEmpty(detailCaseStore.fetchedDetailCase.issueDate) ? detailCaseStore.fetchedDetailCase.issueDate.split('T')[0] : ''
 )
 const issueTime = computed(() => 
   changeTimeFormatAmPm(changeTimeFormatAddDot(detailCaseStore.fetchedDetailCase.issueTime))

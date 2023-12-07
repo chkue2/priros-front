@@ -153,6 +153,7 @@ const handlerClickSaveButton = () => {
   transferStore.postRemit(tradeCaseId)
     .then(() => {
       isSaved.value = true
+      transferStore.fetchRemit(tradeCaseId)
     })
     .catch(e => {
       alert(e.response.data.message)
@@ -189,8 +190,7 @@ const handlerClickApprovalSendButton = () => {
       toggleApprovalSendAlarmModalShow()
     })
     .catch(e => {
-      console.log(e)
-      alert(e)
+      alert(e.response.data.message)
     })
 }
 
@@ -209,8 +209,7 @@ const handlerClickApprovalApplyButton = () => {
       isApprovalApply.value = true
     })
     .catch(e => {
-      console.log(e)
-      alert(e)
+      alert(e.response.data.message)
     })
 }
 
