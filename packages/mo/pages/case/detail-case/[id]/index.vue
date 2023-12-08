@@ -59,7 +59,7 @@
         <div class="detail-case-table-header">계약서</div>
         <div class="detail-case-table-contents flex-spacebetween">
           {{contractFileText}} 
-          <button v-if="detailCaseStore.fetchedDetailCase.contractFileFlag === 'Y'" class="detail-case-button" @click="toggleContactModalShow">확인</button>
+          <button v-if="detailCaseStore.fetchedDetailCase.contractFileFlag === 'Y'" class="detail-case-button" @click="contractModalOpen">확인</button>
         </div>
         <div class="detail-case-table-header">매매대금</div>
         <div class="detail-case-table-contents">{{ salesPrice }}원</div>
@@ -132,10 +132,10 @@
     <CommonBlackTitleModal 
       v-if="isContractModalShow"
       title="매매계약서"
-      @handler-click-close="toggleContactModalShow"
+      @handler-click-close="toggleContractModalShow"
     >
       <div class="contract-container">
-        <img class="contract-preview" src="/img/case/contract.png" alt>
+        <img class="contract-preview" :src="contractImageSrc" alt>
         <button class="contract-button">
           <img src="/img/icon/download-gray.svg" alt>
           원본파일 다운로드
@@ -320,7 +320,7 @@ const handlerClickTab = (v) => {
 }
 
 const isContractModalShow = ref(false)
-const toggleContactModalShow = () => {
+const toggleContractModalShow = () => {
   isContractModalShow.value = !isContractModalShow.value
 }
 const isConfigAgentModalShow = ref(false)
@@ -384,6 +384,31 @@ const handlerClickRegApplication = () => {
       alert(e.response.data.message)
     })
 }
+
+const contractFile = ref()
+const fetchContractPreview = () => {
+  detailCaseStore.fetchContract(tradeCaseId)
+    .then(({data}) => {
+      contractFile.value = data
+      toggleContractModalShow()
+    })
+    .catch(e => {
+      alert(e.response.data.message)
+    })
+}
+const contractModalOpen = () => {
+  fetchContractPreview()
+}
+const contractImageSrc = computed(() => {
+  if(contractFile.value.fileDataEncodeBase64 === null) {
+    return '/img/cha/cha-empty.png'
+  }
+  else if(contractFile.value.fileExt === 'pdf') {
+    return 'pdf'
+  } else {
+    return `data:image/${contractFile.value.fileExt};base64,${contractFile.value.fileDataEncodeBase64}`
+  }
+})
 </script>
 
 <style lang="scss" scoped>

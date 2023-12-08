@@ -21,4 +21,8 @@ export const tradeCaseDetail = {
     const endpoint = getEndpoint(API_URL.TRADE_CASE.REG_SUPPLEMENT, {trade_case_id: tradeCaseId})
     return await POST_AUTH(endpoint, data)
   },
+  async contract(tradeCaseId) {
+    const endpoint = getEndpoint(API_URL.TRADE_CASE.CONTRACT, {trade_case_id: tradeCaseId})
+    return await GET_AUTH(endpoint)
+  }
 }

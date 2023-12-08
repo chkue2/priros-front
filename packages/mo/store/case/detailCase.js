@@ -25,8 +25,11 @@ export const useDetailCaseStore = defineStore('detailCase', {
         this.fetcehdEstimate = data
       })
     },
+    fetchContract(tradeCaseId) {
+      return tradeCaseDetail.contract(tradeCaseId)
+    },
     requestRegApplication(tradeCaseId) {
       return tradeCaseDetail.regApplication(tradeCaseId, {registrationApplication: this.registrationApplication})
-    }
+    },
   }
 })
