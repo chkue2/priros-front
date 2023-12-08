@@ -223,8 +223,6 @@ const handlerClickReport = () => {
     .catch(e => {
       alert(e.response.data.message)
     })
-
-  console.log('pass')
 }
 
 </script>

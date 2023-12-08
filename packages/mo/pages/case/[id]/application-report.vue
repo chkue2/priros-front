@@ -189,8 +189,7 @@ const handleBtnSendClick = () => {
       alert('신청정보보고가 정상 처리 되었습니다.')
     })
     .catch(e => {
-      console.log(e)
-      alert('신청정보보고 처리에 실패하였습니다.\n잠시후 다시 시도해주세요.')
+      alert(e.response.data.message)
     })
 
   console.log('send')

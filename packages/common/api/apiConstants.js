@@ -42,6 +42,7 @@ const API_URL = {
     TRADE_CASE: {
         ESTIMATE: '/tradecases/:trade_case_id/estimate',
         REQUEST: '/tradecases/:trade_case_id/request-report',
+        REG_APPLICATION: '/tradecases/:trade_case_id/request-report/registration-application',
         SCHEDULE: '/tradecases/:trade_case_id/schedule',
         CHARGE: '/tradecases/:trade_case_id/charge',
         REPAY: '/tradecases/:trade_case_id/repay',
@@ -49,6 +50,7 @@ const API_URL = {
         REMIT_REQUEST: '/tradecases/:trade_case_id/remit/request',
         REMIT_AUTH: '/tradecases/:trade_case_id/remit/auth',
         REMIT_AUTH_CHECK: '/tradecases/:trade_case_id/remit/auth/check',
+        REG_SUPPLEMENT: '/tradecases/:trade_case_id/regist-supplement',
     },
     TRADE_CASE_ACCEPT: {
         COUNTER: '/tradecases/accept/counter',
