@@ -155,7 +155,7 @@
       title="등록기관 정보확인"
       @handler-click-close="toggleRegistrarModalShow"
     >
-      <DetailCaseRegAuthCard />
+      <DetailCaseRegAuthCard :trade-case-id="tradeCaseId" />
       <button class="info-modal-button" @click="toggleRegistrarModalShow">확인</button>
     </CommonBlackTitleModal>
     <CommonBlackTitleModal
