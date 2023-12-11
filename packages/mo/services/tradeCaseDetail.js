@@ -33,4 +33,8 @@ export const tradeCaseDetail = {
     const endpoint = getEndpoint(API_URL.TRADE_CASE.REGISTER, {trade_case_id: tradeCaseId})
     return await GET_AUTH(endpoint)
   },
+  async history(tradeCaseId, data) {
+    const endpoint = getEndpoint(API_URL.TRADE_CASE.HISTORY, {trade_case_id: tradeCaseId})
+    return await GET_AUTH(endpoint, data)
+  },
 }

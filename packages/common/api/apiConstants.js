@@ -55,6 +55,7 @@ const API_URL = {
         RECEIVE: '/tradecases/:trade_case_id/receive',
         MORTGAGE: '/tradecases/:trade_case_id/firm/mortgage',
         REGISTER: '/tradecases/:trade_case_id/firm/register',
+        HISTORY: '/tradecases/:trade_case_id/history',
     },
     TRADE_CASE_ACCEPT: {
         COUNTER: '/tradecases/accept/counter',

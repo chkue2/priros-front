@@ -123,7 +123,7 @@
         </p>
       </div>
       <div class="detail-case-bottom-table">
-        <DetailCaseChangedTable v-if="tab === 'changed'" />
+        <DetailCaseChangedTable v-if="tab === 'changed'" :trade-case-id="tradeCaseId" />
         <DetailCaseMemoTable v-if="tab === 'memo'" />
         <DetailCaseProcessedTable v-if="tab === 'processed'" />
         <DetailCaseFilesTable v-if="tab === 'files'" />
@@ -227,6 +227,7 @@ const tradeCaseId = route.params.id
 
 onMounted(() => {
   detailCaseStore.fetchDetailCase(tradeCaseId)
+  detailCaseStore.fetchHistory(tradeCaseId, 1)
 })
 
 const statusText = computed(() =>
@@ -317,6 +318,9 @@ const statusForFetchedDetailCase = (state) => {
 const tab = ref('changed')
 const handlerClickTab = (v) => {
   tab.value = v
+  if(v === 'changed') {
+    detailCaseStore.fetchHistory(tradeCaseId, 1)
+  }
 }
 
 const isContractModalShow = ref(false)
