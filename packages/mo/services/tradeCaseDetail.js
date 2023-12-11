@@ -24,5 +24,9 @@ export const tradeCaseDetail = {
   async contract(tradeCaseId) {
     const endpoint = getEndpoint(API_URL.TRADE_CASE.CONTRACT, {trade_case_id: tradeCaseId})
     return await GET_AUTH(endpoint)
-  }
+  },
+  async mortgage(tradeCaseId) {
+    const endpoint = getEndpoint(API_URL.TRADE_CASE.MORTGAGE, {trade_case_id: tradeCaseId})
+    return await GET_AUTH(endpoint)
+  },
 }

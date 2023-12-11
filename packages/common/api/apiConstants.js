@@ -53,6 +53,7 @@ const API_URL = {
         REG_SUPPLEMENT: '/tradecases/:trade_case_id/regist-supplement',
         CONTRACT: '/tradecases/:trade_case_id/contract',
         RECEIVE: '/tradecases/:trade_case_id/receive',
+        MORTGAGE: '/tradecases/:trade_case_id/firm/mortgage',
     },
     TRADE_CASE_ACCEPT: {
         COUNTER: '/tradecases/accept/counter',

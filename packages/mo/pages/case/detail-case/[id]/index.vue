@@ -147,7 +147,7 @@
       title="설정대리인 정보확인"
       @handler-click-close="toggleConfigAgentModalShow"
     >
-      <DetailCaseInfoCard />
+      <DetailCaseInfoCard :trade-case-id="tradeCaseId" />
       <button class="info-modal-button" @click="toggleConfigAgentModalShow">확인</button>
     </CommonBlackTitleModal>
     <CommonBlackTitleModal
