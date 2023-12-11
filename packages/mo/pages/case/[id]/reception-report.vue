@@ -9,7 +9,7 @@
                 <label for="" class="form-label">접수일</label>
               </div>
               <div class="form-input">
-                <input type="date" readonly>
+                <input v-model="receiveDate" type="date" readonly>
               </div>
             </div>
             <div class="form-group">
@@ -18,8 +18,8 @@
                 <span class="form-warning">해당 명의인의 접수번호를 입력해주세요</span>
               </div>
               <div class="form-input">
-                <input type="tel">
-                <input type="tel">
+                <input v-model="receiveBuyer" type="text" readonly>
+                <input v-model="receiveNo" type="text" placeholder="접수번호">
               </div>
             </div>
           </div>
@@ -32,7 +32,6 @@
               text="접수보고"
               backgroundColor="#000000" height="60px" width="100%" color="#fff"
               :font-weight="700"
-              :disabled="btnSendDisable"
               @handler-click-button="handleBtnSendClick"
           />
         </div>
@@ -42,20 +41,48 @@
 </template>
 
 <script setup>
-import {ref, computed, onMounted} from "vue";
-import {useRoute, useRouter} from "vue-router";
+import {ref, onMounted} from "vue";
+import { useRoute } from "vue-router";
 
-import DropDown from '@priros/common/components/form/DropDown'
+import { tradeCaseReceptionReport } from '~/services/tradeCaseReceptionReport.js'
+
 import CommonBottomButton from '@priros/common/components/button/CommonBottomButton.vue'
 
 definePageMeta({
   layout: false
 });
 
-const isCompleted = ref(false);
+const tradeCaseId = useRoute().params.id
 
-const btnSendDisable = false;
+const receiveNo = ref('')
+const receiveDate = ref('')
+const receiveBuyer = ref('')
 
+onMounted(() => {
+  tradeCaseReceptionReport.get(tradeCaseId)
+    .then(({data}) => {
+      console.log(data)
+      if(data.receiveDateTime !== null) {
+        receiveDate.value = data.receiveDateTime.split('T')[0]
+      }
+      receiveBuyer.value = data.buyer
+    })
+})
+
+const handleBtnSendClick = () => {
+  if(receiveNo.value === '') {
+    alert('접수번호를 입력해주세요.')
+    return false
+  }
+  
+  tradeCaseReceptionReport.post(tradeCaseId, { receiveNo: receiveNo.value })
+    .then(() => {
+      alert('접수보고가 완료되었습니다.')
+    })
+    .catch(e => {
+      alert(e.response.data.message)
+    })
+}
 </script>
 
 <style scoped lang="scss">

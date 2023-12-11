@@ -52,6 +52,7 @@ const API_URL = {
         REMIT_AUTH_CHECK: '/tradecases/:trade_case_id/remit/auth/check',
         REG_SUPPLEMENT: '/tradecases/:trade_case_id/regist-supplement',
         CONTRACT: '/tradecases/:trade_case_id/contract',
+        RECEIVE: '/tradecases/:trade_case_id/receive',
     },
     TRADE_CASE_ACCEPT: {
         COUNTER: '/tradecases/accept/counter',
