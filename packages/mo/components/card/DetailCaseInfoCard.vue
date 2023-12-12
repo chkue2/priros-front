@@ -41,8 +41,10 @@ const estaAgent = ref({})
 onMounted(() => {
   tradeCaseDetail.mortgage(props.tradeCaseId)
     .then(({data}) => {
-      console.log(data)
       estaAgent.value = data
+    })
+    .catch(e => {
+      alert(e.response.data.message)
     })
 })
 </script>

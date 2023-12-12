@@ -37,4 +37,12 @@ export const tradeCaseDetail = {
     const endpoint = getEndpoint(API_URL.TRADE_CASE.HISTORY, {trade_case_id: tradeCaseId})
     return await GET_AUTH(endpoint, data)
   },
+  async getMemo(tradeCaseId, data) {
+    const endpoint = getEndpoint(API_URL.TRADE_CASE.MEMO, {trade_case_id: tradeCaseId})
+    return await GET_AUTH(endpoint, data)
+  },
+  async setMemo(tradeCaseId, data) {
+    const endpoint = getEndpoint(API_URL.TRADE_CASE.MEMO, {trade_case_id: tradeCaseId})
+    return await POST_AUTH(endpoint, data)
+  },
 }

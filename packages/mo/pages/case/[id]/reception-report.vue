@@ -42,7 +42,7 @@
 
 <script setup>
 import {ref, onMounted} from "vue";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 
 import { tradeCaseReceptionReport } from '~/services/tradeCaseReceptionReport.js'
 
@@ -61,11 +61,14 @@ const receiveBuyer = ref('')
 onMounted(() => {
   tradeCaseReceptionReport.get(tradeCaseId)
     .then(({data}) => {
-      console.log(data)
       if(data.receiveDateTime !== null) {
         receiveDate.value = data.receiveDateTime.split('T')[0]
       }
       receiveBuyer.value = data.buyer
+    })
+    .catch(e => {
+      alert(e.response.data.message)
+      useRouter().back()
     })
 })
 

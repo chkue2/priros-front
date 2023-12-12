@@ -42,8 +42,10 @@ const regAuth = ref({})
 onMounted(() => {
   tradeCaseDetail.register(props.tradeCaseId)
     .then(({data}) => {
-      console.log(data)
       regAuth.value = data
+    })
+    .catch(e => {
+      alert(e.response.data.message)
     })
 })
 

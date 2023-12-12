@@ -1,8 +1,8 @@
 <template>
   <div class="detail-case-common-table">
     <div class="apply-memo">
-      <textarea class="apply-memo-textarea" placeholder="메모를 등록하세요 (한글 최대 50자 이내)" maxlength="50"></textarea>
-      <button class="apply-memo-button">
+      <textarea v-model="memoText" class="apply-memo-textarea" placeholder="메모를 등록하세요 (한글 최대 50자 이내)" maxlength="50"></textarea>
+      <button class="apply-memo-button" @click="handlerClickSendMemo">
         <img src="/img/icon/apply-white.svg">
         등록
       </button>
@@ -17,20 +17,39 @@
     </div>
     <div v-if="detailCaseStore.fetchedMemoList.length > 0">
       <div v-for="(m, index) in detailCaseStore.fetchedMemoList" :key="index" class="detail-case-common-table-contents">
-        <div class="detail-case-common-table-small">{{ m.date }}</div>
-        <div class="detail-case-common-table-big">{{ m.comment }}</div>
-        <div class="detail-case-common-table-small">{{ m.sender }}</div>
+        <div class="detail-case-common-table-small">{{ changeDateFormat(m.created) }}</div>
+        <div class="detail-case-common-table-big">{{ m.content }}</div>
+        <div class="detail-case-common-table-small">{{ m.registerName }}</div>
       </div>
     </div>
     <Pagination :margin-top="50" />
   </div>
 </template>
 <script setup>
+import { ref } from 'vue'
 import { useDetailCaseStore } from '@priros/common/store/case/detail.js'
 
 import Pagination from '@priros/common/components/paging/Pagination.vue'
 
+const props = defineProps({tradeCaseId: String})
 const detailCaseStore = useDetailCaseStore()
+
+const changeDateFormat = (date) => {
+  return date?.split('T')[0]
+}
+
+const memoText = ref('')
+const handlerClickSendMemo = () => {
+  detailCaseStore.requestMemo(props.tradeCaseId, memoText.value)
+    .then(() => {
+      memoText.value = ''
+      alert('메모가 등록되었습니다.')
+      detailCaseStore.fetchMemo(props.tradeCaseId, 1)
+    })
+    .catch(e => {
+      alert(e.response.data.message)
+    })
+}
 </script>
 <style scoped lang="scss">
 @import '@priros/common/assets/scss/detail-case/table.scss';

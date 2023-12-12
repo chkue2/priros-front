@@ -124,7 +124,7 @@
       </div>
       <div class="detail-case-bottom-table">
         <DetailCaseChangedTable v-if="tab === 'changed'" :trade-case-id="tradeCaseId" />
-        <DetailCaseMemoTable v-if="tab === 'memo'" />
+        <DetailCaseMemoTable v-if="tab === 'memo'" :trade-case-id="tradeCaseId" />
         <DetailCaseProcessedTable v-if="tab === 'processed'" />
         <DetailCaseFilesTable v-if="tab === 'files'" />
       </div>
@@ -320,6 +320,8 @@ const handlerClickTab = (v) => {
   tab.value = v
   if(v === 'changed') {
     detailCaseStore.fetchHistory(tradeCaseId, 1)
+  } else if(v === 'memo') {
+    detailCaseStore.fetchMemo(tradeCaseId, 1)
   }
 }
 

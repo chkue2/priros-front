@@ -50,6 +50,19 @@ export const useDetailCaseStore = defineStore('detailCase', {
         this.fetchedPaging = data.paging
       })
     },
+    fetchMemo(tradeCaseId, pageNo) {
+      tradeCaseDetail.getMemo(tradeCaseId, {
+        limit: this.limitCount,
+        pageNo
+      })
+      .then(({data}) => {
+        this.fetchedMemoList = data.list
+        this.fetchedPaging = data.paging
+      })
+    },
+    requestMemo(tradeCaseId, memo) {
+      return tradeCaseDetail.setMemo(tradeCaseId, {content: memo})
+    },
     requestRegApplication(tradeCaseId) {
       return tradeCaseDetail.regApplication(tradeCaseId, {registrationApplication: this.registrationApplication})
     },
