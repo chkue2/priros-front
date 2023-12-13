@@ -36,7 +36,7 @@
           :statusConfig="state"
           :trade-case-id="route.params.id"
           :vender-id="detailCaseStore.fetchedDetailCase.venderId"
-          @kakao-modal-show="handlerClickKakaoRemitSendButton"
+          @kakao-modal-show="toggleKaKaoRemitSendModalShow"
         />
       </div>
     </div>
@@ -186,25 +186,18 @@
     >
       <SupplementationRegInfo :trade-case-id="tradeCaseId" @close-modal="toggleSupplementationModalShow" />
     </CommonBlackTitleModal>
-    <CommonAlertModalDoubleButton
+    <CommonBlackTitleModal
       v-if="isKakaoRemitSendModalShow"
-      text="송금요청 후, 대출금 지급까지는<br><b>약1~2분이 소요</b>됩니다.<br><br>입금이 지연되는 경우 카카오뱅크에 문의하세요" 
-      left-button-text="송금요청"
-      right-button-text="닫기" 
-      @handler-click-left-button="handlerClickKakaoSendButton"
-      @handler-click-right-button="toggleKaKaoRemitSendModalShow" />
+      title="카카오 송금요청"
+      @handler-click-close="toggleKaKaoRemitSendModalShow"
+    >
+      <KakaoRemitForm :trade-case-id="tradeCaseId" @close-modal="toggleKaKaoRemitSendModalShow" @open-success-modal="toggleKakaoRemitSendSuccessModalShow" />
+    </CommonBlackTitleModal>
     <CommonAlertModal
       v-if="isKakaoRemitSendSuccessModalShow"
       text="송금요청 완료<br><br>입금이 지연되는 경우 카카오뱅크에 문의하세요"
       @handler-click-button="toggleKakaoRemitSendSuccessModalShow"
     />
-    <CommonAlertModalDoubleButton
-      v-if="isKakaoRemitReSendModalShow"
-      text="송금요청을 이미 진행하셨습니다.<br><br>입금이 지연되는 경우 카카오뱅크에 문의하세요" 
-      left-button-text="재요청"
-      right-button-text="닫기" 
-      @handler-click-left-button="handlerClickKakaoSendButton"
-      @handler-click-right-button="toggleKaKaoRemitReSendModalShow" />
   </NuxtLayout>
 </template>
 
@@ -225,6 +218,7 @@ import DetailCaseInfoCard from '~/components/card/DetailCaseInfoCard.vue'
 import DetailCaseRegAuthCard from '~/components/card/DetailCaseRegAuthCard.vue'
 import DetailCaseEstimateCard from '~/components/card/DetailCaseEstimateCard.vue'
 import SupplementationRegInfo from '~/components/form/SupplementationRegInfo.vue'
+import KakaoRemitForm from '~/components/form/KakaoRemitForm.vue'
 
 import { isEmpty, changeTimeFormatAmPm, changeTimeFormatAddDot, rexFormatPhone } from '@priros/common/assets/js/utils.js'
 import { bankSVG } from '@priros/common/assets/js/case/bankSVG.js'
@@ -370,35 +364,9 @@ const isKakaoRemitSendModalShow = ref(false)
 const toggleKaKaoRemitSendModalShow = () => {
   isKakaoRemitSendModalShow.value = !isKakaoRemitSendModalShow.value
 }
-const handlerClickKakaoSendButton = () => {
-  if(true) {
-    // 카카오 송금요청 이미 한 경우
-    toggleKaKaoRemitReSendModalShow()
-  } else {
-    toggleKaKaoRemitSendModalShow()
-  }
-  toggleKakaoRemitSendSuccessModalShow()
-}
 const isKakaoRemitSendSuccessModalShow = ref(false)
 const toggleKakaoRemitSendSuccessModalShow = () => {
   isKakaoRemitSendSuccessModalShow.value = !isKakaoRemitSendSuccessModalShow.value
-}
-const isKakaoRemitReSendModalShow = ref(false)
-const toggleKaKaoRemitReSendModalShow = () => {
-  isKakaoRemitReSendModalShow.value = !isKakaoRemitReSendModalShow.value
-}
-const handlerClickKakaoRemitSendButton = () => {
-  if(true) {
-    // 카카오 송금요청 이미 한 경우
-    toggleKaKaoRemitReSendModalShow()
-  } else {
-    toggleKaKaoRemitSendModalShow()
-  }
-}
-
-const handlerClickSupplementationButton = () => {
-  alert('보완보고 완료')
-  toggleSupplementationModalShow()
 }
 
 const handlerClickRegApplication = () => {

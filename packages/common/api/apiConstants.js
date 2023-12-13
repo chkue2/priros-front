@@ -50,6 +50,7 @@ const API_URL = {
         REMIT_REQUEST: '/tradecases/:trade_case_id/remit/request',
         REMIT_AUTH: '/tradecases/:trade_case_id/remit/auth',
         REMIT_AUTH_CHECK: '/tradecases/:trade_case_id/remit/auth/check',
+        REMIT_REQUEST_KAKAO: '/tradecases/:trade_case_id/remit/request/kakao',
         REG_SUPPLEMENT: '/tradecases/:trade_case_id/regist-supplement',
         CONTRACT: '/tradecases/:trade_case_id/contract',
         RECEIVE: '/tradecases/:trade_case_id/receive',

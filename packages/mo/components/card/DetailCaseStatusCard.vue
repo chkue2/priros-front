@@ -39,12 +39,11 @@ const emits = defineEmits(['kakao-modal-show'])
 const handlerClickStatusCard = () => {
   switch (props.statusConfig.title) {
     case '송금요청':
-      // if(props.venderId === 'KA_IB'){
-      //   emits('kakao-modal-show')
-      // } else {
-      //   router.push(`/request/transfer/${props.tradeCaseId}`)
-      // }
-      router.push(`/request/transfer/${props.tradeCaseId}`)
+      if(props.venderId === 'KA_IB'){
+        emits('kakao-modal-show')
+      } else {
+        router.push(`/request/transfer/${props.tradeCaseId}`)
+      }
       break
     case '담당자 보고':
       router.push(`/case/${props.tradeCaseId}/charge-report`);
