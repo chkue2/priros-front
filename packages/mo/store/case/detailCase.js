@@ -86,8 +86,14 @@ export const useDetailCaseStore = defineStore('detailCase', {
     fetchDocumentDownload(tradeCaseId, documentId) {
       return tradeCaseDetail.getDocumentDownload(tradeCaseId, documentId)
     },
+    requestDocumentDelete(tradeCaseId, documentId) {
+      return tradeCaseDetail.deleteDocument(tradeCaseId, documentId)
+    },
     requestMemo(tradeCaseId, memo) {
       return tradeCaseDetail.setMemo(tradeCaseId, {content: memo})
+    },
+    requestMemoDelete(tradeCaseId, memoId) {
+      return tradeCaseDetail.deleteMemo(tradeCaseId, memoId)
     },
     requestRegApplication(tradeCaseId) {
       return tradeCaseDetail.regApplication(tradeCaseId, {registrationApplication: this.registrationApplication})

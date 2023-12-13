@@ -1,20 +1,23 @@
 <template>
   <div class="detail-case-common-table">
-    <div class="detail-case-common-table-header">
+    <div class="detail-case-common-table-header header-8">
       <div class="detail-case-common-table-small">등록일</div>
       <div class="detail-case-common-table-big">문서명</div>
       <div class="detail-case-common-table-small">첨부파일</div>
+      <div class="detail-case-common-table-thin">삭제</div>
     </div>
     <div v-if="detailCaseStore.fetchedFilesList.length === 0" class="detail-case-common-table-contents">
       <div class="detail-case-common-table-empty">첨부된 파일이 없습니다</div>
     </div>
     <div v-if="detailCaseStore.fetchedFilesList.length > 0">
-      <div v-for="(f, index) in detailCaseStore.fetchedFilesList" :key="index" class="detail-case-common-table-contents">
+      <div v-for="(f, index) in detailCaseStore.fetchedFilesList" :key="index" class="detail-case-common-table-contents contents-8">
         <div class="detail-case-common-table-small" v-html="changeDateFormat(f.created)"></div>
-        <div class="detail-case-common-table-big">{{ f.fileName }}</div>
-        <div class="detail-case-common-table-small flex-column">
-          <button class="button--white" @click="handlerClickFileView(f.documentId)">파일보기</button>
-          <button class="button--black" @click="handlerClickFileDonwload(f.documentId)">다운로드</button>
+        <div class="detail-case-common-table-big line-break" @click="handlerClickFileView(f.documentId)">{{ f.fileName }}</div>
+        <div class="detail-case-common-table-small">
+          <img @click="handlerClickFileDonwload(f.documentId)" src="/img/icon/download-small-black.svg" alt class="table-small-icon">
+        </div>
+        <div class="detail-case-common-table-thin">
+          <img @click="hanlderClickFileDelete(f.documentId)" src="/img/icon/delete-gray.svg" alt class="table-small-icon">
         </div>
       </div>
     </div>
@@ -52,6 +55,21 @@ const handlerClickFileDonwload = (documentId) => {
   detailCaseStore.fetchDocumentDownload(props.tradeCaseId, documentId)
     .then(({data}) => {
       console.log(data)
+    })
+    .catch(e => {
+      alert(e.response.data.message)
+    })
+}
+
+const hanlderClickFileDelete = (documentId) => {
+  if(!confirm('삭제하시겠어요?')) {
+    return false
+  }
+  
+  detailCaseStore.requestDocumentDelete(props.tradeCaseId, documentId)
+    .then(() => {
+      detailCaseStore.fetchDocument(props.tradeCaseId, 1)
+      alert('삭제 되었습니다.')
     })
     .catch(e => {
       alert(e.response.data.message)

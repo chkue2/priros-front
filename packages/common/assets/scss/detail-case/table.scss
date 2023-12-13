@@ -9,6 +9,18 @@
     padding: 5px;
     font-size: 12px;
   }
+  &.header-8 {
+    grid-template-columns: repeat(8, 1fr);
+    .detail-case-common-table-small {
+      grid-column: span 2;
+    }
+    .detail-case-common-table-big {
+      grid-column: span 3;
+    }
+    .detail-case-common-table-thin {
+      grid-column: span 1;
+    }
+  }
 }
 .detail-case-common-table-contents {
   min-height: 60px;
@@ -18,6 +30,18 @@
   box-shadow: 3px 3px 8px 0px #0000001A;
   padding: 11px 5px;
   grid-gap: 12px;
+  &.contents-8 {
+    grid-template-columns: repeat(8, 1fr);
+    .detail-case-common-table-small {
+      grid-column: span 2;
+    }
+    .detail-case-common-table-big {
+      grid-column: span 3;
+    }
+    .detail-case-common-table-thin {
+      grid-column: span 1;
+    }
+  }
   & > div {
     font-size: 12px;
     &.detail-case-common-table-small {
@@ -44,6 +68,7 @@
     }
   }
 }
+.detail-case-common-table-thin,
 .detail-case-common-table-small {
   grid-column: span 1;
   line-height: 14px;
@@ -61,6 +86,10 @@
   word-break: break-all;
   line-height: 17px;
   padding-top: 3px;
+  &.line-break {
+    color: #235BED;
+    text-decoration: underline;
+  }
 }
 .detail-case-common-table-empty {
   grid-column: span 4;

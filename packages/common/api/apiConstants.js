@@ -58,6 +58,7 @@ const API_URL = {
         HISTORY: '/tradecases/:trade_case_id/history',
         HISTORY_TR: '/tradecases/:trade_case_id/history/tr',
         MEMO: '/tradecases/:trade_case_id/memo',
+        MEMO_DELETE: '/tradecases/:trade_case_id/memo/:memo_id',
         DOCUMENT: '/tradecases/:trade_case_id/document',
         DOCUMENT_DETAIL: '/tradecases/:trade_case_id/document/:document_id',
         DOCUMENT_DOWNLOAD: '/tradecases/:trade_case_id/document/:document_id/download',

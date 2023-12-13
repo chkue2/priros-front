@@ -7,19 +7,23 @@
         등록
       </button>
     </div>
-    <div class="detail-case-common-table-header">
+    <div class="detail-case-common-table-header header-8">
       <div class="detail-case-common-table-small">수신일</div>
       <div class="detail-case-common-table-big">내용</div>
       <div class="detail-case-common-table-small">발신자</div>
+      <div class="detail-case-common-table-thin ">삭제</div>
     </div>
     <div v-if="detailCaseStore.fetchedMemoList.length === 0" class="detail-case-common-table-contents">
       <div class="detail-case-common-table-empty">등록된 메모가 없습니다</div>
     </div>
     <div v-if="detailCaseStore.fetchedMemoList.length > 0">
-      <div v-for="(m, index) in detailCaseStore.fetchedMemoList" :key="index" class="detail-case-common-table-contents">
+      <div v-for="(m, index) in detailCaseStore.fetchedMemoList" :key="index" class="detail-case-common-table-contents contents-8">
         <div class="detail-case-common-table-small" v-html="changeDateFormat(m.created)"></div>
         <div class="detail-case-common-table-big">{{ m.content }}</div>
         <div class="detail-case-common-table-small">{{ m.registerName }}</div>
+        <div class="detail-case-common-table-thin">
+          <img src="/img/icon/delete-gray.svg" alt="삭제" class="table-small-icon" @click="handlerClickDeleteMemo(m.memoId)">
+        </div>
       </div>
     </div>
     <Pagination :paging="detailCaseStore.fetchedPaging" :margin-top="50" @click-page="handlerClickPage" />
@@ -40,6 +44,10 @@ const changeDateFormat = (date) => {
 
 const memoText = ref('')
 const handlerClickSendMemo = () => {
+  if(memoText.value === '') {
+    alert('메모 내용은 비어 있을 수 없습니다.')
+    return false
+  }
   detailCaseStore.requestMemo(props.tradeCaseId, memoText.value)
     .then(() => {
       memoText.value = ''
@@ -53,6 +61,21 @@ const handlerClickSendMemo = () => {
 
 const handlerClickPage = (page) => {
   detailCaseStore.fetchMemo(props.tradeCaseId, page)
+}
+
+const handlerClickDeleteMemo = (memoId) => {
+  if(!confirm('메모를 삭제하시겠어요?')) {
+    return false
+  }
+
+  detailCaseStore.requestMemoDelete(props.tradeCaseId, memoId)
+    .then(() => {
+      alert('메모가 삭제되었습니다.')
+      detailCaseStore.fetchMemo(props.tradeCaseId, 1)
+    })
+    .catch(e => {
+      alert(e.response.data.message)
+    })
 }
 </script>
 <style scoped lang="scss">

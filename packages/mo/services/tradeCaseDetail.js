@@ -1,4 +1,4 @@
-import {API_URL, GET_AUTH, POST_AUTH, getEndpoint} from "~/composables/useApi.js";
+import {API_URL, GET_AUTH, POST_AUTH, DELETE_AUTH, getEndpoint} from "~/composables/useApi.js";
 
 export const tradeCaseDetail = {
   async detail(tradeCaseId) {
@@ -49,6 +49,10 @@ export const tradeCaseDetail = {
     const endpoint = getEndpoint(API_URL.TRADE_CASE.MEMO, {trade_case_id: tradeCaseId})
     return await POST_AUTH(endpoint, data)
   },
+  async deleteMemo(tradeCaseId, memoId) {
+    const endpoint = getEndpoint(API_URL.TRADE_CASE.MEMO_DELETE, {trade_case_id: tradeCaseId, memo_id: memoId})
+    return await DELETE_AUTH(endpoint)
+  },
   async getDocument(tradeCaseId, data) {
     const endpoint = getEndpoint(API_URL.TRADE_CASE.DOCUMENT, {trade_case_id: tradeCaseId})
     return await GET_AUTH(endpoint, data)
@@ -60,5 +64,9 @@ export const tradeCaseDetail = {
   async getDocumentDownload(tradeCaseId, documentId) {
     const endpoint = getEndpoint(API_URL.TRADE_CASE.DOCUMENT_DOWNLOAD, {trade_case_id: tradeCaseId, document_id: documentId})
     return await GET_AUTH(endpoint)
+  },
+  async deleteDocument(tradeCaseId, documentId) {
+    const endpoint = getEndpoint(API_URL.TRADE_CASE.DOCUMENT_DETAIL, {trade_case_id: tradeCaseId, document_id: documentId})
+    return await DELETE_AUTH(endpoint)
   },
 }

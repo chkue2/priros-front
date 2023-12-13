@@ -17,6 +17,14 @@ const POST_AUTH = async (url, data = {}) => {
     return await apiAuth.post(url, data);
 }
 
+const DELETE = async (url, data = {}) => {
+    return await api.delete(url, data);
+}
+
+const DELETE_AUTH = async (url, data = {}) => {
+    return await apiAuth.delete(url, data);
+}
+
 const GET = async (url, data = {}) => {
     return await api.get(url, {
         params: {
@@ -24,7 +32,6 @@ const GET = async (url, data = {}) => {
         }
     })
 }
-
 const GET_AUTH = async (url, data = {}) => {
     return await apiAuth.get(url, {
         params: {
@@ -33,4 +40,4 @@ const GET_AUTH = async (url, data = {}) => {
     })
 }
 
-export {API_URL, getEndpoint, POST, POST_AUTH, GET, GET_AUTH};
+export {API_URL, getEndpoint, POST, POST_AUTH, GET, GET_AUTH, DELETE, DELETE_AUTH};
