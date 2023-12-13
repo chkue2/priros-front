@@ -22,7 +22,7 @@
         <div class="detail-case-common-table-small">{{ m.registerName }}</div>
       </div>
     </div>
-    <Pagination :margin-top="50" />
+    <Pagination :paging="detailCaseStore.fetchedPaging" :margin-top="50" @click-page="handlerClickPage" />
   </div>
 </template>
 <script setup>
@@ -49,6 +49,10 @@ const handlerClickSendMemo = () => {
     .catch(e => {
       alert(e.response.data.message)
     })
+}
+
+const handlerClickPage = (page) => {
+  detailCaseStore.fetchMemo(props.tradeCaseId, page)
 }
 </script>
 <style scoped lang="scss">

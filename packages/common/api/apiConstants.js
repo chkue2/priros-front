@@ -56,6 +56,7 @@ const API_URL = {
         MORTGAGE: '/tradecases/:trade_case_id/firm/mortgage',
         REGISTER: '/tradecases/:trade_case_id/firm/register',
         HISTORY: '/tradecases/:trade_case_id/history',
+        HISTORY_TR: '/tradecases/:trade_case_id/history/tr',
         MEMO: '/tradecases/:trade_case_id/memo',
     },
     TRADE_CASE_ACCEPT: {
