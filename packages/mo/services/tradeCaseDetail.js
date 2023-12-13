@@ -49,4 +49,16 @@ export const tradeCaseDetail = {
     const endpoint = getEndpoint(API_URL.TRADE_CASE.MEMO, {trade_case_id: tradeCaseId})
     return await POST_AUTH(endpoint, data)
   },
+  async getDocument(tradeCaseId, data) {
+    const endpoint = getEndpoint(API_URL.TRADE_CASE.DOCUMENT, {trade_case_id: tradeCaseId})
+    return await GET_AUTH(endpoint, data)
+  },
+  async getDocumentDetail(tradeCaseId, documentId) {
+    const endpoint = getEndpoint(API_URL.TRADE_CASE.DOCUMENT_DETAIL, {trade_case_id: tradeCaseId, document_id: documentId})
+    return await GET_AUTH(endpoint)
+  },
+  async getDocumentDownload(tradeCaseId, documentId) {
+    const endpoint = getEndpoint(API_URL.TRADE_CASE.DOCUMENT_DOWNLOAD, {trade_case_id: tradeCaseId, document_id: documentId})
+    return await GET_AUTH(endpoint)
+  },
 }

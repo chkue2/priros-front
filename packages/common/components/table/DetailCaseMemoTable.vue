@@ -17,7 +17,7 @@
     </div>
     <div v-if="detailCaseStore.fetchedMemoList.length > 0">
       <div v-for="(m, index) in detailCaseStore.fetchedMemoList" :key="index" class="detail-case-common-table-contents">
-        <div class="detail-case-common-table-small">{{ changeDateFormat(m.created) }}</div>
+        <div class="detail-case-common-table-small" v-html="changeDateFormat(m.created)"></div>
         <div class="detail-case-common-table-big">{{ m.content }}</div>
         <div class="detail-case-common-table-small">{{ m.registerName }}</div>
       </div>
@@ -35,7 +35,7 @@ const props = defineProps({tradeCaseId: String})
 const detailCaseStore = useDetailCaseStore()
 
 const changeDateFormat = (date) => {
-  return date?.split('T')[0]
+  return date?.replace('T', '<br>')
 }
 
 const memoText = ref('')

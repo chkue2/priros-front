@@ -70,6 +70,22 @@ export const useDetailCaseStore = defineStore('detailCase', {
         this.fetchedPaging = data.paging
       })
     },
+    fetchDocument(tradeCaseId, pageNo) {
+      tradeCaseDetail.getDocument(tradeCaseId, {
+        limit: this.limitCount,
+        pageNo
+      })
+      .then(({data}) => {
+        this.fetchedFilesList = data.list
+        this.fetchedPaging = data.paging
+      })
+    },
+    fetchDocumentDetail(tradeCaseId, documentId) {
+      return tradeCaseDetail.getDocumentDetail(tradeCaseId, documentId)
+    },
+    fetchDocumentDownload(tradeCaseId, documentId) {
+      return tradeCaseDetail.getDocumentDownload(tradeCaseId, documentId)
+    },
     requestMemo(tradeCaseId, memo) {
       return tradeCaseDetail.setMemo(tradeCaseId, {content: memo})
     },

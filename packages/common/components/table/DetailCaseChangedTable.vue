@@ -10,7 +10,7 @@
     </div>
     <div v-if="detailCaseStore.fetchedChangedList.length > 0">
       <div v-for="(c, index) in detailCaseStore.fetchedChangedList" :key="index" class="detail-case-common-table-contents">
-        <div class="detail-case-common-table-small">{{ changeDateFormat(c.created) }}</div>
+        <div class="detail-case-common-table-small" v-html="changeDateFormat(c.created)"></div>
         <div class="detail-case-common-table-big">{{ c.comment }}</div>
         <div class="detail-case-common-table-small">{{ c.actorName }}</div>
       </div>
@@ -29,7 +29,7 @@ const props = defineProps({
 const detailCaseStore = useDetailCaseStore()
 
 const changeDateFormat = (date) => {
-  return date?.split('T')[0]
+  return date?.replace('T', '<br>')
 }
 
 const handlerClickPage = (page) => {

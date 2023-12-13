@@ -10,20 +10,53 @@
     </div>
     <div v-if="detailCaseStore.fetchedFilesList.length > 0">
       <div v-for="(f, index) in detailCaseStore.fetchedFilesList" :key="index" class="detail-case-common-table-contents">
-        <div class="detail-case-common-table-small">{{ f.date }}</div>
-        <div class="detail-case-common-table-big">{{ f.name }}</div>
-        <div class="detail-case-common-table-small">{{ f.file }}</div>
+        <div class="detail-case-common-table-small" v-html="changeDateFormat(f.created)"></div>
+        <div class="detail-case-common-table-big">{{ f.fileName }}</div>
+        <div class="detail-case-common-table-small flex-column">
+          <button class="button--white" @click="handlerClickFileView(f.documentId)">파일보기</button>
+          <button class="button--black" @click="handlerClickFileDonwload(f.documentId)">다운로드</button>
+        </div>
       </div>
     </div>
   </div>
-  <Pagination :margin-top="50" />
+  <Pagination :paging="detailCaseStore.fetchedPaging" :margin-top="50" @click-page="handlerClickPage" />
 </template>
 <script setup>
 import { useDetailCaseStore } from '@priros/common/store/case/detail.js'
 
 import Pagination from '@priros/common/components/paging/Pagination.vue'
 
+const props = defineProps({tradeCaseId: String})
+const emits = defineEmits(['file-view'])
 const detailCaseStore = useDetailCaseStore()
+
+const changeDateFormat = (date) => {
+  return date?.replace('T', '<br>')
+}
+
+const handlerClickPage = (page) => {
+  detailCaseStore.fetchDocument(props.tradeCaseId, page)
+}
+
+const handlerClickFileView = (documentId) => {
+  detailCaseStore.fetchDocumentDetail(props.tradeCaseId, documentId)
+    .then(({data}) => {
+      emits('file-view', data.documentFile)
+    })
+    .catch(e => {
+      alert(e.response.data.message)
+    })
+}
+
+const handlerClickFileDonwload = (documentId) => {
+  detailCaseStore.fetchDocumentDownload(props.tradeCaseId, documentId)
+    .then(({data}) => {
+      console.log(data)
+    })
+    .catch(e => {
+      alert(e.response.data.message)
+    })
+}
 </script>
 <style scoped lang="scss">
 @import '@priros/common/assets/scss/detail-case/table.scss';

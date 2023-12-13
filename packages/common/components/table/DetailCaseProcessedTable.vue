@@ -10,7 +10,7 @@
     </div>
     <div v-if="detailCaseStore.fetchedProcessedList.length > 0">
       <div v-for="(p, index) in detailCaseStore.fetchedProcessedList" :key="index" class="detail-case-common-table-contents">
-        <div class="detail-case-common-table-small">{{ changeDateFormat(p.created) }}</div>
+        <div class="detail-case-common-table-small" v-html="changeDateFormat(p.created)"></div>
         <div class="detail-case-common-table-big">{{ p.comment }}</div>
         <div class="detail-case-common-table-small">{{ p.actorName }}</div>
       </div>
@@ -27,7 +27,7 @@ const props = defineProps({tradeCaseId: String})
 const detailCaseStore = useDetailCaseStore()
 
 const changeDateFormat = (date) => {
-  return date?.split('T')[0]
+  return date?.replace('T', '<br>')
 }
 
 const handlerClickPage = (page) => {

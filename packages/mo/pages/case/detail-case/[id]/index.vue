@@ -126,7 +126,7 @@
         <DetailCaseChangedTable v-if="tab === 'changed'" :trade-case-id="tradeCaseId" />
         <DetailCaseMemoTable v-if="tab === 'memo'" :trade-case-id="tradeCaseId" />
         <DetailCaseProcessedTable v-if="tab === 'processed'" :trade-case-id="tradeCaseId" />
-        <DetailCaseFilesTable v-if="tab === 'files'" />
+        <DetailCaseFilesTable v-if="tab === 'files'" :trade-case-id="tradeCaseId" @file-view="documentFileView" />
       </div>
     </div>
     <CommonBlackTitleModal 
@@ -136,6 +136,19 @@
     >
       <div class="contract-container">
         <img class="contract-preview" :src="contractImageSrc" alt>
+        <button class="contract-button">
+          <img src="/img/icon/download-gray.svg" alt>
+          원본파일 다운로드
+        </button>
+      </div>
+    </CommonBlackTitleModal>
+    <CommonBlackTitleModal 
+      v-if="isFilePreviewModalShow"
+      title="파일 미리보기"
+      @handler-click-close="toggleFilePreviewModalShow"
+    >
+      <div class="contract-container">
+        <img class="contract-preview" :src="filePreviewImageSrc" alt>
         <button class="contract-button">
           <img src="/img/icon/download-gray.svg" alt>
           원본파일 다운로드
@@ -324,12 +337,18 @@ const handlerClickTab = (v) => {
     detailCaseStore.fetchMemo(tradeCaseId, 1)
   } else if(v === 'processed') {
     detailCaseStore.fetchHistoryTr(tradeCaseId, 1)
+  } else if(v === 'files') {
+    detailCaseStore.fetchDocument(tradeCaseId, 1)
   }
 }
 
 const isContractModalShow = ref(false)
 const toggleContractModalShow = () => {
   isContractModalShow.value = !isContractModalShow.value
+}
+const isFilePreviewModalShow = ref(false)
+const toggleFilePreviewModalShow = () => {
+  isFilePreviewModalShow.value = !isFilePreviewModalShow.value
 }
 const isConfigAgentModalShow = ref(false)
 const toggleConfigAgentModalShow = () => {
@@ -347,7 +366,6 @@ const isSupplementationModalShow = ref(false)
 const toggleSupplementationModalShow = () => {
   isSupplementationModalShow.value = !isSupplementationModalShow.value
 }
-
 const isKakaoRemitSendModalShow = ref(false)
 const toggleKaKaoRemitSendModalShow = () => {
   isKakaoRemitSendModalShow.value = !isKakaoRemitSendModalShow.value
@@ -417,6 +435,26 @@ const contractImageSrc = computed(() => {
     return `data:image/${contractFile.value.fileExt};base64,${contractFile.value.fileDataEncodeBase64}`
   }
 })
+
+const previewFile = ref({
+  fileDataEncodeBase64: null,
+  fileExt: null,
+})
+const filePreviewImageSrc = computed(() => {
+  if(previewFile.value.fileDataEncodeBase64 === null) {
+    return '/img/cha/cha-empty.png'
+  }
+  else if(previewFile.value.fileExt === 'pdf') {
+    return 'pdf'
+  } else {
+    return `data:image/${previewFile.value.fileExt};base64,${previewFile.value.fileDataEncodeBase64}`
+  }
+})
+
+const documentFileView = (file) => {
+  previewFile.value.fileDataEncodeBase64 = file
+  toggleFilePreviewModalShow()
+}
 </script>
 
 <style lang="scss" scoped>

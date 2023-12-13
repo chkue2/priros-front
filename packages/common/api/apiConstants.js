@@ -58,6 +58,9 @@ const API_URL = {
         HISTORY: '/tradecases/:trade_case_id/history',
         HISTORY_TR: '/tradecases/:trade_case_id/history/tr',
         MEMO: '/tradecases/:trade_case_id/memo',
+        DOCUMENT: '/tradecases/:trade_case_id/document',
+        DOCUMENT_DETAIL: '/tradecases/:trade_case_id/document/:document_id',
+        DOCUMENT_DOWNLOAD: '/tradecases/:trade_case_id/document/:document_id/download',
     },
     TRADE_CASE_ACCEPT: {
         COUNTER: '/tradecases/accept/counter',
