@@ -106,12 +106,17 @@ const handlerClickApprovalCheck = () => {
 }
 
 const handlerClickApplyRemit = () => {
-  if(!isApprovalSuccess) {
+  if(!isApprovalSend.value) {
+    alert('승인번호 요청이 필요합니다')
+    return false
+  }
+  if(!isApprovalSuccess.value) {
+    alert('승인번호 확인이 필요합니다')
     return false
   }
 
   tradeCaseRemit.postKakao(props.tradeCaseId, {
-    tradeCaseId: props.tradeCaseId,
+    // tradeCaseId: props.tradeCaseId,
     seq: seq.value
   })
   .then(() => {
