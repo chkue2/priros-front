@@ -70,8 +70,11 @@ const rexFormatPhone = (text) => {
 
 /**
  * blob data를 활용해 file download
+ * 파일명은 fileName.ext
  * 
  * @param {blob} data 
+ * @param {string} fileName
+ * @param {string} ext
  */
 const fileDownload = (data, fileName, ext) => {
   const url = window.URL.createObjectURL(new Blob([data]))
