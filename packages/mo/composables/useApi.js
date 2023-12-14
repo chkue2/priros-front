@@ -40,4 +40,13 @@ const GET_AUTH = async (url, data = {}) => {
     })
 }
 
-export {API_URL, getEndpoint, POST, POST_AUTH, GET, GET_AUTH, DELETE, DELETE_AUTH};
+const GET_DOWNLOAD = async (url, data = {}) => {
+    return await apiAuth.get(url, {
+        responseType: 'blob',
+        params: {
+            ...data
+        },
+    })
+}
+
+export {API_URL, getEndpoint, POST, POST_AUTH, GET, GET_AUTH, DELETE, DELETE_AUTH, GET_DOWNLOAD};

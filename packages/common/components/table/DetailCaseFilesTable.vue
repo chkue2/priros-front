@@ -14,7 +14,7 @@
         <div class="detail-case-common-table-small" v-html="changeDateFormat(f.created)"></div>
         <div class="detail-case-common-table-big line-break" @click="handlerClickFileView(f.documentId)">{{ f.fileName }}</div>
         <div class="detail-case-common-table-small">
-          <img @click="handlerClickFileDonwload(f.documentId)" src="/img/icon/download-small-black.svg" alt class="table-small-icon">
+          <img @click="handlerClickFileDonwload(f.documentId, f.fileName)" src="/img/icon/download-small-black.svg" alt class="table-small-icon">
         </div>
         <div class="detail-case-common-table-thin">
           <img @click="hanlderClickFileDelete(f.documentId)" src="/img/icon/delete-gray.svg" alt class="table-small-icon">
@@ -26,6 +26,8 @@
 </template>
 <script setup>
 import { useDetailCaseStore } from '@priros/common/store/case/detail.js'
+
+import { fileDownload } from '@priros/common/assets/js/utils.js'
 
 import Pagination from '@priros/common/components/paging/Pagination.vue'
 
@@ -51,10 +53,10 @@ const handlerClickFileView = (documentId) => {
     })
 }
 
-const handlerClickFileDonwload = (documentId) => {
+const handlerClickFileDonwload = (documentId, fileName) => {
   detailCaseStore.fetchDocumentDownload(props.tradeCaseId, documentId)
     .then(({data}) => {
-      console.log(data)
+      fileDownload(data, fileName.split('.')[0], fileName.split('.')[1])
     })
     .catch(e => {
       alert(e.response.data.message)

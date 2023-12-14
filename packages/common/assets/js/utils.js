@@ -68,10 +68,26 @@ const rexFormatPhone = (text) => {
           ?.replace(/^(\d{2,3})(\d{3,4})(\d{4})$/, '$1-$2-$3')
 }
 
+/**
+ * blob data를 활용해 file download
+ * 
+ * @param {blob} data 
+ */
+const fileDownload = (data, fileName, ext) => {
+  const url = window.URL.createObjectURL(new Blob([data]))
+  const link = document.createElement('a')
+  link.href = url
+  link.setAttribute('download', `${fileName}.${ext}`)
+  document.body.appendChild(link)
+  link.click()
+  document.body.removeChild(link)
+}
+
 export {
   isEmpty,
   changeTimeFormatAmPm,
   changeTimeFormatAddDot,
   zeroStr,
   rexFormatPhone,
+  fileDownload,
  }
