@@ -3,10 +3,10 @@
     <p class="join-title">반갑습니다.<br>아래 정보를 입력해주세요.</p>
     <p class="join-subtitle">*는 필수 입력 항목입니다.</p>
     <form action="niceForm" id="niceForm">
-      <input type="hidden" id="m" name="m" value="service">
-      <input type="hidden" id="token_version_id" name="token_version_id" value="test">
-      <input type="hidden" id="enc_data" name="enc_data" value="test">
-      <input type="hidden" id="integrity_value" name="integrity_value" value="test">
+      <input type="hidden" id="m" name="m" value="checkplusService">
+      <input type="hidden" id="token_version_id" name="token_version_id">
+      <input type="hidden" id="enc_data" name="enc_data">
+      <input type="hidden" id="integrity_value" name="integrity_value">
     </form>
     <div class="join-form">
       <p class="join-form-title">회원유형 *</p>
@@ -74,13 +74,29 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
-import axios from 'axios'
 import CommonBottomButton from '@priros/common/components/button/CommonBottomButton.vue'
+
 import { join } from '~/services/join.js'
 
 const userTypeEnum = ['법무사', '합동법무사', '법무사법인', '변호사', '합동변호사', '법무법인', '금융기관', '일반사용자', '공인중개사']
+const actionUrl = ref('')
+
+onMounted(() => {
+  join.getNice()
+    .then(({data}) => {
+      console.log(data)
+      document.getElementById('token_version_id').value = data.tokenVersionId
+      document.getElementById('enc_data').value = data.encData
+      document.getElementById('integrity_value').value = data.integrityValue
+      actionUrl.value = data.actionUrl
+    })
+    .catch(e => {
+      console.log(e)
+      alert(e.response.data.message)
+    })
+})
 
 const router = useRouter()
 const handlerClickCancelButton = () => {
@@ -195,18 +211,8 @@ const handlerClickApplyButton = () => {
 // 본인 인증
 const sendNiceForm = () => {
   const form = document.getElementById('niceForm')
-  const formData = new FormData(form)
-
-  // cors 해결을 위해 proxy server를 거쳐서 nice 본인인증 호출
-  // axios.post('https://cors-anywhere.herokuapp.com/https://nice.checkplus.co.kr/CheckPlusSafeModel/service.cb', formData)
-  //   .then(() => {
-  //     console.log('then')
-  //   })
-  //   .catch((e) => {
-  //     console.log(e)
-  //   })
-
-  form.action = 'https://nice.checkplus.co.kr/CheckPlusSafeModel/service.cb'
+  
+  form.action = actionUrl.value
   // form.enc_data = 'test'
   form.target = 'popupChk'
   form.submit()

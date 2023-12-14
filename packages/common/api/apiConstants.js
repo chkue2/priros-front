@@ -18,6 +18,9 @@ const API_URL = {
         VERIFY: '/user/verify-password',
         INFO: '/user/info',
     },
+    NICE: {
+        CHECK_PHONE: '/nice/check-phone',
+    },
     FIRM_INFO: {
         GET: '/firm/info',
         POST: '/firm/info',
