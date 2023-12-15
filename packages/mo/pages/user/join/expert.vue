@@ -8,6 +8,11 @@
       <input type="hidden" id="enc_data" name="enc_data">
       <input type="hidden" id="integrity_value" name="integrity_value">
     </form>
+    <form action="niceInfoForm" id="niceInfoForm">
+      <input type="hidden" id="niceName" name="niceName">
+      <input type="hidden" id="nicePhone" name="nicePhone">
+      <input type="hidden" id="responseNo" name="responseNo">
+    </form>
     <div class="join-form">
       <p class="join-form-title">회원유형 *</p>
       <div class="join-form-input-container">
@@ -21,12 +26,12 @@
       </div>
       <p class="join-form-title">대표자 *</p>
       <div class="join-form-input-container">
-        <input v-model="form['name']" type="text" class="join-form-input w-60" placeholder="본인인증이 필요합니다" readonly>
+        <input v-model="form['name']" id="name" type="text" class="join-form-input w-60" placeholder="본인인증이 필요합니다" readonly @input="handlerChangeName">
         <button class="join-form-gray-button" @click="sendNiceForm">본인확인</button>
       </div>
       <p class="join-form-title">휴대전화번호 *</p>
       <div class="join-form-input-container">
-        <input v-model="form['phone']" type="tel" class="join-form-input" placeholder="본인인증 후 자동입력" readonly>
+        <input v-model="form['phone']" id="phone" type="tel" class="join-form-input" placeholder="본인인증 후 자동입력" readonly @input="handlerChangePhone"> 
       </div>
       <p class="join-form-title">사업장 대표 전화번호 *</p>
       <div class="join-form-input-container">
@@ -84,19 +89,29 @@ const userTypeEnum = ['법무사', '합동법무사', '법무사법인', '변호
 const actionUrl = ref('')
 
 onMounted(() => {
-  join.getNice()
+  join.getNice(`${window.location.origin}/user/join/nice-result`)
     .then(({data}) => {
-      console.log(data)
       document.getElementById('token_version_id').value = data.tokenVersionId
       document.getElementById('enc_data').value = data.encData
       document.getElementById('integrity_value').value = data.integrityValue
       actionUrl.value = data.actionUrl
+
+      const receiveData = async (e) => {
+        if(e) {
+          form.value.name = e.data.name
+          form.value.phone = e.data.phone
+          form.value.responseNumber = e.data.responseNumber
+        }
+      }
+
+      window.addEventListener('message', receiveData, false)
     })
     .catch(e => {
       console.log(e)
       alert(e.response.data.message)
     })
 })
+
 
 const router = useRouter()
 const handlerClickCancelButton = () => {
@@ -187,8 +202,7 @@ const handlerClickApplyButton = () => {
   formData.append('firmType', form.value['firmType'])
   formData.append('position', form.value['position'])
   formData.append('charge', form.value['name'])
-  // formData.append('responseNumber', form.value['responseNumber']) // 본인확인 도입 후에 설정
-  formData.append('responseNumber', 'test')
+  formData.append('responseNumber', form.value['responseNumber']) // 본인확인 도입 후에 설정
   formData.append('mobile', form.value['phone'])
   formData.append('phone', form.value['tel'])
   formData.append('email', form.value['email'] || '')
@@ -216,7 +230,10 @@ const sendNiceForm = () => {
   // form.enc_data = 'test'
   form.target = 'popupChk'
   form.submit()
+
+  window.open('/user/join/nice-result')
 }
+
 </script>
 
 <style lang="scss" scoped>
