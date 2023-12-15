@@ -161,6 +161,9 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+      &.flex-start {
+        justify-content: flex-start;
+      }
     }
     .label-radio {
       display: flex;
