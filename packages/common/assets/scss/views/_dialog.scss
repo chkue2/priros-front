@@ -84,6 +84,9 @@
       align-items: center;
       gap: 12px;
       position: relative;
+      &.flex-start {
+        justify-content: flex-start;
+      }
       & + .form-input {
         margin-top: 12px;
       }
@@ -144,6 +147,15 @@
           transform: translateY(-50%);
         }
       }
+      .schedule-area {
+        height: 65px;
+        resize: none;
+        padding: 13px;
+        background-color: #ffffff;
+        border-radius: 9px;
+        border: none;
+        font-size: 12px;
+      }
     }
     .label {
       display: flex;
@@ -159,6 +171,19 @@
       display: flex;
       align-items: center;
       gap: 3px;
+      &.label--big {
+        gap: 4px;
+        margin-top: 14px;
+        padding-left: 8px;
+        & > input[type=radio] {
+          width: 24px;
+          height: 24px;
+        }
+        & > span {
+          font-size: 14px;
+          font-weight: $ft-medium;
+        } 
+      }
       & > input[type=radio] {
         width: 18px;
         height: 18px;
