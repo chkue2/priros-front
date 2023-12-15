@@ -207,14 +207,11 @@ const handlerClickApplyButton = () => {
   formData.append('insureFile', form.value['cert'])
 
   join.expert(formData).then(response => {
-    console.log(response)
+    router.push('/user/join/expert-success')
   })
   .catch(e => {
     console.log(e)
   })
-
-
-  // router.push('/user/join/expert-success')
 }
 
 // 본인 인증
