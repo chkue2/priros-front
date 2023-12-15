@@ -8,11 +8,6 @@
       <input type="hidden" id="enc_data" name="enc_data">
       <input type="hidden" id="integrity_value" name="integrity_value">
     </form>
-    <form action="niceInfoForm" id="niceInfoForm">
-      <input type="hidden" id="niceName" name="niceName">
-      <input type="hidden" id="nicePhone" name="nicePhone">
-      <input type="hidden" id="responseNo" name="responseNo">
-    </form>
     <div class="join-form">
       <p class="join-form-title">회원유형 *</p>
       <div class="join-form-input-container">
@@ -97,10 +92,10 @@ onMounted(() => {
       actionUrl.value = data.actionUrl
 
       const receiveData = async (e) => {
-        if(e) {
+        if(e.data.name) {
           form.value.name = e.data.name
           form.value.phone = e.data.phone
-          form.value.responseNumber = e.data.responseNumber
+          form.value.responseNumber = e.data.responseNo
         }
       }
 
@@ -227,11 +222,8 @@ const sendNiceForm = () => {
   const form = document.getElementById('niceForm')
   
   form.action = actionUrl.value
-  // form.enc_data = 'test'
   form.target = 'popupChk'
   form.submit()
-
-  window.open('/user/join/nice-result')
 }
 
 </script>

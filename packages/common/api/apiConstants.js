@@ -20,6 +20,7 @@ const API_URL = {
     },
     NICE: {
         CHECK_PHONE: '/nice/check-phone',
+        DECRYPT: '/nice/decrypt'
     },
     FIRM_INFO: {
         GET: '/firm/info',

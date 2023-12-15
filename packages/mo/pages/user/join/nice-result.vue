@@ -1,25 +1,31 @@
 <template>
   <div>
-    <button @click="sendData">send data</button>
   </div>
 </template>
 
 <script setup>
 import { onMounted } from 'vue'
 
+import { join } from '~/services/join.js'
+
 onMounted(() => {
   const urlSearch = new URLSearchParams(window.location.search)
   const encData = urlSearch.get('enc_data')
-  const tokenVersionId = urlSearch.get('token_version_id')
+  const tokenApiId = urlSearch.get('token_version_id')
+  const integrityValue = urlSearch.get('integrity_value')
   
-  console.log(encData, tokenVersionId)
+  join.getNiceInfo({
+    encData, tokenApiId, integrityValue
+  })
+  .then(({data}) => {
+    sendData(data.name, data.mobileNo, data.responseNo)
+  })
+  .catch(e => {
+    console.log(e)
+  })
 })
-const sendData = () => {
-  window.opener.postMessage({
-    name: 'test',
-    phone: '01012341234',
-    responseNumber: 'test'
-  }, '*')
-  // window.close()
+const sendData = (name, phone, responseNo) => {
+  window.opener.postMessage({name, phone, responseNo}, '*')
+  window.close()
 }
 </script>
