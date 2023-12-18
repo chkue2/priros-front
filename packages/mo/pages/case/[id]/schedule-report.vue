@@ -171,6 +171,7 @@ onMounted(() => {
 
 const formValidation = computed(() => {
   return (
+    !isEmpty(date.value) &&
     !isEmpty(hour.value) &&
     !isEmpty(minute.value) && 
     !isEmpty(date.value) &&
@@ -188,7 +189,9 @@ const toggleSuccessModal = () => {
 
 const handleBtnSendClick = () => {
   if(!formValidation.value) {
-    if(isEmpty(hour.value)){
+    if(isEmpty(date.value)){
+      alert('잔금일을 선택해주세요')
+    } else if(isEmpty(hour.value)){
       alert('잔금 시간(시간)을 선택해주세요')
     } else if(isEmpty(minute.value)) {
       alert('잔금 시간(분)을 선택해주세요')

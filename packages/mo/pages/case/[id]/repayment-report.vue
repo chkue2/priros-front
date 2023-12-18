@@ -109,19 +109,19 @@ const form = ref({
 })
 const options = [
   {
-    text: '상환있음',
+    text: '상환보고 대상이 있습니다',
     value: 'Y'
   },
   {
-    text: '상환없음',
+    text: '상환보고 대상이 없습니다',
     value: 'N'
   },
 ]
 const selectedText = computed(() => 
   form.value.repaySubjectYn === 'Y' ?
-    '상환있음' :
+    '상환보고 대상이 있습니다' :
   form.value.repaySubjectYn === 'N' ?
-    '상환없음'
+    '상환보고 대상이 없습니다'
   : ''  
 )
 
