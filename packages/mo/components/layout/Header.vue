@@ -6,7 +6,7 @@
       </NuxtLink>
     </div>
     <ul class="nav">
-      <li class="nav-item">
+      <li v-if="false" class="nav-item">
         <button type="button" class="btn-blank">
           <IconSvgIcon variant="alert" size="24"/>
         </button>
