@@ -38,11 +38,11 @@
                 </div>
                 <div class="form-input flex-start">
                   <label class="form-label label--big">
-                    <input type="radio" name="price">
+                    <input v-model="salePriceModifiedFlag" type="radio" name="price" value="N">
                     <span>동일</span>
                   </label>
                   <label class="form-label label--big">
-                    <input type="radio" name="price">
+                    <input v-model="salePriceModifiedFlag" type="radio" name="price" value="Y">
                     <span>변동발생</span>
                   </label>
                 </div>
@@ -53,11 +53,11 @@
                 </div>
                 <div class="form-input flex-start">
                   <label class="form-label label--big">
-                    <input type="radio" name="address">
+                    <input v-model="buyerAddressType" type="radio" name="address" value="E">
                     <span>동일</span>
                   </label>
                   <label class="form-label label--big">
-                    <input type="radio" name="address">
+                    <input v-model="buyerAddressType" type="radio" name="address" value="C">
                     <span>변동발생</span>
                   </label>
                 </div>
@@ -68,16 +68,16 @@
                 </div>
                 <div class="form-input flex-start">
                   <label class="form-label label--big">
-                    <input type="radio" name="share">
+                    <input v-model="acquisitionShareType" type="radio" name="share" value="S">
                     <span>단독명의</span>
                   </label>
                   <label class="form-label label--big">
-                    <input type="radio" name="share">
+                    <input v-model="acquisitionShareType" type="radio" name="share" value="M">
                     <span>공동명의</span>
                   </label>
                 </div>
                 <div class="form-input">
-                  <textarea class="schedule-area" placeholder="매수인별로 이름과 취득지분을 입력하세요 (균분일 경우 생략가능)"></textarea>
+                  <textarea v-model="acquisitionShareDetail" class="schedule-area" placeholder="매수인별로 이름과 취득지분을 입력하세요 (균분일 경우 생략가능)"></textarea>
                 </div>
               </div>
               <div class="form-group">
@@ -86,11 +86,11 @@
                 </div>
                 <div class="form-input flex-start">
                   <label class="form-label label--big">
-                    <input type="radio" name="coll">
+                    <input v-model="mortgageRemovableFlag" type="radio" name="coll" value="N">
                     <span>동일</span>
                   </label>
                   <label class="form-label label--big">
-                    <input type="radio" name="coll">
+                    <input v-model="mortgageRemovableFlag" type="radio" name="coll" value="Y">
                     <span>변동발생</span>
                   </label>
                 </div>
@@ -106,12 +106,11 @@
         </div>
         <div>
           <CommonBottomButton
-              id="btn-send"
-              text="일정보고"
-              backgroundColor="#000000" height="60px" width="100%" color="#fff"
-              :font-weight="700"
-              @handler-click-button="handleBtnSendClick"
-
+            id="btn-send"
+            text="일정보고"
+            backgroundColor="#000000" height="60px" width="100%" color="#fff"
+            :font-weight="700"
+            @handler-click-button="handleBtnSendClick"
           />
         </div>
       </div>
@@ -141,6 +140,11 @@ definePageMeta({
 const hour = ref('')
 const minute = ref('')
 const date = ref('')
+const salePriceModifiedFlag = ref('')
+const buyerAddressType = ref('')
+const acquisitionShareType = ref('')
+const acquisitionShareDetail = ref('')
+const mortgageRemovableFlag = ref('')
 
 const route = useRoute()
 const router = useRouter()
@@ -149,9 +153,14 @@ const tradeCaseId = route.params.id
 onMounted(() => {
   tradeCaseScheduleReport.get(tradeCaseId).then(({data}) => {
     if(!isEmpty.data) {
-      date.value = data.issueDate.split(' ')[0]
+      date.value = data.issueDate.split('T')[0]
       hour.value = data.issueTime.slice(0, 2)
       minute.value = data.issueTime.slice(2, 4)
+      salePriceModifiedFlag.value = data.salePriceModifiedFlag
+      buyerAddressType.value = data.buyerAddressType
+      acquisitionShareType.value = data.acquisitionShareType
+      acquisitionShareDetail.value = data.acquisitionShareDetail
+      mortgageRemovableFlag.value = data.mortgageRemovableFlag
     }
   })
   .catch(e => {
@@ -164,7 +173,11 @@ const formValidation = computed(() => {
   return (
     !isEmpty(hour.value) &&
     !isEmpty(minute.value) && 
-    !isEmpty(date.value)
+    !isEmpty(date.value) &&
+    !isEmpty(salePriceModifiedFlag.value) &&
+    !isEmpty(buyerAddressType.value) &&
+    !isEmpty(acquisitionShareType.value) &&
+    !isEmpty(mortgageRemovableFlag.value)
   )
 })
 
@@ -181,18 +194,31 @@ const handleBtnSendClick = () => {
       alert('잔금 시간(분)을 선택해주세요')
     } else if(isEmpty(date.value)) {
       alert('잔금일을 선택해주세요')
-    }
+    } else if(isEmpty(salePriceModifiedFlag.value)) {
+      alert('매매가격 수정 여부를 선택해주세요')
+    } else if(isEmpty(buyerAddressType.value)) {
+      alert('주소전입변동 여부를 선택해주세요')
+    } else if(isEmpty(acquisitionShareType.value)) {
+      alert('매수인별 취득지분을 선택해주세요')
+    } else if(isEmpty(mortgageRemovableFlag.value)) {
+      alert('근저당권 변동 여부를 선택해주세요')
+    } 
 
     return false
   }
   
   tradeCaseScheduleReport.post(tradeCaseId, {
     issueDate: date.value,
-    issueTime: `${hour.value}${minute.value}`
+    issueTime: `${hour.value}${minute.value}`,
+    salePriceModifiedFlag: salePriceModifiedFlag.value,
+    buyerAddressType: buyerAddressType.value,
+    acquisitionShareType: acquisitionShareType.value,
+    acquisitionShareDetail: acquisitionShareDetail.value,
+    mortgageRemovableFlag: mortgageRemovableFlag.value,
   }).then(() => {
     toggleSuccessModal()
   }).catch(e => {
-    alert('일정보고 실패')
+    alert(e.response.data.message)
     console.log(e)
   })
 }
