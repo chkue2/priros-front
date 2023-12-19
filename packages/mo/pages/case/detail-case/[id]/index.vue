@@ -136,7 +136,7 @@
     >
       <div class="contract-container">
         <img class="contract-preview" :src="contractImageSrc" alt>
-        <button class="contract-button">
+        <button class="contract-button" @click="contractImageDownload">
           <img src="/img/icon/download-gray.svg" alt>
           원본파일 다운로드
         </button>
@@ -149,7 +149,7 @@
     >
       <div class="contract-container">
         <img class="contract-preview" :src="filePreviewImageSrc" alt>
-        <button class="contract-button">
+        <button class="contract-button" @click="documentFileDownload">
           <img src="/img/icon/download-gray.svg" alt>
           원본파일 다운로드
         </button>
@@ -208,7 +208,6 @@ import { useDetailCaseStore } from '~/store/case/detailCase.js'
 
 import CommonBlackTitleModal from '~/components/modal/CommonBlackTitleModal.vue'
 import CommonAlertModal from '@priros/common/components/modal/CommonAlertModal.vue'
-import CommonAlertModalDoubleButton from '@priros/common/components/modal/CommonAlertModalDoubleButton.vue'
 import DetailCaseStatusCard from '~/components/card/DetailCaseStatusCard.vue'
 import DetailCaseChangedTable from '@priros/common/components/table/DetailCaseChangedTable.vue'
 import DetailCaseMemoTable from '@priros/common/components/table/DetailCaseMemoTable.vue'
@@ -220,7 +219,7 @@ import DetailCaseEstimateCard from '~/components/card/DetailCaseEstimateCard.vue
 import SupplementationRegInfo from '~/components/form/SupplementationRegInfo.vue'
 import KakaoRemitForm from '~/components/form/KakaoRemitForm.vue'
 
-import { isEmpty, changeTimeFormatAmPm, changeTimeFormatAddDot, rexFormatPhone } from '@priros/common/assets/js/utils.js'
+import { isEmpty, changeTimeFormatAmPm, changeTimeFormatAddDot, rexFormatPhone, fileDownload } from '@priros/common/assets/js/utils.js'
 import { bankSVG } from '@priros/common/assets/js/case/bankSVG.js'
 import { caseStatus } from '@priros/common/assets/js/case/status.js'
 
@@ -403,10 +402,21 @@ const contractImageSrc = computed(() => {
     return `data:image/${contractFile.value.fileExt};base64,${contractFile.value.fileDataEncodeBase64}`
   }
 })
+const contractImageDownload = () => {
+  // 수정 필요
+  console.log('click')
+  if(contractFile.value.fileDataEncodeBase64 === null) {
+    alert('원본파일 다운로드가 불가능합니다.')
+    return false
+  } 
+
+  fileDownload(contractFile.value.fileDataEncodeBase64, contractFile.value.fileName.split('.')[0], contractFile.value.fileExt)
+}
 
 const previewFile = ref({
   fileDataEncodeBase64: null,
-  fileExt: null,
+  documentId: null,
+  fileName: null,
 })
 const filePreviewImageSrc = computed(() => {
   if(previewFile.value.fileDataEncodeBase64 === null) {
@@ -419,9 +429,27 @@ const filePreviewImageSrc = computed(() => {
   }
 })
 
-const documentFileView = (file) => {
-  previewFile.value.fileDataEncodeBase64 = file
+const documentFileView = (value) => {
+  previewFile.value.fileDataEncodeBase64 = value.documentFile
+  previewFile.value.fileName = value.fileName
+  previewFile.value.documentId = value.documentId
   toggleFilePreviewModalShow()
+}
+
+const documentFileDownload = () => {
+  if(previewFile.value.documentId === null) {
+    alert('원본파일 다운로드가 불가능합니다.')
+    return false
+  }
+
+  detailCaseStore.fetchDocumentDownload(tradeCaseId, previewFile.value.documentId)
+    .then(({data}) => {
+      fileDownload(data, previewFile.value.fileName.split('.')[0], previewFile.value.fileName.split('.')[1])
+    })
+    .catch(e => {
+      console.log(e)
+      alert(e.response.data.message)
+    })
 }
 </script>
 

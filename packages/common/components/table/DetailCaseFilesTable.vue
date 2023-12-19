@@ -46,7 +46,11 @@ const handlerClickPage = (page) => {
 const handlerClickFileView = (documentId) => {
   detailCaseStore.fetchDocumentDetail(props.tradeCaseId, documentId)
     .then(({data}) => {
-      emits('file-view', data.documentFile)
+      emits('file-view', {
+        documentFile: data.documentFile,
+        fileName: data.fileName,
+        documentId
+      })
     })
     .catch(e => {
       alert(e.response.data.message)
