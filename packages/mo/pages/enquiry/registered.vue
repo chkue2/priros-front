@@ -65,8 +65,11 @@ definePageMeta({
   layout: false
 });
 
-const pin = ref('12012018015303')
-const serialNo = ref('8GHB4FRV39NB')
+// local test data
+// const pin = ref('12012018015303')
+// const serialNo = ref('8GHB4FRV39NB')
+const pin = ref('')
+const serialNo = ref('')
 
 const isSuccess = computed(() => 
   pin.value !== '' &&

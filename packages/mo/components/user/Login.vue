@@ -57,10 +57,15 @@ let isSwitchToggle = ref(false)
 const handlerClickSwitchToggle = () => {
   isSwitchToggle.value = !isSwitchToggle.value
 }
+// local test data
+// const credentials = ref({
+//   'userId': 'remagine4',
+//   'password': 'dhxortkd2319!'
+// });
 
 const credentials = ref({
-  'userId': 'remagine4',
-  'password': 'dhxortkd2319!'
+  'userId': '',
+  'password': ''
 });
 
 const handlerClickLoginButton = async () => {
