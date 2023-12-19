@@ -31,12 +31,30 @@
   </div>
 </template>
 <script setup>
-import {ref, watch} from 'vue'
+import {ref, watch, onMounted} from 'vue'
 import {useAuthStore} from "@priros/common/store/auth.js";
 import {useGnbStore} from "~/store/gnbState.js";
 
 const auth = useAuthStore();
 const gnbStore = useGnbStore();
+
+// local test data
+// const credentials = ref({
+//   'userId': 'remagine4',
+//   'password': 'dhxortkd2319!'
+// });
+
+const credentials = ref({
+  'userId': '',
+  'password': ''
+});
+
+onMounted(() => {
+  const userId = localStorage.getItem('userId')
+  if(userId) {
+    credentials.value.userId = userId
+  }
+})
 
 // 비밀번호 확인 토글
 let isPasswordToggle = ref(false)
@@ -57,20 +75,15 @@ let isSwitchToggle = ref(false)
 const handlerClickSwitchToggle = () => {
   isSwitchToggle.value = !isSwitchToggle.value
 }
-// local test data
-// const credentials = ref({
-//   'userId': 'remagine4',
-//   'password': 'dhxortkd2319!'
-// });
-
-const credentials = ref({
-  'userId': '',
-  'password': ''
-});
 
 const handlerClickLoginButton = async () => {
   const isSuccess = await auth.login(credentials.value);
   if (isSuccess) {
+    if(isSwitchToggle.value) { 
+      localStorage.setItem('userId', credentials.value.userId)
+    } else {
+      localStorage.removeItem('userId')
+    }
     await auth.userProfile();
   } else {
     alert("실패");
