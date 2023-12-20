@@ -4,7 +4,8 @@
       slides-per-view="auto"
       :loop="true"
       :autoplay="true"
-      :space-between="25">
+      :space-between="25"
+      :modules="modules">
       <swiper-slide v-for="(banner, index) in banners" :key="index" @click="handlerClickMainBanner(banner)">
         <SwiperCard
           :idx="index"
@@ -72,6 +73,7 @@
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import {Swiper, SwiperSlide} from 'swiper/vue'
+import { Autoplay } from 'swiper/modules'
 import SwiperCard from '~/components/card/SwiperCard.vue'
 import NoticeCard from '~/components/card/NoticeCard.vue'
 import MainHowToUseCard from '~/components/card/MainHowToUseCard.vue'
@@ -89,6 +91,8 @@ const totalCaseCnt = ref(0)
 const recentCaseCnt = ref(0)
 const userCnt = ref(0)
 const recentBoard = ref({})
+
+const modules = [Autoplay]
 
 onMounted(() => {
   intro.get().then(({data}) => {
