@@ -136,7 +136,7 @@
     >
       <div class="contract-container">
         <img class="contract-preview" :src="contractImageSrc" alt>
-        <button class="contract-button" @click="contractImageDownload">
+        <button v-if="!contractImageSrc.includes('empty-file')" class="contract-button" @click="contractImageDownload">
           <img src="/img/icon/download-gray.svg" alt>
           원본파일 다운로드
         </button>
@@ -149,7 +149,7 @@
     >
       <div class="contract-container">
         <img class="contract-preview" :src="filePreviewImageSrc" alt>
-        <button class="contract-button" @click="documentFileDownload">
+        <button v-if="!filePreviewImageSrc.includes('empty-file')" class="contract-button" @click="documentFileDownload">
           <img src="/img/icon/download-gray.svg" alt>
           원본파일 다운로드
         </button>
@@ -219,7 +219,7 @@ import DetailCaseEstimateCard from '~/components/card/DetailCaseEstimateCard.vue
 import SupplementationRegInfo from '~/components/form/SupplementationRegInfo.vue'
 import KakaoRemitForm from '~/components/form/KakaoRemitForm.vue'
 
-import { isEmpty, changeTimeFormatAmPm, changeTimeFormatAddDot, rexFormatPhone, fileDownload } from '@priros/common/assets/js/utils.js'
+import { isEmpty, changeTimeFormatAmPm, changeTimeFormatAddDot, rexFormatPhone, fileDownload, fileDownloadBase64 } from '@priros/common/assets/js/utils.js'
 import { bankSVG } from '@priros/common/assets/js/case/bankSVG.js'
 import { caseStatus } from '@priros/common/assets/js/case/status.js'
 
@@ -394,7 +394,7 @@ const contractModalOpen = () => {
 }
 const contractImageSrc = computed(() => {
   if(contractFile.value.fileDataEncodeBase64 === null) {
-    return '/img/cha/cha-empty.png'
+    return '/img/cha/cha-empty-file.png'
   }
   else if(contractFile.value.fileExt === 'pdf') {
     return 'pdf'
@@ -410,7 +410,7 @@ const contractImageDownload = () => {
     return false
   } 
 
-  fileDownload(contractFile.value.fileDataEncodeBase64, contractFile.value.fileName.split('.')[0], contractFile.value.fileExt)
+  fileDownloadBase64(contractImageSrc.value, contractFile.value.fileName.split('.')[0], contractFile.value.fileExt)
 }
 
 const previewFile = ref({
@@ -420,7 +420,7 @@ const previewFile = ref({
 })
 const filePreviewImageSrc = computed(() => {
   if(previewFile.value.fileDataEncodeBase64 === null) {
-    return '/img/cha/cha-empty.png'
+    return '/img/cha/cha-empty-file.png'
   }
   else if(previewFile.value.fileExt === 'pdf') {
     return 'pdf'

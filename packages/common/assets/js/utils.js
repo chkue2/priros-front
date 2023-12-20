@@ -86,6 +86,30 @@ const fileDownload = (data, fileName, ext) => {
   document.body.removeChild(link)
 }
 
+const fileDownloadBase64 = (base64, fileName, ext) => {
+  const imageData = atob(base64.split(',')[1])
+
+  const arraybuffer = new ArrayBuffer(imageData.length)
+  const view = new Uint8Array(arraybuffer)
+
+  for(let i=0; i < imageData.length; i++) {
+    view[i] = imageData.charCodeAt(i) & 0xff;
+  }
+
+  const contentType = base64.split(':')[1].split(';')[0]
+
+  const blob = new Blob([arraybuffer], {type: contentType})
+
+  const url = window.URL.createObjectURL(blob)
+  const link = document.createElement('a')
+  link.href = url
+  link.setAttribute('download', `${fileName}.${ext}`)
+  document.body.appendChild(link)
+  link.click()
+  document.body.removeChild(link)
+
+}
+
 export {
   isEmpty,
   changeTimeFormatAmPm,
@@ -93,4 +117,5 @@ export {
   zeroStr,
   rexFormatPhone,
   fileDownload,
+  fileDownloadBase64,
  }
