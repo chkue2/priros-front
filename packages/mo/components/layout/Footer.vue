@@ -1,10 +1,14 @@
 <template>
   <footer id="footer" class="footer">
-    <div>
-      (주)로앤텍 정보이용약관 및 기타법적고지
-    </div>
     <div class="info-wrap">
       <dl>
+        <div class="info-item mb-24">
+          <dt @click="termsStore.togglePersonalTerm">개인정보 보호정책</dt>
+          <dt @click="termsStore.toggleServiceTerm">서비스이용약관</dt>
+        </div>
+        <div class="info-item">
+          <dt>(주)로앤텍</dt>
+        </div>
         <div class="info-item">
           <dt>대표자</dt>
           <dd>조성화</dd>
@@ -29,7 +33,6 @@
           <dt>대표전화</dt>
           <dd>070-4466-7062</dd>
         </div>
-
       </dl>
     </div>
     <div class="copyright">
@@ -37,6 +40,12 @@
     </div>
   </footer>
 </template>
+
+<script setup>
+import {useTermsStore} from "~/store/termsState.js"
+
+const termsStore = useTermsStore()
+</script>
 
 <style lang="scss">
 .footer {
@@ -56,6 +65,10 @@
       display: flex;
       margin-right: 1rem;
       margin-top: 4px;
+
+      &.mb-24 {
+        margin-bottom: 24px;
+      }
 
       dt, dd {
         margin: 0;
