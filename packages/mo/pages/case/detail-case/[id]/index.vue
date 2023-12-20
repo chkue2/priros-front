@@ -51,7 +51,7 @@
           {{ detailCaseStore.fetchedDetailCase['estateAddr'] }} {{ detailCaseStore.fetchedDetailCase['estateRestAddr'] }}
         </div>
         <div class="detail-case-table-header">관할등기소</div>
-        <div class="detail-case-table-contents flex-column pt-0">
+        <div class="detail-case-table-contents flex-column flex-just-center" :class="[{'pt-0': ['W', 'F'].includes(detailCaseStore.fetchedDetailCase['registryOfficeOfWarning'])}]">
           <p v-if="detailCaseStore.fetchedDetailCase['registryOfficeOfWarning'] === 'W'" class="detail-case-table-contents-warning">! 필증우편금지 !</p>
           <p v-if="detailCaseStore.fetchedDetailCase['registryOfficeOfWarning'] === 'F'" class="detail-case-table-contents-warning warning--blue">! 필증보완빈번 !</p>
           {{ detailCaseStore.fetchedDetailCase['registryOfficeName'] }}

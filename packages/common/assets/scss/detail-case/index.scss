@@ -48,6 +48,9 @@
     &.flex-column {
       flex-direction: column;
     }
+    &.flex-just-center {
+      justify-content: center;
+    }
     &.pt-0 {
       padding-top: 0;
     }
