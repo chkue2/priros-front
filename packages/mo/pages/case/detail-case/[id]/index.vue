@@ -26,7 +26,7 @@
       <div class="detail-case-title-container bb">
         <div class="detail-case-title-left">
           <p class="detail-case-title">진행상태</p>
-          <button class="detail-case-button button--disabled">수임철회</button>
+          <button v-if="false" class="detail-case-button button--disabled">수임철회</button>
         </div>
         <button v-if="false" class="detail-case-button button--gray">매수인/매도인 등록</button>
       </div>
