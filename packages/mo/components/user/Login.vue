@@ -31,9 +31,9 @@
   </div>
 </template>
 <script setup>
-import {ref, watch, onMounted} from 'vue'
-import {useAuthStore} from "@priros/common/store/auth.js";
-import {useGnbStore} from "~/store/gnbState.js";
+import { ref, watch, onMounted, computed } from 'vue'
+import { useAuthStore } from "@priros/common/store/auth.js";
+import { useGnbStore } from "~/store/gnbState.js";
 
 const auth = useAuthStore();
 const gnbStore = useGnbStore();
@@ -76,7 +76,21 @@ const handlerClickSwitchToggle = () => {
   isSwitchToggle.value = !isSwitchToggle.value
 }
 
+const isValidation = computed(() => {
+  return (credentials.value.userId !== '' &&
+        credentials.value.password !== '')
+})
+
 const handlerClickLoginButton = async () => {
+  if(!isValidation.value) {
+    if(credentials.value.userId === '') {
+      alert('아이디를 입력해주세요.')
+    } else if(credentials.value.password === '') {
+      alert('비밀번호를 입력해주세요.')
+    }
+    return false
+  }
+
   const isSuccess = await auth.login(credentials.value);
   if (isSuccess) {
     if(isSwitchToggle.value) { 
@@ -86,7 +100,7 @@ const handlerClickLoginButton = async () => {
     }
     await auth.userProfile();
   } else {
-    alert("실패");
+    alert("아이디 또는 비밀번호가 다릅니다.");
   }
 }
 </script>
