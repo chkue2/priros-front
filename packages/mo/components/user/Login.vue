@@ -49,15 +49,20 @@ const credentials = ref({
   'password': ''
 });
 
+let isSwitchToggle = ref(false)
+
 onMounted(() => {
   const userId = localStorage.getItem('userId')
   if(userId) {
     credentials.value.userId = userId
   }
+
+  isSwitchToggle.value = localStorage.getItem('saveId') === 'true' ? true : false
 })
 
 // 비밀번호 확인 토글
 let isPasswordToggle = ref(false)
+
 watch(() => isPasswordToggle.value, () => {
   const target = document.querySelector('#passwordInput')
   if (isPasswordToggle.value) {
@@ -71,7 +76,6 @@ const handlerClickPasswordToggle = () => {
   isPasswordToggle.value = !isPasswordToggle.value
 }
 
-let isSwitchToggle = ref(false)
 const handlerClickSwitchToggle = () => {
   isSwitchToggle.value = !isSwitchToggle.value
 }
@@ -93,6 +97,7 @@ const handlerClickLoginButton = async () => {
 
   const isSuccess = await auth.login(credentials.value);
   if (isSuccess) {
+    localStorage.setItem('saveId', isSwitchToggle.value)
     if(isSwitchToggle.value) { 
       localStorage.setItem('userId', credentials.value.userId)
     } else {
