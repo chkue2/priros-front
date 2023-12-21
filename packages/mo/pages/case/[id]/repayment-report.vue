@@ -80,7 +80,7 @@
     </div>
     <CommonAlertModal
       v-if="isSuccessModalShow"
-      text="상환보고가 완료되었습니다."
+      text="상환보고가 완료되었습니다.<br><br><span style='font-size: 12px;'>등록된 파일은 <b>사건상세 하단 > 첨부파일</b>에서<br>확인 가능합니다.</span>"
       @handler-click-button="toggleSuccessModal"
     />
   </NuxtLayout>

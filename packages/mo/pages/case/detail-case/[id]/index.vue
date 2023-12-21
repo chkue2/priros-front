@@ -184,7 +184,7 @@
       title="등기필정보 보완"
       @handler-click-close="toggleSupplementationModalShow"
     >
-      <SupplementationRegInfo :trade-case-id="tradeCaseId" @close-modal="toggleSupplementationModalShow" />
+      <SupplementationRegInfo :trade-case-id="tradeCaseId" @move-to-files-table="moveToFilesTable" @close-modal="toggleSupplementationModalShow" />
     </CommonBlackTitleModal>
     <CommonBlackTitleModal
       v-if="isKakaoRemitSendModalShow"
@@ -450,6 +450,12 @@ const documentFileDownload = () => {
       console.log(e)
       alert(e.response.data.message)
     })
+}
+
+const moveToFilesTable = () => {
+  window.scrollTo({top: 9999, behavior: 'smooth'})
+  handlerClickTab('files')
+  toggleSupplementationModalShow()
 }
 </script>
 

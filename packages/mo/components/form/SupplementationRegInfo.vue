@@ -11,6 +11,7 @@
               <div class="form-input">
                 <input ref="registSupplementFileList" type="file" multiple @change="handlerChangeRegistSupplementFileList">
                 <p class="input-file" @click="handlerClickRegistSupplementFileList">{{ fileText }} <img src="/img/icon/file-gray.png" alt=""></p>
+                <button class="input-view-button" @click="handlerClickFileViewButton">파일보기</button>
               </div>
             </div>
           </div>
@@ -34,7 +35,7 @@ const props = defineProps({
     default: ''
   }
 })
-const emits = defineEmits(['close-modal'])
+const emits = defineEmits(['move-to-files-table', 'close-modal'])
 
 const registSupplementFileList = ref(null)
 const registSupplementFileListObj = ref(null)
@@ -51,7 +52,7 @@ const fileText = computed(() => {
       `${registSupplementFileListObj.value[0].name} 포함 ${registSupplementFileListObj.value.length}개` :
       fetchedRegistSupplementFileList.value.length > 0 ?
       `${fetchedRegistSupplementFileList.value[0].fileName} 포함 ${fetchedRegistSupplementFileList.value.length}개` :
-      '파일을 첨부해주세요 (최대 5개)'
+      '파일 첨부 (최대 5개)'
 })
 
 const handlerClickRegistSupplementFileList = () => {
@@ -82,6 +83,10 @@ const handlerClickSupplementationButton = () => {
       alert(e.response.data.message)
     })
 }
+
+const handlerClickFileViewButton = () => {
+  emits('move-to-files-table')
+}
 </script>
 
 <style scoped lang="scss">
@@ -99,5 +104,15 @@ const handlerClickSupplementationButton = () => {
   font-weight: 500;
   text-align: center;
   line-height: 20px;
+}
+.input-view-button {
+  width: 103px;
+  height: 48px;
+  border-radius: 5px;
+  background-color: #404040;
+  border: none;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: $ft-medium;
 }
 </style>
