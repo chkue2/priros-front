@@ -10,7 +10,7 @@
       <div class="sub-title">{{ profile.firmName }} 법률사무소</div>
     </div>
     <div class="profile-image">
-      <ImageAvatar :src="profile.profileImage"/>
+      <ImageAvatar :src="profileImageUrl"/>
     </div>
   </div>
   <div class="sub-menu">
@@ -108,6 +108,14 @@ const isDisplayFlex = subItem => !!subItem.sub_btn;
 const handlerClickHelpCenter = () => {
   router.push('/faq/list')
 }
+
+const profileImageUrl = computed(() => {
+  if(profile.value.userProfileImage === null) {
+    return '/img/join/profile-empty.png'
+  } else {
+    return `data:image/png;base64,${profile.value.userProfileImage}`
+  }
+})
 
 </script>
 <style lang="scss" scoped>
