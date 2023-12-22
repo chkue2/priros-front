@@ -203,8 +203,10 @@ const handlerClickApplyButton = () => {
   formData.append('email', form.value['email'] || '')
   formData.append('expirationDate', form.value['expiredDate'])
   formData.append('taxFile', form.value['businessLicense'])
-  formData.append('insureFile', form.value['expertLicense'])
+  formData.append('licenseFile', form.value['expertLicense'])
   formData.append('insureFile', form.value['cert'])
+  formData.append('joinAgree', 'Y')
+  formData.append('validationPassYn', true)
 
   join.expert(formData).then(response => {
     router.push('/user/join/expert-success')
