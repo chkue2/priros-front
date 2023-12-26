@@ -86,6 +86,14 @@ const fileDownload = (data, fileName, ext) => {
   document.body.removeChild(link)
 }
 
+/**
+ * base64 data를 활용해 file download
+ * 파일명은 fileName.ext
+ * 
+ * @param {string} base64
+ * @param {string} fileName
+ * @param {string} ext
+ */
 const fileDownloadBase64 = (base64, fileName, ext) => {
   const imageData = atob(base64.split(',')[1])
 
@@ -107,7 +115,41 @@ const fileDownloadBase64 = (base64, fileName, ext) => {
   document.body.appendChild(link)
   link.click()
   document.body.removeChild(link)
+}
 
+/**
+ * base64 데이터로 이루어진 pdf 파일에 대한 미리보기 설정
+ * 
+ * @param {string} base64 
+ */
+const filePreviewBase64Pdf = (base64) => {
+  const binaryPdf = atob(base64)
+
+  const pdfBytes = new Uint8Array(binaryPdf.length)
+  for(let i=0; i < binaryPdf.length; i++) {
+    pdfBytes[i] = binaryPdf.charCodeAt(i)
+  }
+
+  return pdfjsLib.getDocument(pdfBytes).promise.then(function(pdf) {
+    return new Promise(resolve => {
+      pdf.getPage(1).then(function(page) {
+        console.log(page)
+        const canvas = document.createElement('canvas')
+        canvas.width = page.view[2]
+        canvas.height = page.view[3]
+
+        const context = canvas.getContext('2d')
+  
+        page.render({
+          canvasContext: context,
+          viewport: page.view,
+        }).promise.then(function() {
+          const imageDataURL = canvas.toDataURL('image/png')
+          resolve(imageDataURL)
+        })
+      })
+    })
+  })
 }
 
 export {
@@ -118,4 +160,5 @@ export {
   rexFormatPhone,
   fileDownload,
   fileDownloadBase64,
+  filePreviewBase64Pdf,
  }

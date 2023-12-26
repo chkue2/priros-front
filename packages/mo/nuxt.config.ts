@@ -3,6 +3,13 @@
 import pluginSvgVue from '@vuetter/vite-plugin-vue-svg';
 
 export default defineNuxtConfig({
+    app: {
+        head: {
+            script: [
+                {src: 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.6.347/pdf.min.js'}
+            ]
+        }
+    },
     ssr:false,
     devtools: {enabled: true},
     build:{

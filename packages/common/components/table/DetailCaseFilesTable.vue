@@ -49,10 +49,12 @@ const handlerClickFileView = (documentId) => {
       emits('file-view', {
         documentFile: data.documentFile,
         fileName: data.fileName,
-        documentId
+        documentId,
+        fileExt: data.fileExt
       })
     })
     .catch(e => {
+      console.log(e)
       alert(e.response.data.message)
     })
 }

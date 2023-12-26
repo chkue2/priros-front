@@ -219,7 +219,7 @@ import DetailCaseEstimateCard from '~/components/card/DetailCaseEstimateCard.vue
 import SupplementationRegInfo from '~/components/form/SupplementationRegInfo.vue'
 import KakaoRemitForm from '~/components/form/KakaoRemitForm.vue'
 
-import { isEmpty, changeTimeFormatAmPm, changeTimeFormatAddDot, rexFormatPhone, fileDownload, fileDownloadBase64 } from '@priros/common/assets/js/utils.js'
+import { isEmpty, changeTimeFormatAmPm, changeTimeFormatAddDot, rexFormatPhone, fileDownload, fileDownloadBase64, filePreviewBase64Pdf } from '@priros/common/assets/js/utils.js'
 import { bankSVG } from '@priros/common/assets/js/case/bankSVG.js'
 import { caseStatus } from '@priros/common/assets/js/case/status.js'
 
@@ -383,7 +383,15 @@ const fetchContractPreview = () => {
   detailCaseStore.fetchContract(tradeCaseId)
     .then(({data}) => {
       contractFile.value = data
-      toggleContractModalShow()
+      if(data.fileExt === 'pdf') {
+        filePreviewBase64Pdf(data.fileDataEncodeBase64).then(res => {
+          contractFile.value.fileDataEncodeBase64 = res
+          contractFile.value.fileExt = 'pdf'
+          toggleContractModalShow()
+        })
+      } else {
+        toggleContractModalShow()
+      }
     })
     .catch(e => {
       alert(e.response.data.message)
@@ -397,7 +405,7 @@ const contractImageSrc = computed(() => {
     return '/img/cha/cha-empty-file.png'
   }
   else if(contractFile.value.fileExt === 'pdf') {
-    return 'pdf'
+    return contractFile.value.fileDataEncodeBase64
   } else {
     return `data:image/${contractFile.value.fileExt};base64,${contractFile.value.fileDataEncodeBase64}`
   }
@@ -417,13 +425,14 @@ const previewFile = ref({
   fileDataEncodeBase64: null,
   documentId: null,
   fileName: null,
+  fileExt: null,
 })
 const filePreviewImageSrc = computed(() => {
   if(previewFile.value.fileDataEncodeBase64 === null) {
     return '/img/cha/cha-empty-file.png'
   }
   else if(previewFile.value.fileExt === 'pdf') {
-    return 'pdf'
+    return previewFile.value.fileDataEncodeBase64
   } else {
     return `data:image/${previewFile.value.fileExt};base64,${previewFile.value.fileDataEncodeBase64}`
   }
@@ -433,7 +442,16 @@ const documentFileView = (value) => {
   previewFile.value.fileDataEncodeBase64 = value.documentFile
   previewFile.value.fileName = value.fileName
   previewFile.value.documentId = value.documentId
-  toggleFilePreviewModalShow()
+  previewFile.value.fileExt = value.fileExt
+  if(value.fileExt === 'pdf') {
+    filePreviewBase64Pdf(value.documentFile).then(res => {
+      previewFile.value.fileDataEncodeBase64 = res
+      previewFile.value.fileExt = 'pdf'
+      toggleFilePreviewModalShow()
+    })
+  } else {
+    toggleFilePreviewModalShow()
+  }
 }
 
 const documentFileDownload = () => {
