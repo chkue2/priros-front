@@ -135,7 +135,7 @@
       @handler-click-close="toggleContractModalShow"
     >
       <div class="contract-container">
-        <img class="contract-preview" :src="contractImageSrc" alt>
+        <img class="contract-preview" :class="{scale: contractFile.fileExt === 'pdf'}" :src="contractImageSrc" alt>
         <button v-if="!contractImageSrc.includes('empty-file')" class="contract-button" @click="contractImageDownload">
           <img src="/img/icon/download-gray.svg" alt>
           원본파일 다운로드
@@ -148,7 +148,7 @@
       @handler-click-close="toggleFilePreviewModalShow"
     >
       <div class="contract-container">
-        <img class="contract-preview" :src="filePreviewImageSrc" alt>
+        <img class="contract-preview" :class="{scale: previewFile.fileExt === 'pdf'}" :src="filePreviewImageSrc" alt>
         <button v-if="!filePreviewImageSrc.includes('empty-file')" class="contract-button" @click="documentFileDownload">
           <img src="/img/icon/download-gray.svg" alt>
           원본파일 다운로드
@@ -389,6 +389,9 @@ const fetchContractPreview = () => {
           contractFile.value.fileExt = 'pdf'
           toggleContractModalShow()
         })
+        .catch(() => {
+          alert('미리보기가 불가능한 파일입니다.')
+        })
       } else {
         toggleContractModalShow()
       }
@@ -448,6 +451,9 @@ const documentFileView = (value) => {
       previewFile.value.fileDataEncodeBase64 = res
       previewFile.value.fileExt = 'pdf'
       toggleFilePreviewModalShow()
+    })
+    .catch(() => {
+      alert('미리보기가 불가능한 파일입니다.')
     })
   } else {
     toggleFilePreviewModalShow()

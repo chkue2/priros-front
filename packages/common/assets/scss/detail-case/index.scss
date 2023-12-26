@@ -195,6 +195,9 @@
     width: auto;
     max-width: 100%;
     max-height: 340px;
+    &.scale { 
+      transform: scaleY(-1);
+    }
   }
   .contract-button {
     width: 100%;
