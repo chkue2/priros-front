@@ -9,7 +9,7 @@
                 <label for="" class="form-label">잔금일</label>
               </div>
               <div class="form-input">
-                <input v-model="date" type="date">
+                <input v-model="date" type="date" readonly>
               </div>
             </div>
             <div class="schedule-container">
