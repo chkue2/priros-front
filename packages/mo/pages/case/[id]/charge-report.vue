@@ -107,7 +107,7 @@ const description = computed(() => {
   }
 });
 
-const chargeSelectText = computed(() => `${chargeData.value?.userName} (${chargeData.value?.userId})` || "");
+const chargeSelectText = computed(() => chargeData.value ? `${chargeData.value?.userName} (${chargeData.value?.userId})` : "");
 
 const btnSendDisable = computed(() => !chargeData.value);
 
@@ -145,8 +145,8 @@ const requestCharge = () => {
       toggleSuccessModal()
     })
     .catch((e) => {
-      alert('담당자보고 실패')
       console.log(e)
+      alert(e.response.data.message)
     })
 }
 

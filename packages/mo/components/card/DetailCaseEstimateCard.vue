@@ -261,7 +261,7 @@ const legalFee = computed(() =>
 // 견적서 안내문
 const estimateMemo = computed(() => 
   !isEmpty(detailCaseStore.fetcehdEstimate.info) ?
-    detailCaseStore.fetcehdEstimate.info.estimateMemo : '-'
+    detailCaseStore.fetcehdEstimate.info.estimateMemo.replace(/\r\n/gi, '<br>') : '-'
 )
 const registryFirmName = computed(() => 
   !isEmpty(detailCaseStore.fetcehdEstimate.info) ?

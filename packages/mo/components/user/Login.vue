@@ -19,12 +19,12 @@
           </div>
           <p class="login-form-middle-toggle-text">아이디 저장</p>
         </div>
-        <NuxtLink to="/" class="login-form-middle-find-password">비밀번호를 잊으셨나요?</NuxtLink>
+        <NuxtLink to="/user/find/password" class="login-form-middle-find-password" @click="gnbStore.deactivate();">비밀번호를 잊으셨나요?</NuxtLink>
       </div>
       <button class="login-form-apply-button" @click="handlerClickLoginButton">로그인</button>
       <div class="login-form-button-container">
         <NuxtLink to="/user/join/expert" @click="gnbStore.deactivate();">회원가입</NuxtLink>
-        <NuxtLink to="/">아이디찾기</NuxtLink>
+        <NuxtLink to="/user/find/id" @click="gnbStore.deactivate();">아이디찾기</NuxtLink>
         <NuxtLink to="/faq/list">헬프센터</NuxtLink>
       </div>
     </div>
