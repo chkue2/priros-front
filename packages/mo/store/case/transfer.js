@@ -10,7 +10,9 @@ export const useTransferStore = defineStore('transfer', {
     transfer: [{}],
     memo: '',
     remitState: '',
+    remitRequestFlag: '',
     rejectMessage: '',
+    approveYn: '',
     validate: ['bank', 'account', 'holder', 'amount'],
     cardOptions: [
       {
@@ -57,13 +59,14 @@ export const useTransferStore = defineStore('transfer', {
               return prev
             }, this.cardOptions)
           }
-          console.log(data)
           this.seq = data.seq
           this.mortgageLoan = data.mortgageLoan.toLocaleString()
           this.mortgageExecution = data.mortgageExecution.toLocaleString()
           this.memo = data.memo
           this.remitState = data.remitState
+          this.remitRequestFlag = data.remitRequestFlag
           this.rejectMessage = data.rejectMessage
+          this.approveYn = data.approveYn
           if(!isEmpty(data.buyerPayout)){
             this.transfer[0].amount = data.buyerPayout.toLocaleString()
             this.transfer[0].bank = data.buyerPayoutBankName
@@ -77,7 +80,7 @@ export const useTransferStore = defineStore('transfer', {
             this.transfer[0].holder = ''
             this.transfer[0].account = ''
           }
-          if(!isEmpty(data.repayAmount)) {
+          if(!isEmpty(data.repayAmount) && data.repayAmount > 0) {
             this.setTransferDataPlus()
             this.transfer[1].amount = data.repayAmount.toLocaleString()
             this.transfer[1].bank = data.repayBankName
@@ -111,31 +114,12 @@ export const useTransferStore = defineStore('transfer', {
       return tradeCaseRemit.post(tradeCaseId, formData)
     },
     requestRemit(tradeCaseId) {
-      let formData = {
-        buyerPayout: Number(this.transfer[0].amount?.replace(/,/g, '')),
-        buyerPayoutBankName: this.transfer[0].bank,
-        buyerPayoutBankCode: this.transfer[0].bankCode,
-        buyerPayoutAccountHolder: this.transfer[0].holder,
-        buyerPayoutAccountNumber: this.transfer[0].account,
-        memo: this.memo
-      }
-      if(this.seq > 0 && this.seq !== null) {
-        formData = {...formData, seq: this.seq}
-      }
-      if(this.transfer.length > 1) {
-        formData = {...formData, 
-          repayAmount: Number(this.transfer[1].amount?.replace(/,/g, '')),
-          repayBankName: this.transfer[1].bank,
-          repayBankCode: this.transfer[1].bankCode,
-          repayAccountHolder: this.transfer[1].holder,
-          repayAccountNumber: this.transfer[1].account
-        }
-      }
-      return tradeCaseRemit.request(tradeCaseId, formData)
+      return tradeCaseRemit.request(tradeCaseId, {
+        seq: this.seq
+      })
     },
     postAuth(tradeCaseId) {
       return tradeCaseRemit.auth(tradeCaseId, {
-        tradeCaseId,
         seq: this.seq
       })
     },

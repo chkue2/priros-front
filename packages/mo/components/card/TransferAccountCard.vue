@@ -71,7 +71,7 @@ const bankSelectedText = computed(() => {
 })
 
 watch(() => accountInfoSelectedValue, () => {
-  accountInfoSelectedValue.value.amount = Number(accountInfoSelectedValue.value.amount.replace(/[^0-9]/g, '')).toLocaleString()
+  accountInfoSelectedValue.value.amount = Number(accountInfoSelectedValue.value?.amount?.replace(/[^0-9]/g, '')).toLocaleString()
   transferStore.setTransferData({value: accountInfoSelectedValue.value, idx: props.idx})
 }, {deep: true})
 

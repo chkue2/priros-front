@@ -71,7 +71,7 @@
 </template>
 
 <script setup>
-import { computed, onMounted } from 'vue'
+import { computed, onMounted, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useTransferStore } from '~/store/case/transfer.js'
 import TransferAccountCard from '~/components/card/TransferAccountCard.vue'
@@ -95,11 +95,23 @@ onMounted(() => {
   transferStore.fetchRemit(tradeCaseId)
 })
 
+watch(() => transferStore.remitState, () => {
+  if(transferStore.remitRequestFlag !== null) {
+    isSaved.value = true
+  }
+  if(transferStore.remitRequestFlag === 'Y') {
+    isTransferApply.value = true
+  }
+  if(transferStore.approveYn === 'Y') {
+    isApprovalSend.value = true
+    isApprovalApply.value = true
+  }
+})
 const isEdit = computed(() => 
-  ['W', 'Y', 'N'].includes(transferStore.remitState)
+  ['W', 'Y', 'N'].includes(transferStore.remitState) && transferStore.remitRequestFlag === 'Y'
 )
 const isSuccess = computed(() => 
-  ['W', 'Y'].includes(transferStore.remitState)
+  ['W', 'Y'].includes(transferStore.remitState) && transferStore.remitRequestFlag === 'Y'
 )
 
 const resultContents = computed(() => {
@@ -202,7 +214,7 @@ const handlerClickApprovalApplyButton = () => {
     return false
   }
 
-  transferStore.postAuthCheck(tradeCaseId, authNum) 
+  transferStore.postAuthCheck(tradeCaseId, authNum.value) 
     .then(() => {
       clearInterval(timerInterval.value)
       timerInterval.value = null
