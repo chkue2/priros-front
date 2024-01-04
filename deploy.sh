@@ -10,6 +10,7 @@ EXIST_BLUE=$(docker ps --filter "name=$BLUE_NAME" --format "{{.Names}}")
 run_container() {
 
     docker run -d --rm -p $2:3000 \
+        --restart=always \
         -e API_URL=$API_URL \
         --network $DOCKER_NETWORK \
         --name $1 $DOCKER_IMAGE:$DOCKER_IMAGE_TAG
@@ -49,3 +50,10 @@ then
     echo "서버가 정상적으로 구동되지 않았습니다."
     exit 1
 fi
+
+EXIST=$(docker ps --filter "name=$BEFORE_NAME" --format "{{.Names}}")
+if [ -n "$EXIST" ]; then
+  echo "$BEFORE_NAME server down"
+  docker stop --time=35 $BEFORE_NAME
+fi
+
