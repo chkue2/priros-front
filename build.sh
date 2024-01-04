@@ -11,4 +11,4 @@ else
     exit 1
 fi
 
-docker build -f $DOCKERFILE -t $DOCKER_IMAGE:$DOCKER_IMAGE_TAG .
+docker build --build-arg "API_URL=${API_URL}" -f $DOCKERFILE -t $DOCKER_IMAGE:$DOCKER_IMAGE_TAG .

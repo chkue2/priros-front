@@ -21,6 +21,8 @@ services:
     ports:
       - 3000:3000
       - 3001:3001
+    environment:
+      - API_URL=https://pro-api.dev.priros.com
     expose:
       - 3000
       - 3001

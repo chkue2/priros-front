@@ -8,6 +8,7 @@ RUN npm i -g pnpm && npm i -g npm@latest
 
 # 환경변수 설정
 ENV NODE_ENV=${NODE_ENV}
+ENV API_URL=${API_URL}
 
 FROM base as build
 
@@ -30,8 +31,9 @@ RUN pnpm mo:build
 FROM node:${NODE_VERSION}-alpine as runner
 
 ARG PORT=3000
-ENV NODE_ENV=${NODE_ENV}
+ENV NODE_ENV=production
 ENV PORT=${PORT}
+
 
 WORKDIR /app
 
