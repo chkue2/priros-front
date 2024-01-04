@@ -9,7 +9,7 @@ EXIST_BLUE=$(docker ps --filter "name=$BLUE_NAME" --format "{{.Names}}")
 # Docker Run 명령어 실행
 run_container() {
 
-    docker run -d --rm -p $2:3000 \
+    docker run -d -p $2:3000 \
         --restart=always \
         -e API_URL=$API_URL \
         --network $DOCKER_NETWORK \
@@ -55,5 +55,6 @@ EXIST=$(docker ps --filter "name=$BEFORE_NAME" --format "{{.Names}}")
 if [ -n "$EXIST" ]; then
   echo "$BEFORE_NAME server down"
   docker stop --time=35 $BEFORE_NAME
+  docker rm $BEFORE_NAME
 fi
 
