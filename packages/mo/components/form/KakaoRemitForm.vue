@@ -44,7 +44,6 @@ onMounted(() => {
   // 모달 오픈시 seq 생성
   tradeCaseRemit.getKakao(props.tradeCaseId)
     .then(({data}) => {
-      console.log(data)
       seq.value = data.seq
     })
     .catch(e => {
