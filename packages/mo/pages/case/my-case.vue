@@ -8,9 +8,9 @@
   </div>
   <div class="my-case-filters">
     <div class="my-case-tabs">
-      <div class="my-case-tab tab-left" :class="{active: caseStore.filter === 'all'}" @click="handlerClickCaseFilter('all')">전체({{counter.total}})</div>
+      <div class="my-case-tab tab-center" :class="{active: caseStore.filter === 'all'}" @click="handlerClickCaseFilter('all')">전체({{counter.total}})</div>
       <div class="my-case-tab tab-center" :class="{active: caseStore.filter === 'progress'}" @click="handlerClickCaseFilter('progress')">진행중({{counter.progress}})</div>
-      <div class="my-case-tab tab-right" :class="{active: caseStore.filter === 'receive'}" @click="handlerClickCaseFilter('receive')">완료({{counter.receive}})</div>
+      <div class="my-case-tab tab-center" :class="{active: caseStore.filter === 'receive'}" @click="handlerClickCaseFilter('receive')">완료({{counter.receive}})</div>
     </div>
     <div class="my-case-date-filters">
       <div class="my-case-date-filter" :class="{active: caseStore.tab === 'all'}" @click="handlerClickCaseTab('all')">전체</div>
