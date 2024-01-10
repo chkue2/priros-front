@@ -31,7 +31,7 @@
         </div>
         <div class="info-item">
           <dt>대표전화</dt>
-          <dd>070-4466-7062</dd>
+          <dd>1670-2361</dd>
         </div>
       </dl>
     </div>
