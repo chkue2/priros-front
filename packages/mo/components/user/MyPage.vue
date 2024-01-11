@@ -107,6 +107,7 @@ const isDisplayFlex = subItem => !!subItem.sub_btn;
 
 const handlerClickHelpCenter = () => {
   router.push('/faq/list')
+  gnbStore.deactivate();
 }
 
 const profileImageUrl = computed(() => {
