@@ -90,6 +90,7 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue'
 import { myPageStore } from '~/store/user/myPage.js'
+import { useAuthStore } from "@priros/common/store/auth.js";
 import { base64 } from '@priros/common/assets/js/filePreview.js'
 import { isEmpty } from '@priros/common/assets/js/utils.js'
 
@@ -111,6 +112,8 @@ const userProfileImageObj = ref(null)
 const isLoading = ref(false)
 
 const myPage = myPageStore()
+const useAuth = useAuthStore()
+
 onMounted(() => {
   myPage.fetchUserInfo()
     .then(({data}) => {
@@ -185,6 +188,7 @@ const handleBtnSendClick = () => {
 
   myPage.requestUserInfo(formData)
     .then(() => {
+      useAuth.userProfile()
       alert('회원정보가 변경되었습니다.')
     })
     .catch(e => {
