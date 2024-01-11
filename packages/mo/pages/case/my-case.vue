@@ -67,6 +67,7 @@ const handlerKeyupCaseKeywrod = (e) => {
   caseStore.setKeyword(e.target.value)
 }
 const handlerClickEnterKeyword = () => {
+  caseStore.fetchCaseCounter()
   caseStore.fetchCaseList(searchDate.value)
 }
 
@@ -104,7 +105,7 @@ const handlerClickEnterKeyword = () => {
 }
 .my-case-filters {
   position: sticky;
-  top: 0;
+  top: 55px;
   background-color: #ffffff;
   z-index: $zi-sticky;
 }

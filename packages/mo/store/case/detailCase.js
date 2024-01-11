@@ -27,11 +27,19 @@ export const useDetailCaseStore = defineStore('detailCase', {
         this.fetchedDetailCase = data
         this.registrationApplication = data.registrationApplication
       })
+      .catch(e => {
+        console.log(e)
+        alert(e.response.data.message)
+      })
     },
     fetchDetailEstimate(tradeCaseId) {
       this.fetcehdEstimate = {}
       tradeCaseDetail.estimate(tradeCaseId).then(({data}) => {
         this.fetcehdEstimate = data
+      })
+      .catch(e => {
+        console.log(e)
+        alert(e.response.data.message)
       })
     },
     fetchContract(tradeCaseId) {
@@ -49,6 +57,10 @@ export const useDetailCaseStore = defineStore('detailCase', {
         this.fetchedChangedList = data.list
         this.fetchedPaging = data.paging
       })
+      .catch(e => {
+        console.log(e)
+        alert(e.response.data.message)
+      })
     },
     fetchHistoryTr(tradeCaseId, pageNo) {
       tradeCaseDetail.historyTr(tradeCaseId, {
@@ -58,6 +70,10 @@ export const useDetailCaseStore = defineStore('detailCase', {
       .then(({data}) => {
         this.fetchedProcessedList = data.list
         this.fetchedPaging = data.paging
+      })
+      .catch(e => {
+        console.log(e)
+        alert(e.response.data.message)
       })
     },
     fetchMemo(tradeCaseId, pageNo) {
@@ -69,6 +85,10 @@ export const useDetailCaseStore = defineStore('detailCase', {
         this.fetchedMemoList = data.list
         this.fetchedPaging = data.paging
       })
+      .catch(e => {
+        console.log(e)
+        alert(e.response.data.message)
+      })
     },
     fetchDocument(tradeCaseId, pageNo) {
       tradeCaseDetail.getDocument(tradeCaseId, {
@@ -78,6 +98,10 @@ export const useDetailCaseStore = defineStore('detailCase', {
       .then(({data}) => {
         this.fetchedFilesList = data.list
         this.fetchedPaging = data.paging
+      })
+      .catch(e => {
+        console.log(e)
+        alert(e.response.data.message)
       })
     },
     fetchDocumentDetail(tradeCaseId, documentId) {
