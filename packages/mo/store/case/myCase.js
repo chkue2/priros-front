@@ -25,7 +25,8 @@ export const myCaseStore = defineStore('myCase', {
       const filterData = {
         fromDate: searchDate,
         toDate: searchDate,
-        searchKeyword: this.keyword
+        searchKeyword: this.keyword,
+        limit: 9999
       }
 
       if(this.filter === 'progress') {
