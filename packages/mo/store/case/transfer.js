@@ -89,6 +89,9 @@ export const useTransferStore = defineStore('transfer', {
             this.transfer[1].account = data.repayAccountNumber
           }
         })
+        .catch((e) => {
+          alert(e.response.data.message)
+        })
     },
     postRemit(tradeCaseId) {
       let formData = {
