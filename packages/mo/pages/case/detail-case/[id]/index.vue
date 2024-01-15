@@ -94,7 +94,7 @@
           <button class="detail-case-button" @click="toggleSupplementationModalShow">등기필정보 보완보고</button>
           <textarea v-model="detailCaseStore.registrationApplication" placeholder="등기신청서 작성 ID 및 작성번호를 입력하세요. (매도인별 식별번호 뒷자리 입력으로 대체 가능)"></textarea>
           <div class="detail-case-table-edit-button">
-            <button @click="handlerClickRegApplication"><img src="/img/icon/edit-gray.svg">입력완료</button>
+            <button :class="{'success': detailCaseStore.registrationApplication !== ''}" @click="handlerClickRegApplication"><img src="/img/icon/edit-gray.svg">입력완료</button>
           </div>
         </div>
       </div>
@@ -369,6 +369,10 @@ const toggleKakaoRemitSendSuccessModalShow = () => {
 }
 
 const handlerClickRegApplication = () => {
+  if(detailCaseStore.registrationApplication === '') {
+    alert('등기신청서 작성 ID 및 작성번호를 입력하세요.')
+    return false;
+  }
   detailCaseStore.requestRegApplication(tradeCaseId)
     .then(() => {
       alert('등기신청서 작성정보가 입력되었습니다.')
