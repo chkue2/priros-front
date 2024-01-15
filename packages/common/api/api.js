@@ -46,12 +46,12 @@ const defineApi = (config) => {
     apiAuth.interceptors.request.use(
         async config => {
             const token = tokenApi.getAccessToken();
-            if (!token) {
-                tokenApi.clearAll()
-                location.href = '/'
-                alert('로그아웃되었습니다. 다시 로그인해주세요.')
-                return Promise.reject("토큰 없어")
-            }
+            // if (!token) {
+            //     tokenApi.clearAll()
+            //     location.href = '/'
+            //     alert('로그아웃되었습니다. 다시 로그인해주세요.')
+            //     return Promise.reject("토큰 없어")
+            // }
             config.headers.Authorization = `Bearer ${token}`;
             return config;
         },
