@@ -305,7 +305,7 @@ const status = computed(() => {
 const statusForFetchedDetailCase = (state) => {
   switch(state) {
     case '담당자 보고':
-      return detailCaseStore.fetchedDetailCase.acceptChargerName !== ''
+      return detailCaseStore.fetchedDetailCase.acceptChargerName === '' ? 'N' : 'Y'
     case '일정 보고':
       return detailCaseStore.fetchedDetailCase.issueTimeFlag
     case '송금요청':
