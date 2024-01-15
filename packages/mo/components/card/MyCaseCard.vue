@@ -111,6 +111,7 @@ const handlerClickCard = () => {
     line-height: 16px;
     padding: 8px 0;
     font-weight: $ft-medium;
+    overflow: hidden;
   }
 }
 .my-case-card-tags {
