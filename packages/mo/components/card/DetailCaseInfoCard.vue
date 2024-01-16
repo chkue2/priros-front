@@ -17,7 +17,7 @@
       <p class="detail-case-info-content">{{ rexFormatPhone(estaAgent['phone']) }}</p>
     </div>
     <div class="detail-case-info-column">
-      <p class="detail-case-info-title">연락처2</p>
+      <p class="detail-case-info-title">모바일</p>
       <p class="detail-case-info-content">{{ rexFormatPhone(estaAgent['chargePhone']) }}</p>
     </div>
     <div class="detail-case-info-column">
