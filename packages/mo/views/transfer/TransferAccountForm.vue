@@ -394,6 +394,7 @@ const handlerClickSuccessButton = () => {
       font-size: 16px;
     }
     & > button {
+      min-width: 105px;
       padding: 7.5px 20px;
       font-size: 12px;
       font-weight: $ft-medium;
