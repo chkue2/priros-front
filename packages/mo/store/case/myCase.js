@@ -16,8 +16,13 @@ export const myCaseStore = defineStore('myCase', {
     }
   }),
   actions: {
-    fetchCaseCounter() {
-      tradeCaseList.counter().then(({data}) => {
+    fetchCaseCounter(searchDate) {
+      const filterData = {
+        fromDate: searchDate,
+        toDate: searchDate,
+        searchKeyword: this.keyword,
+      }
+      tradeCaseList.counter(filterData).then(({data}) => {
         this.counter = data
       })
     },

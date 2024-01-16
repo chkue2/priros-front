@@ -51,23 +51,26 @@ const caseList = computed(() => caseStore.fetchedCaseList || [])
 const counter = computed(() => caseStore.counter)
 
 onMounted(() => {
-  caseStore.fetchCaseCounter()
+  caseStore.fetchCaseCounter(searchDate.value)
   caseStore.fetchCaseList(searchDate.value)
 })
 
 const handlerClickCaseFilter = (v) => {
   caseStore.setFilter(v)
+  caseStore.fetchCaseCounter(searchDate.value)
   caseStore.fetchCaseList(searchDate.value)
 }
 const handlerClickCaseTab = (v) => {
   caseStore.setTab(v)
+  caseStore.fetchCaseCounter(searchDate.value)
   caseStore.fetchCaseList(searchDate.value)
 }
 const handlerKeyupCaseKeywrod = (e) => {
+  caseStore.fetchCaseCounter(searchDate.value)
   caseStore.setKeyword(e.target.value)
 }
 const handlerClickEnterKeyword = () => {
-  caseStore.fetchCaseCounter()
+  caseStore.fetchCaseCounter(searchDate.value)
   caseStore.fetchCaseList(searchDate.value)
 }
 
