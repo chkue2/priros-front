@@ -46,6 +46,7 @@ table {
 }
 input, textarea, button {
   outline: none;
+  font-family: "Roboto", "Noto Sans", sans-serif;
 }
 input[type=date]::-webkit-calendar-picker-indicator {
   appearance: none;
