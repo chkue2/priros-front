@@ -11,9 +11,9 @@ export const user = {
     return await POST_AUTH(API_URL.USER.INFO, data)
   },
   async findId(data) {
-    return await POST(API_URL.FIND_ID, data)
+    return await POST(API_URL.USER.FIND_ID, data)
   },
   async findPw(data) {
-    return await POST(API_URL.FIND_PW, data)
+    return await POST(API_URL.USER.FIND_PW, data)
   },
 }
