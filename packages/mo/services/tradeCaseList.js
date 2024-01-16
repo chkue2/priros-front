@@ -1,8 +1,8 @@
 import {API_URL, GET_AUTH} from "~/composables/useApi.js";
 
 export const tradeCaseList = {
-  async counter() {
-    return await GET_AUTH(API_URL.TRADE_CASE_ACCEPT.COUNTER)
+  async counter(filter) {
+    return await GET_AUTH(API_URL.TRADE_CASE_ACCEPT.COUNTER, filter)
   }, 
   async listAll(filter) {
     return await GET_AUTH(API_URL.TRADE_CASE_ACCEPT.LIST_ALL, filter)
