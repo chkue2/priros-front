@@ -78,7 +78,7 @@ const handleBtnSendClick = () => {
     return false
   }
   
-  tradeCaseReceptionReport.post(tradeCaseId, { receiveNo: receiveNo.value })
+  tradeCaseReceptionReport.post(tradeCaseId, { receiveDate: receiveDate.value, receiveNo: receiveNo.value })
     .then(() => {
       alert('접수보고가 완료되었습니다.')
     })
