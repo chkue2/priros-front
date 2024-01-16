@@ -14,7 +14,7 @@
     <div class="join-form">
       <p class="join-form-title">아이디 *</p>
       <div class="join-form-input-container">
-        <input v-model="form['id']" type="text" class="join-form-input" placeholder="아이디를 입력하세요" >
+        <input v-model="form['userId']" type="text" class="join-form-input" placeholder="아이디를 입력하세요" >
       </div>
       <p class="join-form-title">이름 *</p>
       <div class="join-form-input-container">
@@ -23,12 +23,12 @@
       </div>
       <p class="join-form-title">휴대전화번호 *</p>
       <div class="join-form-input-container">
-        <input v-model="form['phone']" type="tel" class="join-form-input" placeholder="본인인증 후 자동입력" readonly >
+        <input v-model="form['mobileNo']" type="tel" class="join-form-input" placeholder="본인인증 후 자동입력" readonly >
       </div>
     </div>
   </div>
   <div class="join-bottom-buttons sticky">
-    <CommonBottomButton id="generalApplyButton" width="100%" text="임시비밀번호 발급하기" height="60px" />
+    <CommonBottomButton id="generalApplyButton" width="100%" text="임시비밀번호 발급하기" height="60px" @click="handlerClickApplyButton" />
   </div>
 </template>
 
@@ -36,6 +36,7 @@
 import { ref, onMounted } from 'vue'
 
 import { join } from '~/services/join.js'
+import { user } from '~/services/user.js'
 
 import CommonBottomButton from '@priros/common/components/button/CommonBottomButton.vue'
 
@@ -54,8 +55,7 @@ onMounted(() => {
       const receiveData = async (e) => {
         if(e.data.name) {
           form.value.name = e.data.name
-          form.value.phone = e.data.phone
-          form.value.responseNumber = e.data.responseNo
+          form.value.mobileNo = e.data.phone
         }
       }
 
@@ -74,6 +74,16 @@ const sendNiceForm = () => {
   form.action = actionUrl.value
   form.target = 'popupChk'
   form.submit()
+}
+
+const handlerClickApplyButton = () => {
+  user.findPw(form.value)
+    .then(() => {
+      alert('SMS로 임시 비밀번호가 발송되었습니다.')
+    })
+    .catch(e => {
+      alert(e.response.data.message)
+    })
 }
 </script>
 

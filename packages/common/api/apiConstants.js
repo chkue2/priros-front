@@ -17,6 +17,8 @@ const API_URL = {
     USER: {
         VERIFY: '/user/verify-password',
         INFO: '/user/info',
+        FIND_ID: '/user/findId',
+        FIND_PW: '/user/findPw'
     },
     NICE: {
         CHECK_PHONE: '/nice/check-phone',
