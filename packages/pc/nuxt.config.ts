@@ -9,6 +9,7 @@ export default defineNuxtConfig({
           config.resolve.alias['@priros/common'] = path.resolve(__dirname,'../common');
       }
   },
+  ssr: false,
   runtimeConfig: {
       public: {
           apiURL: process.env.API_URL || 'http://localhost:8080'

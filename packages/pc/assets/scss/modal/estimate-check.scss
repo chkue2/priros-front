@@ -1,0 +1,209 @@
+
+.estimate-container {
+  padding: 45px 25px;
+}
+.estimate-toggle-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 11px 14px;
+  background-color: #f2f2f2;
+  .toggle-top-title {
+    display: flex;
+    gap: 20px;
+    justify-content: space-between;
+    flex: 1;
+    .title-left {
+      display: flex;
+      align-items: center;
+      gap: 30px;
+      font-size: 14px;
+      font-weight: $ft-bold;
+      .title-left-bold {
+        font-size: 16px;
+        font-weight: $ft-bold;
+      }
+      .title-left-regular {
+        font-size: 12px;
+        font-weight: $ft-medium;
+        color: #6f6f6f;
+      }
+    }
+    .title-right {
+      font-size: 18px;
+      font-weight: $ft-thin;
+      line-height: 20px;
+      margin-right: 5px;
+      & > i {
+        font-weight: $ft-bold;
+      }
+    }
+  }
+  .toggle-top-icon {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    & > span {
+      font-size: 14px;
+    }
+    & > img {
+      margin-bottom: 4px;
+    }
+  }
+}
+.toggle-grid {
+  display: grid;
+  grid-template-columns: repeat(9, 1fr);
+  .grid-header {
+    grid-column: 1 span;
+    min-height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f9f9f9;
+    font-size: 13px;
+    font-weight: $ft-semibold;
+    border-bottom: 1px solid #ebebeb;
+    color: #444444;
+  }
+  .grid-contents {
+    grid-column: 2 span;
+    display: flex;
+    align-items: center;
+    padding: 0 15px;
+    font-weight: $ft-medium;
+    border-bottom: 1px solid #ebebeb;
+    min-height: 50px;
+    font-size: 14px;
+    &.grid-gray {
+      color: #6f6f6f;
+    }
+    &.grid-blue {
+      color: #3182F7;
+      font-weight: $ft-semibold;
+    }
+    &.grid-5 {
+      grid-column: 5 span;
+    }
+    &.grid-9 {
+      grid-column: 9 span;
+    }
+    &.grid-end {
+      justify-content: flex-end;
+    }
+    &.grid-gap-20 {
+      gap: 20px;
+    }
+  }
+}
+.estimate-help {
+  margin: 30px 0 0;
+  padding-top: 5px;
+  border-top: 1px solid #ebebeb;
+  font-size: 12px;
+  font-weight: $ft-bold;
+  color: #6f6f6f;
+}
+.estimate-receipt-container {
+  padding: 50px 0 40px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 20px;
+  .receipt {
+    box-shadow: 0px 4px 10px 0px #00000026;
+  }
+  .receipt-contents {
+    padding: 33px 25px 55px;
+    background-color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 336px;
+    .receipt-top {
+      .top-title {
+        padding-bottom: 8px;
+        margin-bottom: 8px;
+        font-size: 12px;
+        color: #6d7278;
+        border-bottom: 1px dotted #979797;
+      }
+      .top-content {
+        font-size: 14px;
+        line-height: 20px;
+      }
+    }
+    .receipt-body {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      padding: 30px 0;
+      .body-column {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .body-title {
+        font-size: 14px;
+        color: #637278;
+        line-height: 20px;
+      }
+      .body-content {
+        font-size: 14px;
+        text-align: right;
+        line-height: 20px;
+      }
+    }
+    .receipt-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 12px;
+      border-top: 1px dotted #979797;
+      .bottom-title {
+        font-size: 14px;
+        line-height: 20px;
+        font-weight: $ft-bold;
+      }
+      .bottom-content {
+        font-size: 14px;
+        font-weight: $ft-bold;
+      }
+    }
+  }
+}
+.extimate-receipt-help {
+  margin: -25px -15px -25px;
+  text-align: left;
+  font-size: 14px;
+  color: #7a7878;
+}
+.toggle-area {
+  padding: 35px 31px 10px;
+  border: 1px solid #ebebeb;
+  font-size: 14px;
+  line-height: 20px;
+}
+.estimate-button {
+  margin-top: 34px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 30px;
+  padding: 12px 16px;
+  background-color: #fbfbfb;
+  & > button {
+    width: 130px;
+    height: 37px;
+    border-radius: 4px;
+    background-color: #000000;
+    border: none;
+    font-size: 16px;
+    font-weight: $ft-medium;
+    color: #ffffff;
+    cursor: pointer;
+  }
+  .estimate-button-help-text {
+    font-size: 14px;
+    color: #808080;
+  }
+}

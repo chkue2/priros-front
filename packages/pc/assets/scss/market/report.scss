@@ -1,5 +1,5 @@
 .report-container {
-  padding: 38px 26px 24px;
+  padding: 45px 25px 20px;
 }
 .report-tag {
   padding: 3px 20px;
@@ -151,5 +151,32 @@
     font-size: 16px;
     color: #ffffff;
     cursor: pointer;
+  }
+}
+.report-buttons {
+  margin-top: 20px;
+  padding: 12px 16px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  background-color: #fbfbfb;
+  gap: 8px;
+  & > button {
+    min-width: 120px;
+    height: 37px;
+    border-radius: 4px;
+    border: none;
+    font-size: 14px;
+    font-weight: $ft-bold;
+    padding: 0 22px;
+    cursor: pointer;
+    &.button--blue {
+      background-color: #006AF5;
+      color: #ffffff;
+    }
+    &.button--black {
+      background-color: #000000;
+      color: #ffffff;
+    }
   }
 }

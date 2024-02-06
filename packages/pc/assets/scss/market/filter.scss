@@ -1,9 +1,55 @@
 .market-filter {
   display: flex;
-  justify-content: flex-end;
-  gap: 24px;
-  margin: 66px 0 30px;
+  align-items: center;
+  gap: 14px;
+  margin: 36px 0 11px;
   position: relative;
+  .sort-button {
+    height: 37px;
+    padding: 0 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    border: 1px solid #e9eff2;
+    border-radius: 8px;
+    background-color: #ffffff;
+    & > span {
+      font-size: 14px;
+      margin-bottom: 4px;
+    }
+  }
+  .filter-button {
+    height: 37px;
+    padding: 0 6px;
+    border-radius: 4px;
+    background-color: rgba(168, 168, 168, 0.1);
+    font-size: 14px;
+    font-weight: $ft-medium;
+    border: none;
+    &.button--red {
+      width: 98px;
+      border: 1px solid #e9eff2;
+      border-radius: 8px;
+      background-color: #ffffff;
+      gap: 7px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #e92c2c;
+      & > span {
+        width: 15px;
+        height: 15px;
+        border-radius: 50%;
+        background-color: #e92c2c;
+        color: #ffffff;
+        font-size: 10px;
+        font-weight: $ft-semibold;
+        color: #ffffff;
+        line-height: 13px;
+      }
+    }
+  }
   & > span {
     font-size: 16px;
     font-weight: $ft-medium;
