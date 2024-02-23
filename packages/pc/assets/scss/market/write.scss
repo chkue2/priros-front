@@ -1,47 +1,91 @@
+.market-write-info {
+  display: flex;
+  gap: 16px;
+  margin: 80px 0 60px;
+  .write-item {
+    flex: 1;
+    flex-direction: column;
+    justify-content: center;
+    border-top: 4px solid #cacaca;
+    &.active {
+      border-color: #3182e7;
+      .write-item-top,
+      .write-item-bottom {
+        color: #000000;
+      }
+    }
+  }
+  .write-item-top {
+    margin: 16px 0 2px;
+    font-size: 14px;
+    font-weight: $ft-bold;
+    line-height: 21px;
+    color: #adadad;
+  }
+  .write-item-bottom {
+    font-weight: $ft-bold;
+    line-height: 24px;
+    color: #adadad;
+  }
+}
 .market-write-type {
   display: flex;
   gap: 9px;
-  margin-bottom: 105px;
+  margin-bottom: 50px;
   .type-item { 
-    width: 247px;
+    flex: 1;
     height: 64px;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
-    border: 2px solid #cacaca;
-    background-color: #f6f7f9;
-    .type-item-top {
+    border-top: 4px solid #cacaca;
+    position: relative;
+    cursor: pointer;
+    .type-item-tag {
+      border-radius: 96px;
+      background-color: #f6f6f6;
+      border: 1px solid #e8e8e8;
+      padding: 2px 10px;
       font-size: 14px;
       font-weight: $ft-medium;
-      color: #808080;
-      line-height: 20px;
+      color: #373737;
+      position: absolute;
+      top: -13px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 2;
+      text-wrap: nowrap;
+    }
+    .type-item-top {
+      font-size: 14px;
+      font-weight: $ft-bold;
+      color: #adadad;
+      line-height: 21px;
+      margin-bottom: 2px;
     }
     .type-item-bottom {
       display: flex;
-      justify-content: center;
       align-items: center;
       gap: 13px;
-      & > i {
-        width: 16px;
-        height: 16px;
-        border-radius: 50%;
-        background-color: #a9a9a9;
-      }
       & > span {
-        margin-top: 4px;
-        font-weight: $ft-bold;
+        color: #adadad;
       }
       & > img {
-        opacity: .5;
+        opacity: 0;
       }
     }
     &.active {
-      background-color: #f3f7ff;
       border-color: #128dff;
+      .type-item-top {
+        color: #3182F7;
+      }
       .type-item-bottom {
         & > i { 
           background-color: #128dff;
+        }
+        & > span {
+          font-weight: $ft-bold;
+          color: #000000;
         }
         & > img {
           opacity: 1;
@@ -50,6 +94,11 @@
     }
   }
 }
+.market-title {
+  font-weight: $ft-bold;
+  margin-bottom: 15px;
+  line-height: 24px;
+}
 .market-form {
   border-top: 1px solid #ebebeb;
   .market-form-column {
@@ -57,65 +106,70 @@
     display: flex;
   }
   .form-title {
-    width: 233px;
-    min-height: 85px;
+    width: 130px;
+    min-height: 63px;
     display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
     gap: 3px;
-    background-color: #f9f9f9;
+    background-color: #F2F3F8;
     span {
-      font-size: 16px;
-      font-weight: $ft-semibold;
-      line-height: 34px;
+      font-size: 14px;
+      font-weight: $ft-medium;
+      line-height: 21px;
+      text-align: center;
     }
-    .red-point {
-      font-size: 16px;
-      font-weight: $ft-semibold;
-      color: #ff1779;
-    }
-    button {
-      padding: 0 25px;
-      height: 40px;
-      border-radius: 6px;
-      color: #bebebe;
-      border: 1px solid #bebebe;
-      font-size: 16px;
-      background-color: transparent;
+    img {
       cursor: pointer;
     }
   }
   .form-contents {
     flex: 1;
-    padding: 18px 0 18px 22px;
+    padding: 14px 0 14px 22px;
     display: flex;
     gap: 12px;
     align-items: center;
     .form-input {
-      height: 58px;
+      height: 36px;
       padding: 0 12px;
-      border: 1px solid #bebebe;
-      position: relative;
+      border: 1px solid #e1e1e1;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
       &.read-only {
-        background-color: #f0f0f0;
+        background-color: rgba(25, 59, 103, 0.05);
+        border:none;
+      }
+      &.input-won {
+        justify-content: flex-end;
+        &::after {
+          content: '원';
+          color: rgba(27, 43, 65, 0.69);
+          font-size: 14px;
+        }
+        input {
+          text-align: right;
+        }
       }
       input {
         border: none;
-        width: 100%;
+        flex: 1;
         height: 100%;
         background-color: transparent;
-        font-size: 16px;
+        font-size: 14px;
+        border-radius: 4px;
       }
       input[type=file] {
         display: none;
       }
     }
     select {
-      height: 58px;
+      height: 36px;
       padding: 0 12px;
-      border: 1px solid #bebebe;
-      font-size: 16px;
+      border: 1px solid #e1e1e1;
+      font-size: 14px;
+      border-radius: 4px;
       appearance: none;
       background-image: url(/img/icon/expand-down-black.svg);
       background-repeat: no-repeat;
@@ -123,45 +177,36 @@
       background-position-x: calc(100% - 12px);
     }
     .address-search-button {
-      width: 109px;
-      height: 44px;
+      width: 95px;
+      height: 36px;
       border-radius: 5px;
       border: 1px solid #000000;
       background-color: #ffffff;
       cursor: pointer;
-      position: absolute;
-      top: 50%;
-      right: 12px;
-      transform: translateY(-50%);
       display: flex;
       justify-content: center;
       align-items: center;
       gap: 5px;
-      font-size: 16px;
+      font-size: 12px;
       font-weight: $ft-medium;
-      & > img {
-        margin-bottom: 2px;
-      }
     }
     .form-file {
       width: 24px;
-      position: absolute;
-      top: 50%;
-      right: 12px;
-      transform: translateY(-50%);
+      height: 24px;
     }
     .form-subtitle {
-      font-size: 16px;
-      font-weight: $ft-semibold;
+      font-size: 14px;
+      font-weight: $ft-medium;
+      margin-left: 50px;
     }
     .black-button {
-      padding: 0 30px;
-      height: 44px;
+      padding: 0 15px;
+      height: 36px;
       border-radius: 5px;
-      background-color: #404040;
+      background-color: #000000;
       border: none;
       color: #ffffff;
-      font-size: 16px;
+      font-size: 14px;
       font-weight: $ft-medium;
       cursor: pointer;
     }
@@ -177,9 +222,11 @@
       cursor: pointer;
     }
     .form-help-text {
-      font-size: 16px;
-      font-weight: $ft-medium;
+      font-size: 12px;
       color: #686868;
+      &.text--red {
+        color: #FF4C4C;
+      }
     }
     .form-tag {
       width: 108px;
@@ -195,17 +242,11 @@
       width: 100%;
       textarea {
         width: 100%;
-        height: 180px;
-        border: 1px solid #bebebe;
+        height: 136px;
+        border: 1px solid #dddddd;
         padding: 13px 10px;
         resize: none;
-      }
-      .area-length {
-        text-align: right;
-        margin-top: 8px;
-        font-size: 16px;
-        font-weight: $ft-medium;
-        color: #686868;
+        border-radius: 8px;
       }
     }
   }
@@ -214,7 +255,10 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 60px 0 114px;
+  margin: 30px 0 56px;
+  &.flex-end {
+    justify-content: flex-end;
+  }
   .bottom-left {
     display: flex;
     gap: 8px;
@@ -223,22 +267,23 @@
     }
   }
   button {
-    width: 200px;
+    width: 163px;
     height: 44px;
     border-radius: 4px; 
     border: none;
-    font-size: 16px;
-    font-weight: $ft-bold;
+    font-size: 14px;
+    font-weight: $ft-medium;
     color: #ffffff;
     cursor: pointer;
     &.button--gray {
-      background-color: #cfcfcf;
+      background-color: rgba(25, 59, 103, 0.05);
+      color: #005FDB;
     }
     &.button--blue {
       background-color: #0075e1;
     }
     &.button--darkgray {
-      background-color: #414141;
+      background-color: #909090;
     }
     &.button--black {
       background-color: #000000;
@@ -247,17 +292,29 @@
 }
 .market-bottom-tabs {
   display: flex;
+  margin-top: 40px;
+  border-bottom: 1px solid rgba(26, 56, 96, 0.1);
   .bottom-tab {
     flex: 1;
     height: 50px;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-weight: $ft-bold;
-    background-color: #f2f2f2;
+    font-weight: $ft-medium;
+    color: rgba(27, 43, 65, 0.69);
+    position: relative;
     &.active {
-      border: 1px solid #000000;
-      background-color: #ffffff;
+      color: #005FDB;
+      &::after {
+        content: '';
+        width: 30px;
+        height: 2px;
+        background-color: #006AF5;
+        position: absolute;
+        left: 50%;
+        bottom: -1px;
+        transform: translateX(-50%);
+      }
     }
     cursor: pointer;
   }

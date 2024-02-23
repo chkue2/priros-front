@@ -1,6 +1,6 @@
 <template>
   <div class="drop-down" :class="{open: isOpen}">
-    <div class="drop-down-select" :class="[{selected: props.selectedText !== ''}, {readonly: isReadonly}]" @click="handlerToggleSelectOpen">
+    <div class="drop-down-select" :class="[{selected: props.selectedText !== ''}, {readonly: isReadonly}]" @click="handlerToggleSelectOpen" :style="{height: props.height}">
       {{ selectText }}
     </div>
     <div class="drop-down-options">
@@ -28,6 +28,10 @@ const props = defineProps({
   isBodyLock: {
     type: Boolean,
     default: true
+  },
+  height: { 
+    type: String,
+    default: '48px'
   },
   options: Array,
 })
@@ -64,6 +68,7 @@ const handlerClickDropDownOption = (value) => {
 
 <style lang="scss" scoped>
 .drop-down {
+  flex: 1;
   position: relative;
   &.open {
     .drop-down-options {

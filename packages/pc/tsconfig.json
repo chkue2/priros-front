@@ -6,7 +6,7 @@
 
     ],
     "paths": {
-      "@priros/common/*": [
+      "@common/*": [
         "../common/*"
       ]
     }

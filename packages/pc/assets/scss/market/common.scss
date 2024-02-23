@@ -1,6 +1,6 @@
 .market-container {
   width: $wrapper-width;
-  margin: 0 auto;
+  margin-left: 25px;
 }
 .market-nav {
   font-size: 16px;
@@ -8,7 +8,7 @@
   margin: 28px 0 106px;
 }
 .market-tables {
-  margin: 30px 0 250px;
+  margin-top: 32px;
 }
 .bank-name {
   display: flex;
@@ -18,7 +18,6 @@
 }
 .bank-tag {
   font-size: 12px;
-  color: #235bed;
   line-height: 17px;
 }
 .alarm-top {
@@ -65,4 +64,36 @@
     text-decoration: underline;
     cursor: pointer;
   }
+}
+.pagination-container {
+  margin-top: 60px;
+  position: relative;
+}
+
+.excel-download-button {
+	min-width: 144px;
+	height: 44px;
+	border-radius: 8px;
+  padding: 0 20px;
+	border: 1px solid #ababab;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 8px;
+	font-size: 14px;
+	background-color: #ffffff;
+	position: absolute;
+	top: -10px;
+	right: 0;
+	cursor: pointer;
+}
+.list-counter {
+	width: 130px;
+	height: 44px;
+	border-radius: 8px;
+	border: 1px solid #e9eff2;
+	padding: 0 16px;
+	position: absolute;
+	bottom: 0;
+	right: 0;
 }

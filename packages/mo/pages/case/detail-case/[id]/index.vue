@@ -20,6 +20,10 @@
         <div class="detail-case-table-contents">
           {{recevDate}} / {{detailCaseStore.fetchedDetailCase['recevNo']}}
         </div>
+        <div class="detail-case-table-header">접수일/접수번호</div>
+        <div class="detail-case-table-contents">
+          <button class="detail-case-button" @click="toggleSupplementationModalShow">등기필정보 보완보고</button>
+        </div>
       </div>
     </div>
     <div class="detail-case-status-container">
@@ -91,7 +95,6 @@
         <div class="detail-case-table-contents">{{ insuranceAmt }}원</div>
         <div class="detail-case-table-header">등기신청서 작성정보</div>
         <div class="detail-case-table-contents flex-column flex-align-start">
-          <button class="detail-case-button" @click="toggleSupplementationModalShow">등기필정보 보완보고</button>
           <textarea v-model="detailCaseStore.registrationApplication" placeholder="등기신청서 작성 ID 및 작성번호를 입력하세요. (매도인별 식별번호 뒷자리 입력으로 대체 가능)"></textarea>
           <div class="detail-case-table-edit-button">
             <button :class="{'success': detailCaseStore.registrationApplication !== ''}" @click="handlerClickRegApplication"><img src="/img/icon/edit-gray.svg">입력완료</button>

@@ -38,12 +38,6 @@ import { useGnbStore } from "~/store/gnbState.js";
 const auth = useAuthStore();
 const gnbStore = useGnbStore();
 
-// local test data
-// const credentials = ref({
-//   'userId': 'remagine4',
-//   'password': 'dhxortkd2319!'
-// });
-
 const credentials = ref({
   'userId': '',
   'password': ''
