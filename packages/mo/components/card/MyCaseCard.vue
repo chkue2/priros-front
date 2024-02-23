@@ -4,10 +4,9 @@
       <p class="my-case-card-name">{{ caseConfig.buyer }}</p>
       <div class="my-case-card-dates">
         <div class="my-case-card-date">
-          <img src="/img/icon/check-circle-green.svg" aria-hidden alt="">
           {{ date }}
         </div>
-        <div class="my-case-card-date">
+        <div v-if="!!time" class="my-case-card-time">
           {{ time }}
         </div>
       </div>
@@ -26,7 +25,7 @@
         <span class="my-case-card-state" :class="{active: caseConfig.issueTimeFlag === 'Y'}">일정</span>
         <span class="my-case-card-state" :class="{active: caseConfig.remitFlag === 'Y'}">송금요청</span>
         <span class="my-case-card-state" :class="{active: caseConfig.requestReportFlag === 'Y'}">신청정보</span>
-        <span class="my-case-card-state" :class="{active: caseConfig.repayReportFlag === 'Y'}">상환</span>
+        <span v-if="caseConfig.repayFlag === 'Y'" class="my-case-card-state" :class="{active: caseConfig.repayReportFlag === 'Y'}">상환</span>
         <span class="my-case-card-state" :class="{active: caseConfig.receiveFlag === 'Y'}">접수</span>
     </div>
   </div>
@@ -95,16 +94,25 @@ const handlerClickCard = () => {
     justify-content: center;
     align-items: center;
     gap: 3px;
+    border: 1px solid #d9d9d9;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: $ft-medium;
+    background-color: rgba(0, 0, 0, 0.02);
+    padding: 5px 6px;
+  }
+  .my-case-card-time {
+    height: 23px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    gap: 3px;
     border: 1px solid #e0e0e0;
     border-radius: 4px;
     font-size: 12px;
     font-weight: $ft-medium;
     color: #939393;
     padding: 5px 6px;
-    img {
-      width: 16px;
-      height: 16px;
-    }
   }
   .my-case-card-address {
     font-size: 14px;

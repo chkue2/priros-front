@@ -121,6 +121,12 @@
     border-color: #aeaeae;
     background-image: url(/img/icon/expand-right-lightgray-bold.svg);
   }
+  &.button--blue {
+    background-color: #128DFF;
+    background-image: url(/img/icon/expand-right-white.svg);
+    border: none;
+    color: #ffffff;
+  }
 }
 .detail-case-status-container {
   padding: 0 16px;

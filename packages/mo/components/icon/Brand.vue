@@ -6,7 +6,7 @@
 
 <script setup>
 
-import Image from "~/assets/images/icon/logo.svg?inline";
+import Image from "~/assets/images/icon/logo-blue.svg?inline";
 import {computed} from "vue";
 import {formatSize} from "~/utils/formatSize.js";
 

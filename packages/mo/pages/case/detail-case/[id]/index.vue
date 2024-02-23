@@ -20,9 +20,9 @@
         <div class="detail-case-table-contents">
           {{recevDate}} / {{detailCaseStore.fetchedDetailCase['recevNo']}}
         </div>
-        <div class="detail-case-table-header">접수일/접수번호</div>
+        <div class="detail-case-table-header">등기필정보 보완보고</div>
         <div class="detail-case-table-contents">
-          <button class="detail-case-button" @click="toggleSupplementationModalShow">등기필정보 보완보고</button>
+          <button class="detail-case-button button--blue" @click="toggleSupplementationModalShow">보완보고</button>
         </div>
       </div>
     </div>
@@ -296,7 +296,7 @@ const product = computed(() => {
 })
 
 const status = computed(() => {
-  const state = ['담당자 보고', '일정 보고', '송금요청', '신청정보보고', '상환보고', '접수보고']
+  const state = detailCaseStore.fetchedDetailCase.repayFlag === 'Y' ? ['담당자 보고', '일정 보고', '송금요청', '신청정보보고', '상환보고', '접수보고'] : ['담당자 보고', '일정 보고', '송금요청', '신청정보보고', '접수보고']
   return state.map(s => {
     return {
       title: s,
