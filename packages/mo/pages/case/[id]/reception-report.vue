@@ -65,6 +65,7 @@ onMounted(() => {
         receiveDate.value = data.receiveDateTime.split('T')[0]
       }
       receiveBuyer.value = data.buyer
+      receiveNo.value = data.receiveNo
     })
     .catch(e => {
       alert(e.response.data.message)

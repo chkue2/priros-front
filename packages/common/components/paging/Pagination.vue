@@ -76,7 +76,7 @@ onMounted(() => {
       align-items: center;
       cursor: pointer;
       &.active {
-        color: #7949FF;
+        color: #3182f7;
       }
     }
     .page-prev {

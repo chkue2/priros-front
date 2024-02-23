@@ -20,6 +20,10 @@
         <div class="detail-case-table-contents">
           {{recevDate}} / {{detailCaseStore.fetchedDetailCase['recevNo']}}
         </div>
+        <div class="detail-case-table-header">접수일/접수번호</div>
+        <div class="detail-case-table-contents">
+          <button class="detail-case-button" @click="toggleSupplementationModalShow">등기필정보 보완보고</button>
+        </div>
       </div>
     </div>
     <div class="detail-case-status-container">
@@ -91,7 +95,6 @@
         <div class="detail-case-table-contents">{{ insuranceAmt }}원</div>
         <div class="detail-case-table-header">등기신청서 작성정보</div>
         <div class="detail-case-table-contents flex-column flex-align-start">
-          <button class="detail-case-button" @click="toggleSupplementationModalShow">등기필정보 보완보고</button>
           <textarea v-model="detailCaseStore.registrationApplication" placeholder="등기신청서 작성 ID 및 작성번호를 입력하세요. (매도인별 식별번호 뒷자리 입력으로 대체 가능)"></textarea>
           <div class="detail-case-table-edit-button">
             <button :class="{'success': detailCaseStore.registrationApplication !== ''}" @click="handlerClickRegApplication"><img src="/img/icon/edit-gray.svg">입력완료</button>
@@ -387,7 +390,7 @@ const fetchContractPreview = () => {
   detailCaseStore.fetchContract(tradeCaseId)
     .then(({data}) => {
       contractFile.value = data
-      if(data.fileExt === 'pdf') {
+      if(data.fileExt.toLowerCase() === 'pdf') {
         filePreviewBase64Pdf(data.fileDataEncodeBase64).then(res => {
           contractFile.value.fileDataEncodeBase64 = res
           contractFile.value.fileExt = 'pdf'
@@ -411,7 +414,7 @@ const contractImageSrc = computed(() => {
   if(contractFile.value.fileDataEncodeBase64 === null) {
     return '/img/cha/cha-empty-file.png'
   }
-  else if(contractFile.value.fileExt === 'pdf') {
+  else if(contractFile.value.fileExt.toLowerCase() === 'pdf') {
     return contractFile.value.fileDataEncodeBase64
   } else {
     return `data:image/${contractFile.value.fileExt};base64,${contractFile.value.fileDataEncodeBase64}`
@@ -438,7 +441,7 @@ const filePreviewImageSrc = computed(() => {
   if(previewFile.value.fileDataEncodeBase64 === null) {
     return '/img/cha/cha-empty-file.png'
   }
-  else if(previewFile.value.fileExt === 'pdf') {
+  else if(previewFile.value.fileExt.toLowerCase() === 'pdf') {
     return previewFile.value.fileDataEncodeBase64
   } else {
     return `data:image/${previewFile.value.fileExt};base64,${previewFile.value.fileDataEncodeBase64}`
@@ -450,7 +453,7 @@ const documentFileView = (value) => {
   previewFile.value.fileName = value.fileName
   previewFile.value.documentId = value.documentId
   previewFile.value.fileExt = value.fileExt
-  if(value.fileExt === 'pdf') {
+  if(value.fileExt.toLowerCase() === 'pdf') {
     filePreviewBase64Pdf(value.documentFile).then(res => {
       previewFile.value.fileDataEncodeBase64 = res
       previewFile.value.fileExt = 'pdf'

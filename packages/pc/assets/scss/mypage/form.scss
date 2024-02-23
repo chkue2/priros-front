@@ -1,0 +1,82 @@
+
+.mypage-form-title {
+	display: flex;
+	align-items: center;
+	margin: 42px 0 23px;
+	gap: 12px;
+	& > p {
+		font-weight: $ft-bold;
+	}
+	& > span {
+		font-size: 14px;
+		color: #545454;
+	}
+}
+.mypage-form {
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	grid-column-gap: 38px;
+	grid-row-gap: 23px;
+}
+.form-column {
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+	flex: 1;
+}
+.form-title {
+	font-size: 18px;
+}
+.form-input {
+	height: 48px;
+	border-radius: 4px;
+	background-color: #ffffff;
+	border: 1px solid #e1e1e1;
+	display: flex;
+	gap: 12px;
+	&.read-only {
+		background-color: rgba(25, 59, 103, 0.05);
+		border-color: rgba(25, 59, 103, 0.05);
+	}
+	& > input {
+		flex: 1;
+		height: 100%;
+		padding: 0 12px;
+		background-color: transparent;
+		border: none;
+	}
+	& > button {
+		width: 122px;
+		background-color: #313131;
+		border-radius: 0px 4px 4px 0px;
+		border: none;
+		box-shadow: 0px 2px 0px 0px rgba(0, 0, 0, 0.04);
+		font-size: 14px;
+		font-weight: $ft-medium;
+		color: #ffffff;
+		cursor: pointer;
+	}
+}
+.form-double-box {
+	display: flex;
+	gap: 12px;
+}
+.mypage-form-buttons {
+  margin: 21px 0 66px;
+  display: flex;
+  justify-content: flex-end;
+  & > button {
+    padding: 0 34px;
+    height: 44px;
+    border-radius: 2px;
+    box-shadow: 0px 2px 0px 0px rgba(0, 0, 0, 0.04);
+    font-size: 14px;
+    font-weight: $ft-medium;
+    border: none;
+    cursor: pointer;
+    &.button--blue {
+      background-color: #3182f7;
+      color: #ffffff;
+    }
+  }
+}
