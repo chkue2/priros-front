@@ -1,17 +1,6 @@
 version: '3'
 
 services:
-  nginx:
-    image: nginx:latest
-    ports:
-      - 80:80
-      - 443:443
-    volumes:
-      - ./conf/nginx/priros.local.conf:/etc/nginx/conf.d/priros.local.conf
-      - ./conf/ssl:/etc/nginx/ssl
-    depends_on:
-      - prirosfront
-
   prirosfront:
     image: priros-node-pnpm:latest
     build:
@@ -22,8 +11,14 @@ services:
       - 3000:3000
       - 3001:3001
     environment:
-      - API_URL=https://pro-api.dev.priros.com
+      - API_URL=http://localhost:8080
     expose:
       - 3000
       - 3001
+    networks:
+      priros_local_network:
     command: ["sh","-c","pnpm dev"]
+
+networks:
+  priros_local_network:
+    external: true
