@@ -32,6 +32,9 @@
           <p class="detail-case-title">진행상태</p>
           <button v-if="false" class="detail-case-button button--disabled">수임철회</button>
         </div>
+        <button v-if="detailCaseStore.fetchedDetailCase.revenueStampState === ''" class="inji-button" @click="toggleInjiRequestIssuanceModal"><img src="/img/icon/inji-logo.svg" /><span>전자수입인지 발행요청</span></button>
+        <button v-else-if="detailCaseStore.fetchedDetailCase.revenueStampState === 'JS_10'" class="inji-button button--progress"><img src="/img/icon/inji-logo.svg" /><span>전자수입인지 발행요청중</span></button>
+        <button v-else class="inji-button button--complete"><img src="/img/icon/inji-logo.svg" /><span>전자수입인지 발행완료</span></button>
         <button v-if="false" class="detail-case-button button--gray">매수인/매도인 등록</button>
       </div>
       <div class="detail-case-status-card-container">
@@ -201,6 +204,15 @@
       text="송금요청 완료<br><br>입금이 지연되는 경우 카카오뱅크에 문의하세요"
       @handler-click-button="toggleKakaoRemitSendSuccessModalShow"
     />
+    <CommonModal v-if="isInjiRequestIssuanceModalShow" @handler-click-close="toggleInjiRequestIssuanceModal">
+      <InjiRequestIssuanceCard
+        @handler-click-close="toggleInjiRequestIssuanceModal"
+        @inji-generate="injiGenerate"
+      />
+    </CommonModal>
+    <CommonModal v-if="isInjiIssuanceCompleteModalShow" @handler-click-close="toggleInjiIssuanceCompleteModal">
+      <InjiIssuanceCompleteCard @handler-click-close="toggleInjiIssuanceCompleteModal" />
+    </CommonModal>
   </NuxtLayout>
 </template>
 
@@ -211,6 +223,7 @@ import { useDetailCaseStore } from '~/store/case/detailCase.js'
 
 import CommonBlackTitleModal from '~/components/modal/CommonBlackTitleModal.vue'
 import CommonAlertModal from '@priros/common/components/modal/CommonAlertModal.vue'
+import CommonModal from '~/components/modal/CommonModal.vue'
 import DetailCaseStatusCard from '~/components/card/DetailCaseStatusCard.vue'
 import DetailCaseChangedTable from '@priros/common/components/table/DetailCaseChangedTable.vue'
 import DetailCaseMemoTable from '@priros/common/components/table/DetailCaseMemoTable.vue'
@@ -221,6 +234,8 @@ import DetailCaseRegAuthCard from '~/components/card/DetailCaseRegAuthCard.vue'
 import DetailCaseEstimateCard from '~/components/card/DetailCaseEstimateCard.vue'
 import SupplementationRegInfo from '~/components/form/SupplementationRegInfo.vue'
 import KakaoRemitForm from '~/components/form/KakaoRemitForm.vue'
+import InjiRequestIssuanceCard from '~/components/card/InjiRequestIssuanceCard.vue'
+import InjiIssuanceCompleteCard from '~/components/card/InjiIssuanceCompleteCard.vue'
 
 import { isEmpty, changeTimeFormatAmPm, changeTimeFormatAddDot, rexFormatPhone, fileDownload, fileDownloadBase64, filePreviewBase64Pdf } from '@priros/common/assets/js/utils.js'
 import { bankSVG } from '@priros/common/assets/js/case/bankSVG.js'
@@ -370,6 +385,14 @@ const isKakaoRemitSendSuccessModalShow = ref(false)
 const toggleKakaoRemitSendSuccessModalShow = () => {
   isKakaoRemitSendSuccessModalShow.value = !isKakaoRemitSendSuccessModalShow.value
 }
+const isInjiRequestIssuanceModalShow = ref(false)
+const toggleInjiRequestIssuanceModal = () => {
+  isInjiRequestIssuanceModalShow.value = !isInjiRequestIssuanceModalShow.value
+}
+const isInjiIssuanceCompleteModalShow = ref(false)
+const toggleInjiIssuanceCompleteModal = () => {
+  isInjiIssuanceCompleteModalShow.value = !isInjiIssuanceCompleteModalShow.value
+}
 
 const handlerClickRegApplication = () => {
   if(detailCaseStore.registrationApplication === '') {
@@ -487,6 +510,18 @@ const moveToFilesTable = () => {
   window.scrollTo({top: 9999, behavior: 'smooth'})
   handlerClickTab('files')
   toggleSupplementationModalShow()
+}
+
+const injiGenerate = () => {
+  detailCaseStore.requestInjiGenerate(tradeCaseId) 
+    .then(() => {
+      toggleInjiRequestIssuanceModal()
+      toggleInjiIssuanceCompleteModal()
+      detailCaseStore.fetchDetailCase(tradeCaseId)
+    })
+    .catch((e) => {
+      alert(e.response.data.message)
+    })
 }
 </script>
 

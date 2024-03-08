@@ -69,4 +69,8 @@ export const tradeCaseDetail = {
     const endpoint = getEndpoint(API_URL.TRADE_CASE.DOCUMENT_DETAIL, {trade_case_id: tradeCaseId, document_id: documentId})
     return await DELETE_AUTH(endpoint)
   },
+  async injiGenerate(tradeCaseId) {
+    const endpoint = getEndpoint(API_URL.REVENUE_STAMP.GENERATE_TRADECASE, {trade_case_id: tradeCaseId})
+    return await GET_AUTH(endpoint)
+  }
 }

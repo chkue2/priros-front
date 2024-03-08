@@ -242,3 +242,28 @@
   font-weight: $ft-medium;
   background-color: #ffffff;
 }
+.inji-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 3px;
+  padding: 0 7px;
+  height: 37px;
+  border: 1px solid rgba(28, 28, 28, 0.1);
+  border-radius: 6px;
+  background-color: #ffffff;
+  cursor: pointer;
+  & > span {
+    font-size: 12px;
+    color: #1C1C1C;
+  }
+  &.button--progress {
+    & > span {
+      color: #128DFF;
+    }
+  }
+  &.button--complete {
+    background-color: #E3E3E3;
+    color: #828282;
+  }
+}

@@ -18,7 +18,6 @@
   </div>
   <div class="kakao-remit-buttons">
     <button @click="handlerClickCloseModal">닫기</button>
-    <button class="disabled" :class="{apply: isApprovalSuccess}" @click="handlerClickApplyRemit">송금요청</button>
   </div>
 </template>
 

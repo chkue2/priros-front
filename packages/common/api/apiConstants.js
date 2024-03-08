@@ -88,6 +88,9 @@ const API_URL = {
         MEMO: '/trade-case/:trade_case_id/memo',
         PROCESSED: '/trade-case/:trade_case_id/proceessed',
         FILES: '/trade-case/:trade_case_id/files'
+    },
+    REVENUE_STAMP: {
+        GENERATE_TRADECASE: '/revenue-stamp/generate/tradeCase/:trade_case_id'
     }
 };
 

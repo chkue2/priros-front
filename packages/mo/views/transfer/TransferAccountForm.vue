@@ -60,7 +60,7 @@
   <div v-if="!isSuccess" class="transfer-account-bottom-button">
     <CommonBottomButton v-if="!isSaved" id="transferAccountSaveButton" text="저장" height="60px" width="50%" :background-color="isAccountValidation ? '#235BED' : '#d8d9db'" :font-weight="700" @handler-click-button="handlerClickSaveButton" />
     <CommonBottomButton v-if="isSaved" id="transferAccountEditButton" text="수정하기" height="60px" width="50%" background-color="#ffffff" border="1px solid #000000" :font-weight="700" color="#000000" @handler-click-button="handlerClickEditButton" />
-    <CommonBottomButton id="transferAccountApplyButton" text="송금요청" height="60px" width="50%" :background-color="isApprovalApply && isSaved ? '#000000' : '#989898'" :font-weight="700" @handler-click-button="handlerClickTransferApplyButton" />
+    <CommonBottomButton id="transferAccountSuccessButton" text="닫기" height="60px" width="50%" :font-weight="700" @handler-click-button="handlerClickSuccessButton" />
   </div>
   <div v-if="isSuccess" class="transfer-account-bottom-button">
     <CommonBottomButton id="transferAccountSuccessButton" text="닫기" height="60px" width="100%" :font-weight="700" @handler-click-button="handlerClickSuccessButton" />
@@ -132,6 +132,7 @@ const isPlusButton = computed(() => {
 })
 
 const isAccountValidation = computed(() => {
+  console.log(transferStore.transfer)
   for(const t of transferStore.transfer) {
     for(const v of transferStore.validate){
       if(t[v] === undefined || t[v] === '' || t[v] === '0') return false

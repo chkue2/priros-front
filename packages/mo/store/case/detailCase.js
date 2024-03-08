@@ -122,5 +122,8 @@ export const useDetailCaseStore = defineStore('detailCase', {
     requestRegApplication(tradeCaseId) {
       return tradeCaseDetail.regApplication(tradeCaseId, {registrationApplication: this.registrationApplication})
     },
+    requestInjiGenerate(tradeCaseId) {
+      return tradeCaseDetail.injiGenerate(tradeCaseId)
+    }
   }
 })
