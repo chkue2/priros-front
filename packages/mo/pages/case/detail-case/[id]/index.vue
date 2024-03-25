@@ -33,7 +33,7 @@
           <button v-if="false" class="detail-case-button button--disabled">수임철회</button>
         </div>
         <button v-if="detailCaseStore.fetchedDetailCase.revenueStampState === ''" class="inji-button" @click="toggleInjiRequestIssuanceModal"><img src="/img/icon/inji-logo.svg" /><span>전자수입인지 발행요청</span></button>
-        <button v-else-if="detailCaseStore.fetchedDetailCase.revenueStampState === 'JS_10'" class="inji-button button--progress"><img src="/img/icon/inji-logo.svg" /><span>전자수입인지 발행요청중</span></button>
+        <button v-else-if="['JS_10', 'JS_20'].includes(detailCaseStore.fetchedDetailCase.revenueStampState)" class="inji-button button--progress"><img src="/img/icon/inji-logo.svg" /><span>전자수입인지 발행요청중</span></button>
         <button v-else class="inji-button button--complete"><img src="/img/icon/inji-logo.svg" /><span>전자수입인지 발행완료</span></button>
         <button v-if="false" class="detail-case-button button--gray">매수인/매도인 등록</button>
       </div>
