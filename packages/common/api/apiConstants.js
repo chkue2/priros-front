@@ -90,7 +90,8 @@ const API_URL = {
         FILES: '/trade-case/:trade_case_id/files'
     },
     REVENUE_STAMP: {
-        GENERATE_TRADECASE: '/revenue-stamp/generate/tradeCase/:trade_case_id'
+        GENERATE_TRADECASE: '/revenue-stamp/generate/tradeCase',
+        GENERATE_POPUP_INPO: '/revenue-stamp/generate/popupInfo',
     }
 };
 

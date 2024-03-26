@@ -387,6 +387,10 @@ const toggleKakaoRemitSendSuccessModalShow = () => {
 }
 const isInjiRequestIssuanceModalShow = ref(false)
 const toggleInjiRequestIssuanceModal = () => {
+  if(detailCaseStore.fetchedDetailCase.tradePrice <= 100000000) {
+    alert('전자수입인지 발행이 필요하지 않은 사건입니다.')
+    return false
+  }
   isInjiRequestIssuanceModalShow.value = !isInjiRequestIssuanceModalShow.value
 }
 const isInjiIssuanceCompleteModalShow = ref(false)
@@ -512,8 +516,8 @@ const moveToFilesTable = () => {
   toggleSupplementationModalShow()
 }
 
-const injiGenerate = () => {
-  detailCaseStore.requestInjiGenerate(tradeCaseId) 
+const injiGenerate = (data) => {
+  detailCaseStore.requestInjiGenerate(tradeCaseId, data) 
     .then(() => {
       toggleInjiRequestIssuanceModal()
       toggleInjiIssuanceCompleteModal()

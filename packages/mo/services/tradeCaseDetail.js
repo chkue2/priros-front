@@ -69,8 +69,12 @@ export const tradeCaseDetail = {
     const endpoint = getEndpoint(API_URL.TRADE_CASE.DOCUMENT_DETAIL, {trade_case_id: tradeCaseId, document_id: documentId})
     return await DELETE_AUTH(endpoint)
   },
-  async injiGenerate(tradeCaseId) {
-    const endpoint = getEndpoint(API_URL.REVENUE_STAMP.GENERATE_TRADECASE, {trade_case_id: tradeCaseId})
+  async injiGenerate(tradeCaseId, data) {
+    const endpoint = getEndpoint(API_URL.REVENUE_STAMP.GENERATE_TRADECASE)
+    return await POST_AUTH(endpoint, {...data, tradeCaseId})
+  },
+  async injiPopupInfo() {
+    const endpoint = getEndpoint(API_URL.REVENUE_STAMP.GENERATE_POPUP_INPO)
     return await GET_AUTH(endpoint)
   }
 }

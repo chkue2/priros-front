@@ -122,8 +122,11 @@ export const useDetailCaseStore = defineStore('detailCase', {
     requestRegApplication(tradeCaseId) {
       return tradeCaseDetail.regApplication(tradeCaseId, {registrationApplication: this.registrationApplication})
     },
-    requestInjiGenerate(tradeCaseId) {
-      return tradeCaseDetail.injiGenerate(tradeCaseId)
+    requestInjiGenerate(tradeCaseId, data) {
+      return tradeCaseDetail.injiGenerate(tradeCaseId, data)
+    },
+    fetchInjiPopupInfo() {
+      return tradeCaseDetail.injiPopupInfo()
     }
   }
 })
