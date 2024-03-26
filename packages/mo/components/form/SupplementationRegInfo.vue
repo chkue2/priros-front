@@ -60,7 +60,6 @@ const handlerClickRegistSupplementFileList = () => {
 }
 const handlerChangeRegistSupplementFileList = (e) => {
   registSupplementFileListObj.value = Array.from(e.target.files)
-  console.log(registSupplementFileListObj.value)
 }
 
 const handlerClickSupplementationButton = () => {

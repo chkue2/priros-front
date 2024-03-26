@@ -133,7 +133,6 @@ const filePreviewBase64Pdf = (base64) => {
   return pdfjsLib.getDocument(pdfBytes).promise.then(function(pdf) {
     return new Promise(resolve => {
       pdf.getPage(1).then(function(page) {
-        console.log(page)
         const canvas = document.createElement('canvas')
         canvas.width = page.view[2]
         canvas.height = page.view[3]

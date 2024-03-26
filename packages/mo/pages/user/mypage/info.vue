@@ -136,7 +136,6 @@ const isLoading = ref(false)
 onMounted(() => {
   firm.get()
     .then(({data}) => {
-      console.log(data)
       form.value = data
     })
     .catch((e) => {
@@ -153,7 +152,6 @@ const restAddr = ref(null)
 const setAddress = (value) => {
   form.value.addr = value.address
   form.value.postNo = value.postCode
-  console.log(form.value)
   restAddr.value?.focus()
 }
 
@@ -182,7 +180,6 @@ const togglePreviewModal = () => {
       firm.file()
         .then(({data}) => {
           insuranceFileData.value = data
-          console.log(insuranceFileData.value)
         })
         .catch(e => {
           alert('파일을 불러올 수 없습니다.\n잠시후 다시 시도해주세요.')

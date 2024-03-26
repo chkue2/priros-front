@@ -124,7 +124,6 @@ const router = useRouter()
 const fetchChargeList = () => {
   tradeCaseChargeReport.get(tradeCaseId)
     .then(({data}) => {
-      console.log(data)
       chargeOptions.value = data.userList.map(u => {
         return {
           text: `${u.userName} (${u.userId})`,

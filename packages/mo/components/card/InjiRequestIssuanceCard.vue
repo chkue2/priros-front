@@ -41,7 +41,6 @@ const taxNo = ref('')
 const detailCaseStore = useDetailCaseStore()
 onMounted(() => {
   detailCaseStore.fetchInjiPopupInfo().then(({data}) => {
-    console.log(data)
     amountTypeEnums.value = Object.entries(data.selectAmount)
     clientTypeEnums.value = Object.entries(data.selectClientType)
     firmName.value = data.firmName

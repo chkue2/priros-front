@@ -449,7 +449,6 @@ const contractImageSrc = computed(() => {
 })
 const contractImageDownload = () => {
   // 수정 필요
-  console.log('click')
   if(contractFile.value.fileDataEncodeBase64 === null) {
     alert('원본파일 다운로드가 불가능합니다.')
     return false

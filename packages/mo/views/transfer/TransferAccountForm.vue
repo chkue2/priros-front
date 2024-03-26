@@ -132,7 +132,6 @@ const isPlusButton = computed(() => {
 })
 
 const isAccountValidation = computed(() => {
-  console.log(transferStore.transfer)
   for(const t of transferStore.transfer) {
     for(const v of transferStore.validate){
       if(t[v] === undefined || t[v] === '' || t[v] === '0') return false

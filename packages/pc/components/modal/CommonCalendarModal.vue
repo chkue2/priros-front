@@ -87,7 +87,6 @@ const calendarOptions = {
 	],
 	eventClick: function (info) {
 		info.jsEvent.preventDefault();
-		console.log(changeDateFormat(new Date(info.event.start)));
 	},
 };
 

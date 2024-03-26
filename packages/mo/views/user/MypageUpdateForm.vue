@@ -118,7 +118,6 @@ onMounted(() => {
   myPage.fetchUserInfo()
     .then(({data}) => {
       form.value = {...data, password: ''}
-      console.log(form.value)
     })
     .catch(e => {
       console.log(e)

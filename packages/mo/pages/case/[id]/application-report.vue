@@ -191,8 +191,6 @@ const handleBtnSendClick = () => {
     .catch(e => {
       alert(e.response.data.message)
     })
-
-  console.log('send')
 }
 
 </script>
