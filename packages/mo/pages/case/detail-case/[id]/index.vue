@@ -142,7 +142,7 @@
     >
       <div class="contract-container">
         <img class="contract-preview" :class="{scale: contractFile.fileExt === 'pdf'}" :src="contractImageSrc" alt>
-        <button v-if="!contractImageSrc.includes('empty-file')" class="contract-button" @click="contractImageDownload">
+        <button v-if="!contractImageSrc.includes('empty-file') && !detailCaseStore.fetchedDetailCase.venderId !== 'KA_IB'" class="contract-button" @click="contractImageDownload">
           <img src="/img/icon/download-gray.svg" alt>
           원본파일 다운로드
         </button>
