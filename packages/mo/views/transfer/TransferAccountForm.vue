@@ -214,6 +214,12 @@ const handlerClickApprovalApplyButton = () => {
     return false
   }
 
+  if(!isChecked.value && !isEdit.value) {
+    alert('대출금 전액 송금요청 항목에 동의해주세요.')
+    window.scrollTo({top: 0, behavior: 'smooth'})
+    return
+  }
+
   transferStore.postAuthCheck(tradeCaseId, authNum.value) 
     .then(() => {
       clearInterval(timerInterval.value)
@@ -232,11 +238,6 @@ const handlerClickEditButton = () => {
 }
 
 const handlerClickTransferApplyButton = () => {
-  if(!isChecked.value && !isEdit.value) {
-    alert('대출금 전액 송금요청 항목에 동의해주세요.')
-    window.scrollTo({top: 0, behavior: 'smooth'})
-    return
-  }
   if(!isApprovalApply.value) {
     alert('인증을 완료해주세요.')
     window.scrollTo({top: 9999, behavior: 'smooth'})
