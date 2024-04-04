@@ -18,11 +18,11 @@
     <div class="transfer-account-card-double-block">
       <div class="transfer-account-card-block">
         <p class="transfer-account-card-title ft-14">예금주</p>
-        <input v-model="accountInfoSelectedValue['holder']" type="text" :readonly="isReadonly">
+        <input v-model="accountInfoSelectedValue['holder']" type="text" :readonly="isReadonly" placeholder="예금주 명">
       </div>
       <div class="transfer-account-card-block">
-        <p class="transfer-account-card-title ft-14">계좌번호</p>
-        <input v-model="accountInfoSelectedValue['account']" type="tel" :readonly="isReadonly">
+        <p class="transfer-account-card-title ft-14">계좌번호<span>- 없이 계좌번호 입력 바랍니다.</span></p>
+        <input v-model="accountInfoSelectedValue['account']" type="tel" :readonly="isReadonly" placeholder="계좌번호를 입력해주세요">
       </div>
     </div>
   </div>
@@ -103,6 +103,9 @@ watch(() => accountInfoSelectedValue, () => {
   font-weight: $ft-bold;
   color: #181818;
   margin-bottom: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   &.ft-16 {
     font-size: 16px;
   }
@@ -111,6 +114,10 @@ watch(() => accountInfoSelectedValue, () => {
   }
   &.mt-12 {
     margin-top: 12px;
+  }
+  & > span {
+    font-size: 11px;
+    font-weight: $ft-regular;
   }
 }
 .transfer-account-delete-button {

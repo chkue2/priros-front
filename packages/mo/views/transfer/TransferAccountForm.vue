@@ -36,13 +36,13 @@
   </div>
   <div class="transfer-memo-container">
     <p class="transfer-memo-title">송금메모</p>
-    <textarea v-model="transferStore.memo" class="transfer-memo-area" placeholder="메모가 없습니다" :readonly="isSaved"></textarea>
+    <textarea v-model="transferStore.memo" class="transfer-memo-area" placeholder="송금메모를 입력해주세요. (최대 50자 이내)" :readonly="isSaved" maxlength="50"></textarea>
   </div>
   <div class="transfer-warning-container">
     <span class="title-green-box">송금요청전 확인</span>
     <p class="transfer-warning-text">
-      위 내용으로 송금요청을 전송하려고 합니다.<br>
-      문제발생시 고객센터 <a href="tel:070-0778-5751">070-0778-5751</a>로 문의해주세요.
+      송금 사건별로 순차 진행되므로 <b>약 10~20분이</b> 소요됩니다.<br>
+      송금요청장애 문의전화 <a href="tel:1670-2361">1670-2361</a>
     </p>
   </div>
   <div class="transfer-approval-container">
@@ -351,14 +351,13 @@ const handlerClickSuccessButton = () => {
 .transfer-warning-container {
   padding: 19px 16px 30px;
   .transfer-warning-text {
-    font-size: 14px;
-    color: #808080;
+    font-size: 13px;
+    color: #252525;
     margin-top: 10px;
-    line-height: 20px;
+    line-height: 25px;
     a {
       font-weight: $ft-bold;
-      color: #808080;
-      text-decoration: none;
+      color: #252525;
     }
   }
 }
@@ -410,7 +409,7 @@ const handlerClickSuccessButton = () => {
     .approval-timer {
       position: absolute;
       top: 50%;
-      right: 80px;
+      right: 130px;
       transform: translateY(-50%);
       font-size: 12px;
       font-weight: $ft-medium;
