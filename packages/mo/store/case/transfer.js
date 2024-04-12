@@ -24,6 +24,7 @@ export const useTransferStore = defineStore('transfer', {
       },
     ],
     bankOptions: [],
+    deductionYn: false,
   }),
   actions: {
     async fetchRemit(tradeCaseId) {
@@ -67,6 +68,7 @@ export const useTransferStore = defineStore('transfer', {
           this.remitRequestFlag = data.remitRequestFlag
           this.rejectMessage = data.rejectMessage
           this.approveYn = data.approveYn
+          this.deductionYn = data.deductionYn === 'Y'
           if(!isEmpty(data.buyerPayout)){
             this.transfer[0].amount = data.buyerPayout.toLocaleString()
             this.transfer[0].bank = data.buyerPayoutBankName
@@ -100,7 +102,8 @@ export const useTransferStore = defineStore('transfer', {
         buyerPayoutBankCode: this.transfer[0].bankCode,
         buyerPayoutAccountHolder: this.transfer[0].holder,
         buyerPayoutAccountNumber: this.transfer[0].account,
-        memo: this.memo
+        memo: this.memo,
+        deductionYn: this.deductionYn ? 'Y' : 'N'
       }
       if(this.seq > 0 && this.seq !== null) {
         formData = {...formData, seq: this.seq}

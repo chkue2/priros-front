@@ -21,7 +21,7 @@
       </div>
     </div>
     <label class="transfer-top-intro">
-      <input v-if="!isTransferApply && !isEdit" v-model="isChecked" type="checkbox">
+      <input v-if="!isTransferApply && !isEdit" v-model="transferStore.deductionYn" type="checkbox" @click="handlerClickDeducationCheckbox">
       금융기관의 설정비용(채권/인지)을 공제하지 않고 대출금 전액을 송금요청 합니다.
     </label>
   </div>
@@ -83,7 +83,6 @@ const route = useRoute()
 const tradeCaseId = route.params.id
 
 const transferStore = useTransferStore()
-const isChecked = ref(false)
 const isSaved = ref(false)
 const isApprovalSend = ref(false)
 const isApprovalApply = ref(false)
@@ -214,12 +213,6 @@ const handlerClickApprovalApplyButton = () => {
     return false
   }
 
-  if(!isChecked.value && !isEdit.value) {
-    alert('대출금 전액 송금요청 항목에 동의해주세요.')
-    window.scrollTo({top: 0, behavior: 'smooth'})
-    return
-  }
-
   transferStore.postAuthCheck(tradeCaseId, authNum.value) 
     .then(() => {
       clearInterval(timerInterval.value)
@@ -255,6 +248,13 @@ const handlerClickTransferApplyButton = () => {
 
 const handlerClickSuccessButton = () => {
   router.back()
+}
+
+const handlerClickDeducationCheckbox = e => {
+  if(isSaved.value) {
+    e.preventDefault()
+    return false
+  }
 }
 
 </script>
