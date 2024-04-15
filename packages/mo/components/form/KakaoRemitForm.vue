@@ -95,6 +95,8 @@ const handlerClickApprovalCheck = () => {
     isApprovalSuccess.value = true
     clearInterval(timerInterval.value)
     timerInterval.value = null
+    emits('open-success-modal')
+    emits('close-modal')
   })
   .catch(e => {
     alert(e.response.data.message)
