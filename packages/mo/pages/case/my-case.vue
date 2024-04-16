@@ -23,7 +23,7 @@
     <p class="empty-title">조회된 내사건이 없습니다.</p>
     <p class="empty-subtitle">우리동네 주변 사건을 둘러보세요</p>
   </div>
-  <div v-if="caseList.length > 0" class="my-case-list">
+  <div class="my-case-list">
     <MyCaseCard v-for="(c, index) in caseList" :key="index" :case-config="c" />
   </div>
 </template>

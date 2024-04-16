@@ -45,7 +45,7 @@
       송금요청장애 문의전화 <a href="tel:1670-2361">1670-2361</a>
     </p>
   </div>
-  <div class="transfer-approval-container">
+  <div v-if="!isSuccess" class="transfer-approval-container">
     <p class="approval-title">
       인증번호
       <button v-if="isApprovalSend && !isApprovalApply" class="approval-re-send" @click="handlerClickApprovalSendButton">재전송</button>
@@ -219,6 +219,7 @@ const handlerClickApprovalApplyButton = () => {
       timerInterval.value = null
       isApprovalApply.value = true
       alert('송금요청이 전송되었습니다.')
+      window.scrollTo({top: 0, behavior: 'smooth'})
     })
     .catch(e => {
       alert(e.response.data.message)

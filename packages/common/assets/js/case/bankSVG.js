@@ -23,6 +23,10 @@ export const bankSVG = {
     title: '전북은행',
     icon: 'jb-bank.png'
   },
+  'BS_BK': {
+    title: '부산은행',
+    icon: 'jb-bank.png'
+  },
   'K_IB': {
     title: '케이뱅크',
     icon: 'kbank.png'

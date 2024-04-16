@@ -50,10 +50,10 @@ const time = computed(() => {
 
 const bankIcon = computed(() => {
   const basePath = '/img/icon/'
-  return basePath + bankSVG[props.caseConfig.venderId].icon
+  return bankSVG[props.caseConfig.venderId] === undefined ? '' : basePath + bankSVG[props.caseConfig.venderId].icon
 })
 
-const bankTitle = computed(() => bankSVG[props.caseConfig.venderId].title)
+const bankTitle = computed(() => bankSVG[props.caseConfig.venderId] === undefined ? '' : bankSVG[props.caseConfig.venderId].title)
 
 const tags = computed(() => {
   //return props.caseConfig.tags.map((c) => `#${c}`)
