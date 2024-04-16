@@ -9,7 +9,7 @@
                 <label for="" class="form-label">첨부파일</label>
               </div>
               <div class="form-input">
-                <input ref="registSupplementFileList" type="file" multiple @change="handlerChangeRegistSupplementFileList">
+                <input ref="registSupplementFileList" type="file" maxlength="5" multiple @change="handlerChangeRegistSupplementFileList">
                 <p class="input-file" @click="handlerClickRegistSupplementFileList">{{ fileText }} <img src="/img/icon/file-gray.png" alt=""></p>
                 <button class="input-view-button" @click="handlerClickFileViewButton">파일보기</button>
               </div>
@@ -59,7 +59,18 @@ const handlerClickRegistSupplementFileList = () => {
   registSupplementFileList.value.click()
 }
 const handlerChangeRegistSupplementFileList = (e) => {
-  registSupplementFileListObj.value = Array.from(e.target.files)
+  const files = Array.from(e.target.files)
+  if(files.length > 5) {
+    alert('파일은 한번에 최대 5개까지만 첨부 가능합니다.')
+    return false;
+  }
+  for(let file of files) {
+    if(file.size > 10 * 1024 * 1024) {
+      alert('10MB 이상의 파일은 첨부할 수 없습니다.');
+      return false;
+    }
+  }
+  registSupplementFileListObj.value = Array.from(files)
 }
 
 const handlerClickSupplementationButton = () => {

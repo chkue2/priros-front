@@ -29,7 +29,7 @@
     <TransferAccountCard v-for="(t, index) in transferStore.transfer" :key="index" :idx="index" :is-saved="isSaved || isSuccess" />
   </div>
   <div class="transfer-account-button-container">
-    <button v-if="isPlusButton && !isSaved" class="account-edit-button" :class="{active: isAccountValidation}" @click="handlerClickAccountPlusButton">
+    <button v-if="isPlusButton && !isSaved && !isSuccess" class="account-edit-button" :class="{active: isAccountValidation}" @click="handlerClickAccountPlusButton">
       <i class="account-edit-icon"></i>
       계좌 추가를 원할 경우 눌러주세요
     </button>
