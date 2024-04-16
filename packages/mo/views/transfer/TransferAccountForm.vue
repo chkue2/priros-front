@@ -218,6 +218,7 @@ const handlerClickApprovalApplyButton = () => {
       clearInterval(timerInterval.value)
       timerInterval.value = null
       isApprovalApply.value = true
+      alert('송금요청이 전송되었습니다.')
     })
     .catch(e => {
       alert(e.response.data.message)
