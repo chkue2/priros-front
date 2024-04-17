@@ -39,7 +39,7 @@ const props = defineProps({
   isPc: {
     type: Boolean,
     default: false
-  }
+  },
 })
 const transferStore = useTransferStore()
 

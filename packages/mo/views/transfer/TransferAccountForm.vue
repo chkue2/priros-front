@@ -25,7 +25,7 @@
       금융기관의 설정비용(채권/인지)을 공제하지 않고 대출금 전액을 송금요청 합니다.
     </label>
   </div>
-  <div class="transfer-account-container">
+  <div v-if="isLoadingSuccess" class="transfer-account-container">
     <TransferAccountCard v-for="(t, index) in transferStore.transfer" :key="index" :idx="index" :is-saved="isSaved || isSuccess" />
   </div>
   <div class="transfer-account-button-container">
@@ -90,8 +90,12 @@ const isTransferApply = ref(false)
 const isApprovalSendAlarmModalShow = ref(false)
 const isTransferApplyModalShow = ref(false)
 
+const isLoadingSuccess = ref(false)
 onMounted(() => {
-  transferStore.fetchRemit(tradeCaseId)
+  Promise.all([transferStore.fetchRemit(tradeCaseId)])
+    .finally(() => {
+      isLoadingSuccess.value = true
+    })
 })
 
 watch(() => transferStore.remitState, () => {

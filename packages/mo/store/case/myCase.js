@@ -16,17 +16,17 @@ export const myCaseStore = defineStore('myCase', {
     }
   }),
   actions: {
-    fetchCaseCounter(searchDate) {
+    async fetchCaseCounter(searchDate) {
       const filterData = {
         fromDate: searchDate,
         toDate: searchDate,
         searchKeyword: this.keyword,
       }
-      tradeCaseList.counter(filterData).then(({data}) => {
+      await tradeCaseList.counter(filterData).then(({data}) => {
         this.counter = data
       })
     },
-    fetchCaseList(searchDate) {
+    async fetchCaseList(searchDate) {
       const filterData = {
         fromDate: searchDate,
         toDate: searchDate,
@@ -35,15 +35,15 @@ export const myCaseStore = defineStore('myCase', {
       }
 
       if(this.filter === 'progress') {
-        tradeCaseList.listProgress(filterData).then(({data}) => {
+        await tradeCaseList.listProgress(filterData).then(({data}) => {
           this.fetchedCaseList = data.list
         })
       } else if(this.filter === 'receive') {
-        tradeCaseList.listReceive(filterData).then(({data}) => {
+        await tradeCaseList.listReceive(filterData).then(({data}) => {
           this.fetchedCaseList = data.list
         })
       } else {
-        tradeCaseList.listAll(filterData).then(({data}) => {
+        await tradeCaseList.listAll(filterData).then(({data}) => {
           this.fetchedCaseList = data.list
         })
       }

@@ -59,6 +59,16 @@ export const useTransferStore = defineStore('transfer', {
               })
               return prev
             }, this.cardOptions)
+          } else {
+            this.cardOptions = [
+              {
+                text: '직접 입력하기',
+                value: {
+                  bank: '직접 입력하기',
+                  account: '',
+                }
+              },
+            ]
           }
           this.seq = data.seq
           this.mortgageLoan = data.mortgageLoan.toLocaleString()
@@ -77,6 +87,7 @@ export const useTransferStore = defineStore('transfer', {
             this.transfer[0].account = data.buyerPayoutAccountNumber
           } else {
             this.transfer[0] = {}
+            this.transfer[0].amount = '0'
             this.transfer[0].bank = ''
             this.transfer[0].bankCode = ''
             this.transfer[0].holder = ''
@@ -143,6 +154,6 @@ export const useTransferStore = defineStore('transfer', {
     },
     setTransferDataMinus() {
       this.transfer.pop()
-    }
+    },
   }
 }) 

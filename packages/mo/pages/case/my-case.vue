@@ -3,7 +3,7 @@
     <p class="my-case-search-title">진행중인 내 사건</p>
     <div class="my-case-search">
       <img src="/img/icon/search-gray.svg" aria-hidden class="my-case-search-icon">
-      <input v-model="myCaseStore.keyword" type="text" class="my-case-search-input" placeholder="검색어를 입력해주세요" @keyup="handlerKeyupCaseKeywrod" @keydown.enter="handlerClickEnterKeyword">
+      <input v-model="myCaseStore.keyword" type="text" class="my-case-search-input" placeholder="검색어를 입력해주세요" @keyup="handlerKeyupCaseKeyword" @keydown.enter="handlerClickEnterKeyword">
     </div>
   </div>
   <div class="my-case-filters">
@@ -26,13 +26,15 @@
   <div class="my-case-list">
     <MyCaseCard v-for="(c, index) in caseList" :key="index" :case-config="c" />
   </div>
+  <LoadingModal v-if="isLoadingModalShow" />
 </template>
 
 <script setup>
-import { computed, onMounted } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import dayjs from '@priros/common/node_modules/dayjs'
-import MyCaseCard from '~/components/card/MyCaseCard.vue'
 import { myCaseStore } from '~/store/case/myCase.js'
+import MyCaseCard from '~/components/card/MyCaseCard.vue'
+import LoadingModal from '@priros/common/components/modal/LoadingModal.vue'
 
 const caseStore = myCaseStore()
 
@@ -47,31 +49,39 @@ const searchDate = computed(() => {
   }
 })
 
+const isLoadingModalShow = ref(true);
+
 const caseList = computed(() => caseStore.fetchedCaseList || [])
 const counter = computed(() => caseStore.counter)
 
 onMounted(() => {
-  caseStore.fetchCaseCounter(searchDate.value)
-  caseStore.fetchCaseList(searchDate.value)
+  isLoadingModalShow.value = true
+  callApi()
 })
 
 const handlerClickCaseFilter = (v) => {
+  isLoadingModalShow.value = true
   caseStore.setFilter(v)
-  caseStore.fetchCaseCounter(searchDate.value)
-  caseStore.fetchCaseList(searchDate.value)
+  callApi()
 }
 const handlerClickCaseTab = (v) => {
+  isLoadingModalShow.value = true
   caseStore.setTab(v)
-  caseStore.fetchCaseCounter(searchDate.value)
-  caseStore.fetchCaseList(searchDate.value)
+  callApi()
 }
-const handlerKeyupCaseKeywrod = (e) => {
-  caseStore.fetchCaseCounter(searchDate.value)
+const handlerKeyupCaseKeyword = (e) => {
   caseStore.setKeyword(e.target.value)
 }
 const handlerClickEnterKeyword = () => {
-  caseStore.fetchCaseCounter(searchDate.value)
-  caseStore.fetchCaseList(searchDate.value)
+  isLoadingModalShow.value = true
+  callApi()
+}
+
+const callApi = async () => {
+  return await Promise.all([caseStore.fetchCaseCounter(searchDate.value), caseStore.fetchCaseList(searchDate.value)])
+                .finally(() => {
+                  isLoadingModalShow.value = false
+                })
 }
 
 </script>
