@@ -136,6 +136,7 @@ const handlerClickRemitFileList = () => {
   remitFileList.value.click()
 }
 const handlerChangeRemitFileList = (e) => {
+  if(e.target.files.length === 0) return false
   remitFileListObj.value = Array.from(e.target.files)
 }
 const remitFileListText = computed(() => {
@@ -150,6 +151,7 @@ const handlerClickProfFileList = () => {
   profFileList.value.click()
 }
 const handlerChangeProfFileList = (e) => {
+  if(e.target.files.length === 0) return false
   profFileListObj.value = Array.from(e.target.files)
 }
 const profFileListText = computed(() => {
@@ -164,6 +166,7 @@ const handlerClickEtcFileList = () => {
   etcFileList.value.click()
 }
 const handlerChangeEtcFileList = (e) => {
+  if(e.target.files.length === 0) return false
   etcFileListObj.value = Array.from(e.target.files)
 }
 const etcFileListText = computed(() => {
