@@ -1,5 +1,5 @@
 <template>
-  <NuxtLayout name="dialog-header" headerTitle="일정등록">
+  <NuxtLayout name="dialog-header" headerTitle="일정등록 및 추가정보확인">
     <div class="dialog-wrapper">
       <div class="container">
         <div class="inner-body">
@@ -24,11 +24,11 @@
                 <div class="form-input">
                   <select v-model="hour">
                     <option value="">시간</option>
-                    <option v-for="i in 24" :value="zeroStr(i, 2)" :key="`h-${i}`">{{ zeroStr(i, 2) }}시</option>
+                    <option v-for="i in Array(10).fill(9).map((x, y) => x + y)" :value="zeroStr(i, 2)" :key="`h-${i}`">{{ zeroStr(i, 2) }}시</option>
                   </select>
                   <select v-model="minute">
                     <option value="">분</option>
-                    <option v-for="m in ['00', '10', '20', '30', '40', '50']" :key="`m-${m}`" :value="m">{{ m }}분</option>
+                    <option v-for="m in ['00', '10', '20', '30', '40', '50']" :key="`m-${m}`" :value="m">{{ `${m === '00' ? '정각' : `${m}분`}` }}</option>
                   </select>
                 </div>
               </div>
@@ -87,11 +87,11 @@
                 <div class="form-input flex-start">
                   <label class="form-label label--big">
                     <input v-model="mortgageRemovableFlag" type="radio" name="coll" value="N">
-                    <span>동일</span>
+                    <span>없음</span>
                   </label>
                   <label class="form-label label--big">
                     <input v-model="mortgageRemovableFlag" type="radio" name="coll" value="Y">
-                    <span>변동발생</span>
+                    <span>있음</span>
                   </label>
                 </div>
               </div>
@@ -107,7 +107,7 @@
         <div>
           <CommonBottomButton
             id="btn-send"
-            text="일정보고"
+            text="일정등록"
             backgroundColor="#000000" height="60px" width="100%" color="#fff"
             :font-weight="700"
             @handler-click-button="handleBtnSendClick"
