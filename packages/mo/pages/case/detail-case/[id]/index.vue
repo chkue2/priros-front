@@ -284,7 +284,7 @@ const insuranceAmt = computed(() =>
     Number(detailCaseStore.fetchedDetailCase.insuranceAmt).toLocaleString() : '0'
 )
 const repaymentStatus = computed(() => 
-  detailCaseStore.fetchedDetailCase.repaymentStatus === 'Y' ? '상환있음' : '상환없음'
+  detailCaseStore.fetchedDetailCase.repayFlag === 'Y' ? '상환있음' : '상환없음'
 )
 const mortgageLoan = computed(() => 
   !isEmpty(detailCaseStore.fetchedDetailCase.mortgageLoan) ? 
