@@ -134,6 +134,7 @@ const handlerClickProfileImageUpload = () => {
   userProfileImage.value.click()
 }
 const handlerChangeProfileImage = (e) => {
+  if(e.target.files.length === 0) return false
   userProfileImageObj.value = e.target.files[0]
   base64(userProfileImageObj.value, 'profileImagePreview')
 }

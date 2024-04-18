@@ -148,6 +148,7 @@ const handlerClickFileList = () => {
   fileList.value.click()
 }
 const handlerChangeFileList = (e) => {
+  if(e.target.files.length === 0) return false
   fileListObj.value = Array.from(e.target.files)
   form.value.requestReportFileList = fileListObj.value
 }

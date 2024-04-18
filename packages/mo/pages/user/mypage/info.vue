@@ -164,6 +164,7 @@ const handlerClickInsuranceFile = () => {
   insuranceFile.value.click()
 }
 const handlerChangeInsuranceFile = (e) => {
+  if(e.target.files.length === 0) return false
   insuranceFileObj.value = e.target.files[0]
   form.value.insuranceFileName = insuranceFileObj.value.name
 }

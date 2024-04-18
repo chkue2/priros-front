@@ -138,6 +138,7 @@ const handlerClickBusinessLicenseFile = () => {
   businessLicenseFile.value.click()
 }
 const handlerChangeBusinessLicenseFile = (e) => {
+  if(e.target.files.length === 0) return false
   form.value['businessLicense'] = e.target.files[0]
 }
 const businessLicenseButtonText = computed(() => 
@@ -150,6 +151,7 @@ const handlerClickExpertLicenseFile = () => {
   expertLicenseFile.value.click()
 }
 const handlerChangeExpertLicenseFile = (e) => {
+  if(e.target.files.length === 0) return false
   form.value['expertLicense'] = e.target.files[0]
 }
 const expertLicenseButtonText = computed(() => 
@@ -162,6 +164,7 @@ const handlerClickCertFile = () => {
   certFile.value.click()
 }
 const handlerChangeCertFile = (e) => {
+  if(e.target.files.length === 0) return false
   form.value['cert'] = e.target.files[0]
 }
 const certButtonText = computed(() => 

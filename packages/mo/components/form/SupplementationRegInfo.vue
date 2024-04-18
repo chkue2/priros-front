@@ -59,6 +59,7 @@ const handlerClickRegistSupplementFileList = () => {
   registSupplementFileList.value.click()
 }
 const handlerChangeRegistSupplementFileList = (e) => {
+  if(e.target.files.length === 0) return false
   const files = Array.from(e.target.files)
   if(files.length > 5) {
     alert('파일은 한번에 최대 5개까지만 첨부 가능합니다.')

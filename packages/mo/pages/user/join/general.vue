@@ -81,6 +81,7 @@ const handlerClickProfileUploadButton = () => {
   profileImageFile.value.click()
 }
 const handlerChangeProfileImageFile = (e) => {
+  if(e.target.files.length === 0) return false
   const v = e.target.files[0]
   base64(v, 'profileImageFile')
   form.value['profileImage'] = v
