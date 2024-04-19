@@ -77,7 +77,7 @@ const profile = computed(() => auth.user.profile);
 const menuItems = ref(defaultMypageMenu);
 
 function oldVersion() {
-  document.cookie = 'priros-version=1; SameSite=None; Secure';
+  document.cookie = 'priros_version=1; SameSite=None; Secure';
   window.location.href = 'https://dev.priros.co.kr';
 }
 
