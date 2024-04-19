@@ -15,6 +15,13 @@
   </div>
   <div class="sub-menu">
     <ul class="nav">
+      <li class="nav-item" @click="oldVersion()">
+
+        <IconSvgIcon variant="log-out" size="16"/>
+        구버전으로 보기
+
+
+      </li>
       <li class="nav-item" @click="logout()">
 
         <IconSvgIcon variant="log-out" size="16"/>
@@ -69,6 +76,10 @@ const profile = computed(() => auth.user.profile);
 
 const menuItems = ref(defaultMypageMenu);
 
+function oldVersion() {
+  document.cookie = 'priros-version=1; SameSite=None; Secure';
+  window.location.href = 'https://dev.priros.co.kr';
+}
 
 function logout() {
   auth.logout();
