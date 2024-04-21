@@ -194,7 +194,7 @@
     </CommonBlackTitleModal>
     <CommonBlackTitleModal
       v-if="isKakaoRemitSendModalShow"
-      title="카카오 송금요청"
+      title="송금요청"
       @handler-click-close="toggleKaKaoRemitSendModalShow"
     >
       <KakaoRemitForm :trade-case-id="tradeCaseId" @close-modal="toggleKaKaoRemitSendModalShow" @open-success-modal="toggleKakaoRemitSendSuccessModalShow" />
