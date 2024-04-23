@@ -15,19 +15,14 @@
   </div>
   <div class="sub-menu">
     <ul class="nav">
-      <li class="nav-item" @click="oldVersion()">
-
-        <IconSvgIcon variant="log-out" size="16"/>
+      <li class="nav-button" @click="oldVersion()">
         구버전으로 보기
-
-
-      </li>
+        </li>
+    </ul>
+    <ul class="nav">
       <li class="nav-item" @click="logout()">
-
         <IconSvgIcon variant="log-out" size="16"/>
         로그아웃
-
-
       </li>
       <li class="nav-item" @click="handlerClickHelpCenter">
         <IconSvgIcon variant="headset-help" size="16"/>
@@ -77,7 +72,7 @@ const profile = computed(() => auth.user.profile);
 const menuItems = ref(defaultMypageMenu);
 
 function oldVersion() {
-  window.location.href = 'https://dev.priros.co.kr?priros_version=1';
+  window.location.href = window.location.hostname.includes('dev') ? 'https://dev.priros.co.kr?priros_version=1' : 'https://www.priros.com?priros_version=1';
 }
 
 function logout() {
@@ -168,7 +163,8 @@ const profileImageUrl = computed(() => {
 .sub-menu {
   display: flex;
   padding: 0 16px;
-  justify-content: flex-end;
+  justify-content: space-between;
+  align-items: center;
   font: {
     size: 14px;
   }
@@ -178,6 +174,14 @@ const profileImageUrl = computed(() => {
     & + .nav-item {
       margin-left: 12px;
     }
+  }
+  .nav-button {
+    padding: 4px;
+    border: 1px solid #e1e1e1;
+    border-radius: 4px;
+    font-size: 12px;
+    color: #333333;
+    cursor: pointer;
   }
 }
 
