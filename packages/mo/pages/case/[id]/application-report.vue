@@ -81,7 +81,7 @@
 
 <script setup>
 import {ref, computed, onMounted} from "vue"
-import { useRoute } from "vue-router"
+import { useRoute, useRouter } from "vue-router"
 
 import { tradeCaseRequestReport } from "~/services/tradeCaseRequestReport"
 import { isEmpty } from '@priros/common/assets/js/utils.js'
@@ -93,6 +93,7 @@ definePageMeta({
 });
 
 const route = useRoute()
+const router = useRouter()
 const tradeCaseId = route.params.id
 
 const form = ref({
@@ -114,7 +115,8 @@ onMounted(() => {
       }
     })
     .catch(e => {
-      console.log(e)
+      alert(e.response.data.message.replace(/<br>/gi, '\n'))
+      router.back()
     })
 })
 

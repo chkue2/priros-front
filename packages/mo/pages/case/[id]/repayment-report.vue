@@ -88,7 +88,7 @@
 
 <script setup>
 import {ref, computed, onMounted} from "vue";
-import {useRoute} from "vue-router";
+import {useRoute, useRouter} from "vue-router";
 
 import { tradeCaseRepay } from '~/services/tradeCaseRepay.js'
 
@@ -192,6 +192,7 @@ const isSuccess = computed(() => {
   )
 })
 
+const router = useRouter()
 onMounted(() => {
   tradeCaseRepay.get(tradeCaseId)
     .then(({data}) => {
@@ -203,7 +204,8 @@ onMounted(() => {
       }
     })
     .catch(e => {
-      console.log(e)
+      alert(e.response.data.message.replace(/<br>/gi, '\n'))
+      router.back()
     })
 })
 
