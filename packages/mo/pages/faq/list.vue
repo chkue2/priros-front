@@ -4,9 +4,13 @@
       <button class="faq-tab" :class="{active: tab === 'faq'}" @click="handlerClickTab('faq')">FAQ</button>
       <button class="faq-tab" :class="{active: tab === 'notice'}" @click="handlerClickTab('notice')">공지사항</button>
     </div>
-    <div v-if="faqList.length > 0" class="faq-list">
+    <div v-if="faqList.length > 0 && tab === 'faq'" class="faq-list">
       <NoticeListCard v-for="(faq, index) in faqList" :key="index" :notice="faq" />
       <Pagination :margin-top="64" :paging="paging" @click-page="fetchFaqList" />
+    </div>
+    <div v-if="noticeList.length > 0 && tab === 'notice'" class="faq-list">
+      <NoticeListCard v-for="(notice, index) in noticeList" :key="index" :notice="notice" />
+      <Pagination :margin-top="64" :paging="paging" @click-page="fetchNoticeList" />
     </div>
     <LoadingModal v-if="isLoading" />
   </NuxtLayout>
@@ -24,6 +28,7 @@ definePageMeta({
 })
 
 const faqList = ref([])
+const noticeList = ref([])
 const paging = ref({})
 
 const isLoading = ref(true)
@@ -32,7 +37,7 @@ const tab = ref('faq')
 
 const handlerClickTab = (v) => {
   tab.value = v;
-  if(tab === 'faq') fetchFaqList(1)
+  if(tab.value === 'faq') fetchFaqList(1)
   else fetchNoticeList(1)
 }
 
@@ -61,7 +66,7 @@ const fetchFaqList = (page) => {
 const fetchNoticeList = (page) => {
   isLoading.value = true
   notice.list(page).then(({data}) => {
-    faqList.value = data.noticeList
+    noticeList.value = data.noticeList
     paging.value = data.paging
 
     document.querySelectorAll('.notice-list-card').forEach(elm => {
