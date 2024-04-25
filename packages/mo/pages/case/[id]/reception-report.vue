@@ -19,7 +19,7 @@
               </div>
               <div class="form-input">
                 <input v-model="receiveBuyer" type="text" readonly>
-                <input v-model="receiveNo" type="text" placeholder="접수번호">
+                <input v-model="receiveNo" type="text" placeholder="접수번호" maxlength="20">
               </div>
             </div>
           </div>
