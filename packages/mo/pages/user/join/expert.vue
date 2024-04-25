@@ -9,6 +9,20 @@
       <input type="hidden" id="integrity_value" name="integrity_value">
     </form>
     <div class="join-form">
+      <div class="profile-image">
+        <img id="profileImagePreview" :src="imageSrc">
+        <div class="profile-image-buttons">
+          <input ref="userProfileImage" type="file" @change="handlerChangeProfileImage">
+          <button @click="handlerClickProfileImageUpload">
+            <img src="/img/icon/upload-gray.svg">
+            프로필사진 업로드
+          </button>
+        </div>
+        <p class="profile-image-warning">
+          증명사진 또는 여권 사진으로<br>
+          <b>네모</b> 안에 얼굴 전체가 나오도록 프로필 첨부 바랍니다.
+        </p>
+      </div>
       <p class="join-form-title">회원유형 *</p>
       <div class="join-form-input-container">
         <select v-model="form['firmType']" class="join-form-input">
@@ -18,6 +32,19 @@
       <p class="join-form-title">직책 *</p>
       <div class="join-form-input-container">
         <input v-model="form['position']" type="text" class="join-form-input w-60" placeholder="직책을 입력해주세요">
+      </div>
+      <p class="join-form-title">아이디 *</p>
+      <div class="join-form-input-container">
+        <input v-model="form['id']" type="text" class="join-form-input w-60" placeholder="아이디를 입력해주세요">
+        <button class="join-form-gray-button" @click="sendNiceForm">중복확인</button>
+      </div>
+      <p class="join-form-title">비밀번호 *</p>
+      <div class="join-form-input-container">
+        <input v-model="form['password']" type="password" class="join-form-input" placeholder="영문/숫자/특수문자 혼합 8자 이상 입력하세요">
+      </div>
+      <p class="join-form-title">비밀번호 확인*</p>
+      <div class="join-form-input-container">
+        <input v-model="passwordConfirm" type="password" class="join-form-input" placeholder="비밀번호를 한 번 더 입력해주세요">
       </div>
       <p class="join-form-title">대표자 *</p>
       <div class="join-form-input-container">
@@ -74,14 +101,21 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import CommonBottomButton from '@priros/common/components/button/CommonBottomButton.vue'
 
+import { base64 } from '@priros/common/assets/js/filePreview.js'
 import { join } from '~/services/join.js'
+
+import { isEmpty } from '@priros/common/assets/js/utils.js'
 
 const userTypeEnum = ['법무사', '합동법무사', '법무사법인', '변호사', '합동변호사', '법무법인', '금융기관', '일반사용자', '공인중개사']
 const actionUrl = ref('')
+
+const passwordConfirm = ref('')
+const userProfileImage = ref(null)
+const userProfileImageObj = ref(null)
 
 onMounted(() => {
   join.getNice(`${window.location.origin}/user/join/nice-result`)
@@ -113,7 +147,7 @@ const handlerClickCancelButton = () => {
   router.back()
 }
 
-const validateEnum = ['firmType', 'position', 'name', 'phone', 'tel', 'businessLicense', 'expertLicense', 'expiredDate', 'cert']
+const validateEnum = ['firmType', 'id', 'password', 'position', 'name', 'phone', 'tel', 'businessLicense', 'expertLicense', 'expiredDate', 'cert']
 const form = ref({})
 const isAgree = ref(false)
 
@@ -127,9 +161,19 @@ const formValidation = computed(() => {
   return true
 })
 
-const handlerClickVerification = () => {
-  form.value['name'] = 'test'
-  form.value['phone'] = '01012341234'
+const imageSrc = computed(() => 
+  isEmpty(form.value.userProfileImage) ?
+    '/img/join/profile-empty.png' :
+    `data:image/png;base64,${form.value.userProfileImage}`
+)
+
+const handlerClickProfileImageUpload = () => {
+  userProfileImage.value.click()
+}
+const handlerChangeProfileImage = (e) => {
+  if(e.target.files.length === 0) return false
+  userProfileImageObj.value = e.target.files[0]
+  base64(userProfileImageObj.value, 'profileImagePreview')
 }
 
 // 사업자 등록증
@@ -248,5 +292,48 @@ const sendNiceForm = () => {
 }
 .join-form-label {
   margin-bottom: 24px;
+}
+.profile-image {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  & > img {
+    width: 140px;
+    height: 165px;
+  }
+  input[type=file] {
+    display: none;
+  }
+  .profile-image-buttons {
+    margin: 28px 0 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    width: 100%;
+    & > button {
+      flex: 1;
+      height: 48px;
+      border-radius: 6px;
+      border: 1px solid #bcbcbc;
+      background-color: #ffffff;
+      font-size: 15px;
+      color: #808080;
+      cursor: pointer;
+    }
+  }
+  .profile-image-warning {
+    font-size: 12px;
+    text-align: center;
+    font-weight: $ft-medium;
+    color: #959595;
+    line-height: 17px;
+    margin-bottom: 38px;
+    b {
+      font-weight: $ft-bold;
+      color: #7ef422;
+    }
+  }
 }
 </style>

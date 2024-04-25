@@ -58,6 +58,8 @@ const receiveNo = ref('')
 const receiveDate = ref('')
 const receiveBuyer = ref('')
 
+const router = useRouter();
+
 onMounted(() => {
   tradeCaseReceptionReport.get(tradeCaseId)
     .then(({data}) => {
@@ -69,7 +71,7 @@ onMounted(() => {
     })
     .catch(e => {
       alert(e.response.data.message.replace(/<br>/gi, '\n'))
-      useRouter().back()
+      router.back()
     })
 })
 
