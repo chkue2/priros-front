@@ -31,7 +31,7 @@
                   </label>
                 </div>
               </div>
-              <div class="form-input">
+              <div v-if="form['acquisitionShareType'] === 'M'" class="form-input">
                 <textarea v-model="form['acquisitionShareDetail']" placeholder="매수인별로 이름과 취득지분을 입력하세요"></textarea>
               </div>
             </div>
@@ -47,8 +47,8 @@
                   </label>
                 </div>
               </div>
-              <div class="form-input">
-                <input ref="fileList" type="file" multiple @change="handlerChangeFileList">
+              <div v-if="form['buyerAddressType'] === 'C'" class="form-input">
+                <input ref="fileList" type="file" multiple accept=".gif, .jpg, .jpeg, .png, .pdf, .bmp, .tif, .tiff" @change="handlerChangeFileList">
                 <p class="input-file" @click="handlerClickFileList">{{ filePreviewName }} <img src="/img/icon/file-gray.png" alt=""></p>
               </div>
             </div>
@@ -121,22 +121,34 @@ onMounted(() => {
 })
 
 const filePreviewName = computed(() => {
-  return fileListObj.value !== null ?
+  return fileListObj.value !== null && fileListObj.value.length === 1 ?
     fileListObj.value[0].name :
-    form.value.requestReportFileList.length > 0 ?
+    fileListObj.value !== null && fileListObj.value.length > 1 ?
+    `${fileListObj.value[0].name} 외 ${fileListObj.value.length - 1}개` :
+    form.value.requestReportFileList.length === 1 ?
     form.value.requestReportFileList[0].fileName:
+    form.value.requestReportFileList.length > 1 ?
+    `${form.value.requestReportFileList[0].fileName} 외 ${form.value.requestReportFileList.length - 1}개` :
     '매수인의 주민등록초본을 첨부해주세요'
 })
 
 const btnSendDisable = false;
 
 const formValidation = computed(() => {
-  const validateEnum = ['registrationApplication', 'acquisitionShareType', 'acquisitionShareDetail', 'buyerAddressType']
+  const validateEnum = ['registrationApplication', 'acquisitionShareType', 'buyerAddressType']
   for(const v of validateEnum) {
     if(isEmpty(form.value[v])) return false
   }
 
   if(
+    form.value['acquisitionShareType'] === 'M' &&
+    form.value['acquisitionShareDetail'] === ''
+  ) {
+    return false
+  }
+
+  if(
+    form.value['buyerAddressType'] === 'C' &&
     form.value.requestReportFileList.length === 0 &&
     fileListObj.value === null
   ) {
@@ -151,7 +163,12 @@ const handlerClickFileList = () => {
 }
 const handlerChangeFileList = (e) => {
   if(e.target.files.length === 0) return false
-  fileListObj.value = Array.from(e.target.files)
+  const files = Array.from(e.target.files)
+  if(files.length > 5) {
+    alert('파일은 한번에 최대 5개까지만 첨부 가능합니다.');
+    return false;
+  }
+  fileListObj.value = files
   form.value.requestReportFileList = fileListObj.value
 }
 
@@ -161,11 +178,12 @@ const handleBtnSendClick = () => {
       alert('등기신청서 작성정보를 입력해주세요')
     } else if(isEmpty(form.value['acquisitionShareType'])) {
       alert('매수인별 취득지분 명의를 선택해주세요')
-    } else if(isEmpty(form.value['acquisitionShareDetail'])) {
+    } else if(form.value['acquisitionShareType'] === 'M' && isEmpty(form.value['acquisitionShareDetail'])) {
       alert('매수인별 취득지분을 입력해주세요')
     } else if(isEmpty(form.value['buyerAddressType'])) {
       alert('매수인 주소변동 여부를 선택해주세요')
     } else if(
+      form.value['buyerAddressType'] === 'C' &&
       form.value.requestReportFileList.length === 0 &&
       fileListObj.value === null
     ) {
