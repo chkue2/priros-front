@@ -65,13 +65,7 @@
               <label for="" class="form-label">공제증서 또는 보험증권</label>
             </div>
             <div class="form-input">
-              <input v-model="form['expirationDate']" type="date" placeholder="만료예정일">
-            </div>
-            <div class="form-input">
-              <input ref="insuranceFile" type="file" @change="handlerChangeInsuranceFile">
-              <p class="input-file"
-                @click="handlerClickInsuranceFile">{{insuranceFileName}} <img src="/img/icon/file-gray.png" aria-hidden></p>
-              <button class="form-button" @click="togglePreviewModal">파일보기</button>
+              <input v-model="form['expirationDate']" type="date" placeholder="만료예정일" readonly>
             </div>
           </div>
         </div>
@@ -155,20 +149,6 @@ const setAddress = (value) => {
   restAddr.value?.focus()
 }
 
-const insuranceFileName = computed(() => {
-  return form.value.insuranceFileName || '파일을 업로드해주세요'
-})
-
-const insuranceFile = ref(null)
-const handlerClickInsuranceFile = () => {
-  insuranceFile.value.click()
-}
-const handlerChangeInsuranceFile = (e) => {
-  if(e.target.files.length === 0) return false
-  insuranceFileObj.value = e.target.files[0]
-  form.value.insuranceFileName = insuranceFileObj.value.name
-}
-
 const isPreviewModalShow = ref(false)
 const insuranceFileData = ref({
   insuranceFile: null,
@@ -207,9 +187,6 @@ const formValidation = computed(() => {
   for(const v of validateEnum) {
     if(isEmpty(form.value[v])) return false
   }
-
-  if(insuranceFileObj.value === null) return false
-
   return true
 })
 
@@ -225,8 +202,6 @@ const handleBtnSendClick = () => {
       alert('사업장 대표 이메일을 입력해주세요')
     } else if(isEmpty(form.value['expirationDate'])) {
       alert('공제증서 또는 보험증권 만료일을 입력해주세요')
-    } else if(insuranceFileObj.value === null) {
-      alert('공제증서 또는 보험증권 파일을 업로드해주세요')
     }
     return false
   }
@@ -239,9 +214,6 @@ const handleBtnSendClick = () => {
   formData.append('phone', form.value.phone)
   formData.append('email', form.value.email)
   formData.append('expirationDate', form.value.expirationDate)
-  if(insuranceFileObj.value !== null) {
-    formData.append('insuranceFile', insuranceFileObj.value)
-  }
 
   firm.post(formData)
     .then(() => {

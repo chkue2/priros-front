@@ -10,7 +10,7 @@
     </form>
     <div class="join-form">
       <div class="profile-image">
-        <img id="profileImagePreview" :src="imageSrc">
+        <img id="profileImagePreview" src="/img/join/profile-empty.png">
         <div class="profile-image-buttons">
           <input ref="userProfileImage" type="file" @change="handlerChangeProfileImage">
           <button @click="handlerClickProfileImageUpload">
@@ -35,8 +35,8 @@
       </div>
       <p class="join-form-title">아이디 *</p>
       <div class="join-form-input-container">
-        <input v-model="form['id']" type="text" class="join-form-input w-60" placeholder="아이디를 입력해주세요">
-        <button class="join-form-gray-button" @click="sendNiceForm">중복확인</button>
+        <input v-model="form['id']" type="text" class="join-form-input w-60" placeholder="아이디를 입력해주세요" @change="handlerChangeId">
+        <button class="join-form-gray-button" @click="handlerClickCheckIdButton">중복확인</button>
       </div>
       <p class="join-form-title">비밀번호 *</p>
       <div class="join-form-input-container">
@@ -44,7 +44,7 @@
       </div>
       <p class="join-form-title">비밀번호 확인*</p>
       <div class="join-form-input-container">
-        <input v-model="passwordConfirm" type="password" class="join-form-input" placeholder="비밀번호를 한 번 더 입력해주세요">
+        <input v-model="form['passwordConfirm']" type="password" class="join-form-input" placeholder="비밀번호를 한 번 더 입력해주세요">
       </div>
       <p class="join-form-title">대표자 *</p>
       <div class="join-form-input-container">
@@ -113,9 +113,7 @@ import { isEmpty } from '@priros/common/assets/js/utils.js'
 const userTypeEnum = ['법무사', '합동법무사', '법무사법인', '변호사', '합동변호사', '법무법인', '금융기관', '일반사용자', '공인중개사']
 const actionUrl = ref('')
 
-const passwordConfirm = ref('')
 const userProfileImage = ref(null)
-const userProfileImageObj = ref(null)
 
 onMounted(() => {
   join.getNice(`${window.location.origin}/user/join/nice-result`)
@@ -147,33 +145,55 @@ const handlerClickCancelButton = () => {
   router.back()
 }
 
-const validateEnum = ['firmType', 'id', 'password', 'position', 'name', 'phone', 'tel', 'businessLicense', 'expertLicense', 'expiredDate', 'cert']
+const validateEnum = ['userProfileImage', 'firmType', 'id', 'password', 'position', 'name', 'phone', 'tel', 'businessLicense', 'expertLicense', 'expiredDate', 'cert']
 const form = ref({})
 const isAgree = ref(false)
+
+const checkId = ref(false)
 
 const formValidation = computed(() => {
   for(const e of validateEnum) {
     if(form.value[e] === undefined || form.value[e] === null || form.value[e] === '') return false
   }
 
+  if(!checkId.value) return false
+
+  if(form.value['password'] !== form.value['passwordConfirm']) return false
+
   if(!isAgree.value) return false
 
   return true
 })
-
-const imageSrc = computed(() => 
-  isEmpty(form.value.userProfileImage) ?
-    '/img/join/profile-empty.png' :
-    `data:image/png;base64,${form.value.userProfileImage}`
-)
 
 const handlerClickProfileImageUpload = () => {
   userProfileImage.value.click()
 }
 const handlerChangeProfileImage = (e) => {
   if(e.target.files.length === 0) return false
-  userProfileImageObj.value = e.target.files[0]
-  base64(userProfileImageObj.value, 'profileImagePreview')
+  const file = e.target.files[0]
+  form.value['userProfileImage'] = file
+  base64(file, 'profileImagePreview')
+}
+
+const handlerChangeId = () => {
+  checkId.value = false
+}
+
+const handlerClickCheckIdButton = () => {
+  if(!form.value['id'] || form.value['id'] === '') {
+    alert('아이디를 입력해주세요')
+    return false
+  }
+
+  join.checkId(form.value['id'])
+    .then(({data}) => {
+      alert('사용가능한 아이디입니다.')
+      checkId.value = true
+    })
+    .catch(e => {
+      alert(e.response.data.message)
+      checkId.value = false
+    })
 }
 
 // 사업자 등록증
@@ -217,10 +237,20 @@ const certButtonText = computed(() =>
 
 const handlerClickApplyButton = () => {
   if(!formValidation.value) {
-    if(form.value['firmType'] === undefined || form.value['firmType'] === '') {
+    if(form.value['userProfileImage'] === undefined){
+      alert('프로필사진을 업로드해주세요')
+    } else if(form.value['firmType'] === undefined || form.value['firmType'] === '') {
       alert('회원유형을 선택해주세요')
     } else if(form.value['position'] === undefined || form.value['position'] === ''){
       alert('직책을 입력해주세요')
+    } else if(form.value['id'] === undefined || form.value['id'] === ''){
+      alert('아이디를 입력해주세요')
+    } else if(!checkId.value){
+      alert('아이디 중복확인을 해주세요')
+    } else if(form.value['password'] === undefined || form.value['password'] === ''){
+      alert('비밀번호를 입력해주세요')
+    } else if(form.value['password'] !== form.value['passwordConfirm']){
+      alert('비밀번호와 비밀번호 확인이 다릅니다')
     } else if(form.value['name'] === undefined || form.value['name'] === '' || form.value['phone'] === undefined || form.value['phone'] === ''){
       alert('본인확인을 해주세요')
     } else if(form.value['tel'] === undefined || form.value['tel'] === ''){
@@ -241,8 +271,12 @@ const handlerClickApplyButton = () => {
   }
 
   const formData = new FormData()
-  formData.append('firmType', form.value['firmType'])
+  formData.append('profile', form.value['userProfileImage'])
+  formData.append('firmKind', form.value['firmType'])
   formData.append('position', form.value['position'])
+  formData.append('userId', form.value['id'])
+  formData.append('password', form.value['password'])
+  formData.append('passwordConfirm', form.value['position'])
   formData.append('charge', form.value['name'])
   formData.append('responseNumber', form.value['responseNumber']) // 본인확인 도입 후에 설정
   formData.append('mobile', form.value['phone'])

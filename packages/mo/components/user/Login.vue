@@ -9,7 +9,7 @@
       </div>
       <div class="join-form-input-container">
         <input v-model="credentials.password" type="password" name="user_password" id="passwordInput"
-               class="join-form-input" placeholder="비밀번호를 입력해주세요">
+               class="join-form-input" placeholder="비밀번호를 입력해주세요" @keyup.enter="handlerClickLoginButton">
         <i class="login-toggle-password" @click="handlerClickPasswordToggle"></i>
       </div>
       <div class="login-form-middle-container">

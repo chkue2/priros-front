@@ -230,7 +230,7 @@ const handlerClickApprovalApplyButton = () => {
       window.scrollTo({top: 0, behavior: 'smooth'})
     })
     .catch(e => {
-      alert(e.response.data.message)
+      alert(e.response.data.message.replace(/<br>/gi, '\n'))
     })
 }
 
@@ -252,7 +252,7 @@ const handlerClickTransferApplyButton = () => {
       transferStore.fetchRemit(tradeCaseId)
     })
     .catch(e => {
-      alert(e.response.data.message)
+      alert(e.response.data.message.replace(/<br>/gi, '\n'))
     })
 }
 

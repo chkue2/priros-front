@@ -9,5 +9,8 @@ export const join = {
     },
     async getNiceInfo(data) {
       return await POST(API_URL.NICE.DECRYPT, data)
+    },
+    async checkId(userId) {
+      return await GET(API_URL.JOIN.CHECK_ID, {userId})
     }
 }

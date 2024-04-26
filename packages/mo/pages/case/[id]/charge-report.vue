@@ -133,7 +133,7 @@ const fetchChargeList = () => {
       chargeData.value = data.charger
     })
     .catch((e) => {
-      alert(e.response.data.message)
+      alert(e.response.data.message.replace(/<br>/gi, '\n'))
       router.back()
     })
 };
@@ -144,8 +144,7 @@ const requestCharge = () => {
       toggleSuccessModal()
     })
     .catch((e) => {
-      console.log(e)
-      alert(e.response.data.message)
+      alert(e.response.data.message.replace(/<br>/gi, '\n'))
     })
 }
 

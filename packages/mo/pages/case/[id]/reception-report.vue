@@ -37,6 +37,11 @@
         </div>
       </div>
     </div>
+    <CommonAlertModal
+      v-if="isSuccessModalShow"
+      text="접수 보고가 완료되었습니다."
+      @handler-click-button="toggleSuccessModal"
+    />
   </NuxtLayout>
 </template>
 
@@ -47,6 +52,7 @@ import { useRoute, useRouter } from "vue-router";
 import { tradeCaseReceptionReport } from '~/services/tradeCaseReceptionReport.js'
 
 import CommonBottomButton from '@priros/common/components/button/CommonBottomButton.vue'
+import CommonAlertModal from "@priros/common/components/modal/CommonAlertModal.vue"
 
 definePageMeta({
   layout: false
@@ -75,6 +81,11 @@ onMounted(() => {
     })
 })
 
+const isSuccessModalShow = ref(false)
+const toggleSuccessModal = () => {
+  isSuccessModalShow.value = !isSuccessModalShow.value
+}
+
 const handleBtnSendClick = () => {
   if(receiveNo.value === '') {
     alert('접수번호를 입력해주세요.')
@@ -83,10 +94,10 @@ const handleBtnSendClick = () => {
   
   tradeCaseReceptionReport.post(tradeCaseId, { receiveDate: receiveDate.value, receiveNo: receiveNo.value })
     .then(() => {
-      alert('접수보고가 완료되었습니다.')
+      toggleSuccessModal()
     })
     .catch(e => {
-      alert(e.response.data.message)
+      alert(e.response.data.message.replace(/<br>/gi, '\n'))
     })
 }
 </script>

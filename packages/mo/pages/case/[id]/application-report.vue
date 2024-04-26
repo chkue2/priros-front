@@ -76,6 +76,11 @@
         </div>
       </div>
     </div>
+    <CommonAlertModal
+      v-if="isSuccessModalShow"
+      text="신청정보 보고가 완료되었습니다."
+      @handler-click-button="toggleSuccessModal"
+    />
   </NuxtLayout>
 </template>
 
@@ -87,6 +92,7 @@ import { tradeCaseRequestReport } from "~/services/tradeCaseRequestReport"
 import { isEmpty } from '@priros/common/assets/js/utils.js'
 
 import CommonBottomButton from '@priros/common/components/button/CommonBottomButton.vue'
+import CommonAlertModal from "@priros/common/components/modal/CommonAlertModal.vue"
 
 definePageMeta({
   layout: false
@@ -119,6 +125,11 @@ onMounted(() => {
       router.back()
     })
 })
+
+const isSuccessModalShow = ref(false)
+const toggleSuccessModal = () => {
+  isSuccessModalShow.value = !isSuccessModalShow.value
+}
 
 const filePreviewName = computed(() => {
   return fileListObj.value !== null && fileListObj.value.length === 1 ?
@@ -207,10 +218,10 @@ const handleBtnSendClick = () => {
 
   tradeCaseRequestReport.post(tradeCaseId, formData)
     .then(() => {
-      alert('신청정보보고가 정상 처리 되었습니다.')
+      toggleSuccessModal()
     })
     .catch(e => {
-      alert(e.response.data.message)
+      alert(e.response.data.message.replace(/<br>/gi, '\n'))
     })
 }
 

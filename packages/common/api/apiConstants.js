@@ -30,7 +30,8 @@ const API_URL = {
         FILE: '/firm/insurance-file'
     },
     JOIN: {
-        EXPERT: '/join-firm'
+        EXPERT: '/firm/join-firm',
+        CHECK_ID: '/firm/join-firm-check-id'
     },
     INTRO: {
         GET: '/intro'

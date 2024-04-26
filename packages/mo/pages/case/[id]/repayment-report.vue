@@ -259,7 +259,7 @@ const handlerClickReport = () => {
       toggleSuccessModal()
     })
     .catch(e => {
-      alert(e.response.data.message)
+      alert(e.response.data.message.replace(/<br>/gi, '\n'))
     })
 }
 
