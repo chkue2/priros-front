@@ -1,12 +1,12 @@
 <template>
-  <i :style="{ width: displaySize, height: displaySize }">
+  <i :style="{  height: displaySize }">
     <Image/>
   </i>
 </template>
 
 <script setup>
 
-import Image from "~/assets/images/icon/logo-blue.svg?inline";
+import Image from "~/assets/images/icon/new-logo.svg?inline";
 import {computed} from "vue";
 import {formatSize} from "~/utils/formatSize.js";
 

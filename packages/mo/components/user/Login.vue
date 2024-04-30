@@ -31,7 +31,8 @@
   </div>
 </template>
 <script setup>
-import { ref, watch, onMounted, computed } from 'vue'
+import { ref, watch, onMounted, computed } from 'vue';
+import { useRouter } from 'vue-router';
 import { useAuthStore } from "@priros/common/store/auth.js";
 import { useGnbStore } from "~/store/gnbState.js";
 
@@ -85,6 +86,7 @@ const isValidation = computed(() => {
         credentials.value.password !== '')
 })
 
+const router = useRouter();
 const handlerClickLoginButton = async () => {
   if(!isValidation.value) {
     if(credentials.value.userId === '') {
@@ -104,6 +106,8 @@ const handlerClickLoginButton = async () => {
       localStorage.removeItem('userId')
     }
     await auth.userProfile();
+    gnbStore.deactivate();
+    router.push('/case/my-case/');
   } else {
     alert("아이디 또는 비밀번호가 다릅니다.");
   }
