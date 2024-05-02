@@ -5,7 +5,7 @@ const banners = [
       middleTitle: "PRIROS<br>MARKET" ,
       content: "사건을 자유롭게!<br>무료로 이용해보세요!",
       backgroundColor: "#cff6ff",
-      image: "./img/main/banner01.png",
+      image: "./img/main/banner04.png",
     },
     {
       page: "2",
