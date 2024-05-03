@@ -94,11 +94,11 @@ const handlerClickCard = () => {
     justify-content: center;
     align-items: center;
     gap: 3px;
-    border: 1px solid #d9d9d9;
     border-radius: 4px;
     font-size: 12px;
     font-weight: $ft-medium;
-    background-color: rgba(0, 0, 0, 0.02);
+    background-color: #f5f6f7;
+    color: #969696;
     padding: 5px 6px;
   }
   .my-case-card-time {
@@ -107,11 +107,11 @@ const handlerClickCard = () => {
     justify-content: center;
     align-items: center;
     gap: 3px;
-    border: 1px solid #e0e0e0;
     border-radius: 4px;
     font-size: 12px;
     font-weight: $ft-medium;
-    color: #939393;
+    background-color: #f5f6f7;
+    color: #969696;
     padding: 5px 6px;
   }
   .my-case-card-address {
