@@ -37,7 +37,7 @@ const isNew = computed(() => {
     }
   }
   .notice-card-date {
-    margin-top: 3px;
+    margin-top: 6px;
     font-size: 12px;
     font-weight: $ft-medium;
     color: #c0c0c0;
