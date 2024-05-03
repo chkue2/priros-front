@@ -86,11 +86,11 @@
         <div class="detail-case-table-contents">{{ mortgageLoan }}원</div>
         <div class="detail-case-table-header">설정대리인</div>
         <div class="detail-case-table-contents flex-spacebetween">
-          {{ detailCaseStore.fetchedDetailCase['mortgageFirmName'] }} <button class="detail-case-button" @click="toggleConfigAgentModalShow">확인</button>
+          <span>{{ detailCaseStore.fetchedDetailCase['mortgageFirmName'] }}</span> <button class="detail-case-button" @click="toggleConfigAgentModalShow">확인</button>
         </div>
         <div class="detail-case-table-header">등록기관</div>
         <div class="detail-case-table-contents flex-spacebetween">
-          {{ detailCaseStore.fetchedDetailCase['registFirmName'] }} <button class="detail-case-button" @click="toggleRegistrarModalShow">확인</button>
+          <span>{{ detailCaseStore.fetchedDetailCase['registFirmName'] }}</span> <button class="detail-case-button" @click="toggleRegistrarModalShow">확인</button>
         </div>
         <div class="detail-case-table-header">배상책임보험</div>
         <div class="detail-case-table-contents">{{ liabilityInsurance }}</div>

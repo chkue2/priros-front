@@ -230,6 +230,7 @@ const handlerClickMoveToNoticeList = () => {
   line-height: 26px;
   margin: 48px 0 10px;
   padding: 0 16px;
+  font-weight: $ft-bold;
 }
 .main-content-text {
   font-size: 14px;
