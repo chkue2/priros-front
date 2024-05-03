@@ -240,7 +240,7 @@ const handlerClickMoveToNoticeList = () => {
   line-height: 24px;
 }
 .main-how-to-use-container {
-  margin: 28px 0 87px;
+  margin: 28px 0 50px;
   padding: 0 16px;
   .how-to-use-title {
     font-size: 12px;
