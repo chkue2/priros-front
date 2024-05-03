@@ -439,7 +439,7 @@ const contractModalOpen = () => {
 }
 const contractImageSrc = computed(() => {
   if(contractFile.value.fileDataEncodeBase64 === null) {
-    return '/img/cha/cha-empty-file.png'
+    return '/img/cha/cha-empty-01.png'
   }
   else if(contractFile.value.fileExt.toLowerCase() === 'pdf') {
     return contractFile.value.fileDataEncodeBase64
@@ -465,7 +465,7 @@ const previewFile = ref({
 })
 const filePreviewImageSrc = computed(() => {
   if(previewFile.value.fileDataEncodeBase64 === null) {
-    return '/img/cha/cha-empty-file.png'
+    return '/img/cha/cha-empty-01.png'
   }
   else if(previewFile.value.fileExt.toLowerCase() === 'pdf') {
     return previewFile.value.fileDataEncodeBase64

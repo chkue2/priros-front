@@ -178,7 +178,7 @@ const previewFileExt = computed(() =>
 const previewFileSrc = computed(() => {
   const type = ['png', 'jpg', 'jpeg'].includes(previewFileExt.value) ? 'image' : 'appication/pdf'
   return isEmpty(insuranceFileData.value.insuranceFile) ?
-    '/img/cha/cha-empty-file.png' :
+    '/img/cha/cha-empty-01.png' :
     `data:${type}/${previewFileExt.value};base64,${insuranceFileData.value.insuranceFile}`
 })
 

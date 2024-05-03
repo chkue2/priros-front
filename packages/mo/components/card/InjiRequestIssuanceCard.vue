@@ -171,6 +171,7 @@ const handlerClickApplyButton = () => {
     font-weight: $ft-bold;
     border: none;
     cursor: pointer;
+    font-size: 16px;
     &.button--close {
       background-color: #ffffff;
     }

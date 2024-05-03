@@ -1,7 +1,7 @@
 <template>
   <div class="common-alert-modal">
     <div class="alert-modal-container">
-      <img src="/img/icon/logo-mo.svg" alt="" class="alert-modal-logo">
+      <img src="/img/icon/logo-mo-02.svg" alt="" class="alert-modal-logo">
       <p class="alert-modal-text" v-html="text"></p>
       <button class="alert-modal-bottom-button" @click="handlerClickOkButton">확인</button>
     </div>
@@ -60,7 +60,7 @@ onBeforeUnmount(() => {
       height: auto;
     }
     .alert-modal-text {
-      margin: 6px 0 20px;
+      margin: 40px 0;
       font-size: 14px;
       line-height: 19px;
       font-weight: $ft-medium;
