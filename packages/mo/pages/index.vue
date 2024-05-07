@@ -44,18 +44,19 @@
     </div>
     <NoticeCard :notice="recentBoard" />
   </div>
-  <p class="main-title-text">프리로스마켓은 어떤 앱인가요?</p>
-  <p class="main-content-text">프리로스마켓은 부동산 등기가 필요한 사람과 등기사건을 수행하는 전문가가 만나는 공간입니다.</p>
+  <p class="main-title-text">프리로스 마켓은 어떤 곳인가요?</p>
+  <p class="main-content-text">등기업무를 만나는 새로운 방법을 제공합니다. 프리로스는 등기를 요청하는 사람, 등기를 수행하는 사람 모두가 만나는 등기업무 협업공간 입니다.</p>
   <div class="main-how-to-use-container">
     <p class="how-to-use-title">HOW TO USE</p>
     <MainHowToUseCard v-for="(how, index) in howToUse" :key="index" :how-config="how" />
   </div>
-  <p class="main-title-text">우리의 든든한 파트너</p>
+  <p class="main-title-text">프리로스와 함께하는 기관</p>
   <div class="main-partner-container">
     <swiper
       slides-per-view="auto"
       :autoplay="true"
-      :space-between="6">
+      :space-between="6"
+      :modules="modules">
       <swiper-slide v-for="(partner, index) in partners" :key="index" :width="120">
         <img :src="partner" alt>
       </swiper-slide>

@@ -1,7 +1,7 @@
 export default [
     {
         type: "link",
-        subtitle: "오늘이 잔금일인 사건에 보고할 수 있어요",
+        subtitle: "각종 보고 업무를 수행할 수 있어요",
         title: "내 사건",
         to: "/case/my-case",
         active: false,

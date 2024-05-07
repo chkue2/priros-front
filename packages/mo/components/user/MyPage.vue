@@ -7,7 +7,7 @@
         </p>
         <p>마이페이지</p>
       </div>
-      <div class="sub-title">{{ profile.firmName }} 법률사무소</div>
+      <div class="sub-title">{{ profile.firmName }}</div>
     </div>
     <div class="profile-image">
       <ImageAvatar :src="profileImageUrl"/>
