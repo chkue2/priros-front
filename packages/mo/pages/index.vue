@@ -53,10 +53,18 @@
   <p class="main-title-text">프리로스와 함께하는 기관</p>
   <div class="main-partner-container">
     <swiper
+      :speed="3000"
       slides-per-view="auto"
-      :autoplay="true"
+      :loop="true"
+      :autoplay="{
+        delay: 0,
+        stopOnLastSlide: false,
+        disableOnInteraction: true,
+      }"
       :space-between="6"
-      :modules="modules">
+      :modules="modules"
+      :observer="true"
+      :observe-parents="true">
       <swiper-slide v-for="(partner, index) in partners" :key="index" :width="120">
         <img :src="partner" alt>
       </swiper-slide>
@@ -257,6 +265,9 @@ const handlerClickMoveToNoticeList = () => {
   img {
     width: 120px;
     height: auto;
+  }
+  &:deep(.swiper-wrapper) {
+    transition-timing-function: linear;
   }
   &:deep(.swiper-slide) {
     width: fit-content;
