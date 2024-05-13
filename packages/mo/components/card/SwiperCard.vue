@@ -59,10 +59,10 @@ onMounted(() => {
     font-weight: $ft-medium;
   }
   .swiper-card-middle-title{
-    font-size: 36px;
+    font-size: 30px;
     font-weight: $ft-bold;
     margin: 9px 0 17px;
-    line-height: 35px;
+    line-height: 1.25;
   }
   .swiper-card-image{
     width: calc(100% - 30px);
