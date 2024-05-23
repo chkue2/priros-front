@@ -137,6 +137,12 @@ const handlerClickRemitFileList = () => {
 }
 const handlerChangeRemitFileList = (e) => {
   if(e.target.files.length === 0) return false
+  for(let file of e.target.files) {
+    if(file.size > 10 * 1024 * 1024) {
+      alert('10MB 이상의 파일은 첨부할 수 없습니다.');
+      return false;
+    }
+  }
   remitFileListObj.value = Array.from(e.target.files)
 }
 const remitFileListText = computed(() => {
@@ -152,6 +158,12 @@ const handlerClickProfFileList = () => {
 }
 const handlerChangeProfFileList = (e) => {
   if(e.target.files.length === 0) return false
+  for(let file of e.target.files) {
+    if(file.size > 10 * 1024 * 1024) {
+      alert('10MB 이상의 파일은 첨부할 수 없습니다.');
+      return false;
+    }
+  }
   profFileListObj.value = Array.from(e.target.files)
 }
 const profFileListText = computed(() => {
@@ -167,6 +179,12 @@ const handlerClickEtcFileList = () => {
 }
 const handlerChangeEtcFileList = (e) => {
   if(e.target.files.length === 0) return false
+  for(let file of e.target.files) {
+    if(file.size > 10 * 1024 * 1024) {
+      alert('10MB 이상의 파일은 첨부할 수 없습니다.');
+      return false;
+    }
+  }
   etcFileListObj.value = Array.from(e.target.files)
 }
 const etcFileListText = computed(() => {

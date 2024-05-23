@@ -135,6 +135,12 @@ const handlerClickProfileImageUpload = () => {
 }
 const handlerChangeProfileImage = (e) => {
   if(e.target.files.length === 0) return false
+  for(let file of e.target.files) {
+    if(file.size > 10 * 1024 * 1024) {
+      alert('10MB 이상의 파일은 첨부할 수 없습니다.');
+      return false;
+    }
+  }
   userProfileImageObj.value = e.target.files[0]
   base64(userProfileImageObj.value, 'profileImagePreview')
 }

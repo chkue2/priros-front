@@ -171,6 +171,12 @@ const handlerClickProfileImageUpload = () => {
 const handlerChangeProfileImage = (e) => {
   if(e.target.files.length === 0) return false
   const file = e.target.files[0]
+  for(let file of e.target.files) {
+    if(file.size > 10 * 1024 * 1024) {
+      alert('10MB 이상의 파일은 첨부할 수 없습니다.');
+      return false;
+    }
+  }
   form.value['userProfileImage'] = file
   base64(file, 'profileImagePreview')
 }
@@ -203,6 +209,12 @@ const handlerClickBusinessLicenseFile = () => {
 }
 const handlerChangeBusinessLicenseFile = (e) => {
   if(e.target.files.length === 0) return false
+  for(let file of e.target.files) {
+    if(file.size > 10 * 1024 * 1024) {
+      alert('10MB 이상의 파일은 첨부할 수 없습니다.');
+      return false;
+    }
+  }
   form.value['businessLicense'] = e.target.files[0]
 }
 const businessLicenseButtonText = computed(() => 
@@ -216,6 +228,12 @@ const handlerClickExpertLicenseFile = () => {
 }
 const handlerChangeExpertLicenseFile = (e) => {
   if(e.target.files.length === 0) return false
+  for(let file of e.target.files) {
+    if(file.size > 10 * 1024 * 1024) {
+      alert('10MB 이상의 파일은 첨부할 수 없습니다.');
+      return false;
+    }
+  }
   form.value['expertLicense'] = e.target.files[0]
 }
 const expertLicenseButtonText = computed(() => 
@@ -229,6 +247,12 @@ const handlerClickCertFile = () => {
 }
 const handlerChangeCertFile = (e) => {
   if(e.target.files.length === 0) return false
+  for(let file of e.target.files) {
+    if(file.size > 10 * 1024 * 1024) {
+      alert('10MB 이상의 파일은 첨부할 수 없습니다.');
+      return false;
+    }
+  }
   form.value['cert'] = e.target.files[0]
 }
 const certButtonText = computed(() => 

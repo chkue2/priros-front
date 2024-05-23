@@ -179,6 +179,12 @@ const handlerChangeFileList = (e) => {
     alert('파일은 한번에 최대 5개까지만 첨부 가능합니다.');
     return false;
   }
+  for(let file of files) {
+    if(file.size > 10 * 1024 * 1024) {
+      alert('10MB 이상의 파일은 첨부할 수 없습니다.');
+      return false;
+    }
+  }
   fileListObj.value = files
   form.value.requestReportFileList = fileListObj.value
 }
