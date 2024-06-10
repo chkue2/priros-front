@@ -12,7 +12,7 @@
         </div>
         <div class="info-item">
           <dt>이메일</dt>
-          <dd>priros@lawandtech@co.kr</dd>
+          <dd>priros@lawandtech.co.kr</dd>
         </div>
         <div class="info-item" @click="toggleFooterOpen">
           <dt>주식회사 로앤텍</dt>
