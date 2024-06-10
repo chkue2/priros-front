@@ -141,7 +141,7 @@ const isPlusButton = computed(() => {
 const isAccountValidation = computed(() => {
   for(const t of transferStore.transfer) {
     for(const v of transferStore.validate){
-      if(t[v] === undefined || t[v] === '' || t[v] === '0') return false
+      if(t[v] === undefined || t[v]?.replaceAll(' ', '') === '' || t[v] === '0') return false
     }
   }
   return true
