@@ -40,5 +40,12 @@ export default [
                 // }
             }
         ],
-    }
+    },
+    // {
+    //     type: "link",
+    //     subtitle: "고객의 사건을 직접 등록하고 싶을때",
+    //     title: "프로필카드 보내기",
+    //     to: "/user/send/profile",
+    //     active: false,
+    // },
 ];
