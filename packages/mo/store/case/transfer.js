@@ -114,7 +114,8 @@ export const useTransferStore = defineStore('transfer', {
         buyerPayoutAccountHolder: this.transfer[0].holder,
         buyerPayoutAccountNumber: this.transfer[0].account,
         memo: this.memo,
-        deductionYn: this.deductionYn ? 'Y' : 'N'
+        deductionYn: 'Y',
+        // deductionYn: this.deductionYn ? 'Y' : 'N'
       }
       if(this.seq > 0 && this.seq !== null) {
         formData = {...formData, seq: this.seq}

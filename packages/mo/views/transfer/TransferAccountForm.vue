@@ -20,7 +20,7 @@
         </div>
       </div>
     </div>
-    <label class="transfer-top-intro">
+    <label v-if="false" class="transfer-top-intro">
       <input v-if="!isTransferApply && !isEdit" v-model="transferStore.deductionYn" type="checkbox" @click="handlerClickDeducationCheckbox">
       금융기관의 설정비용(채권/인지)을 공제하지 않고 대출금 전액을 송금요청 합니다.
     </label>
