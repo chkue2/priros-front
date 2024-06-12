@@ -17,14 +17,19 @@
         <img :src="bankIcon" aria-hidden alt="">
         <p>{{ bankTitle }}</p>
       </div>
+      <div v-if="false" class="my-case-card-bank">
+        <img src="/img/icon/soda.png" aria-hidden alt="">
+        <p>등기소다</p>
+      </div>
       <span class="my-case-card-tag" v-for="(tag, index) in tags" :key="index">{{ tag }}</span>
     </div>
     <div class="my-case-card-status">
+        <span v-if="supplementText !== ''" class="my-case-card-supplement" :class="{wait: caseConfig.registSupplement === 'R'}">{{ supplementText }}</span>
         <span class="my-case-card-state" :class="{active: caseConfig.estimateFlag === 'Y'}">견적</span>
         <span class="my-case-card-state" :class="{active: caseConfig.acceptChargeFlag === 'Y'}">담당자</span>
         <span class="my-case-card-state" :class="{active: caseConfig.issueTimeFlag === 'Y'}">일정</span>
-        <span class="my-case-card-state" :class="{active: caseConfig.remitFlag === 'Y'}">송금요청</span>
-        <span class="my-case-card-state" :class="{active: caseConfig.requestReportFlag === 'Y'}">신청정보</span>
+        <span class="my-case-card-state" :class="[{active: caseConfig.remitFlag === 'Y'}, {fail: caseConfig.remitState === 'N'}]">{{transferText}}</span>
+        <span class="my-case-card-state" :class="{active: caseConfig.requestReportFlag === 'Y'}">정보</span>
         <span v-if="caseConfig.repayFlag === 'Y'" class="my-case-card-state" :class="{active: caseConfig.repayReportFlag === 'Y'}">상환</span>
         <span class="my-case-card-state" :class="{active: caseConfig.receiveFlag === 'Y'}">접수</span>
     </div>
@@ -58,6 +63,22 @@ const bankTitle = computed(() => bankSVG[props.caseConfig.venderId] === undefine
 const tags = computed(() => {
   //return props.caseConfig.tags.map((c) => `#${c}`)
   return []
+})
+
+const transferText = computed(() => {
+  switch(props.caseConfig.remitState) {
+    case 'N': return '송금거절'
+    case 'Y': return '송금완료'
+    default: return '송금요청'
+  }
+})
+
+const supplementText = computed(() => {
+  switch(props.caseConfig.registSupplement) {
+    case 'R': return '보완요청'
+    case 'Y': return '보완제출완료'
+    default: return ''
+  }
 })
 
 const router = useRouter()
@@ -153,14 +174,31 @@ const handlerClickCard = () => {
   border: 1px solid #dfdfdf;
   margin-top: 13px;
   gap: 9px;
+  position: relative;
   .my-case-card-state {
     font-size: 12px;
     font-weight: $ft-semibold;
     color: #c2c2c2;
     &.active {
-      color: #000000;
+      color: #334B68;
       font-weight: $ft-bold;
-      text-decoration: underline;
+    }
+    &.ing {
+      color: #00b468;
+    }
+    &.fail {
+      color: #E92C2C;
+    }
+  }
+  .my-case-card-supplement {
+    position: absolute;
+    top: -22px;
+    font-size: 12px;
+    font-weight: $ft-semibold;
+    color: #334B68;
+    right: 0;
+    &.wait {
+      color: #e92c2c;
     }
   }
 }

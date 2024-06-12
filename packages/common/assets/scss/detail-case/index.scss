@@ -1,5 +1,5 @@
 .detail-case-top-container {
-  padding: 54px 16px 0;
+  padding: 27px 16px 0;
   .detail-case-top-title {
     font-size: 20px;
     font-weight: $ft-semibold;
@@ -271,5 +271,31 @@
   &.button--complete {
     background-color: #E3E3E3;
     color: #828282;
+  }
+}
+.detail-case-status-message {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2px;
+  background-color: #ffe3e3;
+  padding: 2px 0;
+  margin: 4px 0 17px;
+  & > img {
+    width: 17px;
+    height: 17px;
+  }
+  & > p {
+    font-size: 14px;
+    color: #e92c2c;
+  }
+}
+.detail-case-supplement {
+  font-size: 12px;
+  font-weight: $ft-semibold;
+  color: #334B68;
+  right: 0;
+  &.wait {
+    color: #e92c2c;
   }
 }

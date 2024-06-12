@@ -21,8 +21,9 @@
           {{recevDate}} / {{detailCaseStore.fetchedDetailCase['recevNo']}}
         </div>
         <div class="detail-case-table-header">등기필정보 보완보고</div>
-        <div class="detail-case-table-contents">
+        <div class="detail-case-table-contents flex-spacebetween">
           <button class="detail-case-button button--blue" @click="toggleSupplementationModalShow">보완보고</button>
+          <p v-if="supplementText !== ''" class="detail-case-supplement" :class="{wait: detailCaseStore.fetchedDetailCase.registSupplement === 'R'}">{{ supplementText }}</p>
         </div>
       </div>
     </div>
@@ -36,6 +37,10 @@
         <button v-else-if="['JS_10', 'JS_20'].includes(detailCaseStore.fetchedDetailCase.revenueStampState)" class="inji-button button--progress"><img src="/img/icon/inji-logo.svg" /><span>전자수입인지 발행요청중</span></button>
         <button v-else class="inji-button button--complete"><img src="/img/icon/inji-logo.svg" /><span>전자수입인지 발행완료</span></button>
         <button v-if="false" class="detail-case-button button--gray">매수인/매도인 등록</button>
+      </div>
+      <div v-if="warningText !== ''" class="detail-case-status-message">
+        <img src="/img/icon/pin-red.png" />
+        <p>{{ warningText }}</p>
       </div>
       <div class="detail-case-status-card-container">
         <DetailCaseStatusCard 
@@ -338,6 +343,22 @@ const statusForFetchedDetailCase = (state) => {
       return 'Y'
   }
 }
+
+const supplementText = computed(() => {
+  switch(detailCaseStore.fetchedDetailCase.registSupplement) {
+    case 'R': return '보완요청'
+    case 'Y': return '보완제출완료'
+    default: return ''
+  }
+})
+
+const warningText = computed(() => {
+  switch(detailCaseStore.fetchedDetailCase.remitState) {
+    case 'N': return '송금요청이 거절되었어요 확인해주세요'
+    case 'Y': return '송금이 완료되었어요 확인해주세요'
+    default: return ''
+  }
+})
 
 const tab = ref('changed')
 const handlerClickTab = (v) => {

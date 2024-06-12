@@ -19,7 +19,7 @@
     </div>
   </div>
   <div v-if="caseList.length === 0" class="my-case-empty">
-    <img src="/img/cha/cha-empty.png">
+    <img src="/img/cha/cha-05.png">
     <p class="empty-title">조회된 내사건이 없습니다.</p>
     <p class="empty-subtitle">우리동네 주변 사건을 둘러보세요</p>
   </div>
