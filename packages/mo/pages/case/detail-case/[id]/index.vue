@@ -355,7 +355,6 @@ const supplementText = computed(() => {
 const warningText = computed(() => {
   switch(detailCaseStore.fetchedDetailCase.remitState) {
     case 'N': return '송금요청이 거절되었어요 확인해주세요'
-    case 'Y': return '송금이 완료되었어요 확인해주세요'
     default: return ''
   }
 })
