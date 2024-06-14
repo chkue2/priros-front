@@ -3,7 +3,7 @@ import { tradeCaseList } from '~/services/tradeCaseList.js'
 
 export const myCaseStore = defineStore('myCase', {
   state: () => ({
-    tab: 'today',
+    tab: 'all',
     filter: 'progress',
     keyword: '',
     fromDate: '',
