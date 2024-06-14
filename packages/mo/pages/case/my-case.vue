@@ -4,7 +4,7 @@
     <div class="my-case-search">
       <img src="/img/icon/search-gray.svg" aria-hidden class="my-case-search-icon">
       <input v-model="caseStore.keyword" type="text" class="my-case-search-input" placeholder="검색어를 입력해주세요" @keyup="handlerKeyupCaseKeyword" @keydown.enter="handlerClickEnterKeyword">
-      <img v-if="caseStore.keyword !== ''" style="width: 14px; height: 14px;" src="/img/icon/close-black.svg" aria-hidden class="my-case-search-icon" @click="handlerClickResetKeyword">
+      <img v-if="caseStore.keyword !== ''" style="width: 14px; height: 14px; margin-right: 14px;" src="/img/icon/close-black.svg" aria-hidden class="my-case-search-icon" @click="handlerClickResetKeyword">
     </div>
   </div>
   <div class="my-case-filters">
