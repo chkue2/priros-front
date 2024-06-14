@@ -3,7 +3,8 @@
     <p class="my-case-search-title">진행중인 내 사건</p>
     <div class="my-case-search">
       <img src="/img/icon/search-gray.svg" aria-hidden class="my-case-search-icon">
-      <input v-model="myCaseStore.keyword" type="text" class="my-case-search-input" placeholder="검색어를 입력해주세요" @keyup="handlerKeyupCaseKeyword" @keydown.enter="handlerClickEnterKeyword">
+      <input v-model="caseStore.keyword" type="text" class="my-case-search-input" placeholder="검색어를 입력해주세요" @keyup="handlerKeyupCaseKeyword" @keydown.enter="handlerClickEnterKeyword">
+      <img v-if="caseStore.keyword !== ''" style="width: 14px; height: 14px;" src="/img/icon/close-black.svg" aria-hidden class="my-case-search-icon" @click="handlerClickResetKeyword">
     </div>
   </div>
   <div class="my-case-filters">
@@ -13,9 +14,9 @@
       <div class="my-case-tab tab-center" :class="{active: caseStore.filter === 'receive'}" @click="handlerClickCaseFilter('receive')">완료({{counter.receive}})</div>
     </div>
     <div class="my-case-date-filters">
-      <div class="my-case-date-filter" :class="{active: caseStore.tab === 'all'}" @click="handlerClickCaseTab('all')">전체</div>
       <div class="my-case-date-filter" :class="{active: caseStore.tab === 'today'}" @click="handlerClickCaseTab('today')">오늘</div>
       <div class="my-case-date-filter" :class="{active: caseStore.tab === 'tomorrow'}" @click="handlerClickCaseTab('tomorrow')">내일</div>
+      <div class="my-case-date-filter" :class="{active: caseStore.tab === 'all'}" @click="handlerClickCaseTab('all')">전체</div>
     </div>
   </div>
   <div v-if="caseList.length === 0" class="my-case-empty">
@@ -74,6 +75,10 @@ const handlerKeyupCaseKeyword = (e) => {
 }
 const handlerClickEnterKeyword = () => {
   isLoadingModalShow.value = true
+  callApi()
+}
+const handlerClickResetKeyword = () => {
+  caseStore.setKeyword('')
   callApi()
 }
 
