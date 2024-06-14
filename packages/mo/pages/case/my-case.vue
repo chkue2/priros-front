@@ -14,8 +14,8 @@
       <div class="my-case-tab tab-center" :class="{active: caseStore.filter === 'receive'}" @click="handlerClickCaseFilter('receive')">완료({{counter.receive}})</div>
     </div>
     <div class="my-case-date-filters">
-      <div class="my-case-date-filter" :class="{active: caseStore.tab === 'today'}" @click="handlerClickCaseTab('today')">오늘</div>
-      <div class="my-case-date-filter" :class="{active: caseStore.tab === 'tomorrow'}" @click="handlerClickCaseTab('tomorrow')">내일</div>
+      <div class="my-case-date-filter" :class="{active: caseStore.tab === 'today'}" @click="handlerClickCaseTab('today')">오늘 잔금일</div>
+      <div class="my-case-date-filter" :class="{active: caseStore.tab === 'tomorrow'}" @click="handlerClickCaseTab('tomorrow')">내일 잔금일</div>
       <div class="my-case-date-filter" :class="{active: caseStore.tab === 'all'}" @click="handlerClickCaseTab('all')">전체</div>
     </div>
   </div>
