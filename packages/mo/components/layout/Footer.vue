@@ -6,6 +6,7 @@
           <dt @click="termsStore.togglePersonalTerm">개인정보 보호정책</dt>
           <dt @click="termsStore.toggleServiceTerm">서비스이용약관</dt>
         </div>
+        <div class="intro-text">(주)로앤텍은 통신판매중개자로 법률 서비스 및 업무 당사자가 아니므로 법률 서비스 및 업무에 대해 책임을 지지 않습니다.</div>
         <div class="info-item">
           <dt>대표전화</dt>
           <dd>1670-2361</dd>
@@ -59,7 +60,7 @@ const toggleFooterOpen = () => {
 <style lang="scss">
 .footer {
   background-color: $footer-bg;
-  padding: 20px 0 40px 20px;
+  padding: 20px 20px 40px 20px;
   font: {
     size: 12px;
     weight: 300;
@@ -88,6 +89,12 @@ const toggleFooterOpen = () => {
         margin-right: 0.5rem;
       }
     }
+  }
+
+  .intro-text {
+    color: #4F4F4F;
+    font-size: 12px;
+    margin: -15px 0 16px;
   }
 
   .copyright {
