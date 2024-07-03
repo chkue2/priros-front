@@ -11,85 +11,154 @@
         </div>
       </div>
     </div>
-    <p class="my-case-card-address">{{ caseConfig.estateAddr }} {{ caseConfig.estateRestAddr }}</p>
+    <p class="my-case-card-address">
+      {{ caseConfig.estateAddr }} {{ caseConfig.estateRestAddr }}
+    </p>
     <div class="my-case-card-tags">
       <div class="my-case-card-bank">
-        <img :src="bankIcon" aria-hidden alt="">
+        <img :src="bankIcon" aria-hidden alt="" />
         <p>{{ bankTitle }}</p>
       </div>
       <div v-if="false" class="my-case-card-bank">
-        <img src="/img/icon/soda.png" aria-hidden alt="">
+        <img src="/img/icon/soda.png" aria-hidden alt="" />
         <p>등기소다</p>
       </div>
-      <span class="my-case-card-tag" v-for="(tag, index) in tags" :key="index">{{ tag }}</span>
+      <span
+        class="my-case-card-tag"
+        v-for="(tag, index) in tags"
+        :key="index"
+        >{{ tag }}</span
+      >
     </div>
-    <div class="my-case-card-status">
-        <span v-if="supplementText !== ''" class="my-case-card-supplement" :class="{wait: caseConfig.registSupplement === 'R'}">{{ supplementText }}</span>
-        <span class="my-case-card-state" :class="{active: caseConfig.estimateFlag === 'Y'}">견적</span>
-        <span class="my-case-card-state" :class="{active: caseConfig.acceptChargeFlag === 'Y'}">담당자</span>
-        <span class="my-case-card-state" :class="{active: caseConfig.issueTimeFlag === 'Y'}">일정</span>
-        <span class="my-case-card-state" :class="[{active: caseConfig.remitFlag === 'Y'}, {fail: caseConfig.remitState === 'N'}]">{{transferText}}</span>
-        <span class="my-case-card-state" :class="{active: caseConfig.requestReportFlag === 'Y'}">정보</span>
-        <span v-if="caseConfig.repayFlag === 'Y'" class="my-case-card-state" :class="{active: caseConfig.repayReportFlag === 'Y'}">상환</span>
-        <span class="my-case-card-state" :class="{active: caseConfig.receiveFlag === 'Y'}">접수</span>
+    <div
+      class="my-case-card-status"
+      :class="{ 'align-left': props.caseConfig.venderId === 'SODA' }"
+    >
+      <span
+        v-if="supplementText !== '' && props.caseConfig.venderId !== 'SODA'"
+        class="my-case-card-supplement"
+        :class="{ wait: caseConfig.registSupplement === 'R' }"
+        >{{ supplementText }}</span
+      >
+      <span
+        v-if="props.caseConfig.venderId !== 'SODA'"
+        class="my-case-card-state"
+        :class="{ active: caseConfig.estimateFlag === 'Y' }"
+        >견적</span
+      >
+      <span
+        class="my-case-card-state"
+        :class="{ active: caseConfig.acceptChargeFlag === 'Y' }"
+        >담당자</span
+      >
+      <span
+        class="my-case-card-state"
+        :class="{ active: caseConfig.issueTimeFlag === 'Y' }"
+        >일정</span
+      >
+      <span
+        v-if="props.caseConfig.venderId !== 'SODA'"
+        class="my-case-card-state"
+        :class="[
+          { active: caseConfig.remitFlag === 'Y' },
+          { fail: caseConfig.remitState === 'N' },
+        ]"
+        >{{ transferText }}</span
+      >
+      <span
+        v-if="props.caseConfig.venderId !== 'SODA'"
+        class="my-case-card-state"
+        :class="{ active: caseConfig.requestReportFlag === 'Y' }"
+        >정보</span
+      >
+      <span
+        v-if="
+          caseConfig.repayFlag === 'Y' && props.caseConfig.venderId !== 'SODA'
+        "
+        class="my-case-card-state"
+        :class="{ active: caseConfig.repayReportFlag === 'Y' }"
+        >상환</span
+      >
+      <span
+        class="my-case-card-state"
+        :class="{ active: caseConfig.receiveFlag === 'Y' }"
+        >접수</span
+      >
     </div>
   </div>
 </template>
 
 <script setup>
-import { computed } from 'vue'
-import { useRouter } from 'vue-router'
-import { changeTimeFormatAmPm, changeTimeFormatAddDot } from '@priros/common/assets/js/utils.js'
-import { bankSVG } from '@priros/common/assets/js/case/bankSVG.js'
+import { bankSVG } from "@priros/common/assets/js/case/bankSVG.js";
+import {
+  changeTimeFormatAddDot,
+  changeTimeFormatAmPm,
+} from "@priros/common/assets/js/utils.js";
+import { computed } from "vue";
+import { useRouter } from "vue-router";
 
 const props = defineProps({
   caseConfig: Object,
-})
+});
 
 const date = computed(() => {
-  return props.caseConfig.issueDate.split('T')[0]
-})
+  return props.caseConfig.issueDate.split("T")[0];
+});
 const time = computed(() => {
-  return changeTimeFormatAmPm(changeTimeFormatAddDot(props.caseConfig.issueTime))
-})
+  return changeTimeFormatAmPm(
+    changeTimeFormatAddDot(props.caseConfig.issueTime)
+  );
+});
 
 const bankIcon = computed(() => {
-  const basePath = '/img/icon/'
-  return bankSVG[props.caseConfig.venderId] === undefined ? '' : basePath + bankSVG[props.caseConfig.venderId].icon
-})
+  const basePath = "/img/icon/";
+  return bankSVG[props.caseConfig.venderId] === undefined
+    ? ""
+    : basePath + bankSVG[props.caseConfig.venderId].icon;
+});
 
-const bankTitle = computed(() => bankSVG[props.caseConfig.venderId] === undefined ? '' : bankSVG[props.caseConfig.venderId].title)
+const bankTitle = computed(() =>
+  bankSVG[props.caseConfig.venderId] === undefined
+    ? ""
+    : bankSVG[props.caseConfig.venderId].title
+);
 
 const tags = computed(() => {
   //return props.caseConfig.tags.map((c) => `#${c}`)
-  return []
-})
+  return [];
+});
 
 const transferText = computed(() => {
-  switch(props.caseConfig.remitState) {
-    case 'N': return '송금거절'
-    case 'Y': return '송금완료'
-    default: return '송금요청'
+  switch (props.caseConfig.remitState) {
+    case "N":
+      return "송금거절";
+    case "Y":
+      return "송금완료";
+    default:
+      return "송금요청";
   }
-})
+});
 
 const supplementText = computed(() => {
-  switch(props.caseConfig.registSupplement) {
-    case 'R': return '보완요청'
-    case 'Y': return '보완제출완료'
-    default: return ''
+  switch (props.caseConfig.registSupplement) {
+    case "R":
+      return "보완요청";
+    case "Y":
+      return "보완제출완료";
+    default:
+      return "";
   }
-})
+});
 
-const router = useRouter()
+const router = useRouter();
 const handlerClickCard = () => {
-  router.push(`/case/detail-case/${props.caseConfig.tradeCaseId}`)
-}
+  router.push(`/case/detail-case/${props.caseConfig.tradeCaseId}`);
+};
 </script>
 
 <style scoped lang="scss">
 .my-case-card {
-  & + .my-case-card{
+  & + .my-case-card {
     margin-top: 11px;
   }
   padding: 13px 18px 18px;
@@ -150,7 +219,7 @@ const handlerClickCard = () => {
   .my-case-card-bank {
     display: flex;
     align-items: center;
-    img{
+    img {
       width: 13px;
       height: 13px;
       margin-right: 4px;
@@ -165,7 +234,7 @@ const handlerClickCard = () => {
     color: #235bed;
   }
 }
-.my-case-card-status{
+.my-case-card-status {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -175,19 +244,22 @@ const handlerClickCard = () => {
   margin-top: 13px;
   gap: 9px;
   position: relative;
+  &.align-left {
+    justify-content: flex-start;
+  }
   .my-case-card-state {
     font-size: 12px;
     font-weight: $ft-semibold;
     color: #c2c2c2;
     &.active {
-      color: #334B68;
+      color: #334b68;
       font-weight: $ft-bold;
     }
     &.ing {
       color: #00b468;
     }
     &.fail {
-      color: #E92C2C;
+      color: #e92c2c;
     }
   }
   .my-case-card-supplement {
@@ -195,7 +267,7 @@ const handlerClickCard = () => {
     top: -22px;
     font-size: 12px;
     font-weight: $ft-semibold;
-    color: #334B68;
+    color: #334b68;
     right: 0;
     &.wait {
       color: #e92c2c;

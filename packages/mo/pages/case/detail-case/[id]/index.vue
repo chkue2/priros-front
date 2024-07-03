@@ -505,18 +505,19 @@ const product = computed(() => {
 });
 
 const status = computed(() => {
-  const state = false // soda 조건 추가
-    ? ["담당자 보고", "일정 보고", "접수보고"]
-    : detailCaseStore.fetchedDetailCase.repayFlag === "Y"
-      ? [
-          "담당자 보고",
-          "일정 보고",
-          "송금요청",
-          "신청정보보고",
-          "상환보고",
-          "접수보고",
-        ]
-      : ["담당자 보고", "일정 보고", "송금요청", "신청정보보고", "접수보고"];
+  const state =
+    detailCaseStore.fetchedDetailCase.venderId === "SODA" // soda 조건 추가
+      ? ["담당자 보고", "일정 보고", "접수보고"]
+      : detailCaseStore.fetchedDetailCase.repayFlag === "Y"
+        ? [
+            "담당자 보고",
+            "일정 보고",
+            "송금요청",
+            "신청정보보고",
+            "상환보고",
+            "접수보고",
+          ]
+        : ["담당자 보고", "일정 보고", "송금요청", "신청정보보고", "접수보고"];
   return state.map((s) => {
     return {
       title: s,
