@@ -528,6 +528,7 @@ const handlerClickDeducationCheckbox = (e) => {
     & > input {
       border: none;
       font-size: 16px;
+      max-width: 165px;
     }
     & > button {
       min-width: 105px;
