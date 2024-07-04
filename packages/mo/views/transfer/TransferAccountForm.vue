@@ -10,6 +10,12 @@
       {{ resultContents.title }}
     </p>
     <p class="transfer-result-content">{{ resultContents.content }}</p>
+    <p
+      v-if="transferStore.remitState === 'W'"
+      class="transfer-result-help-content"
+    >
+      송금요청 내용 중에 수정이 필요한 경우 고객센터로 연락부탁드립니다.
+    </p>
   </div>
   <div class="transfer-top-container">
     <div class="transfer-top-amount">
@@ -308,6 +314,7 @@ const timerMin = ref(0);
 const timerSec = ref(0);
 const timerInterval = ref(null);
 const handlerClickApprovalSendButton = () => {
+  if (isSuccess.value) return false;
   if (!isSaved.value) {
     alert("계좌 정보를 먼저 저장해주세요.");
     return;
@@ -366,22 +373,24 @@ const handlerClickEditButton = () => {
   isApprovalApply.value = false;
 };
 
-const handlerClickTransferApplyButton = () => {
-  if (!isApprovalApply.value) {
-    alert("인증을 완료해주세요.");
-    window.scrollTo({ top: 9999, behavior: "smooth" });
-    return;
-  }
-  transferStore
-    .requestRemit(tradeCaseId)
-    .then(() => {
-      toggleTransferApplyModalShow();
-      transferStore.fetchRemit(tradeCaseId);
-    })
-    .catch((e) => {
-      alert(e.response.data.message.replace(/<br>/gi, "\n"));
-    });
-};
+// 송금요청 버튼 따로 있을 때 사용하던 로직
+// 현재는 인증완료시 송금요청이 바로 되는 상황이라 사용하지 않음.
+// const handlerClickTransferApplyButton = () => {
+//   if (!isApprovalApply.value) {
+//     alert("인증을 완료해주세요.");
+//     window.scrollTo({ top: 9999, behavior: "smooth" });
+//     return;
+//   }
+//   transferStore
+//     .requestRemit(tradeCaseId)
+//     .then(() => {
+//       toggleTransferApplyModalShow();
+//       transferStore.fetchRemit(tradeCaseId);
+//     })
+//     .catch((e) => {
+//       alert(e.response.data.message.replace(/<br>/gi, "\n"));
+//     });
+// };
 
 const handlerClickSuccessButton = () => {
   router.back();
@@ -588,6 +597,14 @@ const handlerClickDeducationCheckbox = (e) => {
     font-size: 14px;
     font-weight: $ft-medium;
     text-align: center;
+  }
+  .transfer-result-help-content {
+    margin-top: 8px;
+    padding: 2px;
+    background-color: #ececec;
+    color: #304b78;
+    font-size: 12px;
+    font-weight: $ft-medium;
   }
 }
 </style>
