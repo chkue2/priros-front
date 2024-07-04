@@ -17,7 +17,7 @@
       송금요청 내용 중에 수정이 필요한 경우 고객센터로 연락부탁드립니다.
     </p>
   </div>
-  <div class="transfer-top-container">
+  <div class="transfer-top-container" :class="{ bb: !isEdit }">
     <div class="transfer-top-amount">
       <div>
         <p class="transfer-top-title">대출금</p>
@@ -49,6 +49,18 @@
       합니다.
     </label>
   </div>
+  <div class="transfer-type-container">
+    <p class="transfer-type-title">송금방식</p>
+    <DropDown
+      :options="[
+        { value: 'only', text: '일괄송금' },
+        { value: 'split', text: '분할송금' },
+      ]"
+      :is-readonly="isSaved"
+      :selected-text="transferTypeText"
+      @click-option="handlerClickTransferType"
+    />
+  </div>
   <div v-if="isLoadingSuccess" class="transfer-account-container">
     <TransferAccountCard
       v-for="(t, index) in transferStore.transfer"
@@ -57,32 +69,21 @@
       :is-saved="isSaved || isSuccess"
     />
   </div>
-  <div class="transfer-account-button-container">
-    <button
-      v-if="isPlusButton && !isSaved && !isSuccess"
-      class="account-edit-button"
-      :class="{ active: isAccountValidation }"
-      @click="handlerClickAccountPlusButton"
-    >
-      <i class="account-edit-icon"></i>
-      계좌 추가를 원할 경우 눌러주세요
-    </button>
-  </div>
   <div class="transfer-memo-container">
     <p class="transfer-memo-title">송금메모</p>
     <textarea
       v-model="transferStore.memo"
       class="transfer-memo-area"
+      :class="{ 'read-only': isSaved }"
       placeholder="송금메모를 입력해주세요. (최대 50자 이내)"
       :readonly="isSaved"
       maxlength="50"
     ></textarea>
   </div>
   <div class="transfer-warning-container">
-    <span class="title-green-box">송금요청전 확인</span>
     <p class="transfer-warning-text">
-      송금 사건별로 순차 진행되므로 <b>약 10~20분이</b> 소요됩니다.<br />
-      송금요청장애 문의전화 <a href="tel:1670-2361">1670-2361</a>
+      • 송금 사건별로 순차 진행되므로 약 10~20분이 소요됩니다.<br />
+      • 송금요청장애 문의전화 <a href="tel:1670-2361">1670-2361</a>
     </p>
   </div>
   <div v-if="!isSuccess" class="transfer-approval-container">
@@ -182,6 +183,7 @@
 
 <script setup>
 import CommonBottomButton from "@priros/common/components/button/CommonBottomButton.vue";
+import DropDown from "@priros/common/components/form/DropDown.vue";
 import CommonAlertModal from "@priros/common/components/modal/CommonAlertModal.vue";
 import { computed, onMounted, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
@@ -202,15 +204,7 @@ const isTransferApplyModalShow = ref(false);
 
 const isLoadingSuccess = ref(false);
 onMounted(() => {
-  Promise.all([transferStore.fetchRemit(tradeCaseId)])
-    .catch((e) => {
-      alert(e.response.data.message.replace(/<br>/gi, "\n"));
-      router.back();
-    })
-    .finally(() => {
-      setState();
-      isLoadingSuccess.value = true;
-    });
+  callApi();
 });
 
 watch(
@@ -247,9 +241,9 @@ const resultContents = computed(() => {
         };
 });
 
-const isPlusButton = computed(() => {
-  return transferStore.transfer.length === 1;
-});
+const transferTypeText = computed(() =>
+  transferStore.transferType === "only" ? "일괄송금" : "분할송금"
+);
 
 const isAccountValidation = computed(() => {
   for (const t of transferStore.transfer) {
@@ -283,13 +277,16 @@ const toggleTransferApplyModalShow = () => {
   isTransferApplyModalShow.value = !isTransferApplyModalShow.value;
 };
 
-const handlerClickAccountPlusButton = () => {
-  if (!isAccountValidation.value) {
-    alert("계좌1의 정보를 모두 입력해주세요.");
-    return;
-  }
-
-  transferStore.setTransferDataPlus();
+const callApi = () => {
+  Promise.all([transferStore.fetchRemit(tradeCaseId)])
+    .catch((e) => {
+      alert(e.response.data.message.replace(/<br>/gi, "\n"));
+      router.back();
+    })
+    .finally(() => {
+      setState();
+      isLoadingSuccess.value = true;
+    });
 };
 
 const handlerClickSaveButton = () => {
@@ -361,6 +358,7 @@ const handlerClickApprovalApplyButton = () => {
       isApprovalApply.value = true;
       alert("송금요청이 전송되었습니다.");
       window.scrollTo({ top: 0, behavior: "smooth" });
+      callApi();
     })
     .catch((e) => {
       alert(e.response.data.message.replace(/<br>/gi, "\n"));
@@ -402,12 +400,24 @@ const handlerClickDeducationCheckbox = (e) => {
     return false;
   }
 };
+
+const handlerClickTransferType = ({ value }) => {
+  transferStore.transferType = value;
+  if (value === "only" && transferStore.transfer.length > 1) {
+    transferStore.setTransferDataMinus();
+  } else if (value === "split" && transferStore.transfer.length === 1) {
+    transferStore.setTransferDataPlus();
+  }
+};
 </script>
 
 <style scoped lang="scss">
 @import "@priros/common/assets/scss/transfer/common.scss";
 .transfer-top-container {
   padding: 40px 16px 26px;
+  &.bb {
+    border-bottom: 8px solid #f2f3f5;
+  }
 }
 .transfer-top-amount {
   display: flex;
@@ -496,8 +506,7 @@ const handlerClickDeducationCheckbox = (e) => {
 .transfer-warning-container {
   padding: 19px 16px 30px;
   .transfer-warning-text {
-    font-size: 13px;
-    color: #252525;
+    font-size: 12px;
     margin-top: 10px;
     line-height: 25px;
     a {
@@ -605,6 +614,14 @@ const handlerClickDeducationCheckbox = (e) => {
     color: #304b78;
     font-size: 12px;
     font-weight: $ft-medium;
+  }
+}
+.transfer-type-container {
+  padding: 18px 16px 24px;
+  .transfer-type-title {
+    font-size: 14px;
+    font-weight: $ft-bold;
+    margin-bottom: 8px;
   }
 }
 </style>

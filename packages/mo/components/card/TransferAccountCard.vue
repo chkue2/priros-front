@@ -1,90 +1,130 @@
 <template>
-  <div class="transfer-account-card" :class="[{'bd': idx > 0 || isSaved}, {'saved': isSaved}, {pc: isPc}]">
-    <p class="transfer-account-card-title">계좌 {{ idx + 1 }}</p>
-    <button v-if="idx > 0 && !isSaved" class="transfer-account-delete-button" @click="transferStore.setTransferDataMinus">
-      삭제<img src="/img/icon/delete-black.svg">
-    </button>
+  <div class="transfer-account-card" :class="[{ pc: isPc }]">
+    <p class="transfer-account-card-title">
+      {{ idx === 0 ? "상환금" : "지급금" }}
+      <span v-if="idx === 0">상환금 요청계좌는 가상계좌 외 직접입력 불가</span>
+    </p>
     <div class="transfer-account-amount">
-      <p class="transfer-account-amount-title">이체금액</p>
+      <p class="transfer-account-amount-title">요청금액</p>
       <div class="transfer-account-amount-input">
-        <input v-model="accountInfoSelectedValue['amount']" type="text" :readonly="isSaved">
+        <input
+          v-model="accountInfoSelectedValue['amount']"
+          type="text"
+          :readonly="isSaved"
+        />
         <span>원</span>
       </div>
     </div>
-    <p class="transfer-account-card-title ft-16">계좌 정보</p>
-    <DropDown placeholder="계좌 선택하기" :is-readonly="isSaved" :options="transferStore.cardOptions" :selected-text="selectedText" :is-body-lock="!isPc" @click-option="handlerSelectValue"/>
-    <p class="transfer-account-card-title ft-14 mt-12">은행명</p>
-    <DropDown placeholder="은행 선택하기" :is-readonly="isReadonly" :options="transferStore.bankOptions" :selected-text="bankSelectedText" :is-body-lock="!isPc" @click-option="handlerBankSelectValue"/>
+    <p class="transfer-account-card-title">계좌 정보</p>
+    <DropDown
+      placeholder="계좌 선택하기"
+      :is-readonly="isSaved"
+      :options="transferStore.cardOptions"
+      :selected-text="selectedText"
+      :is-body-lock="!isPc"
+      @click-option="handlerSelectValue"
+    />
+    <p class="transfer-account-card-title mt-12">은행명</p>
+    <DropDown
+      placeholder="은행 선택하기"
+      :is-readonly="isReadonly"
+      :options="transferStore.bankOptions"
+      :selected-text="bankSelectedText"
+      :is-body-lock="!isPc"
+      @click-option="handlerBankSelectValue"
+    />
     <div class="transfer-account-card-double-block">
       <div class="transfer-account-card-block">
-        <p class="transfer-account-card-title ft-14">예금주</p>
-        <input v-model="accountInfoSelectedValue['holder']" type="text" :readonly="isReadonly" placeholder="예금주 명">
+        <p class="transfer-account-card-title">예금주</p>
+        <input
+          v-model="accountInfoSelectedValue['holder']"
+          type="text"
+          :readonly="isReadonly"
+          placeholder="예금주 명"
+        />
       </div>
       <div class="transfer-account-card-block">
-        <p class="transfer-account-card-title ft-14">계좌번호<span>- 없이 계좌번호 입력 바랍니다.</span></p>
-        <input v-model="accountInfoSelectedValue['account']" type="tel" :readonly="isReadonly" placeholder="계좌번호를 입력해주세요" @keyup="replaceSpace">
+        <p class="transfer-account-card-title">
+          계좌번호<span>- 없이 계좌번호 입력 바랍니다.</span>
+        </p>
+        <input
+          v-model="accountInfoSelectedValue['account']"
+          type="tel"
+          :readonly="isReadonly"
+          placeholder="계좌번호를 입력해주세요"
+          @keyup="replaceSpace"
+        />
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref, computed, watch } from 'vue'
-import { useTransferStore } from '~/store/case/transfer.js'
-import DropDown from '@priros/common/components/form/DropDown.vue'
+import DropDown from "@priros/common/components/form/DropDown.vue";
+import { computed, ref, watch } from "vue";
+import { useTransferStore } from "~/store/case/transfer.js";
 
 const props = defineProps({
   idx: Number,
   isSaved: Boolean,
   isPc: {
     type: Boolean,
-    default: false
+    default: false,
   },
-})
-const transferStore = useTransferStore()
+});
+const transferStore = useTransferStore();
 
-const selectedValue = ref({})
-const accountInfoSelectedValue = ref(transferStore.transfer[props.idx])
+const selectedValue = ref({});
+const accountInfoSelectedValue = ref(transferStore.transfer[props.idx]);
 
-const handlerSelectValue = ({value}) => {
-  selectedValue.value = value
-  if(value.account !== '') {
-    accountInfoSelectedValue.value['bank'] = value.bank
-    accountInfoSelectedValue.value['bankCode'] = value.bankCode
-    accountInfoSelectedValue.value['account'] = value.account
-    accountInfoSelectedValue.value['holder'] = value.holder
+const handlerSelectValue = ({ value }) => {
+  selectedValue.value = value;
+  if (value.account !== "") {
+    accountInfoSelectedValue.value["bank"] = value.bank;
+    accountInfoSelectedValue.value["bankCode"] = value.bankCode;
+    accountInfoSelectedValue.value["account"] = value.account;
+    accountInfoSelectedValue.value["holder"] = value.holder;
   }
-}
+};
 const selectedText = computed(() => {
-  return selectedValue.value['bank'] === undefined ? '' : `${selectedValue.value['bank']} ${selectedValue.value['account']}`
-})
+  return selectedValue.value["bank"] === undefined
+    ? ""
+    : `${selectedValue.value["bank"]} ${selectedValue.value["account"]}`;
+});
 
 const isReadonly = computed(() => {
-  return selectedValue.value['bank'] !== '직접 입력하기' || props.isSaved
-})
-const handlerBankSelectValue = ({value}) => {
-  accountInfoSelectedValue.value['bank'] = value.bank
-  accountInfoSelectedValue.value['bankCode'] = value.bankCode
-}
+  return selectedValue.value["bank"] !== "직접 입력하기" || props.isSaved;
+});
+const handlerBankSelectValue = ({ value }) => {
+  accountInfoSelectedValue.value["bank"] = value.bank;
+  accountInfoSelectedValue.value["bankCode"] = value.bankCode;
+};
 const bankSelectedText = computed(() => {
-  return accountInfoSelectedValue.value['bank']
-})
+  return accountInfoSelectedValue.value["bank"];
+});
 
-const replaceSpace = e => {
-  e.target.value = e.target.value.replaceAll(' ', '')
-}
+const replaceSpace = (e) => {
+  e.target.value = e.target.value.replaceAll(" ", "");
+};
 
-watch(() => accountInfoSelectedValue, () => {
-  accountInfoSelectedValue.value.amount = Number(accountInfoSelectedValue.value?.amount?.replace(/[^0-9]/g, '')).toLocaleString()
-  transferStore.setTransferData({value: accountInfoSelectedValue.value, idx: props.idx})
-}, {deep: true})
-
+watch(
+  () => accountInfoSelectedValue,
+  () => {
+    accountInfoSelectedValue.value.amount = Number(
+      accountInfoSelectedValue.value?.amount?.replace(/[^0-9]/g, "")
+    ).toLocaleString();
+    transferStore.setTransferData({
+      value: accountInfoSelectedValue.value,
+      idx: props.idx,
+    });
+  },
+  { deep: true }
+);
 </script>
 
 <style lang="scss" scoped>
 .transfer-account-card {
   padding: 16px 7px 27px 7px;
-  border-top: $border-bottom-between-header;
   position: relative;
   &.pc {
     width: calc(50% - 24px);
@@ -101,26 +141,24 @@ watch(() => accountInfoSelectedValue, () => {
   &.pc:not(.bd) {
     border-top: none;
   }
+  & + .transfer-account-card {
+    border-top: 1px dotted #e1e1e1;
+  }
 }
 .transfer-account-card-title {
-  font-size: 19px;
   font-weight: $ft-bold;
-  color: #181818;
+  color: #000000;
   margin-bottom: 8px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  &.ft-16 {
-    font-size: 16px;
-  }
-  &.ft-14 {
-    font-size: 14px;
-  }
+  font-size: 14px;
   &.mt-12 {
     margin-top: 12px;
   }
   & > span {
     font-size: 11px;
+    color: #676767;
     font-weight: $ft-regular;
   }
 }
@@ -152,7 +190,7 @@ watch(() => accountInfoSelectedValue, () => {
     height: 40px;
     display: flex;
     align-items: center;
-    padding: 0 8px;
+    padding: 0 18px;
     font-size: 14px;
     color: #4f4f4f;
     border-radius: 4px 0 0 4px;
@@ -168,7 +206,7 @@ watch(() => accountInfoSelectedValue, () => {
     border-radius: 0 4px 4px 0;
     border: 1px solid #e5e5e5;
     padding: 0 12px 0 11px;
-    & > input[type=text] {
+    & > input[type="text"] {
       font-size: 16px;
       font-weight: $ft-bold;
       border: none;
@@ -181,7 +219,7 @@ watch(() => accountInfoSelectedValue, () => {
     }
   }
 }
-.transfer-account-card-double-block{
+.transfer-account-card-double-block {
   display: flex;
   margin-top: 12px;
   gap: 14px;
@@ -192,7 +230,6 @@ watch(() => accountInfoSelectedValue, () => {
     }
     &:last-child {
       width: calc(65% - 7px);
-
     }
     input {
       width: 100%;

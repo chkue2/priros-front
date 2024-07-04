@@ -40,10 +40,9 @@
     padding-top: 0;
   }
   .transfer-memo-title {
-    font-size: 14px;
-    font-weight: $ft-medium;
+    font-size: 12px;
     line-height: 17px;
-    color: rgba(27, 43, 65, 0.69);
+    color: #808080;
     margin-bottom: 4px;
   }
   .transfer-memo-area {
@@ -56,5 +55,9 @@
     font-size: 14px;
     font-weight: $ft-medium;
     color: 000000;
+    &.read-only {
+      background-color: #ededed;
+      border-color: #e5e5e5;
+    }
   }
 }

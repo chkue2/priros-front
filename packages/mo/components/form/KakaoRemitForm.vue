@@ -1,20 +1,60 @@
 <template>
-  <p class="kakao-remit-title">
-    송금요청 후, 대출금 지급까지는<br><b>약1~2분이 소요</b>됩니다.
-  </p>
-  <p class="kakao-remit-subtitle">입금이 지연되는 경우 카카오뱅크에 문의하세요</p>
+  <div v-if="isPossibleApprove" class="kakao-remit-text">
+    <p class="kakao-remit-title">
+      송금요청 후, 대출금 지급까지는<br /><b>약1~2분이 소요</b>됩니다.
+    </p>
+    <p class="kakao-remit-subtitle">
+      입금이 지연되는 경우 카카오뱅크에 문의하세요
+    </p>
+  </div>
+  <div v-if="!isPossibleApprove" class="kakao-remit-text">
+    <p class="kakao-remit-title">
+      <b>송금요청을 이미 진행하셨습니다.</b>
+    </p>
+    <p class="kakao-remit-subtitle">
+      입금이 지연되는 경우 카카오뱅크에 문의하세요
+    </p>
+  </div>
   <div class="kakao-remit-form">
     <div class="kakao-remit-form-title">
       <p class="form-title-text">송금승인번호</p>
-      <p v-if="isApprovalSend && !isApprovalSuccess" class="form-title-resend" @click="handlerClickApprovalSend">재전송</p>
+      <p
+        v-if="isApprovalSend && !isApprovalSuccess"
+        class="form-title-resend"
+        @click="handlerClickApprovalSend"
+      >
+        재전송
+      </p>
     </div>
-    <div class="kakao-remit-form-input" :class="{disabled: isApprovalSuccess}">
-      <input v-model="approvalNumber" type="tel" :readonly="isApprovalSuccess">
-      <p v-if="isApprovalSend && !isApprovalSuccess" class="form-timer">{{ timerMin }}분 {{ timerSec }}초</p>
-      <button v-if="!isApprovalSend" @click="handlerClickApprovalSend">승인번호요청</button>
-      <button v-if="isApprovalSend" @click="handlerClickApprovalCheck">확인</button>
+    <div
+      class="kakao-remit-form-input"
+      :class="{ disabled: isApprovalSuccess }"
+    >
+      <input
+        v-model="approvalNumber"
+        type="tel"
+        :readonly="isApprovalSuccess"
+      />
+      <p v-if="isApprovalSend && !isApprovalSuccess" class="form-timer">
+        {{ timerMin }}분 {{ timerSec }}초
+      </p>
+      <button
+        v-if="!isApprovalSend"
+        :class="{ unActive: !isPossibleApprove }"
+        @click="handlerClickApprovalSend"
+      >
+        승인번호요청
+      </button>
+      <button v-if="isApprovalSend" @click="handlerClickApprovalCheck">
+        확인
+      </button>
     </div>
-    <p v-if="isApprovalFail && !isApprovalSuccess" class="kakao-remit-warning-text">인증번호가 일치하지 않습니다</p>
+    <p
+      v-if="isApprovalFail && !isApprovalSuccess"
+      class="kakao-remit-warning-text"
+    >
+      인증번호가 일치하지 않습니다
+    </p>
   </div>
   <div class="kakao-remit-buttons">
     <button @click="handlerClickCloseModal">닫기</button>
@@ -22,116 +62,128 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { onMounted, ref } from "vue";
 
-import { tradeCaseRemit } from '~/services/tradeCaseRemit'
+import { tradeCaseRemit } from "~/services/tradeCaseRemit";
 
-const props = defineProps({tradeCaseId: String})
-const emits = defineEmits([
-  'close-modal',
-  'open-success-modal'
-])
+const props = defineProps({ tradeCaseId: String });
+const emits = defineEmits(["close-modal", "open-success-modal", "re-call-api"]);
 
-const isApprovalSend = ref(false)
-const isApprovalFail = ref(false)
-const isApprovalSuccess = ref(false)
+const isApprovalSend = ref(false);
+const isApprovalFail = ref(false);
+const isApprovalSuccess = ref(false);
 
-const seq = ref(null)
-const approvalNumber = ref('')
+const seq = ref(null);
+const kakaoState = ref({});
+const approvalNumber = ref("");
+
+const timer = ref(0);
+const timerMin = ref(0);
+const timerSec = ref(0);
+const timerInterval = ref(null);
+
+const isPossibleApprove = computed(() => kakaoState.value.remiteState === "N");
 
 onMounted(() => {
   // 모달 오픈시 seq 생성
-  tradeCaseRemit.getKakao(props.tradeCaseId)
-    .then(({data}) => {
-      seq.value = data.seq
+  tradeCaseRemit
+    .getKakao(props.tradeCaseId)
+    .then(({ data }) => {
+      seq.value = data.seq;
+      kakaoState.value = {
+        approveYn: data.approveYn,
+        remitState: data.remitState,
+      };
     })
-    .catch(e => {
-      alert(e.response.data.message)
-    })
-})
-
-const timer = ref(0)
-const timerMin = ref(0)
-const timerSec = ref(0)
-const timerInterval = ref(null)
+    .catch((e) => {
+      alert(e.response.data.message);
+    });
+});
 
 const handlerClickApprovalSend = () => {
-  tradeCaseRemit.auth(props.tradeCaseId, {seq: seq.value})
+  if (!isPossibleApprove.value) {
+    return false;
+  }
+  tradeCaseRemit
+    .auth(props.tradeCaseId, { seq: seq.value })
     .then(() => {
-      clearInterval(timerInterval.value)
-      timerInterval.value = null
-      timer.value = 300
+      clearInterval(timerInterval.value);
+      timerInterval.value = null;
+      timer.value = 300;
       timerInterval.value = setInterval(() => {
-        timer.value -= 1
-        timerMin.value = Math.floor(timer.value / 60)
-        timerSec.value = timer.value % 60
+        timer.value -= 1;
+        timerMin.value = Math.floor(timer.value / 60);
+        timerSec.value = timer.value % 60;
 
-        if(timer.value === 0) {
-          clearInterval(timerInterval.value)
-          timerInterval.value = null
-          isApprovalSend.value = false
+        if (timer.value === 0) {
+          clearInterval(timerInterval.value);
+          timerInterval.value = null;
+          isApprovalSend.value = false;
         }
-      }, 1000)
+      }, 1000);
 
-      isApprovalSend.value = true
+      isApprovalSend.value = true;
     })
-    .catch(e => {
-      alert(e.response.data.message)
-    })
-}
+    .catch((e) => {
+      alert(e.response.data.message);
+    });
+};
 
 const handlerClickApprovalCheck = () => {
-  if(approvalNumber.value === '') {
-    alert('송금승인번호를 입력해주세요')
-    return false
+  if (approvalNumber.value === "") {
+    alert("송금승인번호를 입력해주세요");
+    return false;
   }
 
-  tradeCaseRemit.authCheck(props.tradeCaseId, {
-    seq: seq.value,
-    authNum: approvalNumber.value
-  })
-  .then(() => {
-    isApprovalFail.value = false
-    isApprovalSuccess.value = true
-    clearInterval(timerInterval.value)
-    timerInterval.value = null
-    emits('open-success-modal')
-    emits('close-modal')
-  })
-  .catch(e => {
-    alert(e.response.data.message)
-    isApprovalFail.value = true
-    isApprovalSuccess.value = false
-  })
-}
+  tradeCaseRemit
+    .authCheck(props.tradeCaseId, {
+      seq: seq.value,
+      authNum: approvalNumber.value,
+    })
+    .then(() => {
+      isApprovalFail.value = false;
+      isApprovalSuccess.value = true;
+      clearInterval(timerInterval.value);
+      timerInterval.value = null;
+      emits("re-call-api");
+      emits("open-success-modal");
+      emits("close-modal");
+    })
+    .catch((e) => {
+      alert(e.response.data.message);
+      isApprovalFail.value = true;
+      isApprovalSuccess.value = false;
+    });
+};
 
 const handlerClickApplyRemit = () => {
-  if(!isApprovalSend.value) {
-    alert('승인번호 요청이 필요합니다')
-    return false
+  if (!isApprovalSend.value) {
+    alert("승인번호 요청이 필요합니다");
+    return false;
   }
-  if(!isApprovalSuccess.value) {
-    alert('승인번호 확인이 필요합니다')
-    return false
+  if (!isApprovalSuccess.value) {
+    alert("승인번호 확인이 필요합니다");
+    return false;
   }
 
-  tradeCaseRemit.postKakao(props.tradeCaseId, {
-    // tradeCaseId: props.tradeCaseId,
-    seq: seq.value
-  })
-  .then(() => {
-    emits('open-success-modal')
-    emits('close-modal')
-  })
-  .catch(e => {
-    console.log(e)
-    alert(e.response.data.message)
-  })
-}
+  tradeCaseRemit
+    .postKakao(props.tradeCaseId, {
+      // tradeCaseId: props.tradeCaseId,
+      seq: seq.value,
+    })
+    .then(() => {
+      emits("open-success-modal");
+      emits("close-modal");
+    })
+    .catch((e) => {
+      console.log(e);
+      alert(e.response.data.message);
+    });
+};
 
 const handlerClickCloseModal = () => {
-  emits('close-modal')
-}
+  emits("close-modal");
+};
 </script>
 
 <style lang="scss" scoped>
@@ -147,7 +199,7 @@ const handlerClickCloseModal = () => {
 }
 .kakao-remit-form {
   margin: 65px 0 37px;
-  padding: 0 24px; 
+  padding: 0 24px;
   .kakao-remit-form-title {
     display: flex;
     justify-content: space-between;
@@ -157,7 +209,7 @@ const handlerClickCloseModal = () => {
   .form-title-text {
     font-size: 14px;
     font-weight: $ft-bold;
-  } 
+  }
   .form-title-resend {
     font-size: 12px;
     font-weight: ft-medium;
@@ -175,7 +227,7 @@ const handlerClickCloseModal = () => {
         background-color: #b5b5b5;
       }
     }
-    & > input[type=tel]{
+    & > input[type="tel"] {
       width: 50%;
       font-size: 14px;
       font-weight: $ft-medium;
@@ -195,6 +247,9 @@ const handlerClickCloseModal = () => {
       top: 50%;
       right: 8px;
       transform: translateY(-50%);
+      &.unActive {
+        background-color: #b5b5b5;
+      }
     }
   }
   .kakao-remit-warning-text {

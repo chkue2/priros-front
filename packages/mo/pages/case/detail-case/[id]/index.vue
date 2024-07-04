@@ -385,6 +385,11 @@
         :trade-case-id="tradeCaseId"
         @close-modal="toggleKaKaoRemitSendModalShow"
         @open-success-modal="toggleKakaoRemitSendSuccessModalShow"
+        @re-call-api="
+          () => {
+            detailCaseStore.fetchDetailCase(tradeCaseId);
+          }
+        "
       />
     </CommonBlackTitleModal>
     <CommonAlertModal
