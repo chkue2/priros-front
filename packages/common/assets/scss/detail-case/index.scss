@@ -8,12 +8,12 @@
     margin-bottom: 34px;
   }
 }
-.detail-case-table{
+.detail-case-table {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   border-top: 1px solid #bebebe;
   border-left: 1px solid #bebebe;
-  .detail-case-table-header{
+  .detail-case-table-header {
     display: flex;
     align-items: center;
     grid-column: span 2;
@@ -36,7 +36,7 @@
     & > span {
       flex: 1;
     }
-    &.ft-14{
+    &.ft-14 {
       font-size: 14px;
       line-height: 19px;
     }
@@ -47,7 +47,7 @@
       justify-content: space-between;
       gap: 20px;
     }
-    &.flex-align-start{
+    &.flex-align-start {
       align-items: flex-start;
     }
     &.flex-column {
@@ -98,7 +98,7 @@
           width: 11px;
           height: 11px;
         }
-        &.success { 
+        &.success {
           color: #ffffff;
           background-color: #000000;
         }
@@ -128,7 +128,7 @@
     background-image: url(/img/icon/expand-right-lightgray-bold.svg);
   }
   &.button--blue {
-    background-color: #128DFF;
+    background-color: #128dff;
     background-image: url(/img/icon/expand-right-white.svg);
     border: none;
     color: #ffffff;
@@ -169,7 +169,7 @@
 .detail-case-info-container {
   padding: 0 16px;
 }
-.detail-case-bottom-container{
+.detail-case-bottom-container {
   margin-top: 30px;
 }
 .detail-case-bottom-tabs {
@@ -189,7 +189,7 @@
     &.active {
       color: #000000;
       &::after {
-        content: '';
+        content: "";
         width: 100%;
         height: 2px;
         background-color: #000000;
@@ -206,12 +206,12 @@
 
 // modal contents
 .contract-container {
-  padding: 24px;
+  padding: 24px 20px;
   .contract-preview {
     width: auto;
     max-width: 100%;
     max-height: 340px;
-    &.scale { 
+    &.scale {
       transform: scaleY(-1);
     }
   }
@@ -233,6 +233,40 @@
       width: 18px;
       height: 18px;
     }
+  }
+  .contract-title {
+    font-weight: $ft-bold;
+    margin-bottom: 7px;
+  }
+  .contract-subtitle {
+    font-size: 12px;
+    font-weight: $ft-medium;
+    padding-bottom: 13px;
+    margin-bottom: 7px;
+    text-align: left;
+    &.bb {
+      border-bottom: 1px solid #c9c9c9;
+    }
+    & > b {
+      color: #005af5;
+      font-weight: $ft-bold;
+    }
+  }
+  .contract-help-title {
+    font-size: 12px;
+    font-weight: $ft-semibold;
+    text-align: left;
+    &.mt40 {
+      margin-top: 40px;
+    }
+    &.mt12 {
+      margin-top: 12px;
+    }
+  }
+  .contract-help-content {
+    font-size: 12px;
+    color: #565656;
+    text-align: left;
   }
 }
 
@@ -261,15 +295,15 @@
   cursor: pointer;
   & > span {
     font-size: 12px;
-    color: #1C1C1C;
+    color: #1c1c1c;
   }
   &.button--progress {
     & > span {
-      color: #128DFF;
+      color: #128dff;
     }
   }
   &.button--complete {
-    background-color: #E3E3E3;
+    background-color: #e3e3e3;
     color: #828282;
   }
 }
@@ -293,7 +327,7 @@
 .detail-case-supplement {
   font-size: 12px;
   font-weight: $ft-semibold;
-  color: #334B68;
+  color: #334b68;
   right: 0;
   &.wait {
     color: #e92c2c;

@@ -287,6 +287,30 @@
           <img src="/img/icon/download-gray.svg" alt />
           원본파일 다운로드
         </button>
+        <p class="contract-title">
+          매도인이 고령이거나, 대리인에 의한 거래주의
+        </p>
+        <p class="contract-subtitle bb">
+          매도인의 매도의사나, 대리인의 권한을 잔금일에 임박하여 확인할 경우
+          <b>예상하지 못한 문제가 발생할 수 있습니다.</b>
+        </p>
+        <p class="contract-subtitle">
+          사건을 수임하면 가급적 사건에 매도인 측과 소통해주세요.<br />등기업무진행에
+          영향이 있는 상황이 발견되면 프리로스 매니저(카카오뱅크 사건은
+          카카오뱅크 매니저)와 상의해주세요.
+        </p>
+        <p class="contract-help-title mt40">
+          이미지가 오류 혹은 수정이 필요한 경우
+        </p>
+        <p class="contract-help-content">
+          매수인과 소통하여 정보를 확인하고 계약정보를 확보하세요.
+        </p>
+        <p class="contract-help-title mt12">
+          다른 거래의 계약서가 잘못 첨부된 경우
+        </p>
+        <p class="contract-help-content">
+          등록기관 또는 설정대리인 담당자와 상의하세요.
+        </p>
       </div>
     </CommonBlackTitleModal>
     <CommonBlackTitleModal
