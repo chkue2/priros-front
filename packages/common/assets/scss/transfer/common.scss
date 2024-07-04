@@ -4,7 +4,7 @@
   font-size: 12px;
   font-weight: $ft-semibold;
   line-height: 17px;
-  background: linear-gradient(270deg, #C0FF8E 7.92%, #31FF77 92.08%);
+  background: linear-gradient(270deg, #c0ff8e 7.92%, #31ff77 92.08%);
   border-radius: 14.5px;
 }
 .transfer-edit-button {
@@ -23,7 +23,7 @@
     padding: 10px 13px;
     border: none;
     &::before {
-      content: '';
+      content: "";
       width: 14px;
       height: 14px;
       background: url(/img/icon/edit-blue.svg) no-repeat center/cover;
@@ -35,7 +35,7 @@
   }
 }
 .transfer-memo-container {
-  padding: 15px 32px 0;
+  padding: 15px 16px 0;
   &.pt-0 {
     padding-top: 0;
   }
@@ -50,7 +50,7 @@
     width: 100%;
     height: 78px;
     border-radius: 4px;
-    border: 1px solid #E1E1E1;
+    border: 1px solid #e1e1e1;
     resize: none;
     padding: 7px 10px;
     font-size: 14px;

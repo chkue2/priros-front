@@ -278,8 +278,8 @@
         />
         <button
           v-if="
-            !contractImageSrc.includes('empty-file') &&
-            !detailCaseStore.fetchedDetailCase.venderId !== 'KA_IB'
+            !contractImageSrc.includes('empty') &&
+            detailCaseStore.fetchedDetailCase.venderId !== 'KA_IB'
           "
           class="contract-button"
           @click="contractImageDownload"
