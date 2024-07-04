@@ -1,8 +1,11 @@
 <template>
   <div class="common-alert-modal">
     <div class="alert-modal-container">
-      <img src="/img/icon/logo-mo-03.svg" alt="" class="alert-modal-logo" />
-      <p class="alert-modal-text" v-html="text"></p>
+      <p class="alert-modal-text">
+        매수인, 소유형태, 매매대금 등 대출심사 정보는 현장수정이 불가합니다.<br />변경없이
+        등기업무를 수행하세요.<br />혹은 대출금 지급 전 대출은행과 먼저
+        상의해야합니다.
+      </p>
       <button class="alert-modal-bottom-button" @click="handlerClickOkButton">
         확인
       </button>
@@ -65,6 +68,7 @@ onBeforeUnmount(() => {
   }
   .alert-modal-text {
     margin: 40px 0;
+    padding: 0 16px;
     font-size: 14px;
     line-height: 19px;
     font-weight: $ft-medium;
