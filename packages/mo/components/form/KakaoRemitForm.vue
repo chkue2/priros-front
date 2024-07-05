@@ -82,7 +82,10 @@ const timerMin = ref(0);
 const timerSec = ref(0);
 const timerInterval = ref(null);
 
-const isPossibleApprove = computed(() => kakaoState.value.remiteState === "N");
+const isPossibleApprove = computed(
+  () =>
+    kakaoState.value.remitState === "N" || kakaoState.value.remitState === null
+);
 
 onMounted(() => {
   // 모달 오픈시 seq 생성
