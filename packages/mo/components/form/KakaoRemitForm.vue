@@ -84,7 +84,9 @@ const timerInterval = ref(null);
 
 const isPossibleApprove = computed(
   () =>
-    kakaoState.value.remitState === "N" || kakaoState.value.remitState === null
+    kakaoState.value.remitState === "N" ||
+    kakaoState.value.remitState === null ||
+    kakaoState.value.remitState === "W"
 );
 
 onMounted(() => {
