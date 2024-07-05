@@ -130,7 +130,7 @@
       text="저장"
       height="60px"
       width="50%"
-      :background-color="isAccountValidation ? '#235BED' : '#d8d9db'"
+      :background-color="isAccountValidation ? '#3182F7' : '#d8d9db'"
       :font-weight="700"
       @handler-click-button="handlerClickSaveButton"
     />
@@ -140,10 +140,8 @@
       text="수정하기"
       height="60px"
       width="50%"
-      background-color="#ffffff"
-      border="1px solid #000000"
+      background-color="#3182F7"
       :font-weight="700"
-      color="#000000"
       @handler-click-button="handlerClickEditButton"
     />
     <CommonBottomButton
