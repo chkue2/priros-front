@@ -82,11 +82,12 @@ const timerMin = ref(0);
 const timerSec = ref(0);
 const timerInterval = ref(null);
 
-const isPossibleApprove = computed(
-  () =>
-    kakaoState.value.remitState === "N" ||
-    kakaoState.value.remitState === null ||
-    kakaoState.value.remitState === "W"
+const isPossibleApprove = computed(() =>
+  kakaoState.value.remitRequestFlag !== "Y"
+    ? true
+    : kakaoState.value.remitState === "N" ||
+      kakaoState.value.remitState === null ||
+      kakaoState.value.remitState === "W"
 );
 
 onMounted(() => {
@@ -96,6 +97,7 @@ onMounted(() => {
     .then(({ data }) => {
       seq.value = data.seq;
       kakaoState.value = {
+        remitRequestFlag: data.remitRequestFlag,
         approveYn: data.approveYn,
         remitState: data.remitState,
       };
