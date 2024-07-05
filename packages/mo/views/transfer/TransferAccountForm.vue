@@ -257,7 +257,7 @@ const isAccountValidation = computed(() => {
   return true;
 });
 const setState = () => {
-  if (transferStore.remitRequestFlag !== null) {
+  if (transferStore.remitRequestFlag === "Y") {
     isSaved.value = true;
   }
   if (transferStore.remitRequestFlag === "Y") {
