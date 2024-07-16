@@ -2,7 +2,6 @@
   <div class="transfer-account-card" :class="[{ pc: isPc }]">
     <p class="transfer-account-card-title">
       {{ idx === 0 ? "상환금" : "지급금" }}
-      <span v-if="idx === 0">상환금 요청계좌는 가상계좌 외 직접입력 불가</span>
     </p>
     <div class="transfer-account-amount">
       <p class="transfer-account-amount-title">요청금액</p>
@@ -238,7 +237,6 @@ watch(
       background-color: #ffffff;
       border: 1px solid #bfbfbf;
       font-size: 16px;
-      font-weight: $ft-bold;
       border-radius: 4px;
       padding: 0 12px;
       &:read-only {
