@@ -243,18 +243,53 @@ const transferTypeText = computed(() =>
   transferStore.transferType === "only" ? "일괄송금" : "분할송금"
 );
 
-const isAccountValidation = computed(() => {
-  for (const t of transferStore.transfer) {
-    for (const v of transferStore.validate) {
-      if (
-        t[v] === undefined ||
-        t[v]?.replaceAll(" ", "") === "" ||
-        t[v] === "0"
-      )
-        return false;
+const isAccountValidationEmpty = (t) => {
+  // 입력된 칸이 하나라도 있는 경우 false
+  for (const v of transferStore.validate) {
+    if (
+      t[v] !== null &&
+      t[v] !== undefined &&
+      t[v]?.replaceAll(" ", "") !== "" &&
+      t[v] !== "0"
+    ) {
+      return false;
     }
   }
   return true;
+};
+
+const isAccountValidationAllCheck = (t) => {
+  // 한칸이라도 비어있으면 false
+  // 모든 칸이 입력되면 true
+  for (const v of transferStore.validate) {
+    if (
+      t[v] === null ||
+      t[v] === undefined ||
+      t[v]?.replaceAll(" ", "") === "" ||
+      t[v] === "0"
+    )
+      return false;
+  }
+  return true;
+};
+
+const isAccountValidation = computed(() => {
+  if (transferStore.transfer.length === 1) {
+    return isAccountValidationAllCheck(transferStore.transfer[0]);
+  } else {
+    return (
+      !(
+        isAccountValidationEmpty(transferStore.transfer[0]) &&
+        isAccountValidationEmpty(transferStore.transfer[1])
+      ) &&
+      (isAccountValidationEmpty(transferStore.transfer[0])
+        ? true
+        : isAccountValidationAllCheck(transferStore.transfer[0])) &&
+      (isAccountValidationEmpty(transferStore.transfer[1])
+        ? true
+        : isAccountValidationAllCheck(transferStore.transfer[1]))
+    );
+  }
 });
 const setState = () => {
   if (transferStore.remitRequestFlag === "Y") {

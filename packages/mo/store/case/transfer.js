@@ -84,12 +84,12 @@ export const useTransferStore = defineStore("transfer", {
           this.approveYn = data.approveYn;
           this.deductionYn = data.deductionYn === "Y";
           this.transferType = "only";
-          if (!isEmpty(data.buyerPayout)) {
-            this.transfer[0].amount = data.buyerPayout.toLocaleString();
-            this.transfer[0].bank = data.buyerPayoutBankName;
-            this.transfer[0].bankCode = data.buyerPayoutBankCode;
-            this.transfer[0].holder = data.buyerPayoutAccountHolder;
-            this.transfer[0].account = data.buyerPayoutAccountNumber;
+          if (!isEmpty(data.repayAmount)) {
+            this.transfer[0].amount = data.repayAmount.toLocaleString();
+            this.transfer[0].bank = data.repayBankName;
+            this.transfer[0].bankCode = data.repayBankCode;
+            this.transfer[0].holder = data.repayAccountHolder;
+            this.transfer[0].account = data.repayAccountNumber;
           } else {
             this.transfer[0] = {};
             this.transfer[0].amount = "0";
@@ -98,14 +98,14 @@ export const useTransferStore = defineStore("transfer", {
             this.transfer[0].holder = "";
             this.transfer[0].account = "";
           }
-          if (!isEmpty(data.repayAmount) && data.repayAmount > 0) {
+          if (!isEmpty(data.buyerPayout) && data.buyerPayout > 0) {
             this.transferType = "split";
             this.setTransferDataPlus();
-            this.transfer[1].amount = data.repayAmount.toLocaleString();
-            this.transfer[1].bank = data.repayBankName;
-            this.transfer[1].bankCode = data.repayBankCode;
-            this.transfer[1].holder = data.repayAccountHolder;
-            this.transfer[1].account = data.repayAccountNumber;
+            this.transfer[1].amount = data.buyerPayout.toLocaleString();
+            this.transfer[1].bank = data.buyerPayoutBankName;
+            this.transfer[1].bankCode = data.buyerPayoutBankCode;
+            this.transfer[1].holder = data.buyerPayoutAccountHolder;
+            this.transfer[1].account = data.buyerPayoutAccountNumber;
           }
         })
         .catch((e) => {
