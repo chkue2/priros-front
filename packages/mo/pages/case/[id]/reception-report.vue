@@ -9,17 +9,24 @@
                 <label for="" class="form-label">접수일</label>
               </div>
               <div class="form-input">
-                <input v-model="receiveDate" type="date" readonly>
+                <input v-model="receiveDate" type="date" readonly />
               </div>
             </div>
             <div class="form-group">
               <div class="label">
                 <label for="" class="form-label">접수번호</label>
-                <span class="form-warning">해당 명의인의 접수번호를 입력해주세요</span>
+                <span class="form-warning"
+                  >해당 명의인의 접수번호를 입력해주세요</span
+                >
               </div>
               <div class="form-input">
-                <input v-model="receiveBuyer" type="text" readonly>
-                <input v-model="receiveNo" type="text" placeholder="접수번호" maxlength="20">
+                <input v-model="receiveBuyer" type="text" readonly />
+                <input
+                  v-model="receiveNo"
+                  type="tel"
+                  placeholder="접수번호"
+                  maxlength="20"
+                />
               </div>
             </div>
           </div>
@@ -28,11 +35,14 @@
       <div class="bottom">
         <div>
           <CommonBottomButton
-              id="btn-send"
-              text="접수보고"
-              backgroundColor="#000000" height="60px" width="100%" color="#fff"
-              :font-weight="700"
-              @handler-click-button="handleBtnSendClick"
+            id="btn-send"
+            text="접수보고"
+            backgroundColor="#000000"
+            height="60px"
+            width="100%"
+            color="#fff"
+            :font-weight="700"
+            @handler-click-button="handleBtnSendClick"
           />
         </div>
       </div>
@@ -46,62 +56,75 @@
 </template>
 
 <script setup>
-import {ref, onMounted} from "vue";
+import { onMounted, ref, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
 
-import { tradeCaseReceptionReport } from '~/services/tradeCaseReceptionReport.js'
+import CommonBottomButton from "@priros/common/components/button/CommonBottomButton.vue";
+import CommonAlertModal from "@priros/common/components/modal/CommonAlertModal.vue";
 
-import CommonBottomButton from '@priros/common/components/button/CommonBottomButton.vue'
-import CommonAlertModal from "@priros/common/components/modal/CommonAlertModal.vue"
+import { onlyNumber } from "@priros/common/assets/js/utils.js";
+import { tradeCaseReceptionReport } from "~/services/tradeCaseReceptionReport.js";
 
 definePageMeta({
-  layout: false
+  layout: false,
 });
 
-const tradeCaseId = useRoute().params.id
+const tradeCaseId = useRoute().params.id;
 
-const receiveNo = ref('')
-const receiveDate = ref('')
-const receiveBuyer = ref('')
+const receiveNo = ref("");
+const receiveDate = ref("");
+const receiveBuyer = ref("");
 
 const router = useRouter();
 
 onMounted(() => {
-  tradeCaseReceptionReport.get(tradeCaseId)
-    .then(({data}) => {
-      if(data.receiveDateTime !== null) {
-        receiveDate.value = data.receiveDateTime.split('T')[0]
+  tradeCaseReceptionReport
+    .get(tradeCaseId)
+    .then(({ data }) => {
+      if (data.receiveDateTime !== null) {
+        receiveDate.value = data.receiveDateTime.split("T")[0];
       }
-      receiveBuyer.value = data.buyer
-      receiveNo.value = data.receiveNo
+      receiveBuyer.value = data.buyer;
+      receiveNo.value = data.receiveNo;
     })
-    .catch(e => {
-      alert(e.response.data.message.replace(/<br>/gi, '\n'))
-      router.back()
-    })
-})
+    .catch((e) => {
+      alert(e.response.data.message.replace(/<br>/gi, "\n"));
+      router.back();
+    });
+});
 
-const isSuccessModalShow = ref(false)
+watch(
+  () => receiveNo.value,
+  () => {
+    receiveNo.value = onlyNumber(receiveNo.value);
+  }
+);
+
+const isSuccessModalShow = ref(false);
 const toggleSuccessModal = () => {
-  isSuccessModalShow.value = !isSuccessModalShow.value
-}
+  isSuccessModalShow.value = !isSuccessModalShow.value;
+};
 
 const handleBtnSendClick = () => {
-  if(receiveNo.value === '') {
-    alert('접수번호를 입력해주세요.')
-    return false
+  if (receiveNo.value === "") {
+    alert("접수번호를 입력해주세요.");
+    return false;
   }
-  
-  tradeCaseReceptionReport.post(tradeCaseId, { receiveDate: receiveDate.value, receiveNo: receiveNo.value })
+
+  tradeCaseReceptionReport
+    .post(tradeCaseId, {
+      receiveDate: receiveDate.value,
+      receiveNo: receiveNo.value,
+    })
     .then(() => {
-      toggleSuccessModal()
+      toggleSuccessModal();
     })
-    .catch(e => {
-      alert(e.response.data.message.replace(/<br>/gi, '\n'))
-    })
-}
+    .catch((e) => {
+      alert(e.response.data.message.replace(/<br>/gi, "\n"));
+    });
+};
 </script>
 
 <style scoped lang="scss">
-@import '@priros/common/assets/scss/views/dialog'
+@import "@priros/common/assets/scss/views/dialog";
 </style>
