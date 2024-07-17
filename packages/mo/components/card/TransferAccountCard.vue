@@ -77,6 +77,7 @@ const props = defineProps({
       bank: "",
       account: "",
       holder: "",
+      bankCode: "",
     }),
   },
 });
@@ -115,25 +116,27 @@ const replaceSpace = (e) => {
   e.target.value = e.target.value.replaceAll(" ", "");
 };
 
+const mortgage = computed(() =>
+  (transferStore.mortgageExecution === "0"
+    ? transferStore.mortgageLoan
+    : transferStore.mortgageExecution
+  ).replaceAll(",", "")
+);
+
 watch(
-  () => accountInfoSelectedValue,
+  () => accountInfoSelectedValue.value.amount,
   () => {
-    const mortgage = (
-      transferStore.mortgageExecution === "0"
-        ? transferStore.mortgageLoan
-        : transferStore.mortgageExecution
-    ).replaceAll(",", "");
     const changeIdx = props.idx === 0 ? 1 : 0;
 
     if (
       Number(accountInfoSelectedValue.value.amount.replaceAll(",", "")) >
-      mortgage
+      mortgage.value
     ) {
-      accountInfoSelectedValue.value.amount = mortgage.toLocaleString();
+      accountInfoSelectedValue.value.amount = mortgage.value;
     }
 
     const changeAmount =
-      Number(mortgage) -
+      Number(mortgage.value) -
       Number(accountInfoSelectedValue.value.amount.replaceAll(",", ""));
 
     transferStore.setTransferData({
@@ -147,10 +150,24 @@ watch(
     accountInfoSelectedValue.value.amount = Number(
       accountInfoSelectedValue.value?.amount?.replace(/[^0-9]/g, "")
     ).toLocaleString();
-    transferStore.setTransferData({
-      value: accountInfoSelectedValue.value,
-      idx: props.idx,
-    });
+
+    if (accountInfoSelectedValue.value.amount === "0") {
+      transferStore.setTransferData({
+        value: {
+          amount: "",
+          bank: "",
+          account: "",
+          holder: "",
+          bankCode: "",
+        },
+        idx: props.idx,
+      });
+    } else {
+      transferStore.setTransferData({
+        value: accountInfoSelectedValue.value,
+        idx: props.idx,
+      });
+    }
   },
   { deep: true }
 );
