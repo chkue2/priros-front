@@ -43,6 +43,15 @@ export const useTransferStore = defineStore("transfer", {
               return prev;
             }, []);
           }
+          this.cardOptions = [
+            {
+              text: "직접 입력하기",
+              value: {
+                bank: "직접 입력하기",
+                account: "",
+              },
+            },
+          ];
           if (data.myAccountInfos !== null) {
             this.cardOptions = data.myAccountInfos.reduce((prev, curr) => {
               const bankName = this.bankOptions.filter(
@@ -59,16 +68,6 @@ export const useTransferStore = defineStore("transfer", {
               });
               return prev;
             }, this.cardOptions);
-          } else {
-            this.cardOptions = [
-              {
-                text: "직접 입력하기",
-                value: {
-                  bank: "직접 입력하기",
-                  account: "",
-                },
-              },
-            ];
           }
           this.transfer = [{}, {}];
           this.seq = data.seq;

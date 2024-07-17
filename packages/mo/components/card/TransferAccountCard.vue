@@ -6,7 +6,7 @@
       <div class="transfer-account-amount-input">
         <input
           v-model="accountInfoSelectedValue['amount']"
-          type="text"
+          type="tel"
           :readonly="isSaved"
           @keyup="handlerKeyupAmount"
         />
@@ -59,7 +59,10 @@
 </template>
 
 <script setup>
-import { convertToKoreanCurrency } from "@priros/common/assets/js/utils.js";
+import {
+  convertToKoreanCurrency,
+  onlyNumber,
+} from "@priros/common/assets/js/utils.js";
 import DropDown from "@priros/common/components/form/DropDown.vue";
 import { computed, ref, watch } from "vue";
 import { useTransferStore } from "~/store/case/transfer.js";
@@ -124,9 +127,11 @@ const handlerBankSelectValue = ({ value }) => {
 
 const replaceSpace = (e) => {
   e.target.value = e.target.value.replaceAll(" ", "");
+  e.target.value = onlyNumber(e.target.value);
 };
 
 const handlerKeyupAmount = (e) => {
+  e.target.value = onlyNumber(e.target.value);
   const changeIdx = props.idx === 0 ? 1 : 0;
   if (Number(e.target.value.replaceAll(",", "")) > mortgage.value) {
     accountInfoSelectedValue.value.amount = mortgage.value;
@@ -284,7 +289,8 @@ const koreanWon = computed(() =>
     border-radius: 0 4px 4px 0;
     border: 1px solid #e5e5e5;
     padding: 0 12px 0 11px;
-    & > input[type="text"] {
+    & > input[type="text"],
+    & > input[type="tel"] {
       font-size: 16px;
       font-weight: $ft-bold;
       border: none;
