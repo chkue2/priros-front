@@ -70,6 +70,7 @@ export const useTransferStore = defineStore("transfer", {
               },
             ];
           }
+          this.transfer = [{}, {}];
           this.seq = data.seq;
           this.mortgageLoan = data.mortgageLoan.toLocaleString();
           this.mortgageExecution = data.mortgageExecution.toLocaleString();
