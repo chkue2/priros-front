@@ -108,29 +108,21 @@ export const useTransferStore = defineStore("transfer", {
     postRemit(tradeCaseId) {
       let formData = {
         repayAmount: Number(this.transfer[0].amount?.replace(/,/g, "")),
-        repayBankName: this.transfer[0].bank,
-        repayBankCode: this.transfer[0].bankCode,
-        repayAccountHolder: this.transfer[0].holder,
-        repayAccountNumber: this.transfer[0].account,
+        repayBankName: this.transfer[0].bank || "",
+        repayBankCode: this.transfer[0].bankCode || "",
+        repayAccountHolder: this.transfer[0].holder || "",
+        repayAccountNumber: this.transfer[0].account || "",
+        buyerPayout: Number(this.transfer[1].amount?.replace(/,/g, "")),
+        buyerPayoutBankName: this.transfer[1].bank || "",
+        buyerPayoutBankCode: this.transfer[1].bankCode || "",
+        buyerPayoutAccountHolder: this.transfer[1].holder || "",
+        buyerPayoutAccountNumber: this.transfer[1].account || "",
         memo: this.memo,
         deductionYn: "Y",
         // deductionYn: this.deductionYn ? 'Y' : 'N'
       };
       if (this.seq > 0 && this.seq !== null) {
         formData = { ...formData, seq: this.seq };
-      }
-      if (
-        !isEmpty(this.transfer[1].amount) &&
-        Number(this.transfer[1].amount?.replace(/,/g, "")) > 0
-      ) {
-        formData = {
-          ...formData,
-          buyerPayout: Number(this.transfer[1].amount?.replace(/,/g, "")),
-          buyerPayoutBankName: this.transfer[1].bank,
-          buyerPayoutBankCode: this.transfer[1].bankCode,
-          buyerPayoutAccountHolder: this.transfer[1].holder,
-          buyerPayoutAccountNumber: this.transfer[1].account,
-        };
       }
       return tradeCaseRemit.post(tradeCaseId, formData);
     },
