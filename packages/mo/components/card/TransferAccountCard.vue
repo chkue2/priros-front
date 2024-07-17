@@ -1,8 +1,6 @@
 <template>
   <div class="transfer-account-card" :class="[{ pc: isPc }]">
-    <p class="transfer-account-card-title">
-      {{ idx === 0 ? "상환금" : "지급금" }}
-    </p>
+    <p class="transfer-account-card-title">계좌 {{ idx + 1 }}</p>
     <div class="transfer-account-amount">
       <p class="transfer-account-amount-title">요청금액</p>
       <div class="transfer-account-amount-input">
@@ -14,6 +12,7 @@
         <span>원</span>
       </div>
     </div>
+    <p class="transfer-account-amount-korean">{{ koreanWon }}원</p>
     <p class="transfer-account-card-title">계좌 정보</p>
     <DropDown
       placeholder="계좌 선택하기"
@@ -59,6 +58,7 @@
 </template>
 
 <script setup>
+import { convertToKoreanCurrency } from "@priros/common/assets/js/utils.js";
 import DropDown from "@priros/common/components/form/DropDown.vue";
 import { computed, ref, watch } from "vue";
 import { useTransferStore } from "~/store/case/transfer.js";
@@ -70,11 +70,20 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  transferData: {
+    type: Object,
+    default: () => ({
+      amount: "",
+      bank: "",
+      account: "",
+      holder: "",
+    }),
+  },
 });
 const transferStore = useTransferStore();
 
 const selectedValue = ref({});
-const accountInfoSelectedValue = ref(transferStore.transfer[props.idx]);
+const accountInfoSelectedValue = ref(props.transferData);
 
 const handlerSelectValue = ({ value }) => {
   selectedValue.value = value;
@@ -109,6 +118,32 @@ const replaceSpace = (e) => {
 watch(
   () => accountInfoSelectedValue,
   () => {
+    const mortgage = (
+      transferStore.mortgageExecution === "0"
+        ? transferStore.mortgageLoan
+        : transferStore.mortgageExecution
+    ).replaceAll(",", "");
+    const changeIdx = props.idx === 0 ? 1 : 0;
+
+    if (
+      Number(accountInfoSelectedValue.value.amount.replaceAll(",", "")) >
+      mortgage
+    ) {
+      accountInfoSelectedValue.value.amount = mortgage.toLocaleString();
+    }
+
+    const changeAmount =
+      Number(mortgage) -
+      Number(accountInfoSelectedValue.value.amount.replaceAll(",", ""));
+
+    transferStore.setTransferData({
+      value: {
+        ...transferStore.transfer[changeIdx],
+        amount: changeAmount < 0 ? 0 : changeAmount.toLocaleString(),
+      },
+      idx: changeIdx,
+    });
+
     accountInfoSelectedValue.value.amount = Number(
       accountInfoSelectedValue.value?.amount?.replace(/[^0-9]/g, "")
     ).toLocaleString();
@@ -118,6 +153,22 @@ watch(
     });
   },
   { deep: true }
+);
+
+watch(
+  () => props.transferData,
+  () => {
+    accountInfoSelectedValue.value = props.transferData;
+  },
+  {
+    deep: true,
+  }
+);
+
+const koreanWon = computed(() =>
+  convertToKoreanCurrency(
+    (accountInfoSelectedValue.value.amount || "0").replaceAll(",", "")
+  )
 );
 </script>
 
@@ -246,5 +297,11 @@ watch(
       }
     }
   }
+}
+.transfer-account-amount-korean {
+  text-align: right;
+  font-size: 12px;
+  color: #3181f7;
+  margin-top: -8px;
 }
 </style>

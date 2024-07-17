@@ -49,7 +49,7 @@
       합니다.
     </label>
   </div>
-  <div class="transfer-type-container">
+  <!-- <div class="transfer-type-container">
     <p class="transfer-type-title">송금방식</p>
     <DropDown
       :options="[
@@ -60,12 +60,13 @@
       :selected-text="transferTypeText"
       @click-option="handlerClickTransferType"
     />
-  </div>
+  </div> -->
   <div v-if="isLoadingSuccess" class="transfer-account-container">
     <TransferAccountCard
       v-for="(t, index) in transferStore.transfer"
       :key="index"
       :idx="index"
+      :transfer-data="t"
       :is-saved="isSaved || isSuccess"
     />
   </div>
@@ -181,7 +182,6 @@
 
 <script setup>
 import CommonBottomButton from "@priros/common/components/button/CommonBottomButton.vue";
-import DropDown from "@priros/common/components/form/DropDown.vue";
 import CommonAlertModal from "@priros/common/components/modal/CommonAlertModal.vue";
 import { computed, onMounted, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";

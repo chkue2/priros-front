@@ -7,7 +7,7 @@ export const useTransferStore = defineStore("transfer", {
     seq: 0,
     mortgageLoan: "",
     mortgageExecution: "",
-    transfer: [{}],
+    transfer: [{}, {}],
     memo: "",
     remitState: "",
     remitRequestFlag: "",
@@ -25,13 +25,9 @@ export const useTransferStore = defineStore("transfer", {
     ],
     bankOptions: [],
     deductionYn: false,
-    transferType: "only",
   }),
   actions: {
     async fetchRemit(tradeCaseId) {
-      if (this.transfer.length > 1) {
-        this.setTransferDataMinus();
-      }
       await tradeCaseRemit
         .get(tradeCaseId)
         .then(({ data }) => {
@@ -83,7 +79,6 @@ export const useTransferStore = defineStore("transfer", {
           this.rejectMessage = data.rejectMessage;
           this.approveYn = data.approveYn;
           this.deductionYn = data.deductionYn === "Y";
-          this.transferType = "only";
           if (!isEmpty(data.repayAmount)) {
             this.transfer[0].amount = data.repayAmount.toLocaleString();
             this.transfer[0].bank = data.repayBankName;
@@ -99,8 +94,6 @@ export const useTransferStore = defineStore("transfer", {
             this.transfer[0].account = "";
           }
           if (!isEmpty(data.buyerPayout) && data.buyerPayout > 0) {
-            this.transferType = "split";
-            this.setTransferDataPlus();
             this.transfer[1].amount = data.buyerPayout.toLocaleString();
             this.transfer[1].bank = data.buyerPayoutBankName;
             this.transfer[1].bankCode = data.buyerPayoutBankCode;
@@ -126,7 +119,10 @@ export const useTransferStore = defineStore("transfer", {
       if (this.seq > 0 && this.seq !== null) {
         formData = { ...formData, seq: this.seq };
       }
-      if (this.transfer.length > 1) {
+      if (
+        !isEmpty(this.transfer[1].amount) &&
+        Number(this.transfer[1].amount?.replace(/,/g, "")) > 0
+      ) {
         formData = {
           ...formData,
           buyerPayout: Number(this.transfer[1].amount?.replace(/,/g, "")),
