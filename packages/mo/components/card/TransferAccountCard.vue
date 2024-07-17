@@ -8,6 +8,7 @@
           v-model="accountInfoSelectedValue['amount']"
           type="text"
           :readonly="isSaved"
+          @keyup="handlerKeyupAmount"
         />
         <span>원</span>
       </div>
@@ -86,15 +87,6 @@ const transferStore = useTransferStore();
 const selectedValue = ref({});
 const accountInfoSelectedValue = ref(props.transferData);
 
-const handlerSelectValue = ({ value }) => {
-  selectedValue.value = value;
-  if (value.account !== "") {
-    accountInfoSelectedValue.value["bank"] = value.bank;
-    accountInfoSelectedValue.value["bankCode"] = value.bankCode;
-    accountInfoSelectedValue.value["account"] = value.account;
-    accountInfoSelectedValue.value["holder"] = value.holder;
-  }
-};
 const selectedText = computed(() => {
   return selectedValue.value["bank"] === undefined
     ? ""
@@ -104,17 +96,6 @@ const selectedText = computed(() => {
 const isReadonly = computed(() => {
   return selectedValue.value["bank"] !== "직접 입력하기" || props.isSaved;
 });
-const handlerBankSelectValue = ({ value }) => {
-  accountInfoSelectedValue.value["bank"] = value.bank;
-  accountInfoSelectedValue.value["bankCode"] = value.bankCode;
-};
-const bankSelectedText = computed(() => {
-  return accountInfoSelectedValue.value["bank"];
-});
-
-const replaceSpace = (e) => {
-  e.target.value = e.target.value.replaceAll(" ", "");
-};
 
 const mortgage = computed(() =>
   (transferStore.mortgageExecution === "0"
@@ -123,22 +104,55 @@ const mortgage = computed(() =>
   ).replaceAll(",", "")
 );
 
-watch(
-  () => accountInfoSelectedValue.value.amount,
-  () => {
-    const changeIdx = props.idx === 0 ? 1 : 0;
+const bankSelectedText = computed(() => {
+  return accountInfoSelectedValue.value["bank"];
+});
 
-    if (
-      Number(accountInfoSelectedValue.value.amount.replaceAll(",", "")) >
-      mortgage.value
-    ) {
-      accountInfoSelectedValue.value.amount = mortgage.value;
-    }
+const handlerSelectValue = ({ value }) => {
+  selectedValue.value = value;
+  if (value.account !== "") {
+    accountInfoSelectedValue.value["bank"] = value.bank;
+    accountInfoSelectedValue.value["bankCode"] = value.bankCode;
+    accountInfoSelectedValue.value["account"] = value.account;
+    accountInfoSelectedValue.value["holder"] = value.holder;
+  }
+};
+const handlerBankSelectValue = ({ value }) => {
+  accountInfoSelectedValue.value["bank"] = value.bank;
+  accountInfoSelectedValue.value["bankCode"] = value.bankCode;
+};
 
-    const changeAmount =
-      Number(mortgage.value) -
-      Number(accountInfoSelectedValue.value.amount.replaceAll(",", ""));
+const replaceSpace = (e) => {
+  e.target.value = e.target.value.replaceAll(" ", "");
+};
 
+const handlerKeyupAmount = (e) => {
+  const changeIdx = props.idx === 0 ? 1 : 0;
+  if (Number(e.target.value.replaceAll(",", "")) > mortgage.value) {
+    accountInfoSelectedValue.value.amount = mortgage.value;
+  }
+
+  console.log(accountInfoSelectedValue.value.amount);
+
+  const changeAmount =
+    Number(mortgage.value) -
+    Number(accountInfoSelectedValue.value.amount.replaceAll(",", ""));
+
+  if (
+    Number(accountInfoSelectedValue.value.amount.replaceAll(",", "")) ===
+    Number(mortgage.value)
+  ) {
+    transferStore.setTransferData({
+      value: {
+        amount: "",
+        bank: "",
+        account: "",
+        holder: "",
+        bankCode: "",
+      },
+      idx: changeIdx,
+    });
+  } else {
     transferStore.setTransferData({
       value: {
         ...transferStore.transfer[changeIdx],
@@ -146,40 +160,37 @@ watch(
       },
       idx: changeIdx,
     });
+  }
 
-    accountInfoSelectedValue.value.amount = Number(
-      accountInfoSelectedValue.value?.amount?.replace(/[^0-9]/g, "")
-    ).toLocaleString();
+  accountInfoSelectedValue.value.amount = Number(
+    accountInfoSelectedValue.value?.amount?.replace(/[^0-9]/g, "")
+  ).toLocaleString();
 
-    if (accountInfoSelectedValue.value.amount === "0") {
-      transferStore.setTransferData({
-        value: {
-          amount: "",
-          bank: "",
-          account: "",
-          holder: "",
-          bankCode: "",
-        },
-        idx: props.idx,
-      });
-    } else {
-      transferStore.setTransferData({
-        value: accountInfoSelectedValue.value,
-        idx: props.idx,
-      });
-    }
-  },
-  { deep: true }
-);
+  if (accountInfoSelectedValue.value.amount === "0") {
+    transferStore.setTransferData({
+      value: {
+        amount: "",
+        bank: "",
+        account: "",
+        holder: "",
+        bankCode: "",
+      },
+      idx: props.idx,
+    });
+  } else {
+    transferStore.setTransferData({
+      value: accountInfoSelectedValue.value,
+      idx: props.idx,
+    });
+  }
+};
 
 watch(
   () => props.transferData,
   () => {
     accountInfoSelectedValue.value = props.transferData;
   },
-  {
-    deep: true,
-  }
+  { deep: true }
 );
 
 const koreanWon = computed(() =>
