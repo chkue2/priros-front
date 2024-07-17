@@ -137,8 +137,6 @@ const handlerKeyupAmount = (e) => {
     accountInfoSelectedValue.value.amount = mortgage.value;
   }
 
-  console.log(accountInfoSelectedValue.value.amount);
-
   const changeAmount =
     Number(mortgage.value) -
     Number(accountInfoSelectedValue.value.amount.replaceAll(",", ""));
