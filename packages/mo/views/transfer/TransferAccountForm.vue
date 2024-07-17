@@ -166,7 +166,7 @@
   </div>
   <CommonAlertModal
     v-if="isApprovalSendAlarmModalShow"
-    text="매수인에게 승인번호가 발송되었습니다.<br>프리로스 알림톡을 확인해주세요"
+    text="매수인에게 승인번호가 발송되었습니다.<br>알림톡을 확인해주세요"
     @handler-click-button="toggleApprovalSendAlarmModalShow"
   />
   <CommonAlertModal
