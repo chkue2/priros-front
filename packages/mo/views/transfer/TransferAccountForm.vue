@@ -89,7 +89,7 @@
   </div>
   <div v-if="!isSuccess" class="transfer-approval-container">
     <p class="approval-title">
-      인증번호
+      송금 승인번호
       <button
         v-if="isApprovalSend && !isApprovalApply"
         class="approval-re-send"
@@ -113,7 +113,7 @@
         :class="{ active: isSaved }"
         @click="handlerClickApprovalSendButton"
       >
-        인증번호발송
+        승인번호발송
       </button>
       <button
         v-if="isApprovalSend"
