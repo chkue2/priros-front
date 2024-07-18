@@ -116,7 +116,7 @@
           <span>공동명의</span>
         </label>
       </div>
-      <div class="report-form-input">
+      <div v-if="acquisitionShareType === 'M'" class="report-form-input">
         <textarea
           v-model="acquisitionShareDetail"
           class="schedule-area mt16"
