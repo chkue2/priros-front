@@ -14,7 +14,7 @@
       v-if="transferStore.remitState === 'W'"
       class="transfer-result-help-content"
     >
-      송금요청 내용 중에 수정이 필요한 경우 고객센터로 연락부탁드립니다.
+      송금요청 내용 중에 수정이 필요한 경우<br />고객센터로 연락부탁드립니다.
     </p>
   </div>
   <div class="transfer-top-container" :class="{ bb: !isEdit }">
