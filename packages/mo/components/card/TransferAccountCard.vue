@@ -101,10 +101,12 @@ const isReadonly = computed(() => {
 });
 
 const mortgage = computed(() =>
-  (transferStore.mortgageExecution === "0"
-    ? transferStore.mortgageLoan
-    : transferStore.mortgageExecution
-  ).replaceAll(",", "")
+  transferStore.deductionYn === true
+    ? transferStore.mortgageLoan.replaceAll(",", "")
+    : (transferStore.mortgageExecution === "0"
+        ? transferStore.mortgageLoan
+        : transferStore.mortgageExecution
+      ).replaceAll(",", "")
 );
 
 const bankSelectedText = computed(() => {
@@ -130,9 +132,10 @@ const replaceSpace = (e) => {
   e.target.value = onlyNumber(e.target.value);
 };
 
+const changeIdx = computed(() => (props.idx === 0 ? 1 : 0));
+
 const handlerKeyupAmount = (e) => {
   e.target.value = onlyNumber(e.target.value);
-  const changeIdx = props.idx === 0 ? 1 : 0;
   if (Number(e.target.value.replaceAll(",", "")) > mortgage.value) {
     accountInfoSelectedValue.value.amount = mortgage.value;
   }
@@ -153,15 +156,15 @@ const handlerKeyupAmount = (e) => {
         holder: "",
         bankCode: "",
       },
-      idx: changeIdx,
+      idx: changeIdx.value,
     });
   } else {
     transferStore.setTransferData({
       value: {
-        ...transferStore.transfer[changeIdx],
+        ...transferStore.transfer[changeIdx.value],
         amount: changeAmount < 0 ? 0 : changeAmount.toLocaleString(),
       },
-      idx: changeIdx,
+      idx: changeIdx.value,
     });
   }
 
@@ -194,6 +197,32 @@ watch(
     accountInfoSelectedValue.value = props.transferData;
   },
   { deep: true }
+);
+
+watch(
+  () => transferStore.deductionYn,
+  () => {
+    transferStore.setTransferData({
+      value: {
+        amount: "",
+        bank: "",
+        account: "",
+        holder: "",
+        bankCode: "",
+      },
+      idx: props.idx,
+    });
+    transferStore.setTransferData({
+      value: {
+        amount: "",
+        bank: "",
+        account: "",
+        holder: "",
+        bankCode: "",
+      },
+      idx: changeIdx.value,
+    });
+  }
 );
 
 const koreanWon = computed(() =>

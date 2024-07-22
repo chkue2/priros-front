@@ -25,6 +25,7 @@ export const useTransferStore = defineStore("transfer", {
     ],
     bankOptions: [],
     deductionYn: false,
+    directLawYn: false,
   }),
   actions: {
     async fetchRemit(tradeCaseId) {
@@ -70,6 +71,8 @@ export const useTransferStore = defineStore("transfer", {
             }, this.cardOptions);
           }
           this.transfer = [{}, {}];
+          this.deductionYn = false;
+          this.directLawYn = false;
           this.seq = data.seq;
           this.mortgageLoan = data.mortgageLoan.toLocaleString();
           this.mortgageExecution = data.mortgageExecution.toLocaleString();
@@ -79,6 +82,7 @@ export const useTransferStore = defineStore("transfer", {
           this.rejectMessage = data.rejectMessage;
           this.approveYn = data.approveYn;
           this.deductionYn = data.deductionYn === "Y";
+          this.directLawYn = data.directLawYn;
           if (!isEmpty(data.repayAmount)) {
             this.transfer[0].amount = data.repayAmount.toLocaleString();
             this.transfer[0].bank = data.repayBankName;
@@ -118,8 +122,7 @@ export const useTransferStore = defineStore("transfer", {
         buyerPayoutAccountHolder: this.transfer[1].holder || "",
         buyerPayoutAccountNumber: this.transfer[1].account || "",
         memo: this.memo,
-        deductionYn: "Y",
-        // deductionYn: this.deductionYn ? 'Y' : 'N'
+        deductionYn: this.deductionYn ? "Y" : "N",
       };
       if (this.seq > 0 && this.seq !== null) {
         formData = { ...formData, seq: this.seq };

@@ -38,7 +38,7 @@
         </div>
       </div>
     </div>
-    <label v-if="false" class="transfer-top-intro">
+    <label v-if="transferStore.directLawYn" class="transfer-top-intro">
       <input
         v-if="!isTransferApply && !isEdit"
         v-model="transferStore.deductionYn"
