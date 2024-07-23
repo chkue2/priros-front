@@ -52,6 +52,10 @@
     :margin-top="50"
     @click-page="handlerClickPage"
   />
+  <CustomConfirmModal
+    v-if="alertStore.isConfirmOpen"
+    @click-button="removeFile"
+  />
 </template>
 <script setup>
 import { useAlertStore } from "~/store/alert.js";
@@ -60,11 +64,14 @@ import { useDetailCaseStore } from "@priros/common/store/case/detail.js";
 import { fileDownload } from "@priros/common/assets/js/utils.js";
 
 import Pagination from "@priros/common/components/paging/Pagination.vue";
+import CustomConfirmModal from "~/components/modal/CustomConfirmModal.vue";
 
 const props = defineProps({ tradeCaseId: String });
 const emits = defineEmits(["file-view"]);
 const detailCaseStore = useDetailCaseStore();
 const alertStore = useAlertStore();
+
+const selectDocumentId = ref("");
 
 const changeDateFormat = (date) => {
   return date?.replace("T", "<br>");
@@ -102,15 +109,17 @@ const handlerClickFileDonwload = (documentId, fileName) => {
 };
 
 const hanlderClickFileDelete = (documentId) => {
-  if (!confirm("삭제하시겠어요?")) {
-    return false;
-  }
+  selectDocumentId.value = documentId;
+  alertStore.confirmOpen("파일을 삭제하시겠어요?");
+};
 
+const removeFile = () => {
+  alertStore.confirmClose();
   detailCaseStore
-    .requestDocumentDelete(props.tradeCaseId, documentId)
+    .requestDocumentDelete(props.tradeCaseId, selectDocumentId.value)
     .then(() => {
       detailCaseStore.fetchDocument(props.tradeCaseId, 1);
-      alertStore.open("삭제 되었습니다.");
+      alertStore.open("파일이 삭제 되었습니다.");
     })
     .catch((e) => {
       alertStore.open(e.response.data.message);

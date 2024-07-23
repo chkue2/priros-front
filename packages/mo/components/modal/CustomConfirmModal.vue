@@ -2,13 +2,16 @@
   <div class="common-alert-modal">
     <div class="alert-modal-container">
       <img src="/img/icon/logo-mo-03.svg" alt="" class="alert-modal-logo" />
-      <p class="alert-modal-text" v-html="text"></p>
+      <p class="alert-modal-text" v-html="alertStore.message"></p>
       <div class="alert-modal-buttons">
-        <button class="button--left" @click="handlerClickLeftButton">
-          {{ leftButtonText }}
+        <button
+          class="alert-modal-bottom-button"
+          @click="handlerClickCancelButton"
+        >
+          취소
         </button>
-        <button class="button--right" @click="handlerClickRightButton">
-          {{ rightButtonText }}
+        <button class="alert-modal-bottom-button" @click="handlerClickOkButton">
+          확인
         </button>
       </div>
     </div>
@@ -16,7 +19,9 @@
 </template>
 
 <script setup>
-import { onMounted, onBeforeUnmount } from "vue";
+import { onBeforeUnmount, onMounted } from "vue";
+import { useAlertStore } from "~/store/alert.js";
+
 const props = defineProps({
   text: {
     type: String,
@@ -26,25 +31,17 @@ const props = defineProps({
     type: Boolean,
     default: true,
   },
-  leftButtonText: {
-    type: String,
-    default: "",
-  },
-  rightButtonText: {
-    type: String,
-    default: "",
-  },
 });
-const emit = defineEmits([
-  "handler-click-left-button",
-  "handler-click-right-button",
-]);
+const emit = defineEmits(["click-button"]);
 
-const handlerClickLeftButton = () => {
-  emit("handler-click-left-button");
+const alertStore = useAlertStore();
+
+const handlerClickCancelButton = () => {
+  alertStore.confirmClose();
 };
-const handlerClickRightButton = () => {
-  emit("handler-click-right-button");
+
+const handlerClickOkButton = () => {
+  emit("click-button");
 };
 
 onMounted(() => {
@@ -79,11 +76,11 @@ onBeforeUnmount(() => {
   left: 50%;
   transform: translate(-50%, -50%);
   .alert-modal-logo {
-    width: 58px;
+    width: 71px;
     height: auto;
   }
   .alert-modal-text {
-    margin: 6px 0 20px;
+    margin: 40px 0;
     font-size: 14px;
     line-height: 19px;
     font-weight: $ft-medium;
@@ -92,24 +89,21 @@ onBeforeUnmount(() => {
   }
   .alert-modal-buttons {
     display: flex;
-    & > button {
-      flex: 1;
-      height: 60px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      border: none;
-      border-top: 1px solid #dfdfdf;
-      font-size: 16px;
-      font-weight: $ft-medium;
-      background-color: #ffffff;
-      & + button {
-        border-left: 1px solid #dfdfdf;
-      }
-      &.button--left {
-        color: #235bed;
-        font-weight: $ft-bold;
-      }
+    align-items: center;
+  }
+  .alert-modal-bottom-button {
+    flex: 1;
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    border-top: 1px solid #dfdfdf;
+    font-size: 16px;
+    font-weight: $ft-medium;
+    background-color: #ffffff;
+    & + .alert-modal-bottom-button {
+      border-left: 1px solid #dfdfdf;
     }
   }
 }

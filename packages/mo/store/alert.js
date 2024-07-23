@@ -4,6 +4,7 @@ export const useAlertStore = defineStore("alert", {
   state: () => ({
     message: "",
     isOpen: false,
+    isConfirmOpen: false,
   }),
   actions: {
     open(text) {
@@ -12,6 +13,13 @@ export const useAlertStore = defineStore("alert", {
     },
     close() {
       this.isOpen = false;
+    },
+    confirmOpen(text) {
+      this.message = text;
+      this.isConfirmOpen = true;
+    },
+    confirmClose() {
+      this.isConfirmOpen = false;
     },
   },
 });

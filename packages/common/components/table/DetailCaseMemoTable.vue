@@ -51,6 +51,10 @@
       :margin-top="50"
       @click-page="handlerClickPage"
     />
+    <CustomConfirmModal
+      v-if="alertStore.isConfirmOpen"
+      @click-button="removeMemo"
+    />
   </div>
 </template>
 <script setup>
@@ -59,16 +63,19 @@ import { useDetailCaseStore } from "@priros/common/store/case/detail.js";
 import { useAlertStore } from "~/store/alert.js";
 
 import Pagination from "@priros/common/components/paging/Pagination.vue";
+import CustomConfirmModal from "~/components/modal/CustomConfirmModal.vue";
 
 const props = defineProps({ tradeCaseId: String });
 const detailCaseStore = useDetailCaseStore();
 const alertStore = useAlertStore();
 
+const memoText = ref("");
+const selectMemoId = ref("");
+
 const changeDateFormat = (date) => {
   return date?.replace("T", "<br>");
 };
 
-const memoText = ref("");
 const handlerClickSendMemo = () => {
   if (memoText.value === "") {
     alertStore.open("메모 내용은 비어 있을 수 없습니다.");
@@ -91,12 +98,14 @@ const handlerClickPage = (page) => {
 };
 
 const handlerClickDeleteMemo = (memoId) => {
-  if (!confirm("메모를 삭제하시겠어요?")) {
-    return false;
-  }
+  selectMemoId.value = memoId;
+  alertStore.confirmOpen("메모를 삭제하시겠어요?");
+};
 
+const removeMemo = () => {
+  alertStore.confirmClose();
   detailCaseStore
-    .requestMemoDelete(props.tradeCaseId, memoId)
+    .requestMemoDelete(props.tradeCaseId, selectMemoId.value)
     .then(() => {
       alertStore.open("메모가 삭제되었습니다.");
       detailCaseStore.fetchMemo(props.tradeCaseId, 1);
