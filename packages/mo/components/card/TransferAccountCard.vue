@@ -17,7 +17,7 @@
     <p class="transfer-account-card-title">계좌 정보</p>
     <DropDown
       placeholder="계좌 선택하기"
-      :is-readonly="isSaved"
+      :is-readonly="isSaved || isAccountDisabled"
       :options="transferStore.cardOptions"
       :selected-text="selectedText"
       :is-body-lock="!isPc"
@@ -99,6 +99,13 @@ const selectedText = computed(() => {
 const isReadonly = computed(() => {
   return selectedValue.value["bank"] !== "직접 입력하기" || props.isSaved;
 });
+
+const isAccountDisabled = computed(
+  () =>
+    accountInfoSelectedValue.value.amount === "" ||
+    accountInfoSelectedValue.value.amount === "0" ||
+    accountInfoSelectedValue.value.amount === undefined
+);
 
 const mortgage = computed(() =>
   transferStore.deductionYn === true
