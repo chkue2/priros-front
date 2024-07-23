@@ -90,7 +90,7 @@ onMounted(() => {
       receiveNo.value = data.receiveNo;
     })
     .catch((e) => {
-      alertStore.open(e.response.data.message.replace(/<br>/gi, "\n"));
+      alertStore.open(e.response.data.message);
       router.back();
     });
 });
@@ -122,7 +122,7 @@ const handleBtnSendClick = () => {
       toggleSuccessModal();
     })
     .catch((e) => {
-      alertStore.open(e.response.data.message.replace(/<br>/gi, "\n"));
+      alertStore.open(e.response.data.message);
     });
 };
 </script>

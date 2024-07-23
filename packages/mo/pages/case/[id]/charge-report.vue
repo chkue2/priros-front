@@ -142,7 +142,7 @@ const fetchChargeList = () => {
       chargeData.value = data.charger;
     })
     .catch((e) => {
-      alertStore.open(e.response.data.message.replace(/<br>/gi, "\n"));
+      alertStore.open(e.response.data.message);
       router.back();
     });
 };
@@ -154,7 +154,7 @@ const requestCharge = () => {
       toggleSuccessModal();
     })
     .catch((e) => {
-      alertStore.open(e.response.data.message.replace(/<br>/gi, "\n"));
+      alertStore.open(e.response.data.message);
     });
 };
 

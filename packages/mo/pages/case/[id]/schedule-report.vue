@@ -184,6 +184,10 @@
       v-if="isReportChangeHelpModalShow"
       @handler-click-button="toggleReportChangeHelpModal"
     />
+    <CustomConfirmModal
+      v-if="alertStore.isConfirmOpen"
+      @click-button="callPostApi"
+    />
   </NuxtLayout>
 </template>
 
@@ -194,6 +198,7 @@ import { useRoute, useRouter } from "vue-router";
 import CommonBottomButton from "@priros/common/components/button/CommonBottomButton.vue";
 import CommonAlertModal from "@priros/common/components/modal/CommonAlertModal.vue";
 import ReportChangeHelpModal from "~/components/modal/ReportChangeHelpModal.vue";
+import CustomConfirmModal from "~/components/modal/CustomConfirmModal.vue";
 
 import { isEmpty, zeroStr } from "@priros/common/assets/js/utils.js";
 import { tradeCaseScheduleReport } from "~/services/tradeCaseScheduleReport.js";
@@ -213,6 +218,7 @@ const buyerAddressType = ref("");
 const acquisitionShareType = ref("");
 const acquisitionShareDetail = ref("");
 const mortgageRemovableFlag = ref("");
+const repayFlag = ref("");
 
 const isReportChangeHelpModalShow = ref(false);
 
@@ -233,6 +239,7 @@ onMounted(() => {
         acquisitionShareType.value = data.acquisitionShareType;
         acquisitionShareDetail.value = data.acquisitionShareDetail;
         mortgageRemovableFlag.value = data.mortgageRemovableFlag;
+        repayFlag.value = data.repayFlag;
       }
     })
     .catch((e) => {
@@ -281,7 +288,17 @@ const handleBtnSendClick = () => {
 
     return false;
   }
+  if (repayFlag.value === "Y" && Number(hour.value) >= 14) {
+    alertStore.confirmOpen(
+      "상환업무가 있는 사건입니다.<br>시간이 부족하지 않도록<br>일정을 검토하셨나요?"
+    );
+  } else {
+    callPostApi();
+  }
+};
 
+const callPostApi = () => {
+  alertStore.confirmClose();
   tradeCaseScheduleReport
     .post(tradeCaseId, {
       issueDate: date.value,
@@ -296,7 +313,7 @@ const handleBtnSendClick = () => {
       toggleSuccessModal();
     })
     .catch((e) => {
-      alertStore.open(e.response.data.message.replace(/<br>/gi, "\n"));
+      alertStore.open(e.response.data.message);
       console.log(e);
     });
 };

@@ -397,7 +397,7 @@ const handlerClickApprovalApplyButton = () => {
       callApi();
     })
     .catch((e) => {
-      alertStore.open(e.response.data.message.replace(/<br>/gi, "\n"));
+      alertStore.open(e.response.data.message);
     });
 };
 
@@ -422,7 +422,7 @@ const handlerClickEditButton = () => {
 //       transferStore.fetchRemit(tradeCaseId);
 //     })
 //     .catch((e) => {
-// alertStore.open(e.response.data.message.replace(/<br>/gi, "\n"));
+// alertStore.open(e.response.data.message);
 //     });
 // };
 

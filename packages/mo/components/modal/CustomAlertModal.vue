@@ -52,7 +52,7 @@ onBeforeUnmount(() => {
   z-index: $zi-modal;
 }
 .alert-modal-container {
-  width: calc(100% - 84px);
+  width: calc(100% - 48px);
   max-width: 640px;
   background-color: #ffffff;
   border: 1px solid #dfdfdf;
