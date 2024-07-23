@@ -148,6 +148,7 @@ const handlerKeyupAmount = (e) => {
     Number(accountInfoSelectedValue.value.amount.replaceAll(",", "")) ===
     Number(mortgage.value)
   ) {
+    selectedValue.value = {};
     transferStore.setTransferData({
       value: {
         amount: "",
@@ -173,6 +174,7 @@ const handlerKeyupAmount = (e) => {
   ).toLocaleString();
 
   if (accountInfoSelectedValue.value.amount === "0") {
+    selectedValue.value = {};
     transferStore.setTransferData({
       value: {
         amount: "",
@@ -202,6 +204,7 @@ watch(
 watch(
   () => transferStore.deductionYn,
   () => {
+    selectedValue.value = {};
     transferStore.setTransferData({
       value: {
         amount: "",
