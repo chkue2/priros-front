@@ -4,28 +4,29 @@
     <button class="close-button" @click="handlerClickCloseButton"></button>
   </header>
   <div id="wrapper">
-    <slot/>
+    <slot />
   </div>
+  <CustomAlertModal v-if="alertStore.isOpen" />
 </template>
 <script setup>
-
-import {useRouter} from "vue-router";
+import { useRouter } from "vue-router";
+import CustomAlertModal from "~/components/modal/CustomAlertModal.vue";
+import { useAlertStore } from "~/store/alert.js";
 
 const router = useRouter();
 
 const props = defineProps({
-  headerTitle: String
+  headerTitle: String,
 });
+const alertStore = useAlertStore();
 
-
-const headerTitleText = computed(() => props.headerTitle || '팝업');
+const headerTitleText = computed(() => props.headerTitle || "팝업");
 const handlerClickCloseButton = () => {
-  document.querySelector('body').removeAttribute('style')
-  router.back()
-}
+  document.querySelector("body").removeAttribute("style");
+  router.back();
+};
 </script>
 <style scoped lang="scss">
-
 .close-header {
   height: 68px;
   padding: 0 16px;
@@ -63,7 +64,5 @@ const handlerClickCloseButton = () => {
   &.locked {
     overflow: hidden;
   }
-
-
 }
 </style>

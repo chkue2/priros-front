@@ -449,6 +449,7 @@ import {
   isEmpty,
   rexFormatPhone,
 } from "@priros/common/assets/js/utils.js";
+import { useAlertStore } from "~/store/alert.js";
 
 definePageMeta({
   layout: false,
@@ -456,6 +457,7 @@ definePageMeta({
 
 const route = useRoute();
 const detailCaseStore = useDetailCaseStore();
+const alertStore = useAlertStore();
 const tradeCaseId = route.params.id;
 
 onMounted(() => {
@@ -646,7 +648,7 @@ const toggleKakaoRemitSendSuccessModalShow = () => {
 const isInjiRequestIssuanceModalShow = ref(false);
 const toggleInjiRequestIssuanceModal = () => {
   if (detailCaseStore.fetchedDetailCase.tradePrice <= 100000000) {
-    alert("전자수입인지 발행이 필요하지 않은 사건입니다.");
+    alertStore.open("전자수입인지 발행이 필요하지 않은 사건입니다.");
     return false;
   }
   isInjiRequestIssuanceModalShow.value = !isInjiRequestIssuanceModalShow.value;
@@ -659,16 +661,16 @@ const toggleInjiIssuanceCompleteModal = () => {
 
 const handlerClickRegApplication = () => {
   if (detailCaseStore.registrationApplication === "") {
-    alert("등기신청서 작성 ID 및 작성번호를 입력하세요.");
+    alertStore.open("등기신청서 작성 ID 및 작성번호를 입력하세요.");
     return false;
   }
   detailCaseStore
     .requestRegApplication(tradeCaseId)
     .then(() => {
-      alert("등기신청서 작성정보가 입력되었습니다.");
+      alertStore.open("등기신청서 작성정보가 입력되었습니다.");
     })
     .catch((e) => {
-      alert(e.response.data.message);
+      alertStore.open(e.response.data.message);
     });
 };
 
@@ -686,14 +688,14 @@ const fetchContractPreview = () => {
             toggleContractModalShow();
           })
           .catch(() => {
-            alert("미리보기가 불가능한 파일입니다.");
+            alertStore.open("미리보기가 불가능한 파일입니다.");
           });
       } else {
         toggleContractModalShow();
       }
     })
     .catch((e) => {
-      alert(e.response.data.message);
+      alertStore.open(e.response.data.message);
     });
 };
 const contractModalOpen = () => {
@@ -711,7 +713,7 @@ const contractImageSrc = computed(() => {
 const contractImageDownload = () => {
   // 수정 필요
   if (contractFile.value.fileDataEncodeBase64 === null) {
-    alert("원본파일 다운로드가 불가능합니다.");
+    alertStore.open("원본파일 다운로드가 불가능합니다.");
     return false;
   }
 
@@ -751,7 +753,7 @@ const documentFileView = (value) => {
         toggleFilePreviewModalShow();
       })
       .catch(() => {
-        alert("미리보기가 불가능한 파일입니다.");
+        alertStore.open("미리보기가 불가능한 파일입니다.");
       });
   } else {
     toggleFilePreviewModalShow();
@@ -760,7 +762,7 @@ const documentFileView = (value) => {
 
 const documentFileDownload = () => {
   if (previewFile.value.documentId === null) {
-    alert("원본파일 다운로드가 불가능합니다.");
+    alertStore.open("원본파일 다운로드가 불가능합니다.");
     return false;
   }
 
@@ -775,7 +777,7 @@ const documentFileDownload = () => {
     })
     .catch((e) => {
       console.log(e);
-      alert(e.response.data.message);
+      alertStore.open(e.response.data.message);
     });
 };
 
@@ -794,7 +796,7 @@ const injiGenerate = (data) => {
       detailCaseStore.fetchDetailCase(tradeCaseId);
     })
     .catch((e) => {
-      alert(e.response.data.message);
+      alertStore.open(e.response.data.message);
     });
 };
 </script>

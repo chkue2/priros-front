@@ -13,34 +13,35 @@
             </div>
 
             <DropDown
-                placeholder="담당자 선택하기"
-                :options="chargeOptions"
-                :selected-text="chargeSelectText"
-                @click-option="handleChargeOption"
+              placeholder="담당자 선택하기"
+              :options="chargeOptions"
+              :selected-text="chargeSelectText"
+              @click-option="handleChargeOption"
             />
           </div>
           <div v-if="chargeData" class="inner-content">
             <table class="tbl">
               <colgroup>
-                <col style="width: 60px">
-                <col>
+                <col style="width: 60px" />
+                <col />
               </colgroup>
 
               <tbody>
-              <tr>
-                <th>상호</th>
-                <td>{{ chargeData.firmName }}</td>
-              </tr>
-              <tr>
-                <th>이름</th>
-                <td>{{ chargeData.userName }} (ID:{{ chargeData.userId }})</td>
-              </tr>
-              <tr>
-                <th>연락처</th>
-                <td>{{ rexFormatPhone(chargeData.mobile) }}</td>
-              </tr>
+                <tr>
+                  <th>상호</th>
+                  <td>{{ chargeData.firmName }}</td>
+                </tr>
+                <tr>
+                  <th>이름</th>
+                  <td>
+                    {{ chargeData.userName }} (ID:{{ chargeData.userId }})
+                  </td>
+                </tr>
+                <tr>
+                  <th>연락처</th>
+                  <td>{{ rexFormatPhone(chargeData.mobile) }}</td>
+                </tr>
               </tbody>
-
             </table>
           </div>
         </div>
@@ -48,16 +49,19 @@
       <div class="bottom">
         <div class="info text-center">
           안내전화 누락 민원이 자주발생하고 있습니다.
-          <br>반드시 준비사항을 안내하고, 업무보고를 수행하세요.
+          <br />반드시 준비사항을 안내하고, 업무보고를 수행하세요.
         </div>
         <div>
           <CommonBottomButton
-              id="btn-send"
-              text="담당자 보고"
-              backgroundColor="#000000" height="60px" width="100%" color="#fff"
-              :font-weight="700"
-              :disabled="btnSendDisable"
-              @handler-click-button="handleBtnSendClick"
+            id="btn-send"
+            text="담당자 보고"
+            backgroundColor="#000000"
+            height="60px"
+            width="100%"
+            color="#fff"
+            :font-weight="700"
+            :disabled="btnSendDisable"
+            @handler-click-button="handleBtnSendClick"
           />
         </div>
       </div>
@@ -71,22 +75,22 @@
 </template>
 
 <script setup>
+import { ref, computed, onMounted } from "vue";
+import { useRoute, useRouter } from "vue-router";
 
-import {ref, computed, onMounted} from "vue";
-import {useRoute, useRouter} from "vue-router";
-
-import DropDown from '@priros/common/components/form/DropDown'
-import CommonBottomButton from '@priros/common/components/button/CommonBottomButton.vue'
-import CommonAlertModal from "@priros/common/components/modal/CommonAlertModal.vue"
+import DropDown from "@priros/common/components/form/DropDown";
+import CommonBottomButton from "@priros/common/components/button/CommonBottomButton.vue";
+import CommonAlertModal from "@priros/common/components/modal/CommonAlertModal.vue";
 
 import { tradeCaseChargeReport } from "~/services/tradeCaseChargeReport.js";
-import { rexFormatPhone } from '@priros/common/assets/js/utils.js'
-
+import { rexFormatPhone } from "@priros/common/assets/js/utils.js";
+import { useAlertStore } from "~/store/alert.js";
 
 definePageMeta({
-  layout: false
+  layout: false,
 });
 
+const alertStore = useAlertStore();
 
 const chargeOptions = ref([]);
 const chargeData = ref(null);
@@ -107,59 +111,65 @@ const description = computed(() => {
   }
 });
 
-const chargeSelectText = computed(() => chargeData.value ? `${chargeData.value?.userName} (${chargeData.value?.userId})` : "");
+const chargeSelectText = computed(() =>
+  chargeData.value
+    ? `${chargeData.value?.userName} (${chargeData.value?.userId})`
+    : ""
+);
 
 const btnSendDisable = computed(() => !chargeData.value);
 
 onMounted(() => {
-  fetchChargeList()
+  fetchChargeList();
 });
 
-const isSuccessModalShow = ref(false)
+const isSuccessModalShow = ref(false);
 const toggleSuccessModal = () => {
-  isSuccessModalShow.value = !isSuccessModalShow.value
-}
+  isSuccessModalShow.value = !isSuccessModalShow.value;
+};
 
-const router = useRouter()
+const router = useRouter();
 const fetchChargeList = () => {
-  tradeCaseChargeReport.get(tradeCaseId)
-    .then(({data}) => {
-      chargeOptions.value = data.userList.map(u => {
+  tradeCaseChargeReport
+    .get(tradeCaseId)
+    .then(({ data }) => {
+      chargeOptions.value = data.userList.map((u) => {
         return {
           text: `${u.userName} (${u.userId})`,
-          value: u
-        }
-      })
-      chargeData.value = data.charger
+          value: u,
+        };
+      });
+      chargeData.value = data.charger;
     })
     .catch((e) => {
-      alert(e.response.data.message.replace(/<br>/gi, '\n'))
-      router.back()
-    })
+      alertStore.open(e.response.data.message.replace(/<br>/gi, "\n"));
+      router.back();
+    });
 };
 
 const requestCharge = () => {
-  tradeCaseChargeReport.post(tradeCaseId, {tradeCaseId, userId: chargeData.value.userId})
+  tradeCaseChargeReport
+    .post(tradeCaseId, { tradeCaseId, userId: chargeData.value.userId })
     .then(() => {
-      toggleSuccessModal()
+      toggleSuccessModal();
     })
     .catch((e) => {
-      alert(e.response.data.message.replace(/<br>/gi, '\n'))
-    })
-}
+      alertStore.open(e.response.data.message.replace(/<br>/gi, "\n"));
+    });
+};
 
-const handleChargeOption = ({value}) => (chargeData.value = value);
+const handleChargeOption = ({ value }) => (chargeData.value = value);
 
 const handleBtnSendClick = () => {
-  if(chargeData.value === null) {
-    alert('담당자를 선택해주세요')
-    return false
+  if (chargeData.value === null) {
+    alertStore.open("담당자를 선택해주세요");
+    return false;
   }
 
-  requestCharge()
-}
+  requestCharge();
+};
 </script>
 
 <style scoped lang="scss">
-@import '@priros/common/assets/scss/views/dialog'
+@import "@priros/common/assets/scss/views/dialog";
 </style>

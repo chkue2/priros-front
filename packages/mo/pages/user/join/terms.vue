@@ -5,55 +5,74 @@
       <div class="form-title">
         <p class="form-title-text">회원가입약관</p>
         <div class="form-title-checkbox">
-          <label><input type="checkbox" v-model="conditionAgree"><span>동의</span></label>
+          <label
+            ><input type="checkbox" v-model="conditionAgree" /><span
+              >동의</span
+            ></label
+          >
         </div>
       </div>
-      <textarea class="form-textarea" readonly>제1장 총칙
+      <textarea class="form-textarea" readonly>
+제1장 총칙
 제 1 조 (목적)
-본 약관은 ㈜로앤텍(이하 “회사”라 함)이 운영하는 인터넷 사이트 및 모바일 어플리케이션(이하 “프리로스”라 함)에서 제공하는 제반 서비스의 이용과 관련하여 회사와 이용자 및 이용자 간의 권리, 의무 및</textarea>
+본 약관은 ㈜로앤텍(이하 “회사”라 함)이 운영하는 인터넷 사이트 및 모바일 어플리케이션(이하 “프리로스”라 함)에서 제공하는 제반 서비스의 이용과 관련하여 회사와 이용자 및 이용자 간의 권리, 의무 및</textarea
+      >
       <div class="form-title">
         <p class="form-title-text">개인정보 처리방침</p>
         <div class="form-title-checkbox">
-          <label><input type="checkbox" v-model="policyAgree"><span>동의</span></label>
+          <label
+            ><input type="checkbox" v-model="policyAgree" /><span
+              >동의</span
+            ></label
+          >
         </div>
       </div>
-      <textarea class="form-textarea" readonly>주식회사 로앤택은(이하 ‘회사’) 법률서비스 전문 플랫폼 ‘프리로스’와 관련하여, 개인정보 보호법 제30조에 따라 정보주체(고객)의 개인정보를 보호하고 이와 관련한 고충을 신속하고 원활하게 처리할 수 있도록 하기 위하여 다음과 같이 개인정보 처리지침을 수립하고 서비스 사이트(www.priros.com)를 통해 상시 공개합니다.주식회사 로앤택은(이하 ‘회사’) 법률서비스 전문 플랫폼 ‘프리로스’와 관련하여, 개인정보 보호법 제30조에 따라 정보주체(고객)의 개인정보를 보호하고 이와 관련한 고충을 신속하고 원활하게 처리할 수 있도록 하기 위하여 다음과 같이 개인정보 처리지침을 수립하고 서비스 사이트(www.priros.com)를 통해 상시 공개합니다.</textarea>
+      <textarea class="form-textarea" readonly>
+주식회사 로앤택은(이하 ‘회사’) 법률서비스 전문 플랫폼 ‘프리로스’와 관련하여, 개인정보 보호법 제30조에 따라 정보주체(고객)의 개인정보를 보호하고 이와 관련한 고충을 신속하고 원활하게 처리할 수 있도록 하기 위하여 다음과 같이 개인정보 처리지침을 수립하고 서비스 사이트(www.priros.com)를 통해 상시 공개합니다.주식회사 로앤택은(이하 ‘회사’) 법률서비스 전문 플랫폼 ‘프리로스’와 관련하여, 개인정보 보호법 제30조에 따라 정보주체(고객)의 개인정보를 보호하고 이와 관련한 고충을 신속하고 원활하게 처리할 수 있도록 하기 위하여 다음과 같이 개인정보 처리지침을 수립하고 서비스 사이트(www.priros.com)를 통해 상시 공개합니다.</textarea
+      >
       <div class="form-title-checkbox all-agree">
-        <label @click="handlerClickAllAgree"><input type="checkbox" v-model="allAgree"><span>이용약관 전체동의</span></label>
+        <label @click="handlerClickAllAgree"
+          ><input type="checkbox" v-model="allAgree" /><span
+            >이용약관 전체동의</span
+          ></label
+        >
       </div>
-    </div>  
+    </div>
   </div>
   <button class="terms-button" @click="handlerClickNextButton">다음</button>
 </template>
 
 <script setup>
-import { ref, watch } from 'vue'
-import { useRouter } from 'vue-router'
+import { ref, watch } from "vue";
+import { useRouter } from "vue-router";
+import { useAlertStore } from "~/store/alert.js";
 
-const conditionAgree = ref(false)
-const policyAgree = ref(false)
-const allAgree = ref(false)
+const alertStore = useAlertStore();
+
+const conditionAgree = ref(false);
+const policyAgree = ref(false);
+const allAgree = ref(false);
 
 watch([conditionAgree, policyAgree], () => {
-  allAgree.value = conditionAgree.value && policyAgree.value
-})
+  allAgree.value = conditionAgree.value && policyAgree.value;
+});
 
 const handlerClickAllAgree = (e) => {
-  e.preventDefault()
-  e.stopPropagation()
+  e.preventDefault();
+  e.stopPropagation();
 
-  conditionAgree.value = !allAgree.value
-  policyAgree.value = !allAgree.value
-}
+  conditionAgree.value = !allAgree.value;
+  policyAgree.value = !allAgree.value;
+};
 
-const router = useRouter()
+const router = useRouter();
 const handlerClickNextButton = () => {
-  if(!conditionAgree.value || !policyAgree.value) {
-    alert('약관에 모두 동의해주세요.')
-    return false
+  if (!conditionAgree.value || !policyAgree.value) {
+    alertStore.open("약관에 모두 동의해주세요.");
+    return false;
   }
-  router.push('/user/join/general')
-}
+  router.push("/user/join/general");
+};
 </script>
 
 <style scoped lang="scss">

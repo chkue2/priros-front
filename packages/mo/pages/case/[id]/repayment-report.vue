@@ -125,6 +125,7 @@ import { computed, onMounted, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
 
 import { tradeCaseRepay } from "~/services/tradeCaseRepay.js";
+import { useAlertStore } from "~/store/alert.js";
 
 import CommonBottomButton from "@priros/common/components/button/CommonBottomButton.vue";
 import DropDown from "@priros/common/components/form/DropDown";
@@ -135,6 +136,8 @@ definePageMeta({
 });
 
 const tradeCaseId = useRoute().params.id;
+const alertStore = useAlertStore();
+
 const form = ref({
   repaySubjectYn: "",
   remitFileList: [],
@@ -173,7 +176,7 @@ const handlerChangeRemitFileList = (e) => {
   if (e.target.files.length === 0) return false;
   for (let file of e.target.files) {
     if (file.size > 10 * 1024 * 1024) {
-      alert("10MB 이상의 파일은 첨부할 수 없습니다.");
+      alertStore.open("10MB 이상의 파일은 첨부할 수 없습니다.");
       return false;
     }
   }
@@ -194,7 +197,7 @@ const handlerChangeProfFileList = (e) => {
   if (e.target.files.length === 0) return false;
   for (let file of e.target.files) {
     if (file.size > 10 * 1024 * 1024) {
-      alert("10MB 이상의 파일은 첨부할 수 없습니다.");
+      alertStore.open("10MB 이상의 파일은 첨부할 수 없습니다.");
       return false;
     }
   }
@@ -215,7 +218,7 @@ const handlerChangeEtcFileList = (e) => {
   if (e.target.files.length === 0) return false;
   for (let file of e.target.files) {
     if (file.size > 10 * 1024 * 1024) {
-      alert("10MB 이상의 파일은 첨부할 수 없습니다.");
+      alertStore.open("10MB 이상의 파일은 첨부할 수 없습니다.");
       return false;
     }
   }
@@ -250,7 +253,7 @@ onMounted(() => {
       }
     })
     .catch((e) => {
-      alert(e.response.data.message.replace(/<br>/gi, "\n"));
+      alertStore.open(e.response.data.message.replace(/<br>/gi, "\n"));
       router.back();
     });
 });
@@ -267,25 +270,25 @@ const toggleSuccessModal = () => {
 const handlerClickReport = () => {
   if (!isSuccess.value) {
     if (form.value.repaySubjectYn === "") {
-      alert("잔금일 기준 상환업무를 선택해주세요.");
+      alertStore.open("잔금일 기준 상환업무를 선택해주세요.");
     } else if (form.value.repaySubjectYn === "Y") {
       if (
         form.value.remitFileList.length === 0 &&
         remitFileListObj.value === null
       ) {
-        alert("상환영수증을 첨부해주세요.");
+        alertStore.open("상환영수증을 첨부해주세요.");
       } else if (
         form.value.profFileList.length === 0 &&
         profFileListObj.value === null
       ) {
-        alert("말소확인증을 첨부해주세요.");
+        alertStore.open("말소확인증을 첨부해주세요.");
       }
     } else if (form.value.repaySubjectYn === "N") {
       if (
         form.value.etcFileList.length === 0 &&
         etcFileListObj.value === null
       ) {
-        alert("기타첨부서류를 첨부해주세요.");
+        alertStore.open("기타첨부서류를 첨부해주세요.");
       }
     }
     return false;
@@ -315,7 +318,7 @@ const handlerClickReport = () => {
       toggleSuccessModal();
     })
     .catch((e) => {
-      alert(e.response.data.message.replace(/<br>/gi, "\n"));
+      alertStore.open(e.response.data.message.replace(/<br>/gi, "\n"));
     });
 };
 </script>

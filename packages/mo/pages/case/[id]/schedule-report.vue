@@ -197,10 +197,13 @@ import ReportChangeHelpModal from "~/components/modal/ReportChangeHelpModal.vue"
 
 import { isEmpty, zeroStr } from "@priros/common/assets/js/utils.js";
 import { tradeCaseScheduleReport } from "~/services/tradeCaseScheduleReport.js";
+import { useAlertStore } from "~/store/alert.js";
 
 definePageMeta({
   layout: false,
 });
+
+const alertStore = useAlertStore();
 
 const hour = ref("");
 const minute = ref("");
@@ -233,7 +236,7 @@ onMounted(() => {
       }
     })
     .catch((e) => {
-      alert(e.response.data.message.replace(/<br>/gi, "\n"));
+      alertStore.open(e.response.data.message);
       router.back();
     });
 });
@@ -259,21 +262,21 @@ const toggleSuccessModal = () => {
 const handleBtnSendClick = () => {
   if (!formValidation.value) {
     if (isEmpty(date.value)) {
-      alert("잔금일을 선택해주세요");
+      alertStore.open("잔금일을 선택해주세요");
     } else if (isEmpty(hour.value)) {
-      alert("잔금 시간(시간)을 선택해주세요");
+      alertStore.open("잔금 시간(시간)을 선택해주세요");
     } else if (isEmpty(minute.value)) {
-      alert("잔금 시간(분)을 선택해주세요");
+      alertStore.open("잔금 시간(분)을 선택해주세요");
     } else if (isEmpty(date.value)) {
-      alert("잔금일을 선택해주세요");
+      alertStore.open("잔금일을 선택해주세요");
     } else if (isEmpty(salePriceModifiedFlag.value)) {
-      alert("매매가격 수정 여부를 선택해주세요");
+      alertStore.open("매매가격 수정 여부를 선택해주세요");
     } else if (isEmpty(buyerAddressType.value)) {
-      alert("주소전입변동 여부를 선택해주세요");
+      alertStore.open("주소전입변동 여부를 선택해주세요");
     } else if (isEmpty(acquisitionShareType.value)) {
-      alert("매수인별 취득지분을 선택해주세요");
+      alertStore.open("매수인별 취득지분을 선택해주세요");
     } else if (isEmpty(mortgageRemovableFlag.value)) {
-      alert("근저당권 변동 여부를 선택해주세요");
+      alertStore.open("근저당권 변동 여부를 선택해주세요");
     }
 
     return false;
@@ -293,7 +296,7 @@ const handleBtnSendClick = () => {
       toggleSuccessModal();
     })
     .catch((e) => {
-      alert(e.response.data.message.replace(/<br>/gi, "\n"));
+      alertStore.open(e.response.data.message.replace(/<br>/gi, "\n"));
       console.log(e);
     });
 };

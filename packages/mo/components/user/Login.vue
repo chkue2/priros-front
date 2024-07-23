@@ -1,43 +1,75 @@
 <template>
   <div class="join-container">
-    <p class="join-title">안녕하세요<br>프리로스입니다.</p>
+    <p class="join-title">안녕하세요<br />프리로스입니다.</p>
     <p class="join-subtitle">로그인하셔야 사용가능한 서비스입니다.</p>
     <div class="login-form">
       <div class="join-form-input-container mb-11">
-        <input v-model="credentials.userId" type="text" name="user_name" class="join-form-input"
-               placeholder="아이디를 입력해주세요">
+        <input
+          v-model="credentials.userId"
+          type="text"
+          name="user_name"
+          class="join-form-input"
+          placeholder="아이디를 입력해주세요"
+        />
       </div>
       <div class="join-form-input-container">
-        <input v-model="credentials.password" type="password" name="user_password" id="passwordInput"
-               class="join-form-input" placeholder="비밀번호를 입력해주세요" @keyup.enter="handlerClickLoginButton">
-        <i class="login-toggle-password" @click="handlerClickPasswordToggle"></i>
+        <input
+          v-model="credentials.password"
+          type="password"
+          name="user_password"
+          id="passwordInput"
+          class="join-form-input"
+          placeholder="비밀번호를 입력해주세요"
+          @keyup.enter="handlerClickLoginButton"
+        />
+        <i
+          class="login-toggle-password"
+          @click="handlerClickPasswordToggle"
+        ></i>
       </div>
       <div class="login-form-middle-container">
         <div class="login-form-middle-left">
-          <div class="login-form-middle-toggle" :class="{active: isSwitchToggle}" @click="handlerClickSwitchToggle">
+          <div
+            class="login-form-middle-toggle"
+            :class="{ active: isSwitchToggle }"
+            @click="handlerClickSwitchToggle"
+          >
             <i></i>
           </div>
           <p class="login-form-middle-toggle-text">아이디 저장</p>
         </div>
-        <NuxtLink to="/user/find/password" class="login-form-middle-find-password" @click="gnbStore.deactivate();">비밀번호를 잊으셨나요?</NuxtLink>
+        <NuxtLink
+          to="/user/find/password"
+          class="login-form-middle-find-password"
+          @click="gnbStore.deactivate()"
+          >비밀번호를 잊으셨나요?</NuxtLink
+        >
       </div>
-      <button class="login-form-apply-button" @click="handlerClickLoginButton">로그인</button>
+      <button class="login-form-apply-button" @click="handlerClickLoginButton">
+        로그인
+      </button>
       <div class="login-form-button-container">
-        <NuxtLink to="/user/join/expert" @click="gnbStore.deactivate();">회원가입</NuxtLink>
-        <NuxtLink to="/user/find/id" @click="gnbStore.deactivate();">아이디찾기</NuxtLink>
+        <NuxtLink to="/user/join/expert" @click="gnbStore.deactivate()"
+          >회원가입</NuxtLink
+        >
+        <NuxtLink to="/user/find/id" @click="gnbStore.deactivate()"
+          >아이디찾기</NuxtLink
+        >
         <NuxtLink to="/faq/list">헬프센터</NuxtLink>
       </div>
     </div>
   </div>
 </template>
 <script setup>
-import { ref, watch, onMounted, computed } from 'vue';
-import { useRouter } from 'vue-router';
+import { ref, watch, onMounted, computed } from "vue";
+import { useRouter } from "vue-router";
 import { useAuthStore } from "@priros/common/store/auth.js";
 import { useGnbStore } from "~/store/gnbState.js";
+import { useAlertStore } from "~/store/alert.js";
 
 const auth = useAuthStore();
 const gnbStore = useGnbStore();
+const alertStore = useAlertStore();
 
 // local test data
 // const credentials = ref({
@@ -46,76 +78,79 @@ const gnbStore = useGnbStore();
 // });
 
 const credentials = ref({
-  'userId': '',
-  'password': ''
+  userId: "",
+  password: "",
 });
 
-let isSwitchToggle = ref(false)
+let isSwitchToggle = ref(false);
 
 onMounted(() => {
-  const userId = localStorage.getItem('userId')
-  if(userId) {
-    credentials.value.userId = userId
+  const userId = localStorage.getItem("userId");
+  if (userId) {
+    credentials.value.userId = userId;
   }
 
-  isSwitchToggle.value = localStorage.getItem('saveId') === 'true' ? true : false
-})
+  isSwitchToggle.value =
+    localStorage.getItem("saveId") === "true" ? true : false;
+});
 
 // 비밀번호 확인 토글
-let isPasswordToggle = ref(false)
+let isPasswordToggle = ref(false);
 
-watch(() => isPasswordToggle.value, () => {
-  const target = document.querySelector('#passwordInput')
-  if (isPasswordToggle.value) {
-    target.setAttribute('type', 'text')
-  } else {
-    target.setAttribute('type', 'password')
+watch(
+  () => isPasswordToggle.value,
+  () => {
+    const target = document.querySelector("#passwordInput");
+    if (isPasswordToggle.value) {
+      target.setAttribute("type", "text");
+    } else {
+      target.setAttribute("type", "password");
+    }
   }
-})
+);
 
 const handlerClickPasswordToggle = () => {
-  isPasswordToggle.value = !isPasswordToggle.value
-}
+  isPasswordToggle.value = !isPasswordToggle.value;
+};
 
 const handlerClickSwitchToggle = () => {
-  isSwitchToggle.value = !isSwitchToggle.value
-}
+  isSwitchToggle.value = !isSwitchToggle.value;
+};
 
 const isValidation = computed(() => {
-  return (credentials.value.userId !== '' &&
-        credentials.value.password !== '')
-})
+  return credentials.value.userId !== "" && credentials.value.password !== "";
+});
 
 const router = useRouter();
 const handlerClickLoginButton = async () => {
-  if(!isValidation.value) {
-    if(credentials.value.userId === '') {
-      alert('아이디를 입력해주세요.')
-    } else if(credentials.value.password === '') {
-      alert('비밀번호를 입력해주세요.')
+  if (!isValidation.value) {
+    if (credentials.value.userId === "") {
+      alertStore.open("아이디를 입력해주세요.");
+    } else if (credentials.value.password === "") {
+      alertStore.open("비밀번호를 입력해주세요.");
     }
-    return false
+    return false;
   }
 
   const isSuccess = await auth.login(credentials.value);
   if (isSuccess) {
-    localStorage.setItem('saveId', isSwitchToggle.value)
-    if(isSwitchToggle.value) { 
-      localStorage.setItem('userId', credentials.value.userId)
+    localStorage.setItem("saveId", isSwitchToggle.value);
+    if (isSwitchToggle.value) {
+      localStorage.setItem("userId", credentials.value.userId);
     } else {
-      localStorage.removeItem('userId')
+      localStorage.removeItem("userId");
     }
     await auth.userProfile();
     gnbStore.deactivate();
-    router.push('/case/my-case/');
+    router.push("/case/my-case/");
   } else {
-    alert("아이디 또는 비밀번호가 다릅니다.");
+    alertStore.open("아이디 또는 비밀번호가 다릅니다.");
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>
-@import '@priros/common/assets/scss/join/common.scss';
+@import "@priros/common/assets/scss/join/common.scss";
 
 .login-form {
   margin-top: 65px;
@@ -151,7 +186,7 @@ const handlerClickLoginButton = async () => {
     border: 0.5px solid #e5e5e5;
     background-color: #f2f2f2;
     position: relative;
-    transition: background-color .3s ease-in-out;
+    transition: background-color 0.3s ease-in-out;
 
     &.active {
       background-color: #235bed;
@@ -167,12 +202,12 @@ const handlerClickLoginButton = async () => {
       height: 16px;
       border-radius: 50%;
       background-color: #ffffff;
-      box-shadow: 1px 1px 2px -1px #3333334D;
+      box-shadow: 1px 1px 2px -1px #3333334d;
       position: absolute;
       top: 1px;
       left: 0;
       transform: translateX(2px);
-      transition: transform .3s ease-in-out;
+      transition: transform 0.3s ease-in-out;
     }
   }
 
@@ -216,7 +251,7 @@ const handlerClickLoginButton = async () => {
 
     & + a {
       &::before {
-        content: '|';
+        content: "|";
         margin: 0 5px;
         color: #d0d0d0;
         font-size: 12px;

@@ -65,6 +65,7 @@
 import { onMounted, ref } from "vue";
 
 import { tradeCaseRemit } from "~/services/tradeCaseRemit";
+import { useAlertStore } from "~/store/alert.js";
 
 const props = defineProps({ tradeCaseId: String });
 const emits = defineEmits(["close-modal", "open-success-modal", "re-call-api"]);
@@ -81,6 +82,8 @@ const timer = ref(0);
 const timerMin = ref(0);
 const timerSec = ref(0);
 const timerInterval = ref(null);
+
+const alertStore = useAlertStore();
 
 const isPossibleApprove = computed(
   () => kakaoState.value.remitRequestFlag !== "Y"
@@ -99,7 +102,7 @@ onMounted(() => {
       };
     })
     .catch((e) => {
-      alert(e.response.data.message);
+      alertStore.open(e.response.data.message);
     });
 });
 
@@ -128,13 +131,13 @@ const handlerClickApprovalSend = () => {
       isApprovalSend.value = true;
     })
     .catch((e) => {
-      alert(e.response.data.message);
+      alertStore.open(e.response.data.message);
     });
 };
 
 const handlerClickApprovalCheck = () => {
   if (approvalNumber.value === "") {
-    alert("송금승인번호를 입력해주세요");
+    alertStore.open("송금승인번호를 입력해주세요");
     return false;
   }
 
@@ -153,7 +156,7 @@ const handlerClickApprovalCheck = () => {
       emits("close-modal");
     })
     .catch((e) => {
-      alert(e.response.data.message);
+      alertStore.open(e.response.data.message);
       isApprovalFail.value = true;
       isApprovalSuccess.value = false;
     });
@@ -161,11 +164,11 @@ const handlerClickApprovalCheck = () => {
 
 const handlerClickApplyRemit = () => {
   if (!isApprovalSend.value) {
-    alert("승인번호 요청이 필요합니다");
+    alertStore.open("승인번호 요청이 필요합니다");
     return false;
   }
   if (!isApprovalSuccess.value) {
-    alert("승인번호 확인이 필요합니다");
+    alertStore.open("승인번호 확인이 필요합니다");
     return false;
   }
 
@@ -180,7 +183,7 @@ const handlerClickApplyRemit = () => {
     })
     .catch((e) => {
       console.log(e);
-      alert(e.response.data.message);
+      alertStore.open(e.response.data.message);
     });
 };
 

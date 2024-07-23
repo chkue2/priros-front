@@ -187,12 +187,15 @@ import { computed, onMounted, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import TransferAccountCard from "~/components/card/TransferAccountCard.vue";
 import { useTransferStore } from "~/store/case/transfer.js";
+import { useAlertStore } from "~/store/alert.js";
 
 const router = useRouter();
 const route = useRoute();
 const tradeCaseId = route.params.id;
 
 const transferStore = useTransferStore();
+const alertStore = useAlertStore();
+
 const isSaved = ref(false);
 const isApprovalSend = ref(false);
 const isApprovalApply = ref(false);
@@ -313,7 +316,7 @@ const toggleTransferApplyModalShow = () => {
 const callApi = () => {
   Promise.all([transferStore.fetchRemit(tradeCaseId)])
     .catch((e) => {
-      alert(e.response.data.message.replace(/<br>/gi, "\n"));
+      alertStore.open(e.response.data.message);
       router.back();
     })
     .finally(() => {
@@ -324,7 +327,7 @@ const callApi = () => {
 
 const handlerClickSaveButton = () => {
   if (!isAccountValidation.value) {
-    alert("계좌의 정보를 모두 입력해주세요.");
+    alertStore.open("계좌의 정보를 모두 입력해주세요.");
     return;
   }
 
@@ -335,7 +338,7 @@ const handlerClickSaveButton = () => {
       transferStore.fetchRemit(tradeCaseId);
     })
     .catch((e) => {
-      alert(e.response.data.message);
+      alertStore.open(e.response.data.message);
     });
 };
 
@@ -346,7 +349,7 @@ const timerInterval = ref(null);
 const handlerClickApprovalSendButton = () => {
   if (isSuccess.value) return false;
   if (!isSaved.value) {
-    alert("계좌 정보를 먼저 저장해주세요.");
+    alertStore.open("계좌 정보를 먼저 저장해주세요.");
     return;
   }
 
@@ -371,7 +374,7 @@ const handlerClickApprovalSendButton = () => {
       toggleApprovalSendAlarmModalShow();
     })
     .catch((e) => {
-      alert(e.response.data.message);
+      alertStore.open(e.response.data.message);
     });
 };
 
@@ -379,7 +382,7 @@ const authNum = ref("");
 const MAX_LENGTH = 6;
 const handlerClickApprovalApplyButton = () => {
   if (authNum.value.length < MAX_LENGTH) {
-    alert("인증번호 6자리를 입력해주세요.");
+    alertStore.open("인증번호 6자리를 입력해주세요.");
     return false;
   }
 
@@ -389,12 +392,12 @@ const handlerClickApprovalApplyButton = () => {
       clearInterval(timerInterval.value);
       timerInterval.value = null;
       isApprovalApply.value = true;
-      alert("송금요청이 전송되었습니다.");
+      alertStore.open("송금요청이 전송되었습니다.");
       window.scrollTo({ top: 0, behavior: "smooth" });
       callApi();
     })
     .catch((e) => {
-      alert(e.response.data.message.replace(/<br>/gi, "\n"));
+      alertStore.open(e.response.data.message.replace(/<br>/gi, "\n"));
     });
 };
 
@@ -408,7 +411,7 @@ const handlerClickEditButton = () => {
 // 현재는 인증완료시 송금요청이 바로 되는 상황이라 사용하지 않음.
 // const handlerClickTransferApplyButton = () => {
 //   if (!isApprovalApply.value) {
-//     alert("인증을 완료해주세요.");
+// alertStore.open("인증을 완료해주세요.");
 //     window.scrollTo({ top: 9999, behavior: "smooth" });
 //     return;
 //   }
@@ -419,7 +422,7 @@ const handlerClickEditButton = () => {
 //       transferStore.fetchRemit(tradeCaseId);
 //     })
 //     .catch((e) => {
-//       alert(e.response.data.message.replace(/<br>/gi, "\n"));
+// alertStore.open(e.response.data.message.replace(/<br>/gi, "\n"));
 //     });
 // };
 

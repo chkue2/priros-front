@@ -1,6 +1,7 @@
 import { isEmpty } from "@priros/common/assets/js/utils.js";
 import { defineStore } from "pinia";
 import { tradeCaseRemit } from "~/services/tradeCaseRemit.js";
+import { useAlertStore } from "~/store/alert.js";
 
 export const useTransferStore = defineStore("transfer", {
   state: () => ({
@@ -26,6 +27,7 @@ export const useTransferStore = defineStore("transfer", {
     bankOptions: [],
     deductionYn: false,
     directLawYn: false,
+    alertStore: useAlertStore(),
   }),
   actions: {
     async fetchRemit(tradeCaseId) {
@@ -106,7 +108,7 @@ export const useTransferStore = defineStore("transfer", {
           }
         })
         .catch((e) => {
-          alert(e.response.data.message);
+          alertStore.open(e.response.data.message);
         });
     },
     postRemit(tradeCaseId) {

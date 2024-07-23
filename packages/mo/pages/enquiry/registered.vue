@@ -2,7 +2,8 @@
   <NuxtLayout name="dialog-header" headerTitle="등기필정보 조회">
     <div class="dialog-wrapper">
       <p class="top-text">
-        부동산 고유번호와 등기필정보 일련번호의 일치 여부 및 사용 가능한 비밀번호를 조회할 수 있습니다.
+        부동산 고유번호와 등기필정보 일련번호의 일치 여부 및 사용 가능한
+        비밀번호를 조회할 수 있습니다.
       </p>
       <div class="wrapper-inner">
         <p class="success-text">인증완료 되었습니다</p>
@@ -12,7 +13,7 @@
               <label for="" class="form-label">부동산 고유번호</label>
             </div>
             <div class="form-input">
-              <input v-model="pin" type="text" placeholder="고유번호">
+              <input v-model="pin" type="text" placeholder="고유번호" />
             </div>
           </div>
           <div class="form-group">
@@ -20,7 +21,7 @@
               <label for="" class="form-label">등기필정보 일련번호</label>
             </div>
             <div class="form-input">
-              <input v-model="serialNo" type="text" placeholder="일련번호">
+              <input v-model="serialNo" type="text" placeholder="일련번호" />
             </div>
           </div>
         </div>
@@ -31,88 +32,108 @@
           <div v-for="(col, index) in bitList" :key="index" class="bit-column">
             <div v-for="(row, index2) in col" :key="index2" class="bit-row">
               <span>{{ row.index }}</span>
-              <img v-if="row.value === '1'" src="/img/icon/check-broken.svg" alt="확인">
-              <img v-if="row.value === '0'" src="/img/icon/close-red.svg" alt="취소">
+              <img
+                v-if="row.value === '1'"
+                src="/img/icon/check-broken.svg"
+                alt="확인"
+              />
+              <img
+                v-if="row.value === '0'"
+                src="/img/icon/close-red.svg"
+                alt="취소"
+              />
             </div>
           </div>
         </div>
       </div>
       <div class="bottom">
-        <p class="info">본 서비스는 인터넷등기소 조회결과를 단순제공하고 있으며,<br>문서의 진위여부를 보장하지는 않습니다.</p>
+        <p class="info">
+          본 서비스는 인터넷등기소 조회결과를 단순제공하고 있으며,<br />문서의
+          진위여부를 보장하지는 않습니다.
+        </p>
         <div>
           <CommonBottomButton
-              id="btn-send"
-              text="조회하기"
-              backgroundColor="#000000" height="60px" width="100%" color="#fff"
-              :font-weight="700"
-              :disabled="false"
-              @handler-click-button="handleBtnSendClick"
+            id="btn-send"
+            text="조회하기"
+            backgroundColor="#000000"
+            height="60px"
+            width="100%"
+            color="#fff"
+            :font-weight="700"
+            :disabled="false"
+            @handler-click-button="handleBtnSendClick"
           />
         </div>
       </div>
     </div>
-    <LoadingModal v-if="isLoading" text="조회중입니다.<br>잠시만 기다려주세요." />
+    <LoadingModal
+      v-if="isLoading"
+      text="조회중입니다.<br>잠시만 기다려주세요."
+    />
   </NuxtLayout>
 </template>
 <script setup>
-import { ref, computed } from 'vue'
-import CommonBottomButton from '@priros/common/components/button/CommonBottomButton.vue'
-import LoadingModal from '@priros/common/components/modal/LoadingModal.vue'
+import { ref, computed } from "vue";
+import CommonBottomButton from "@priros/common/components/button/CommonBottomButton.vue";
+import LoadingModal from "@priros/common/components/modal/LoadingModal.vue";
 
-import { enquiry } from '~/services/enquiry.js'
+import { enquiry } from "~/services/enquiry.js";
+import { useAlertStore } from "~/store/alert.js";
 
 definePageMeta({
-  layout: false
+  layout: false,
 });
 
+const alertStore = useAlertStore();
 // local test data
 // const pin = ref('12012018015303')
 // const serialNo = ref('8GHB4FRV39NB')
-const pin = ref('')
-const serialNo = ref('')
+const pin = ref("");
+const serialNo = ref("");
 
-const isSuccess = computed(() => 
-  pin.value !== '' &&
-  serialNo.value !== ''
-)
+const isSuccess = computed(() => pin.value !== "" && serialNo.value !== "");
 
-const isLoading = ref(false)
+const isLoading = ref(false);
 
-const bitList = ref([])
+const bitList = ref([]);
 const handleBtnSendClick = () => {
-  if(!isSuccess.value) {
-    alert('부동산 고유번호와 등기필정보 일련번호를 모두 입력해주세요.')
-    return false
+  if (!isSuccess.value) {
+    alertStore.open(
+      "부동산 고유번호와 등기필정보 일련번호를 모두 입력해주세요."
+    );
+    return false;
   }
 
-  isLoading.value = true
-  enquiry.get({pin: pin.value, serialNo: serialNo.value}).then(({data}) => {
-    let arr = []
-    for(let i=0; i < 5; i++ ) {
-      arr = [...arr, data.bitList.slice(10 * i, 10 * i + 10)]
-    }
-    arr = arr.reduce((prev, curr, index) => {
-      curr = curr.map((c, index2) => {
-        return {
-          value: c,
-          index: (index * 10) + (index2 + 1)
-        }
-      })
-      prev.push(curr)
-      return prev
-    }, [])
-    bitList.value = arr
-  })
-  .catch((e) => {
-    console.log(e)
-  })
-  .finally(() => {
-    isLoading.value = false
-  })
-}
+  isLoading.value = true;
+  enquiry
+    .get({ pin: pin.value, serialNo: serialNo.value })
+    .then(({ data }) => {
+      let arr = [];
+      for (let i = 0; i < 5; i++) {
+        arr = [...arr, data.bitList.slice(10 * i, 10 * i + 10)];
+      }
+      arr = arr.reduce((prev, curr, index) => {
+        curr = curr.map((c, index2) => {
+          return {
+            value: c,
+            index: index * 10 + (index2 + 1),
+          };
+        });
+        prev.push(curr);
+        return prev;
+      }, []);
+      bitList.value = arr;
+    })
+    .catch((e) => {
+      console.log(e);
+    })
+    .finally(() => {
+      isLoading.value = false;
+    });
+};
 </script>
 <style scoped lang="scss">
-@import '@priros/common/assets/scss/views/dialog';
+@import "@priros/common/assets/scss/views/dialog";
 .top-text {
   font-size: 14px;
   font-weight: $ft-medium;
@@ -136,7 +157,7 @@ const handleBtnSendClick = () => {
     visibility: visible;
   }
 }
-.bit-container{
+.bit-container {
   padding: 33px 16px;
   .bit-title {
     margin-bottom: 6px;
@@ -151,7 +172,7 @@ const handleBtnSendClick = () => {
     flex: 1;
     display: flex;
     flex-direction: column;
-    & + .bit-column{
+    & + .bit-column {
       border-left: 1px solid #bebebe;
     }
   }

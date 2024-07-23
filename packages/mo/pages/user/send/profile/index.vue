@@ -66,12 +66,14 @@ import { useRouter } from "vue-router";
 import CommonBottomButton from "@priros/common/components/button/CommonBottomButton.vue";
 
 import { user } from "~/services/user.js";
+import { useAlertStore } from "~/store/alert.js";
 
 definePageMeta({
   layout: false,
 });
 
 const router = useRouter();
+const alertStore = useAlertStore();
 
 const form = ref({
   name: "",
@@ -85,9 +87,9 @@ const isValidate = computed(
 const handlerClickSendButton = () => {
   if (!isValidate.value) {
     if (form.value.name === "") {
-      alert("매수인 이름을 입력해주세요");
+      alertStore.open("매수인 이름을 입력해주세요");
     } else if (form.value.mobile === "") {
-      alert("매수인 휴대폰번호를 입력해주세요");
+      alertStore.open("매수인 휴대폰번호를 입력해주세요");
     }
     return false;
   }
@@ -95,10 +97,10 @@ const handlerClickSendButton = () => {
   user
     .sendProfile(form.value)
     .then(() => {
-      alert("매수인에게 내 프로필카드가 전송되었습니다.");
+      alertStore.open("매수인에게 내 프로필카드가 전송되었습니다.");
     })
     .catch((e) => {
-      alert(e.response.data.message);
+      alertStore.open(e.response.data.message);
     });
 };
 

@@ -64,6 +64,7 @@ import CommonAlertModal from "@priros/common/components/modal/CommonAlertModal.v
 
 import { onlyNumber } from "@priros/common/assets/js/utils.js";
 import { tradeCaseReceptionReport } from "~/services/tradeCaseReceptionReport.js";
+import { useAlertStore } from "~/store/alert.js";
 
 definePageMeta({
   layout: false,
@@ -76,6 +77,7 @@ const receiveDate = ref("");
 const receiveBuyer = ref("");
 
 const router = useRouter();
+const alertStore = useAlertStore();
 
 onMounted(() => {
   tradeCaseReceptionReport
@@ -88,7 +90,7 @@ onMounted(() => {
       receiveNo.value = data.receiveNo;
     })
     .catch((e) => {
-      alert(e.response.data.message.replace(/<br>/gi, "\n"));
+      alertStore.open(e.response.data.message.replace(/<br>/gi, "\n"));
       router.back();
     });
 });
@@ -107,7 +109,7 @@ const toggleSuccessModal = () => {
 
 const handleBtnSendClick = () => {
   if (receiveNo.value === "") {
-    alert("접수번호를 입력해주세요.");
+    alertStore.open("접수번호를 입력해주세요.");
     return false;
   }
 
@@ -120,7 +122,7 @@ const handleBtnSendClick = () => {
       toggleSuccessModal();
     })
     .catch((e) => {
-      alert(e.response.data.message.replace(/<br>/gi, "\n"));
+      alertStore.open(e.response.data.message.replace(/<br>/gi, "\n"));
     });
 };
 </script>

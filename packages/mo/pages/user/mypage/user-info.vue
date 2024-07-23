@@ -6,27 +6,30 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref } from "vue";
 
-import { myPageStore } from '~/store/user/myPage.js'
+import { myPageStore } from "~/store/user/myPage.js";
+import { useAlertStore } from "~/store/alert.js";
 
-import MypagePasswordForm from '~/views/user/MypagePasswordForm.vue'
-import MypageUpdateForm from '~/views/user/MypageUpdateForm.vue'
+import MypagePasswordForm from "~/views/user/MypagePasswordForm.vue";
+import MypageUpdateForm from "~/views/user/MypageUpdateForm.vue";
 definePageMeta({
   layout: false,
-})
+});
 
-const myPage = myPageStore()
+const alertStore = useAlertStore();
+const myPage = myPageStore();
 
-const depth = ref(1)
+const depth = ref(1);
 const nextDepth = () => {
-  myPage.requestVertifyPassword()
+  myPage
+    .requestVertifyPassword()
     .then(() => {
-      myPage.setVertifyPassword('')
-      depth.value++
+      myPage.setVertifyPassword("");
+      depth.value++;
     })
-    .catch(e => {
-      alert('비밀번호를 다시 확인해주세요.')
-    })
-}
+    .catch((e) => {
+      alertStore.open("비밀번호를 다시 확인해주세요.");
+    });
+};
 </script>

@@ -1,9 +1,14 @@
 <template>
   <div class="detail-case-common-table">
     <div class="apply-memo">
-      <textarea v-model="memoText" class="apply-memo-textarea" placeholder="메모를 등록하세요 (한글 최대 50자 이내)" maxlength="50"></textarea>
+      <textarea
+        v-model="memoText"
+        class="apply-memo-textarea"
+        placeholder="메모를 등록하세요 (한글 최대 50자 이내)"
+        maxlength="50"
+      ></textarea>
       <button class="apply-memo-button" @click="handlerClickSendMemo">
-        <img src="/img/icon/apply-white.svg">
+        <img src="/img/icon/apply-white.svg" />
         등록
       </button>
     </div>
@@ -11,75 +16,98 @@
       <div class="detail-case-common-table-small">수신일</div>
       <div class="detail-case-common-table-big">내용</div>
       <div class="detail-case-common-table-small">발신자</div>
-      <div class="detail-case-common-table-thin ">삭제</div>
+      <div class="detail-case-common-table-thin">삭제</div>
     </div>
-    <div v-if="detailCaseStore.fetchedMemoList.length === 0" class="detail-case-common-table-contents">
+    <div
+      v-if="detailCaseStore.fetchedMemoList.length === 0"
+      class="detail-case-common-table-contents"
+    >
       <div class="detail-case-common-table-empty">등록된 메모가 없습니다</div>
     </div>
     <div v-if="detailCaseStore.fetchedMemoList.length > 0">
-      <div v-for="(m, index) in detailCaseStore.fetchedMemoList" :key="index" class="detail-case-common-table-contents contents-8">
-        <div class="detail-case-common-table-small" v-html="changeDateFormat(m.created)"></div>
+      <div
+        v-for="(m, index) in detailCaseStore.fetchedMemoList"
+        :key="index"
+        class="detail-case-common-table-contents contents-8"
+      >
+        <div
+          class="detail-case-common-table-small"
+          v-html="changeDateFormat(m.created)"
+        ></div>
         <div class="detail-case-common-table-big">{{ m.content }}</div>
         <div class="detail-case-common-table-small">{{ m.registerName }}</div>
         <div class="detail-case-common-table-thin">
-          <img src="/img/icon/delete-gray.svg" alt="삭제" class="table-small-icon" @click="handlerClickDeleteMemo(m.memoId)">
+          <img
+            src="/img/icon/delete-gray.svg"
+            alt="삭제"
+            class="table-small-icon"
+            @click="handlerClickDeleteMemo(m.memoId)"
+          />
         </div>
       </div>
     </div>
-    <Pagination :paging="detailCaseStore.fetchedPaging" :margin-top="50" @click-page="handlerClickPage" />
+    <Pagination
+      :paging="detailCaseStore.fetchedPaging"
+      :margin-top="50"
+      @click-page="handlerClickPage"
+    />
   </div>
 </template>
 <script setup>
-import { ref } from 'vue'
-import { useDetailCaseStore } from '@priros/common/store/case/detail.js'
+import { ref } from "vue";
+import { useDetailCaseStore } from "@priros/common/store/case/detail.js";
+import { useAlertStore } from "~/store/alert.js";
 
-import Pagination from '@priros/common/components/paging/Pagination.vue'
+import Pagination from "@priros/common/components/paging/Pagination.vue";
 
-const props = defineProps({tradeCaseId: String})
-const detailCaseStore = useDetailCaseStore()
+const props = defineProps({ tradeCaseId: String });
+const detailCaseStore = useDetailCaseStore();
+const alertStore = useAlertStore();
 
 const changeDateFormat = (date) => {
-  return date?.replace('T', '<br>')
-}
+  return date?.replace("T", "<br>");
+};
 
-const memoText = ref('')
+const memoText = ref("");
 const handlerClickSendMemo = () => {
-  if(memoText.value === '') {
-    alert('메모 내용은 비어 있을 수 없습니다.')
-    return false
+  if (memoText.value === "") {
+    alertStore.open("메모 내용은 비어 있을 수 없습니다.");
+    return false;
   }
-  detailCaseStore.requestMemo(props.tradeCaseId, memoText.value)
+  detailCaseStore
+    .requestMemo(props.tradeCaseId, memoText.value)
     .then(() => {
-      memoText.value = ''
-      alert('메모가 등록되었습니다.')
-      detailCaseStore.fetchMemo(props.tradeCaseId, 1)
+      memoText.value = "";
+      alertStore.open("메모가 등록되었습니다.");
+      detailCaseStore.fetchMemo(props.tradeCaseId, 1);
     })
-    .catch(e => {
-      alert(e.response.data.message)
-    })
-}
+    .catch((e) => {
+      alertStore.open(e.response.data.message);
+    });
+};
 
 const handlerClickPage = (page) => {
-  detailCaseStore.fetchMemo(props.tradeCaseId, page)
-}
+  detailCaseStore.fetchMemo(props.tradeCaseId, page);
+};
 
 const handlerClickDeleteMemo = (memoId) => {
-  if(!confirm('메모를 삭제하시겠어요?')) {
-    return false
+  if (!confirm("메모를 삭제하시겠어요?")) {
+    return false;
   }
 
-  detailCaseStore.requestMemoDelete(props.tradeCaseId, memoId)
+  detailCaseStore
+    .requestMemoDelete(props.tradeCaseId, memoId)
     .then(() => {
-      alert('메모가 삭제되었습니다.')
-      detailCaseStore.fetchMemo(props.tradeCaseId, 1)
+      alertStore.open("메모가 삭제되었습니다.");
+      detailCaseStore.fetchMemo(props.tradeCaseId, 1);
     })
-    .catch(e => {
-      alert(e.response.data.message)
-    })
-}
+    .catch((e) => {
+      alertStore.open(e.response.data.message);
+    });
+};
 </script>
 <style scoped lang="scss">
-@import '@priros/common/assets/scss/detail-case/table.scss';
+@import "@priros/common/assets/scss/detail-case/table.scss";
 .apply-memo {
   display: flex;
   margin-bottom: 15px;

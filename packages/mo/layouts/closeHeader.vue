@@ -1,41 +1,48 @@
 <template>
   <header class="close-header">
-    <p class="close-header-title">{{headerTitleText}}</p>
+    <p class="close-header-title">{{ headerTitleText }}</p>
     <button class="close-button" @click="handlerClickCloseButton"></button>
   </header>
   <div id="wrapper">
     <slot />
   </div>
+  <CustomAlertModal v-if="alertStore.isOpen" />
 </template>
 <script setup>
-import { onMounted, watch, ref } from 'vue'
-import { useRouter } from 'vue-router'
+import { onMounted, watch, ref } from "vue";
+import { useRouter } from "vue-router";
+import { useAlertStore } from "~/store/alert.js";
 
-const router = useRouter()
+const router = useRouter();
+const alertStore = useAlertStore();
+
 const handlerClickCloseButton = () => {
-  router.back()
-}
+  router.back();
+};
 
-let headerTitleText = ref('')
+let headerTitleText = ref("");
 onMounted(() => {
-  headerTitleText.value = returnTitle(window.location.pathname)
-})
-watch(() => router, () => {
-  headerTitleText.value = returnTitle(router.options.history.location)
-}, {deep: true})
-
+  headerTitleText.value = returnTitle(window.location.pathname);
+});
+watch(
+  () => router,
+  () => {
+    headerTitleText.value = returnTitle(router.options.history.location);
+  },
+  { deep: true }
+);
 
 // 해당 레이아웃 사용하는 페이지 추가시 아래 switch에 case 추가.
 const returnTitle = (path) => {
-  switch(path) {
-    case '/notice/list':
-      return '공지사항'
-    case '/request/transfer':
-      return '송금요청'
+  switch (path) {
+    case "/notice/list":
+      return "공지사항";
+    case "/request/transfer":
+      return "송금요청";
     default:
-      return ''
+      return "";
   }
-}
+};
 </script>
 <style scoped lang="scss">
 .close-header {
