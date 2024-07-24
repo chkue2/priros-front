@@ -19,7 +19,7 @@
     <div class="kakao-remit-form-title">
       <p class="form-title-text">송금승인번호</p>
       <p
-        v-if="isApprovalSend && !isApprovalSuccess"
+        v-if="isApprovalSend && !isApprovalSuccess && isResendShow"
         class="form-title-resend"
         @click="handlerClickApprovalSend"
       >
@@ -82,6 +82,7 @@ const timer = ref(0);
 const timerMin = ref(0);
 const timerSec = ref(0);
 const timerInterval = ref(null);
+const isResendShow = ref(false);
 
 const alertStore = useAlertStore();
 
@@ -110,6 +111,7 @@ const handlerClickApprovalSend = () => {
   if (!isPossibleApprove.value) {
     return false;
   }
+  isResendShow.value = false;
   tradeCaseRemit
     .auth(props.tradeCaseId, { seq: seq.value })
     .then(() => {
@@ -121,10 +123,13 @@ const handlerClickApprovalSend = () => {
         timerMin.value = Math.floor(timer.value / 60);
         timerSec.value = timer.value % 60;
 
+        if (timer.value < 270) isResendShow.value = true;
+
         if (timer.value === 0) {
           clearInterval(timerInterval.value);
           timerInterval.value = null;
           isApprovalSend.value = false;
+          isResendShow.value = false;
         }
       }, 1000);
 
