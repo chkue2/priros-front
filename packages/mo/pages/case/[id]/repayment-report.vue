@@ -76,8 +76,7 @@
               </div>
             </div>
             <div v-if="form.repaySubjectYn === 'N'" class="form-help-container">
-              <img src="/img/cha/cha-06.png" class="form-help-image" />
-              <p class="form-help-title">한번만 읽어주세요</p>
+              <img src="/img/cha/cha-07.png" class="form-help-image" />
               <p class="form-help-content">
                 상환보고 대상이 없거나, 미리 상환이 완료되어 상환업무 및
                 보고대상이 없는 경우에도 말소된 등기부등본, 상환영수증,
@@ -330,7 +329,7 @@ const handlerClickReport = () => {
   text-align: center;
 }
 .form-help-image {
-  width: 133px;
+  width: 166px;
   height: auto;
 }
 .form-help-title {
