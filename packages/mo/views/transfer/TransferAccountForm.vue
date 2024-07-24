@@ -91,7 +91,7 @@
     <p class="approval-title">
       송금 승인번호
       <button
-        v-if="isApprovalSend && !isApprovalApply"
+        v-if="isApprovalSend && !isApprovalApply && isResendShow"
         class="approval-re-send"
         @click="handlerClickApprovalSendButton"
       >
@@ -346,6 +346,7 @@ const timer = ref(0);
 const timerMin = ref(0);
 const timerSec = ref(0);
 const timerInterval = ref(null);
+const isResendShow = ref(false);
 const handlerClickApprovalSendButton = () => {
   if (isSuccess.value) return false;
   if (!isSaved.value) {
@@ -353,6 +354,7 @@ const handlerClickApprovalSendButton = () => {
     return;
   }
 
+  isResendShow.value = false;
   transferStore
     .postAuth(tradeCaseId)
     .then(() => {
@@ -364,10 +366,13 @@ const handlerClickApprovalSendButton = () => {
         timerMin.value = Math.floor(timer.value / 60);
         timerSec.value = timer.value % 60;
 
+        if (timer.value < 270) isResendShow.value = true;
+
         if (timer.value === 0) {
           clearInterval(timerInterval.value);
           timerInterval.value = null;
           isApprovalSend.value = false;
+          isResendShow.value = false;
         }
       }, 1000);
       isApprovalSend.value = true;
@@ -392,6 +397,7 @@ const handlerClickApprovalApplyButton = () => {
       clearInterval(timerInterval.value);
       timerInterval.value = null;
       isApprovalApply.value = true;
+      isResendShow.value = false;
       alertStore.open("송금요청이 전송되었습니다.");
       window.scrollTo({ top: 0, behavior: "smooth" });
       callApi();
