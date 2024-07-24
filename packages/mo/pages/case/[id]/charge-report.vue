@@ -2,14 +2,10 @@
   <NuxtLayout name="dialog-header" headerTitle="담당자 보고">
     <div class="dialog-wrapper">
       <div class="container">
-        <div class="inner-header">
-          <span class="badge badge-primary-gradient">담당자 보고전 확인</span>
-          <div class="txt-help" v-html="description"></div>
-        </div>
-        <div class="inner-body">
+        <div class="inner-body mt16">
           <div class="form-group">
             <div class="label">
-              <label class="form-label">담당자 정보</label>
+              <label class="form-label">담당자</label>
             </div>
 
             <DropDown
@@ -47,9 +43,14 @@
         </div>
       </div>
       <div class="bottom">
-        <div class="info text-center">
-          안내전화 누락 민원이 자주발생하고 있습니다.
-          <br />반드시 준비사항을 안내하고, 업무보고를 수행하세요.
+        <div class="charge-bottom-text">
+          <p class="charge-bottom-title">담당자보고 주의사항</p>
+          <p class="charge-bottom-content">
+            • 안내전화 누락 민원이 자주 발생하고 있습니다.
+          </p>
+          <p class="charge-bottom-content">
+            • 반드시 준비사항을 안내하고 업무보고를 수행하세요.
+          </p>
         </div>
         <div>
           <CommonBottomButton
@@ -96,20 +97,6 @@ const chargeOptions = ref([]);
 const chargeData = ref(null);
 
 const tradeCaseId = useRoute().params.id;
-
-const description = computed(() => {
-  if (chargeData.value === null) {
-    return `
-    담당자의 프로필이 고객에게 알림톡으로 전송됩니다.
-    <br>담당자보고를 수행하시겠습니까?
-    `;
-  } else {
-    return `
-      담당자의 프로필이 고객에게 알림톡으로 전송됩니다.
-      <br>연락처 및 담당자의 정보를 확인해주세요.
-    `;
-  }
-});
 
 const chargeSelectText = computed(() =>
   chargeData.value
@@ -172,4 +159,18 @@ const handleBtnSendClick = () => {
 
 <style scoped lang="scss">
 @import "@priros/common/assets/scss/views/dialog";
+.charge-bottom-text {
+  padding: 27px 14px;
+  .charge-bottom-title {
+    font-weight: $ft-semibold;
+    margin-bottom: 16px;
+  }
+  .charge-bottom-content {
+    font-size: 12px;
+    font-weight: $ft-medium;
+    & + .charge-bottom-content {
+      margin-top: 5px;
+    }
+  }
+}
 </style>
