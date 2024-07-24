@@ -73,6 +73,8 @@ onBeforeUnmount(() => {
     font-weight: $ft-medium;
     text-align: center;
     color: #1a1a1a;
+    padding: 0 24px;
+    word-break: keep-all;
   }
   .alert-modal-bottom-button {
     width: 100%;
