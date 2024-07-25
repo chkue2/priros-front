@@ -83,7 +83,7 @@ export const useTransferStore = defineStore("transfer", {
           this.remitRequestFlag = data.remitRequestFlag;
           this.rejectMessage = data.rejectMessage;
           this.approveYn = data.approveYn;
-          this.deductionYn = data.deductionYn === "Y";
+          this.deductionYn = data.deductionYn === "N";
           this.directLawYn = data.directLawYn;
           if (!isEmpty(data.repayAmount)) {
             this.transfer[0].amount = data.repayAmount.toLocaleString();
@@ -124,7 +124,7 @@ export const useTransferStore = defineStore("transfer", {
         buyerPayoutAccountHolder: this.transfer[1].holder || "",
         buyerPayoutAccountNumber: this.transfer[1].account || "",
         memo: this.memo,
-        deductionYn: this.deductionYn ? "Y" : "N",
+        deductionYn: this.deductionYn ? "N" : "Y",
       };
       if (this.seq > 0 && this.seq !== null) {
         formData = { ...formData, seq: this.seq };
