@@ -40,7 +40,6 @@
     </div>
     <label v-if="transferStore.directLawYn" class="transfer-top-intro">
       <input
-        v-if="!isTransferApply && !isEdit"
         v-model="transferStore.deductionYn"
         type="checkbox"
         @click="handlerClickDeducationCheckbox"
