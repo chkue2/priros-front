@@ -32,7 +32,7 @@ export const useDetailCaseStore = defineStore("detailCase", {
           this.registrationApplication = data.registrationApplication;
         })
         .catch((e) => {
-          alertStore.open(e.response.data.message);
+          this.alertStore.open(e.response.data.message);
         });
     },
     fetchDetailEstimate(tradeCaseId) {
@@ -43,7 +43,7 @@ export const useDetailCaseStore = defineStore("detailCase", {
           this.fetcehdEstimate = data;
         })
         .catch((e) => {
-          alertStore.open(e.response.data.message);
+          this.alertStore.open(e.response.data.message);
         });
     },
     fetchContract(tradeCaseId) {
@@ -63,7 +63,7 @@ export const useDetailCaseStore = defineStore("detailCase", {
           this.fetchedPaging = data.paging;
         })
         .catch((e) => {
-          alertStore.open(e.response.data.message);
+          this.alertStore.open(e.response.data.message);
         });
     },
     fetchHistoryTr(tradeCaseId, pageNo) {
@@ -77,7 +77,7 @@ export const useDetailCaseStore = defineStore("detailCase", {
           this.fetchedPaging = data.paging;
         })
         .catch((e) => {
-          alertStore.open(e.response.data.message);
+          this.alertStore.open(e.response.data.message);
         });
     },
     fetchMemo(tradeCaseId, pageNo) {
@@ -91,7 +91,7 @@ export const useDetailCaseStore = defineStore("detailCase", {
           this.fetchedPaging = data.paging;
         })
         .catch((e) => {
-          alertStore.open(e.response.data.message);
+          this.alertStore.open(e.response.data.message);
         });
     },
     fetchDocument(tradeCaseId, pageNo) {
@@ -105,7 +105,7 @@ export const useDetailCaseStore = defineStore("detailCase", {
           this.fetchedPaging = data.paging;
         })
         .catch((e) => {
-          alertStore.open(e.response.data.message);
+          this.alertStore.open(e.response.data.message);
         });
     },
     fetchDocumentDetail(tradeCaseId, documentId) {

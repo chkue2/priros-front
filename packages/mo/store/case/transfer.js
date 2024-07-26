@@ -108,7 +108,7 @@ export const useTransferStore = defineStore("transfer", {
           }
         })
         .catch((e) => {
-          alertStore.open(e.response.data.message);
+          this.alertStore.open(e.response.data.message);
         });
     },
     postRemit(tradeCaseId) {
