@@ -4,8 +4,13 @@
       <div class="estimate-accordion-top">
         <p class="estimate-accordion-top-title">견적요약 정보</p>
         <div class="estimate-accordion-top-right">
-          <span class="estimate-accordion-top-amount">{{ taxAndPaySum }} 원</span>
-          <img src="/img/icon/expand-down-gray.svg" class="estimate-accordion-top-icon">
+          <span class="estimate-accordion-top-amount"
+            >{{ taxAndPaySum }} 원</span
+          >
+          <img
+            src="/img/icon/expand-down-gray.svg"
+            class="estimate-accordion-top-icon"
+          />
         </div>
       </div>
       <div class="estimate-accordion-contents">
@@ -19,7 +24,9 @@
           <p class="estimate-accordion-contents-title">대출금</p>
           <p class="estimate-accordion-contents-text">{{ mortgageLoan }} 원</p>
           <p class="estimate-accordion-contents-title">대출실행금</p>
-          <p class="estimate-accordion-contents-text">{{ mortgageExecution }} 원</p>
+          <p class="estimate-accordion-contents-text">
+            {{ mortgageExecution }} 원
+          </p>
           <p class="estimate-accordion-contents-title">견적발행일</p>
           <p class="estimate-accordion-contents-text">{{ summaryCreated }}</p>
         </div>
@@ -31,7 +38,10 @@
       <div class="estimate-accordion-top">
         <p class="estimate-accordion-top-title">사건 정보</p>
         <div class="estimate-accordion-top-right">
-          <img src="/img/icon/expand-down-gray.svg" class="estimate-accordion-top-icon">
+          <img
+            src="/img/icon/expand-down-gray.svg"
+            class="estimate-accordion-top-icon"
+          />
         </div>
       </div>
       <div class="estimate-accordion-contents">
@@ -58,7 +68,10 @@
         <p class="estimate-accordion-top-title">제세공과금</p>
         <div class="estimate-accordion-top-right">
           <span class="estimate-accordion-top-amount">{{ taxSum }} 원</span>
-          <img src="/img/icon/expand-down-gray.svg" class="estimate-accordion-top-icon">
+          <img
+            src="/img/icon/expand-down-gray.svg"
+            class="estimate-accordion-top-icon"
+          />
         </div>
       </div>
       <div class="estimate-accordion-contents">
@@ -87,13 +100,18 @@
         <p class="estimate-accordion-top-title">수수료</p>
         <div class="estimate-accordion-top-right">
           <span class="estimate-accordion-top-amount">{{ paySum }} 원</span>
-          <img src="/img/icon/expand-down-gray.svg" class="estimate-accordion-top-icon">
+          <img
+            src="/img/icon/expand-down-gray.svg"
+            class="estimate-accordion-top-icon"
+          />
         </div>
       </div>
       <div class="estimate-accordion-contents">
         <div class="estimate-accordion-contents-grid pd-sm">
           <p class="estimate-accordion-contents-title">적용수수료</p>
-          <p class="estimate-accordion-contents-text">{{ discountedLegalPay }} 원</p>
+          <p class="estimate-accordion-contents-text">
+            {{ discountedLegalPay }} 원
+          </p>
           <p class="estimate-accordion-contents-title">거래신고대행</p>
           <p class="estimate-accordion-contents-text">{{ rtmsApplyPay }} 원</p>
           <p class="estimate-accordion-contents-title">다중매매</p>
@@ -109,172 +127,248 @@
         </div>
       </div>
     </div>
-    <p class="estimate-info-text mt-18 mb-42">기본 법정수수료(소계) : {{ legalFee }}원 (VAT포함)</p>
+    <p class="estimate-info-text mt-18 mb-42">
+      기본 법정수수료(소계) : {{ legalFee }}원 (VAT포함)
+    </p>
     <div class="estimate-accordion open">
       <div class="estimate-accordion-top">
         <p class="estimate-accordion-top-title">견적서 안내문</p>
         <div class="estimate-accordion-top-right">
-          <img src="/img/icon/expand-down-gray.svg" class="estimate-accordion-top-icon">
+          <img
+            src="/img/icon/expand-down-gray.svg"
+            class="estimate-accordion-top-icon"
+          />
         </div>
       </div>
       <div class="estimate-accordion-contents">
         <p class="estimate-accordion-intro" v-html="estimateMemo"></p>
       </div>
     </div>
-    <p class="estimate-charge-info">{{ registryFirmName }} (견적담당자 : {{ estimateChargerName }} )<br><a :href="`tel:${registryFirmPhone}`">T. {{ registryFirmPhone }}</a></p>
+    <p class="estimate-charge-info">
+      {{ registryFirmName }} (견적담당자 : {{ estimateChargerName }} )<br /><a
+        :href="`tel:${registryFirmPhone}`"
+        >T. {{ registryFirmPhone }}</a
+      >
+    </p>
   </div>
 </template>
 <script setup>
-import { onMounted, computed } from 'vue'
-import { useDetailCaseStore } from '~/store/case/detailCase.js'
-import { isEmpty, rexFormatPhone } from '@priros/common/assets/js/utils.js'
-import { bankSVG } from '@priros/common/assets/js/case/bankSVG.js'
+import { onMounted, computed } from "vue";
+import { useDetailCaseStore } from "~/store/case/detailCase.js";
+import { isEmpty, rexFormatPhone } from "@priros/common/assets/js/utils.js";
+import { bankSVG } from "@priros/common/assets/js/case/bankSVG.js";
 
 const props = defineProps({
   tradeCaseId: {
     type: String,
-    default: ''
-  }
-})
-const detailCaseStore = useDetailCaseStore()
+    default: "",
+  },
+});
+const emit = defineEmits(["close-modal"]);
+
+const detailCaseStore = useDetailCaseStore();
 
 onMounted(() => {
-  detailCaseStore.fetchDetailEstimate(props.tradeCaseId)
-})
+  detailCaseStore.fetchDetailEstimate(props.tradeCaseId, () => {
+    emit("close-modal");
+  });
+});
 
 // 견적 요약 정보
 const taxAndPaySum = computed(() =>
-  !isEmpty(detailCaseStore.fetcehdEstimate.summary) ?
-    Number(detailCaseStore.fetcehdEstimate.summary.taxAndPaySum).toLocaleString() : ''
-)
-const estimateAccount = computed(() => 
-  !isEmpty(detailCaseStore.fetcehdEstimate.summary) ?
-  detailCaseStore.fetcehdEstimate.summary.estimateAccount : ''
-)
-const bankName = computed(() => 
-  !isEmpty(detailCaseStore.fetcehdEstimate.summary) ? 
-    bankSVG[detailCaseStore.fetcehdEstimate.summary.venderId].title : ''
-)
+  !isEmpty(detailCaseStore.fetcehdEstimate.summary)
+    ? Number(
+        detailCaseStore.fetcehdEstimate.summary.taxAndPaySum
+      ).toLocaleString()
+    : ""
+);
+const estimateAccount = computed(() =>
+  !isEmpty(detailCaseStore.fetcehdEstimate.summary)
+    ? detailCaseStore.fetcehdEstimate.summary.estimateAccount
+    : ""
+);
+const bankName = computed(() =>
+  !isEmpty(detailCaseStore.fetcehdEstimate.summary)
+    ? bankSVG[detailCaseStore.fetcehdEstimate.summary.venderId].title
+    : ""
+);
 const mortgageLoan = computed(() =>
-  !isEmpty(detailCaseStore.fetcehdEstimate.summary) ? 
-      Number(detailCaseStore.fetcehdEstimate.summary.mortgageLoan).toLocaleString() : ''
-)
+  !isEmpty(detailCaseStore.fetcehdEstimate.summary)
+    ? Number(
+        detailCaseStore.fetcehdEstimate.summary.mortgageLoan
+      ).toLocaleString()
+    : ""
+);
 const mortgageExecution = computed(() =>
-  !isEmpty(detailCaseStore.fetcehdEstimate.summary) ? 
-      Number(detailCaseStore.fetcehdEstimate.summary.mortgageExecution).toLocaleString() : ''
-)
+  !isEmpty(detailCaseStore.fetcehdEstimate.summary)
+    ? Number(
+        detailCaseStore.fetcehdEstimate.summary.mortgageExecution
+      ).toLocaleString()
+    : ""
+);
 const summaryCreated = computed(() =>
-  !isEmpty(detailCaseStore.fetcehdEstimate.summary) ? 
-      detailCaseStore.fetcehdEstimate.summary.created : ''
-)
+  !isEmpty(detailCaseStore.fetcehdEstimate.summary)
+    ? detailCaseStore.fetcehdEstimate.summary.created
+    : ""
+);
 
 // 사건정보
-const estateAddr = computed(() => 
-  !isEmpty(detailCaseStore.fetcehdEstimate.tradeCaseInfo) ?
-    `${detailCaseStore.fetcehdEstimate.tradeCaseInfo.estateAddr} ${detailCaseStore.fetcehdEstimate.tradeCaseInfo.estateRestAddr}` : ''
-)
-const buyer = computed(() => 
-  !isEmpty(detailCaseStore.fetcehdEstimate.tradeCaseInfo) ?
-    detailCaseStore.fetcehdEstimate.tradeCaseInfo.buyer.join(', ') : ''
-)
-const estateCondition = computed(() => 
-  !isEmpty(detailCaseStore.fetcehdEstimate.tradeCaseInfo) ?
-    detailCaseStore.fetcehdEstimate.tradeCaseInfo.estateCondition : ''
-)
-const farmTaxApply = computed(() => 
-  !isEmpty(detailCaseStore.fetcehdEstimate.tradeCaseInfo) ?
-    detailCaseStore.fetcehdEstimate.tradeCaseInfo.farmTaxApply : ''
-)
-const tradePrice = computed(() => 
-  !isEmpty(detailCaseStore.fetcehdEstimate.tradeCaseInfo) ?
-    Number(detailCaseStore.fetcehdEstimate.tradeCaseInfo.tradePrice).toLocaleString() : ''
-)
-const estimatePrice = computed(() => 
-  !isEmpty(detailCaseStore.fetcehdEstimate.tradeCaseInfo) ?
-    Number(detailCaseStore.fetcehdEstimate.tradeCaseInfo.estimatePrice).toLocaleString() : ''
-)
-const estimateBond = computed(() => 
-  !isEmpty(detailCaseStore.fetcehdEstimate.tradeCaseInfo) ?
-    Number(detailCaseStore.fetcehdEstimate.tradeCaseInfo.estimateBond).toLocaleString() : ''
-)
+const estateAddr = computed(() =>
+  !isEmpty(detailCaseStore.fetcehdEstimate.tradeCaseInfo)
+    ? `${detailCaseStore.fetcehdEstimate.tradeCaseInfo.estateAddr} ${detailCaseStore.fetcehdEstimate.tradeCaseInfo.estateRestAddr}`
+    : ""
+);
+const buyer = computed(() =>
+  !isEmpty(detailCaseStore.fetcehdEstimate.tradeCaseInfo)
+    ? detailCaseStore.fetcehdEstimate.tradeCaseInfo.buyer.join(", ")
+    : ""
+);
+const estateCondition = computed(() =>
+  !isEmpty(detailCaseStore.fetcehdEstimate.tradeCaseInfo)
+    ? detailCaseStore.fetcehdEstimate.tradeCaseInfo.estateCondition
+    : ""
+);
+const farmTaxApply = computed(() =>
+  !isEmpty(detailCaseStore.fetcehdEstimate.tradeCaseInfo)
+    ? detailCaseStore.fetcehdEstimate.tradeCaseInfo.farmTaxApply
+    : ""
+);
+const tradePrice = computed(() =>
+  !isEmpty(detailCaseStore.fetcehdEstimate.tradeCaseInfo)
+    ? Number(
+        detailCaseStore.fetcehdEstimate.tradeCaseInfo.tradePrice
+      ).toLocaleString()
+    : ""
+);
+const estimatePrice = computed(() =>
+  !isEmpty(detailCaseStore.fetcehdEstimate.tradeCaseInfo)
+    ? Number(
+        detailCaseStore.fetcehdEstimate.tradeCaseInfo.estimatePrice
+      ).toLocaleString()
+    : ""
+);
+const estimateBond = computed(() =>
+  !isEmpty(detailCaseStore.fetcehdEstimate.tradeCaseInfo)
+    ? Number(
+        detailCaseStore.fetcehdEstimate.tradeCaseInfo.estimateBond
+      ).toLocaleString()
+    : ""
+);
 
 // 제세공과금
-const taxSum = computed(() => 
-  !isEmpty(detailCaseStore.fetcehdEstimate.taxesAndDues) ?
-    Number(detailCaseStore.fetcehdEstimate.taxesAndDues.taxSum).toLocaleString() : ''
-)
-const regTax = computed(() => 
-  !isEmpty(detailCaseStore.fetcehdEstimate.taxesAndDues) ?
-    Number(detailCaseStore.fetcehdEstimate.taxesAndDues.regTax).toLocaleString() : ''
-)
-const eduTax = computed(() => 
-  !isEmpty(detailCaseStore.fetcehdEstimate.taxesAndDues) ?
-    Number(detailCaseStore.fetcehdEstimate.taxesAndDues.eduTax).toLocaleString() : ''
-)
-const farmTax = computed(() => 
-  !isEmpty(detailCaseStore.fetcehdEstimate.taxesAndDues) ?
-    Number(detailCaseStore.fetcehdEstimate.taxesAndDues.farmTax).toLocaleString() : ''
-)
-const goveStamp = computed(() => 
-  !isEmpty(detailCaseStore.fetcehdEstimate.taxesAndDues) ?
-    Number(detailCaseStore.fetcehdEstimate.taxesAndDues.goveStamp).toLocaleString() : ''
-)
-const courtStamp = computed(() => 
-  !isEmpty(detailCaseStore.fetcehdEstimate.taxesAndDues) ?
-    Number(detailCaseStore.fetcehdEstimate.taxesAndDues.courtStamp).toLocaleString() : ''
-)
-const bondPay = computed(() => 
-  !isEmpty(detailCaseStore.fetcehdEstimate.taxesAndDues) ?
-    Number(detailCaseStore.fetcehdEstimate.taxesAndDues.bondPay).toLocaleString() : ''
-)
+const taxSum = computed(() =>
+  !isEmpty(detailCaseStore.fetcehdEstimate.taxesAndDues)
+    ? Number(
+        detailCaseStore.fetcehdEstimate.taxesAndDues.taxSum
+      ).toLocaleString()
+    : ""
+);
+const regTax = computed(() =>
+  !isEmpty(detailCaseStore.fetcehdEstimate.taxesAndDues)
+    ? Number(
+        detailCaseStore.fetcehdEstimate.taxesAndDues.regTax
+      ).toLocaleString()
+    : ""
+);
+const eduTax = computed(() =>
+  !isEmpty(detailCaseStore.fetcehdEstimate.taxesAndDues)
+    ? Number(
+        detailCaseStore.fetcehdEstimate.taxesAndDues.eduTax
+      ).toLocaleString()
+    : ""
+);
+const farmTax = computed(() =>
+  !isEmpty(detailCaseStore.fetcehdEstimate.taxesAndDues)
+    ? Number(
+        detailCaseStore.fetcehdEstimate.taxesAndDues.farmTax
+      ).toLocaleString()
+    : ""
+);
+const goveStamp = computed(() =>
+  !isEmpty(detailCaseStore.fetcehdEstimate.taxesAndDues)
+    ? Number(
+        detailCaseStore.fetcehdEstimate.taxesAndDues.goveStamp
+      ).toLocaleString()
+    : ""
+);
+const courtStamp = computed(() =>
+  !isEmpty(detailCaseStore.fetcehdEstimate.taxesAndDues)
+    ? Number(
+        detailCaseStore.fetcehdEstimate.taxesAndDues.courtStamp
+      ).toLocaleString()
+    : ""
+);
+const bondPay = computed(() =>
+  !isEmpty(detailCaseStore.fetcehdEstimate.taxesAndDues)
+    ? Number(
+        detailCaseStore.fetcehdEstimate.taxesAndDues.bondPay
+      ).toLocaleString()
+    : ""
+);
 
 // 수수료
-const paySum = computed(() => 
-  !isEmpty(detailCaseStore.fetcehdEstimate.fee) ?
-    Number(detailCaseStore.fetcehdEstimate.fee.paySum).toLocaleString() : ''
-)
-const discountedLegalPay = computed(() => 
-  !isEmpty(detailCaseStore.fetcehdEstimate.fee) ?
-    Number(detailCaseStore.fetcehdEstimate.fee.discountedLegalPay).toLocaleString() : ''
-)
-const rtmsApplyPay = computed(() => 
-  !isEmpty(detailCaseStore.fetcehdEstimate.fee) ?
-    Number(detailCaseStore.fetcehdEstimate.fee.rtmsApplyPay).toLocaleString() : ''
-)
-const multiPay = computed(() => 
-  !isEmpty(detailCaseStore.fetcehdEstimate.fee) ?
-    Number(detailCaseStore.fetcehdEstimate.fee.multiPay).toLocaleString() : ''
-)
-const payedPaySum = computed(() => 
-  !isEmpty(detailCaseStore.fetcehdEstimate.fee) ?
-    Number(detailCaseStore.fetcehdEstimate.fee.payedPaySum).toLocaleString() : ''
-)
-const vatLegalPay = computed(() => 
-  !isEmpty(detailCaseStore.fetcehdEstimate.fee) ?
-    Number(detailCaseStore.fetcehdEstimate.fee.vatLegalPay).toLocaleString() : ''
-)
-const legalFee = computed(() => 
-  !isEmpty(detailCaseStore.fetcehdEstimate.fee) ?
-    Number(detailCaseStore.fetcehdEstimate.fee.legalFee).toLocaleString() : ''
-)
+const paySum = computed(() =>
+  !isEmpty(detailCaseStore.fetcehdEstimate.fee)
+    ? Number(detailCaseStore.fetcehdEstimate.fee.paySum).toLocaleString()
+    : ""
+);
+const discountedLegalPay = computed(() =>
+  !isEmpty(detailCaseStore.fetcehdEstimate.fee)
+    ? Number(
+        detailCaseStore.fetcehdEstimate.fee.discountedLegalPay
+      ).toLocaleString()
+    : ""
+);
+const rtmsApplyPay = computed(() =>
+  !isEmpty(detailCaseStore.fetcehdEstimate.fee)
+    ? Number(detailCaseStore.fetcehdEstimate.fee.rtmsApplyPay).toLocaleString()
+    : ""
+);
+const multiPay = computed(() =>
+  !isEmpty(detailCaseStore.fetcehdEstimate.fee)
+    ? Number(detailCaseStore.fetcehdEstimate.fee.multiPay).toLocaleString()
+    : ""
+);
+const payedPaySum = computed(() =>
+  !isEmpty(detailCaseStore.fetcehdEstimate.fee)
+    ? Number(detailCaseStore.fetcehdEstimate.fee.payedPaySum).toLocaleString()
+    : ""
+);
+const vatLegalPay = computed(() =>
+  !isEmpty(detailCaseStore.fetcehdEstimate.fee)
+    ? Number(detailCaseStore.fetcehdEstimate.fee.vatLegalPay).toLocaleString()
+    : ""
+);
+const legalFee = computed(() =>
+  !isEmpty(detailCaseStore.fetcehdEstimate.fee)
+    ? Number(detailCaseStore.fetcehdEstimate.fee.legalFee).toLocaleString()
+    : ""
+);
 
 // 견적서 안내문
-const estimateMemo = computed(() => 
-  !isEmpty(detailCaseStore.fetcehdEstimate.info) ?
-    detailCaseStore.fetcehdEstimate.info.estimateMemo.replace(/\r\n/gi, '<br>') : '-'
-)
-const registryFirmName = computed(() => 
-  !isEmpty(detailCaseStore.fetcehdEstimate.info) ?
-    detailCaseStore.fetcehdEstimate.info.registryFirmName : ''
-)
-const estimateChargerName = computed(() => 
-  !isEmpty(detailCaseStore.fetcehdEstimate.info) ?
-    detailCaseStore.fetcehdEstimate.info.estimateChargerName : ''
-)
-const registryFirmPhone = computed(() => 
-  !isEmpty(detailCaseStore.fetcehdEstimate.info) ?
-  rexFormatPhone(detailCaseStore.fetcehdEstimate.info.registryFirmPhone) : ''
-)
+const estimateMemo = computed(() =>
+  !isEmpty(detailCaseStore.fetcehdEstimate.info)
+    ? detailCaseStore.fetcehdEstimate.info.estimateMemo.replace(
+        /\r\n/gi,
+        "<br>"
+      )
+    : "-"
+);
+const registryFirmName = computed(() =>
+  !isEmpty(detailCaseStore.fetcehdEstimate.info)
+    ? detailCaseStore.fetcehdEstimate.info.registryFirmName
+    : ""
+);
+const estimateChargerName = computed(() =>
+  !isEmpty(detailCaseStore.fetcehdEstimate.info)
+    ? detailCaseStore.fetcehdEstimate.info.estimateChargerName
+    : ""
+);
+const registryFirmPhone = computed(() =>
+  !isEmpty(detailCaseStore.fetcehdEstimate.info)
+    ? rexFormatPhone(detailCaseStore.fetcehdEstimate.info.registryFirmPhone)
+    : ""
+);
 </script>
 <style scoped lang="scss">
 .estimate-container {
@@ -322,7 +416,7 @@ const registryFirmPhone = computed(() =>
     padding: 0 24px;
     overflow: hidden;
     max-height: 0;
-    transition: all .3s ease-in-out;
+    transition: all 0.3s ease-in-out;
   }
   .estimate-accordion-contents-grid {
     display: grid;
@@ -349,7 +443,7 @@ const registryFirmPhone = computed(() =>
     line-height: 20px;
     color: #6f6f6f;
     text-align: left;
-    & + .estimate-info-text{
+    & + .estimate-info-text {
       margin-top: 4px;
     }
     &.mt-18 {
@@ -410,7 +504,7 @@ const registryFirmPhone = computed(() =>
     font-size: 14px;
     line-height: 20px;
     color: #6f6f6f;
-    a{
+    a {
       color: #6f6f6f;
       text-decoration: none;
     }

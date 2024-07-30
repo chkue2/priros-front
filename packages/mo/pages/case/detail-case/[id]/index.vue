@@ -360,7 +360,10 @@
       title="견적확인"
       @handler-click-close="toggleEstimateModalShow"
     >
-      <DetailCaseEstimateCard :trade-case-id="tradeCaseId" />
+      <DetailCaseEstimateCard
+        :trade-case-id="tradeCaseId"
+        @close-modal="toggleEstimateModalShow"
+      />
       <button class="info-modal-button" @click="toggleEstimateModalShow">
         확인
       </button>

@@ -1,25 +1,41 @@
 <template>
-  <div class="notice-card">
-    <p class="notice-card-title">{{notice.title}} <img v-if="isNew" src="/img/icon/board-new.svg" aria-hidden></p>
+  <div class="notice-card" @click="handlerClickMoveToNoticeList">
+    <p class="notice-card-title">
+      {{ notice.title }}
+      <img v-if="isNew" src="/img/icon/board-new.svg" aria-hidden />
+    </p>
     <p class="notice-card-date">{{ created }}</p>
   </div>
 </template>
 
 <script setup>
-import { computed } from 'vue'
-import dayjs from '@priros/common/node_modules/dayjs'
+import { computed } from "vue";
+import { useRouter } from "vue-router";
+import dayjs from "@priros/common/node_modules/dayjs";
+
 const props = defineProps({
   notice: {
     type: Object,
-    default: () => {}
-  }
-})
+    default: () => {},
+  },
+});
+
+const router = useRouter();
+
 const created = computed(() => {
-  return !props.notice.created ? '' : dayjs(props.notice.created).format('YYYY-MM-DD')
-})
+  return !props.notice.created
+    ? ""
+    : dayjs(props.notice.created).format("YYYY-MM-DD");
+});
 const isNew = computed(() => {
-  return !props.notice.created ? false : dayjs(props.notice.created).diff(dayjs(), 'day') > -7
-})
+  return !props.notice.created
+    ? false
+    : dayjs(props.notice.created).diff(dayjs(), "day") > -7;
+});
+
+const handlerClickMoveToNoticeList = () => {
+  router.push("/notice/list");
+};
 </script>
 
 <style lang="scss" scoped>

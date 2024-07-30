@@ -35,15 +35,16 @@ export const useDetailCaseStore = defineStore("detailCase", {
           this.alertStore.open(e.response.data.message);
         });
     },
-    fetchDetailEstimate(tradeCaseId) {
+    fetchDetailEstimate(tradeCaseId, callback) {
       this.fetcehdEstimate = {};
-      tradeCaseDetail
+      return tradeCaseDetail
         .estimate(tradeCaseId)
         .then(({ data }) => {
           this.fetcehdEstimate = data;
         })
         .catch((e) => {
           this.alertStore.open(e.response.data.message);
+          callback();
         });
     },
     fetchContract(tradeCaseId) {
