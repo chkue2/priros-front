@@ -85,7 +85,6 @@
             type="radio"
             name="address"
             value="C"
-            @change="handlerChangeOpenModalEvent"
           />
           <i></i>
           <span>변동발생</span>
@@ -144,6 +143,7 @@
             type="radio"
             name="coll"
             value="Y"
+            @change="handlerChangeOpenModalEvent"
           />
           <i></i>
           <span>있음</span>
@@ -323,7 +323,7 @@ const toggleReportChangeHelpModal = () => {
 };
 
 const handlerChangeOpenModalEvent = (e) => {
-  if (["Y", "C"].includes(e.target.value)) {
+  if (["Y"].includes(e.target.value)) {
     toggleReportChangeHelpModal();
   }
 };

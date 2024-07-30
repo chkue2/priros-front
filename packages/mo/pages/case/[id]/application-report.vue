@@ -1,129 +1,184 @@
 <template>
   <NuxtLayout name="dialog-header" headerTitle="신청정보 보고">
-    <div class="dialog-wrapper">
-      <div class="container">
-        <div class="inner-header">
-          <span class="badge badge-primary-gradient">신청정보보고 전 확인</span>
-          <div class="txt-help">
-            매도인의 주소경정등기 누락은
-            <br />등기취하 및 재접수가 필요한 중요사항입니다.
-          </div>
-        </div>
-        <div class="inner-body">
-          <div class="forms">
-            <div class="form-group">
-              <div class="label">
-                <label for="" class="form-label">등기신청서 작성정보</label>
-              </div>
-              <div class="form-input">
-                <textarea
-                  v-model="form['registrationApplication']"
-                  placeholder="등기신청서 작성 ID 및 작성번호를 입력하세요"
-                ></textarea>
-              </div>
-            </div>
-            <div class="form-group">
-              <div class="label">
-                <label for="" class="form-label">매수인별 취득지분</label>
-                <div class="label-radio">
-                  <label class="form-label">
-                    <input
-                      v-model="form['acquisitionShareType']"
-                      name="acquisitionShareType"
-                      type="radio"
-                      value="S"
-                    /><span>단독명의</span>
-                  </label>
-                  <label class="form-label">
-                    <input
-                      v-model="form['acquisitionShareType']"
-                      name="acquisitionShareType"
-                      type="radio"
-                      value="M"
-                    /><span>공동명의</span>
-                  </label>
-                </div>
-              </div>
-              <div
-                v-if="form['acquisitionShareType'] === 'M'"
-                class="form-input"
-              >
-                <textarea
-                  v-model="form['acquisitionShareDetail']"
-                  placeholder="매수인별로 이름과 취득지분을 입력하세요"
-                ></textarea>
-              </div>
-            </div>
-            <div class="form-group">
-              <div class="label">
-                <label for="" class="form-label">매수인 주소변동</label>
-                <div class="label-radio">
-                  <label class="form-label">
-                    <input
-                      v-model="form['buyerAddressType']"
-                      name="buyerAddressType"
-                      type="radio"
-                      value="E"
-                    /><span>동일</span>
-                  </label>
-                  <label class="form-label">
-                    <input
-                      v-model="form['buyerAddressType']"
-                      name="buyerAddressType"
-                      type="radio"
-                      value="C"
-                    /><span>변동발생</span>
-                  </label>
-                </div>
-              </div>
-              <div v-if="form['buyerAddressType'] === 'C'" class="form-input">
-                <input
-                  ref="fileList"
-                  type="file"
-                  multiple
-                  accept=".gif, .jpg, .jpeg, .png, .pdf, .bmp, .tif, .tiff"
-                  @change="handlerChangeFileList"
-                />
-                <p class="input-file" @click="handlerClickFileList">
-                  {{ filePreviewName }}
-                  <img src="/img/icon/file-gray.png" alt="" />
-                </p>
-              </div>
-            </div>
-            <div class="form-group">
-              <div class="label">
-                <label for="" class="form-label">기타사항</label>
-              </div>
-              <div class="form-input">
-                <textarea
-                  v-model="form['memo']"
-                  placeholder="설정대리인에게 전달할 내용을 입력하세요"
-                ></textarea>
-              </div>
-            </div>
-          </div>
-        </div>
+    <div class="application-report-container pt30 pl16 pr16 pb40">
+      <p class="application-report-title mb10">등기신청서 작성정보</p>
+      <div class="report-form-input mb15">
+        <textarea
+          v-model="form['registrationApplication']"
+          placeholder="등기신청서 작성 ID 및 작성번호를 입력하세요"
+        ></textarea>
       </div>
-      <div class="bottom">
-        <div>
-          <CommonBottomButton
-            id="btn-send"
-            text="신청정보보고"
-            backgroundColor="#000000"
-            height="60px"
-            width="100%"
-            color="#fff"
-            :font-weight="700"
-            :disabled="btnSendDisable"
-            @handler-click-button="handleBtnSendClick"
+      <p class="application-report-title mb10">전달사항</p>
+      <div class="report-form-input">
+        <textarea
+          v-model="form['memo']"
+          placeholder="설정대리인에게 전달할 내용을 입력하세요"
+        ></textarea>
+      </div>
+    </div>
+    <div class="report-form-container pb100">
+      <p class="report-form-help-title">사건정보를 확인 후 체크해주세요</p>
+      <p class="report-form-help-content mt9 pb22 bb">
+        매매계약의 중요사항이 현장에서 변경되면 대출금지급을 중지하고 은행 또는
+        설정대리인에게 연락해야합니다.
+      </p>
+      <p class="report-form-title mt30 mb14">
+        1. 매매계약서에 중요 수정사항이 있나요?
+      </p>
+      <div class="report-form-input gap16">
+        <label>
+          <input
+            v-model="form['salePriceModifiedFlag']"
+            type="radio"
+            name="price"
+            value="N"
           />
-        </div>
+          <i></i>
+          <span>없음</span>
+        </label>
+        <label>
+          <input
+            v-model="form['salePriceModifiedFlag']"
+            type="radio"
+            name="price"
+            value="Y"
+            @change="handlerChangeOpenModalEvent"
+          />
+          <i></i>
+          <span>있음 (매매가격, 매수인 추가/삭제)</span>
+        </label>
+      </div>
+      <p class="report-form-title mt30 mb14">
+        2. 계약서 작성 후, 주소전입변동이 있었나요?
+      </p>
+      <div class="report-form-input gap16">
+        <label>
+          <input
+            v-model="form['buyerAddressType']"
+            name="buyerAddressType"
+            type="radio"
+            value="E"
+          />
+          <i></i>
+          <span>변동없음</span>
+        </label>
+        <label>
+          <input
+            v-model="form['buyerAddressType']"
+            name="buyerAddressType"
+            type="radio"
+            value="C"
+          />
+          <i></i>
+          <span>변동발생</span>
+        </label>
+      </div>
+      <div
+        v-if="form['buyerAddressType'] === 'C'"
+        class="report-form-input mt8"
+      >
+        <input
+          ref="fileList"
+          type="file"
+          multiple
+          accept=".gif, .jpg, .jpeg, .png, .pdf, .bmp, .tif, .tiff"
+          @change="handlerChangeFileList"
+        />
+        <p class="input-file" @click="handlerClickFileList">
+          {{ filePreviewName }}
+          <img src="/img/icon/file-gray.png" alt="" />
+        </p>
+      </div>
+      <p class="report-form-title mt30 mb14">
+        3. 매수인 현황 및 취득지분을 알려주세요
+      </p>
+      <div class="report-form-input gap16">
+        <label>
+          <input
+            v-model="form['acquisitionShareType']"
+            type="radio"
+            name="share"
+            value="S"
+          />
+          <i></i>
+          <span>단독명의</span>
+        </label>
+        <label>
+          <input
+            v-model="form['acquisitionShareType']"
+            type="radio"
+            name="share"
+            value="M"
+          />
+          <i></i>
+          <span>공동명의</span>
+        </label>
+      </div>
+      <div
+        v-if="form['acquisitionShareType'] === 'M'"
+        class="report-form-input mt16"
+      >
+        <textarea
+          v-model="form['acquisitionShareDetail']"
+          placeholder="매수인별로 이름과 취득지분을 입력하세요"
+        ></textarea>
+      </div>
+      <p class="report-form-title mt30 mb14">
+        4. 등기부상 매수인측이 채무자가 되어 말소할 수 없는 근저당권이 있나요?
+        (중도금 지급목적대출 등)
+      </p>
+      <div class="report-form-input gap16">
+        <label>
+          <input
+            v-model="form['mortgageRemovableFlag']"
+            type="radio"
+            name="coll"
+            value="N"
+          />
+          <i></i>
+          <span>없음</span>
+        </label>
+        <label>
+          <input
+            v-model="form['mortgageRemovableFlag']"
+            type="radio"
+            name="coll"
+            value="Y"
+            @change="handlerChangeOpenModalEvent"
+          />
+          <i></i>
+          <span>있음</span>
+        </label>
+      </div>
+    </div>
+    <div class="report-bottom-container">
+      <div>
+        <CommonBottomButton
+          id="btn-send"
+          text="수정하기"
+          backgroundColor="#000000"
+          height="60px"
+          width="100%"
+          color="#fff"
+          :font-weight="700"
+          :disabled="btnSendDisable"
+          @handler-click-button="handleBtnSendClick"
+        />
       </div>
     </div>
     <CommonAlertModal
       v-if="isSuccessModalShow"
       text="신청정보 보고가 완료되었습니다."
       @handler-click-button="toggleSuccessModal"
+    />
+    <ReportChangeHelpModal
+      v-if="isReportChangeHelpModalShow"
+      @handler-click-button="toggleReportChangeHelpModal"
+    />
+    <ReportChangeFailModal
+      v-if="isReportChangeFailModalShow"
+      title="[신청정보보고 실패]"
+      @handler-click-button="toggleReportChangeFailModal"
     />
   </NuxtLayout>
 </template>
@@ -138,6 +193,8 @@ import { useAlertStore } from "~/store/alert.js";
 
 import CommonBottomButton from "@priros/common/components/button/CommonBottomButton.vue";
 import CommonAlertModal from "@priros/common/components/modal/CommonAlertModal.vue";
+import ReportChangeHelpModal from "~/components/modal/ReportChangeHelpModal.vue";
+import ReportChangeFailModal from "~/components/modal/ReportChangeFailModal.vue";
 
 definePageMeta({
   layout: false,
@@ -155,9 +212,14 @@ const form = ref({
   buyerAddressType: "",
   memo: "",
   requestReportFileList: [],
+  salePriceModifiedFlag: "",
+  mortgageRemovableFlag: "",
 });
 const fileList = ref(null);
 const fileListObj = ref(null);
+
+const isReportChangeHelpModalShow = ref(false);
+const isReportChangeFailModalShow = ref(false);
 
 onMounted(() => {
   tradeCaseRequestReport
@@ -194,9 +256,11 @@ const btnSendDisable = false;
 
 const formValidation = computed(() => {
   const validateEnum = [
+    "salePriceModifiedFlag",
     "registrationApplication",
     "acquisitionShareType",
     "buyerAddressType",
+    "mortgageRemovableFlag",
   ];
   for (const v of validateEnum) {
     if (isEmpty(form.value[v])) return false;
@@ -220,6 +284,12 @@ const formValidation = computed(() => {
   return true;
 });
 
+const isSaleFlagAndRemovableFlagY = computed(
+  () =>
+    form.value["salePriceModifiedFlag"] === "Y" ||
+    form.value["mortgageRemovableFlag"] === "Y"
+);
+
 const handlerClickFileList = () => {
   fileList.value.click();
 };
@@ -242,7 +312,9 @@ const handlerChangeFileList = (e) => {
 
 const handleBtnSendClick = () => {
   if (!formValidation.value) {
-    if (isEmpty(form.value["registrationApplication"])) {
+    if (isEmpty(form.value["salePriceModifiedFlag"])) {
+      alertStore.open("매매계약서 중요 수정사항을 선택해주세요");
+    } else if (isEmpty(form.value["registrationApplication"])) {
       alertStore.open("등기신청서 작성정보를 입력해주세요");
     } else if (isEmpty(form.value["acquisitionShareType"])) {
       alertStore.open("매수인별 취득지분 명의를 선택해주세요");
@@ -259,7 +331,14 @@ const handleBtnSendClick = () => {
       fileListObj.value === null
     ) {
       alertStore.open("매수인의 주민등록초본을 첨부해주세요");
+    } else if (isEmpty(form.value["mortgageRemovableFlag"])) {
+      alertStore.open("근저당권 여부를 선택해주세요");
     }
+    return false;
+  }
+
+  if (isSaleFlagAndRemovableFlagY.value) {
+    toggleReportChangeFailModal();
     return false;
   }
 
@@ -268,10 +347,12 @@ const handleBtnSendClick = () => {
     "registrationApplication",
     form.value.registrationApplication
   );
+  formData.append("salePriceModifiedFlag", form.value.salePriceModifiedFlag);
   formData.append("acquisitionShareType", form.value.acquisitionShareType);
   formData.append("acquisitionShareDetail", form.value.acquisitionShareDetail);
   formData.append("buyerAddressType", form.value.buyerAddressType);
   formData.append("memo", form.value.memo);
+  formData.append("mortgageRemovableFlag", form.value.mortgageRemovableFlag);
 
   if (fileListObj.value !== null) {
     fileListObj.value.forEach((file) => {
@@ -288,8 +369,25 @@ const handleBtnSendClick = () => {
       alertStore.open(e.response.data.message);
     });
 };
+
+const toggleReportChangeHelpModal = () => {
+  isReportChangeHelpModalShow.value = !isReportChangeHelpModalShow.value;
+};
+
+const toggleReportChangeFailModal = () => {
+  isReportChangeFailModalShow.value = !isReportChangeFailModalShow.value;
+};
+
+const handlerChangeOpenModalEvent = (e) => {
+  if (["Y"].includes(e.target.value)) {
+    toggleReportChangeHelpModal();
+  }
+};
 </script>
 
 <style scoped lang="scss">
-@import "@priros/common/assets/scss/views/dialog";
+@import "~/assets/scss/report/form.scss";
+.application-report-title {
+  font-weight: $ft-bold;
+}
 </style>

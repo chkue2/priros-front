@@ -54,6 +54,32 @@
     border-radius: 9px;
     font-size: 12px;
   }
+  input[type="file"] {
+    display: none;
+  }
+  .input-file {
+    flex: 1;
+    height: 48px;
+    line-height: 48px;
+    padding: 0 40px 0 12px;
+    border: 1px solid #c6c6c6;
+    border-radius: 8px;
+    font-size: 14px;
+    position: relative;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    word-break: break-all;
+    text-align: left;
+    & > img {
+      width: 20px;
+      height: auto;
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+  }
 }
 .report-form-container {
   padding: 0 16px;

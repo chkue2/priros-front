@@ -1,6 +1,9 @@
 <template>
   <div class="common-alert-modal">
     <div class="alert-modal-container">
+      <p v-if="props.title !== ''" class="alert-modal-title">
+        {{ props.title }}
+      </p>
       <p class="alert-modal-text">
         매수인, 소유형태 등 대출승인의 전제가 되는 정보는 현장수정이 불가하고
         기존 계약내용으로 등기업무가 진행되어야합니다.<br />
@@ -19,6 +22,10 @@
 <script setup>
 import { onBeforeUnmount, onMounted } from "vue";
 const props = defineProps({
+  title: {
+    type: String,
+    default: "",
+  },
   text: {
     type: String,
     default: "",
@@ -68,6 +75,11 @@ onBeforeUnmount(() => {
   .alert-modal-logo {
     width: 71px;
     height: auto;
+  }
+  .alert-modal-title {
+    color: #e92c2c;
+    font-size: 14px;
+    margin-bottom: 8px;
   }
   .alert-modal-text {
     margin: 40px 0;
