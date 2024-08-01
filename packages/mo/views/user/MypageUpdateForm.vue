@@ -109,7 +109,7 @@ import { ref, onMounted, computed } from "vue";
 import { myPageStore } from "~/store/user/myPage.js";
 import { useAuthStore } from "@priros/common/store/auth.js";
 import { base64 } from "@priros/common/assets/js/filePreview.js";
-import { isEmpty } from "@priros/common/assets/js/utils.js";
+import { isEmpty, isValidPassword } from "@priros/common/assets/js/utils.js";
 import { useAlertStore } from "~/store/alert.js";
 
 import CommonBottomButton from "@priros/common/components/button/CommonBottomButton.vue";
@@ -173,6 +173,7 @@ const formValidation = computed(() => {
 
   if (!isEmpty(form.value.password)) {
     return (
+      isValidPassword(form.value.password) &&
       !isEmpty(passwordConfirm.value) &&
       form.value.password === passwordConfirm.value
     );
@@ -188,7 +189,11 @@ const handleBtnSendClick = () => {
     } else if (isEmpty(form.value.email)) {
       alertStore.open("이메일을 입력해주세요");
     } else if (!isEmpty(form.value.password)) {
-      if (isEmpty(passwordConfirm.value)) {
+      if (!isValidPassword(form.value.password)) {
+        alertStore.open(
+          "비밀번호는 영문, 숫자, 특수문자를 혼합해 8자리 이상 입력해야합니다"
+        );
+      } else if (isEmpty(passwordConfirm.value)) {
         alertStore.open("비밀번호 확인을 입력해주세요.");
       } else if (form.value.password !== passwordConfirm.value) {
         alertStore.open("비밀번호와 비밀번호 확인이 다릅니다.");
