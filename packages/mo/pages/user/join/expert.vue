@@ -329,7 +329,9 @@ const handlerClickCheckIdButton = () => {
   }
 
   if (!isValidId(form.value.id)) {
-    alertStore.open("아이디는 영어, 숫자만사용해서 5자 이상 입력해야합니다");
+    alertStore.open(
+      "영어와 숫자만 입력 가능합니다.<br>최소 5자리 이상 입력하세요."
+    );
     return false;
   }
 
