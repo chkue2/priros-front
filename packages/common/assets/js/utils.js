@@ -166,7 +166,7 @@ const onlyNumber = (str) => {
 
 /**
  * 아이디 validation
- * 영문, 숫자를 조합한 5자리 이상.
+ * 영문, 숫자만 허용한 5자리 이상.
  *
  * @param {string} str
  */
