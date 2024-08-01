@@ -212,7 +212,7 @@ import CommonBottomButton from "@priros/common/components/button/CommonBottomBut
 import { base64 } from "@priros/common/assets/js/filePreview.js";
 import { join } from "~/services/join.js";
 
-import { isEmpty } from "@priros/common/assets/js/utils.js";
+import { isValidId, isValidPassword } from "@priros/common/assets/js/utils.js";
 import { useAlertStore } from "~/store/alert.js";
 
 const alertStore = useAlertStore();
@@ -293,6 +293,8 @@ const formValidation = computed(() => {
 
   if (!checkId.value) return false;
 
+  if (!isValidPassword(form.value.password)) return false;
+
   if (form.value["password"] !== form.value["passwordConfirm"]) return false;
 
   if (!isAgree.value) return false;
@@ -323,6 +325,11 @@ const handlerChangeId = () => {
 const handlerClickCheckIdButton = () => {
   if (!form.value["id"] || form.value["id"] === "") {
     alertStore.open("아이디를 입력해주세요");
+    return false;
+  }
+
+  if (!isValidId(form.value.id)) {
+    alertStore.open("아이디는 영어, 숫자만사용해서 5자 이상 입력해야합니다");
     return false;
   }
 
@@ -422,6 +429,10 @@ const handlerClickApplyButton = () => {
       form.value["password"] === ""
     ) {
       alertStore.open("비밀번호를 입력해주세요");
+    } else if (!isValidPassword(form.value.password)) {
+      alertStore.open(
+        "비밀번호는 영문, 숫자, 특수문자를 혼합해 8자리 이상 입력해야합니다"
+      );
     } else if (form.value["password"] !== form.value["passwordConfirm"]) {
       alertStore.open("비밀번호와 비밀번호 확인이 다릅니다");
     } else if (

@@ -165,6 +165,28 @@ const onlyNumber = (str) => {
 };
 
 /**
+ * 아이디 validation
+ * 영문, 숫자를 조합한 5자리 이상.
+ *
+ * @param {string} str
+ */
+const isValidId = (str) => {
+  const regex = /^[a-zA-Z0-9]{5,}$/;
+  return regex.test(str || "");
+};
+
+/**
+ * 비밀번호 validation
+ * 영문, 숫자, 특수문자를 조합한 8자리 이상.
+ */
+const isValidPassword = (password) => {
+  const regex =
+    /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
+
+  return regex.test(password);
+};
+
+/**
  * 돈 입력되면 한글로 변경
  *
  * @param {string} num
@@ -217,4 +239,6 @@ export {
   onlyNumber,
   rexFormatPhone,
   zeroStr,
+  isValidId,
+  isValidPassword,
 };
