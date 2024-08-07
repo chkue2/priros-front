@@ -5,7 +5,10 @@ export const join = {
     return await POST(API_URL.JOIN.EXPERT, formData);
   },
   async getNice(data) {
-    return await GET(API_URL.NICE.CHECK_PHONE, { checkId: data.checkId });
+    return await GET(API_URL.NICE.CHECK_PHONE, {
+      checkId: data.checkId,
+      return_url: data.return_url,
+    });
   },
   async getNiceInfo(data) {
     return await POST(API_URL.NICE.DECRYPT, data);
