@@ -1,6 +1,8 @@
 <template>
-  <section class="terms-container">
-    <h1 class="terms-title mb-12">개인정보 처리방침</h1>
+  <section class="terms-container" :class="{ pd0: !props.isPadding }">
+    <h1 v-if="props.isTitleShow" class="terms-title mb-12">
+      개인정보 처리방침
+    </h1>
     <p class="terms-content mb-12">
       주식회사 로앤택은(이하 ‘회사’) 법률서비스 전문 플랫폼 ‘프리로스’와
       관련하여, 개인정보 보호법 제30조에 따라 정보주체(고객)의 개인정보를
@@ -153,7 +155,7 @@
     <p class="terms-content mb-8">▶ 개인정보 보호책임자</p>
     <p class="terms-content indent-1 mb-8">성명 : 조성화</p>
     <p class="terms-content indent-1 mb-8">
-      직책 : 개인정보관리책임자 / 업무지원팀장
+      직책 : 개인정보관리책임자 / 대표이사
     </p>
     <p class="terms-content indent-1 mb-8">대표전화 : 1670-2361</p>
     <p class="terms-content indent-1 mb-12">이메일 : priros@lawandtech.co.kr</p>
@@ -163,6 +165,20 @@
     </p>
   </section>
 </template>
+
+<script setup>
+const props = defineProps({
+  isTitleShow: {
+    type: Boolean,
+    default: true,
+  },
+  isPadding: {
+    type: Boolean,
+    default: true,
+  },
+});
+</script>
+
 <style lang="scss" scoped>
 @import "@priros/common/assets/scss/terms/index.scss";
 </style>

@@ -22,7 +22,7 @@ const API_URL = {
     PROFILE_SEND: "/firm/profile-send",
   },
   NICE: {
-    CHECK_PHONE: "/nice/check-phone",
+    CHECK_PHONE: "/nice/check-phone/v2",
     DECRYPT: "/nice/decrypt",
   },
   FIRM_INFO: {

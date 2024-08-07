@@ -70,6 +70,7 @@
   background-color: #f2f2f2;
   border: 1px solid #e5e5e5;
   font-size: 15px;
+  flex: 1;
   &.w-60 {
     width: 60%;
   }
@@ -80,7 +81,7 @@
     background-color: #e1e1e1;
   }
 }
-select{
+select {
   &.join-form-input {
     background-image: url(/img/icon/expand-down-gray.svg);
     background-position-y: center;
@@ -108,7 +109,7 @@ select{
   &.w-60 {
     width: 60%;
   }
-  & + input[type=file] {
+  & + input[type="file"] {
     display: none;
   }
 }
@@ -130,7 +131,7 @@ select{
   display: flex;
   align-items: flex-start;
   gap: 8px;
-  input[type=checkbox] {
+  input[type="checkbox"] {
     width: 27px;
     height: 27px;
     margin: 0;
