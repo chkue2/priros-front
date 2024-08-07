@@ -301,7 +301,7 @@ const handlerClickSelfIdentification = () => {
   join
     .getNice({
       checkId: true,
-      // redirect_url: `${window.location.origin}/signup/nice-result`,
+      redirect_url: `/nice/decrypt/priros/v2`,
     })
     .then(({ data }) => {
       const wnd = window.open(undefined, "new window", "width=500, height=600");
