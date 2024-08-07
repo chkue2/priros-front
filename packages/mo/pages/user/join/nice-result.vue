@@ -10,12 +10,14 @@ onMounted(() => {
   const mobileNo = decodingBase64(urlSearch.get("mobileNo"));
   const responseNo = decodingBase64(urlSearch.get("responseNo"));
 
-  if (status === "200") {
-    sendData(name, mobileNo, responseNo);
-  } else {
-    alert("이미 가입된 이력이 있습니다.");
-    window.close();
-  }
+  console.log(responseNo);
+
+  // if (status === "200") {
+  //   sendData(name, mobileNo, responseNo);
+  // } else {
+  //   alert("이미 가입된 이력이 있습니다.");
+  //   window.close();
+  // }
 });
 const sendData = (name, phone, responseNo) => {
   window.opener.postMessage({ name, phone, responseNo }, "*");
