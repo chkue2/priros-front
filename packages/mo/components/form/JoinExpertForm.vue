@@ -172,13 +172,6 @@
           </div>
         </div>
       </div>
-      <label class="join-form-label">
-        <input v-model="isAgree" type="checkbox" />
-        <p>
-          상기 정보를 제공하여 회원가입에 동의하며 가입승인 후 가입절차에 필요한
-          정보수집에 동의합니다.
-        </p>
-      </label>
     </div>
   </div>
   <div class="join-bottom-buttons sticky">
@@ -241,7 +234,6 @@ const validateEnum = [
 ];
 
 const form = ref({});
-const isAgree = ref(false);
 const checkId = ref(false);
 const userProfileImage = ref(null);
 const businessLicenseFile = ref(null);
@@ -275,8 +267,6 @@ const formValidation = computed(() => {
   if (!isValidPassword(form.value.password)) return false;
 
   if (form.value["password"] !== form.value["passwordConfirm"]) return false;
-
-  if (!isAgree.value) return false;
 
   return true;
 });
@@ -458,8 +448,6 @@ const handlerClickApplyButton = () => {
       alertStore.open("만료예정일을 입력해주세요");
     } else if (form.value["cert"] === undefined) {
       alertStore.open("공제증서 또는 보험증권을 업로드해주세요");
-    } else if (!isAgree.value) {
-      alertStore.open("정보 제공에 동의해주세요");
     }
 
     return false;
