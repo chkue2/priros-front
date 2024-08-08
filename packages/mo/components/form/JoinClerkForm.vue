@@ -105,13 +105,6 @@
           placeholder="이메일을 입력해주세요"
         />
       </div>
-      <label class="join-form-label">
-        <input v-model="isAgree" type="checkbox" />
-        <p>
-          상기 정보를 제공하여 회원가입에 동의하며 가입승인 후 가입절차에 필요한
-          정보수집에 동의합니다.
-        </p>
-      </label>
     </div>
   </div>
   <div class="join-bottom-buttons sticky">
@@ -155,11 +148,9 @@ const validateEnum = [
   "position",
   "name",
   "phone",
-  "tel",
 ];
 
 const form = ref({});
-const isAgree = ref(false);
 const checkId = ref(false);
 const userProfileImage = ref(null);
 const businessLicenseFile = ref(null);
@@ -195,8 +186,6 @@ const formValidation = computed(() => {
   if (!isValidPassword(form.value.password)) return false;
 
   if (form.value["password"] !== form.value["passwordConfirm"]) return false;
-
-  if (!isAgree.value) return false;
 
   return true;
 });
@@ -251,22 +240,6 @@ const handlerClickCheckIdButton = () => {
     });
 };
 
-// 사업자 등록증
-const handlerClickBusinessLicenseFile = () => {
-  businessLicenseFile.value.click();
-};
-
-const handlerChangeBusinessLicenseFile = (e) => {
-  if (e.target.files.length === 0) return false;
-  for (let file of e.target.files) {
-    if (file.size > 10 * 1024 * 1024) {
-      alertStore.open("10MB 이상의 파일은 첨부할 수 없습니다.");
-      return false;
-    }
-  }
-  form.value["businessLicense"] = e.target.files[0];
-};
-
 const handlerClickApplyButton = () => {
   if (!formValidation.value) {
     if (form.value["userProfileImage"] === undefined) {
@@ -291,8 +264,6 @@ const handlerClickApplyButton = () => {
       );
     } else if (form.value["password"] !== form.value["passwordConfirm"]) {
       alertStore.open("비밀번호와 비밀번호 확인이 다릅니다");
-    } else if (!isAgree.value) {
-      alertStore.open("정보 제공에 동의해주세요");
     }
 
     return false;

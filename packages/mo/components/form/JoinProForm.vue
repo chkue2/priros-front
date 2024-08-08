@@ -64,7 +64,7 @@
           placeholder="비밀번호를 한 번 더 입력해주세요"
         />
       </div>
-      <p class="join-form-title">대표자 *</p>
+      <p class="join-form-title">이름 *</p>
       <div class="join-form-input-container">
         <input
           v-model="form['name']"
@@ -166,13 +166,6 @@
           </div>
         </div>
       </div>
-      <label class="join-form-label">
-        <input v-model="isAgree" type="checkbox" />
-        <p>
-          상기 정보를 제공하여 회원가입에 동의하며 가입승인 후 가입절차에 필요한
-          정보수집에 동의합니다.
-        </p>
-      </label>
     </div>
   </div>
   <div class="join-bottom-buttons sticky">
@@ -224,7 +217,6 @@ const validateEnum = [
 ];
 
 const form = ref({});
-const isAgree = ref(false);
 const checkId = ref(false);
 const isCheckPhone = ref(false);
 const userProfileImage = ref(null);
@@ -273,8 +265,6 @@ const formValidation = computed(() => {
   if (!isValidPassword(form.value.password)) return false;
 
   if (form.value["password"] !== form.value["passwordConfirm"]) return false;
-
-  if (!isAgree.value) return false;
 
   if (!isCheckPhone.value) return false;
 
@@ -436,7 +426,7 @@ const handlerClickApplyButton = () => {
     } else if (!isCheckPhone.value) {
       alertStore.open("본인확인을 해주세요");
     } else if (form.value["tel"] === undefined || form.value["tel"] === "") {
-      alertStore.open("업무 전화번호를 입력해주세요");
+      alertStore.open("전화번호를 입력해주세요");
     } else if (form.value["businessLicense"] === undefined) {
       alertStore.open("사업장 등록증을 업로드해주세요");
     } else if (form.value["expertLicense"] === undefined) {
@@ -448,8 +438,6 @@ const handlerClickApplyButton = () => {
       alertStore.open("만료예정일을 입력해주세요");
     } else if (form.value["cert"] === undefined) {
       alertStore.open("공제증서 또는 보험증권을 업로드해주세요");
-    } else if (!isAgree.value) {
-      alertStore.open("정보 제공에 동의해주세요");
     }
 
     return false;
@@ -472,6 +460,9 @@ const handlerClickApplyButton = () => {
   formData.append("insureFile", form.value["cert"]);
   formData.append("joinAgree", "Y");
   formData.append("validationPassYn", true);
+
+  alert("success");
+  return false;
 
   join
     .expert(formData)
