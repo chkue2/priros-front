@@ -91,6 +91,7 @@ const handlerClickNextButton = () => {
 </script>
 
 <style lang="scss" scoped>
+@import "@priros/common/assets/scss/join/common.scss";
 .terms-container {
   padding: 35px 20px;
 }
