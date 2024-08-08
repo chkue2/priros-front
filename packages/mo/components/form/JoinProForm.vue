@@ -21,21 +21,6 @@
           <b>네모</b> 안에 얼굴 전체가 나오도록 프로필 첨부 바랍니다.
         </p>
       </div>
-      <p class="join-form-title">회원유형 *</p>
-      <div class="join-form-input-container">
-        <select v-model="form['firmType']" class="join-form-input">
-          <option v-for="t in userTypeEnum" :key="t" :value="t">{{ t }}</option>
-        </select>
-      </div>
-      <p class="join-form-title">직책 *</p>
-      <div class="join-form-input-container">
-        <input
-          v-model="form['position']"
-          type="text"
-          class="join-form-input w-60"
-          placeholder="직책을 입력해주세요"
-        />
-      </div>
       <p class="join-form-title">아이디 *</p>
       <div class="join-form-input-container">
         <input
@@ -51,6 +36,15 @@
         >
           중복확인
         </button>
+      </div>
+      <p class="join-form-title">직책 *</p>
+      <div class="join-form-input-container">
+        <input
+          v-model="form['position']"
+          type="text"
+          class="join-form-input w-60"
+          placeholder="직책을 입력해주세요"
+        />
       </div>
       <p class="join-form-title">비밀번호 *</p>
       <div class="join-form-input-container">
@@ -99,13 +93,13 @@
           @input="handlerChangePhone"
         />
       </div>
-      <p class="join-form-title">사업장 대표 전화번호 *</p>
+      <p class="join-form-title">전화번호 *</p>
       <div class="join-form-input-container">
         <input
           v-model="form['tel']"
           type="tel"
           class="join-form-input"
-          placeholder="사업장 대표 전화번호를 입력해주세요"
+          placeholder="업무 전화번호를 입력해주세요"
         />
       </div>
       <p class="join-form-title">사업장 대표 이메일</p>
@@ -202,7 +196,7 @@
 
 <script setup>
 import { ref, onMounted, computed } from "vue";
-import { useRouter } from "vue-router";
+import { useRouter, useRoute } from "vue-router";
 import CommonBottomButton from "@priros/common/components/button/CommonBottomButton.vue";
 
 import { base64 } from "@priros/common/assets/js/filePreview.js";
@@ -212,22 +206,11 @@ import { isValidId, isValidPassword } from "@priros/common/assets/js/utils.js";
 import { useAlertStore } from "~/store/alert.js";
 
 const router = useRouter();
+const route = useRoute();
 const alertStore = useAlertStore();
 
-const userTypeEnum = [
-  "법무사",
-  "합동법무사",
-  "법무사법인",
-  "변호사",
-  "합동변호사",
-  "법무법인",
-  "금융기관",
-  "일반사용자",
-  "공인중개사",
-];
 const validateEnum = [
   "userProfileImage",
-  "firmType",
   "id",
   "password",
   "position",
@@ -243,16 +226,31 @@ const validateEnum = [
 const form = ref({});
 const isAgree = ref(false);
 const checkId = ref(false);
+const isCheckPhone = ref(false);
 const userProfileImage = ref(null);
 const businessLicenseFile = ref(null);
 const expertLicenseFile = ref(null);
 const certFile = ref(null);
 
 onMounted(() => {
+  form.value.position = "법무사";
+  form.value.name = route.query.name;
+  form.value.phone = route.query.phone;
+
   const receiveData = async (e) => {
     if (e.data.name) {
-      form.value.name = e.data.name;
-      form.value.phone = e.data.phone;
+      if (
+        form.value.name === e.data.name &&
+        form.value.phone === e.data.phone
+      ) {
+        isCheckPhone.value = true;
+        alertStore.open(`본인인증이 완료되었습니다.`);
+      } else {
+        isCheckPhone.value = false;
+        alertStore.open(
+          `${form.value.name}님 명의의 휴대폰으로만<br>인증 가능합니다.`
+        );
+      }
       form.value.responseNo = e.data.responseNo;
     }
   };
@@ -277,6 +275,8 @@ const formValidation = computed(() => {
   if (form.value["password"] !== form.value["passwordConfirm"]) return false;
 
   if (!isAgree.value) return false;
+
+  if (!isCheckPhone.value) return false;
 
   return true;
 });
@@ -414,11 +414,6 @@ const handlerClickApplyButton = () => {
     if (form.value["userProfileImage"] === undefined) {
       alertStore.open("프로필사진을 업로드해주세요");
     } else if (
-      form.value["firmType"] === undefined ||
-      form.value["firmType"] === ""
-    ) {
-      alertStore.open("회원유형을 선택해주세요");
-    } else if (
       form.value["position"] === undefined ||
       form.value["position"] === ""
     ) {
@@ -438,15 +433,10 @@ const handlerClickApplyButton = () => {
       );
     } else if (form.value["password"] !== form.value["passwordConfirm"]) {
       alertStore.open("비밀번호와 비밀번호 확인이 다릅니다");
-    } else if (
-      form.value["name"] === undefined ||
-      form.value["name"] === "" ||
-      form.value["phone"] === undefined ||
-      form.value["phone"] === ""
-    ) {
+    } else if (!isCheckPhone.value) {
       alertStore.open("본인확인을 해주세요");
     } else if (form.value["tel"] === undefined || form.value["tel"] === "") {
-      alertStore.open("사업장 대표 전화번호를 입력해주세요");
+      alertStore.open("업무 전화번호를 입력해주세요");
     } else if (form.value["businessLicense"] === undefined) {
       alertStore.open("사업장 등록증을 업로드해주세요");
     } else if (form.value["expertLicense"] === undefined) {
@@ -467,7 +457,6 @@ const handlerClickApplyButton = () => {
 
   const formData = new FormData();
   formData.append("profile", form.value["userProfileImage"]);
-  formData.append("firmKind", form.value["firmType"]);
   formData.append("position", form.value["position"]);
   formData.append("userId", form.value["id"]);
   formData.append("password", form.value["password"]);
@@ -487,7 +476,7 @@ const handlerClickApplyButton = () => {
   join
     .expert(formData)
     .then((response) => {
-      router.push("/user/join/expert-success");
+      router.push("/user/join/invite-success");
     })
     .catch((e) => {
       console.log(e);
