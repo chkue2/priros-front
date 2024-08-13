@@ -6,7 +6,10 @@
           <dt @click="termsStore.togglePersonalTerm">개인정보 보호정책</dt>
           <dt @click="termsStore.toggleServiceTerm">서비스이용약관</dt>
         </div>
-        <div class="intro-text">(주)로앤텍은 통신판매중개자로 법률 서비스 및 업무 당사자가 아니므로 법률 서비스 및 업무에 대해 책임을 지지 않습니다.</div>
+        <div class="intro-text">
+          (주)로앤텍은 통신판매중개자로 법률 서비스 및 업무 당사자가 아니므로
+          법률 서비스 및 업무에 대해 책임을 지지 않습니다.
+        </div>
         <div class="info-item">
           <dt>대표전화</dt>
           <dd>1670-2361</dd>
@@ -17,16 +20,20 @@
         </div>
         <div class="info-item" @click="toggleFooterOpen">
           <dt>주식회사 로앤텍</dt>
-          <img class="info-hide-icon" :class="{open: isFooterOpen}" src="/img/icon/expand-down-black.svg"/>
+          <img
+            class="info-hide-icon"
+            :class="{ open: isFooterOpen }"
+            src="/img/icon/expand-down-black.svg"
+          />
         </div>
-        <div class="info-hide-container" :class="{open: isFooterOpen}">
+        <div class="info-hide-container" :class="{ open: isFooterOpen }">
           <div class="info-item">
             <dt>대표자</dt>
             <dd>조성화</dd>
           </div>
           <div class="info-item">
             <dt>개인정보보호책임자</dt>
-            <dd>오택상</dd>
+            <dd>조성화</dd>
           </div>
           <div class="info-item">
             <dt>사업자등록번호</dt>
@@ -39,22 +46,20 @@
         </div>
       </dl>
     </div>
-    <div class="copyright">
-      COPYRIGHT &copy; PRIROS ALL RIGHTS RESERVED.
-    </div>
+    <div class="copyright">COPYRIGHT &copy; PRIROS ALL RIGHTS RESERVED.</div>
   </footer>
 </template>
 
 <script setup>
-import { ref } from 'vue';
-import {useTermsStore} from "~/store/termsState.js"
+import { ref } from "vue";
+import { useTermsStore } from "~/store/termsState.js";
 
-const termsStore = useTermsStore()
+const termsStore = useTermsStore();
 
 const isFooterOpen = ref(false);
 const toggleFooterOpen = () => {
   isFooterOpen.value = !isFooterOpen.value;
-}
+};
 </script>
 
 <style lang="scss">
@@ -80,7 +85,8 @@ const toggleFooterOpen = () => {
         margin-bottom: 24px;
       }
 
-      dt, dd {
+      dt,
+      dd {
         margin: 0;
       }
 
@@ -92,22 +98,22 @@ const toggleFooterOpen = () => {
   }
 
   .intro-text {
-    color: #4F4F4F;
+    color: #4f4f4f;
     font-size: 12px;
     margin: -15px 0 16px;
   }
 
   .copyright {
     margin-top: 32px;
-    color: #4F4F4F;
+    color: #4f4f4f;
     font: {
       size: 10px;
-    };
+    }
   }
 }
 
 .info-hide-icon {
-  transition: all .3s ease-in-out;
+  transition: all 0.3s ease-in-out;
   &.open {
     transform: rotate(180deg);
   }
@@ -116,7 +122,7 @@ const toggleFooterOpen = () => {
 .info-hide-container {
   max-height: 0;
   overflow: hidden;
-  transition: all .3s ease-in-out;
+  transition: all 0.3s ease-in-out;
   &.open {
     max-height: 999px;
   }
