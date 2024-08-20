@@ -3,29 +3,30 @@
     <div class="profile-content">
       <div class="title">
         <p>
-          <strong class="fw(800)">{{ profile.userName }} {{ profile.position }}</strong> 님의
+          <strong class="fw(800)"
+            >{{ profile.userName }} {{ profile.position }}</strong
+          >
+          님의
         </p>
         <p>마이페이지</p>
       </div>
       <div class="sub-title">{{ profile.firmName }}</div>
     </div>
     <div class="profile-image">
-      <ImageAvatar :src="profileImageUrl"/>
+      <ImageAvatar :src="profileImageUrl" />
     </div>
   </div>
   <div class="sub-menu">
-    <ul class="nav">
-      <li class="nav-button" @click="oldVersion()">
-        구버전으로 보기
-        </li>
+    <ul v-if="false" class="nav">
+      <li class="nav-button" @click="oldVersion()">구버전으로 보기</li>
     </ul>
     <ul class="nav">
       <li class="nav-item" @click="logout()">
-        <IconSvgIcon variant="log-out" size="16"/>
+        <IconSvgIcon variant="log-out" size="16" />
         로그아웃
       </li>
       <li class="nav-item" @click="handlerClickHelpCenter">
-        <IconSvgIcon variant="headset-help" size="16"/>
+        <IconSvgIcon variant="headset-help" size="16" />
         헬프센터
       </li>
     </ul>
@@ -33,17 +34,33 @@
   <div class="menu">
     <ul class="menu-nav v-nav">
       <li class="menu-nav-item" v-for="item in menuItems" :key="item.type">
-        <NuxtLink :to="item.to || 'javascript:void(0)'" :class="{ active: item.active }" @click="handleMenuClick(item)">
+        <NuxtLink
+          :to="item.to || 'javascript:void(0)'"
+          :class="{ active: item.active }"
+          @click="handleMenuClick(item)"
+        >
           <div class="sub-title">{{ item.subtitle }}</div>
           <div class="fw(700)">{{ item.title }}</div>
         </NuxtLink>
         <div v-if="item.submenu" class="menu-nav-sub">
           <ul class="v-nav">
-            <li class="menu-nav-sub-item" v-for="subItem in item.submenu" :key="subItem.title">
-              <NuxtLink :to="subItem.to" @click="goRoute" :class="{d_flex: isDisplayFlex(subItem)}">
+            <li
+              class="menu-nav-sub-item"
+              v-for="subItem in item.submenu"
+              :key="subItem.title"
+            >
+              <NuxtLink
+                :to="subItem.to"
+                @click="goRoute"
+                :class="{ d_flex: isDisplayFlex(subItem) }"
+              >
                 <span>{{ subItem.title }}</span>
-                <BaseButton type="button" v-if="subItem.sub_btn"
-                            @click="handleSubBtnClick($event,subItem.sub_btn_click)"> {{ subItem.sub_btn }}
+                <BaseButton
+                  type="button"
+                  v-if="subItem.sub_btn"
+                  @click="handleSubBtnClick($event, subItem.sub_btn_click)"
+                >
+                  {{ subItem.sub_btn }}
                 </BaseButton>
               </NuxtLink>
             </li>
@@ -54,13 +71,11 @@
   </div>
 </template>
 <script setup>
-
-import {useAuthStore} from "@priros/common/store/auth.js";
-import {useGnbStore} from "~/store/gnbState.js";
+import { useAuthStore } from "@priros/common/store/auth.js";
+import { useGnbStore } from "~/store/gnbState.js";
 import BaseButton from "~/components/button/BaseButton.vue";
 
-
-import defaultMypageMenu from './DefaultMypageMenu.js';
+import defaultMypageMenu from "./DefaultMypageMenu.js";
 
 const router = useRouter();
 const gnbStore = useGnbStore();
@@ -68,21 +83,22 @@ const auth = useAuthStore();
 
 const profile = computed(() => auth.user.profile);
 
-
 const menuItems = ref(defaultMypageMenu);
 
 function oldVersion() {
-  window.location.href = window.location.hostname.includes('dev') ? 'https://dev.priros.co.kr?priros_version=1' : 'https://www.priros.com?priros_version=1';
+  window.location.href = window.location.hostname.includes("dev")
+    ? "https://dev.priros.co.kr?priros_version=1"
+    : "https://www.priros.com?priros_version=1";
 }
 
 function logout() {
   auth.logout();
   gnbStore.deactivate();
-  router.push('/');
+  router.push("/");
 }
 
 function resetMenuActiveStatus() {
-  menuItems.value.forEach(item => item.active = false);
+  menuItems.value.forEach((item) => (item.active = false));
 }
 
 function goRoute() {
@@ -91,7 +107,7 @@ function goRoute() {
 }
 
 function handleMenuClick(item) {
-  if (item.type === 'toggle') {
+  if (item.type === "toggle") {
     item.active = !item.active;
   } else {
     goRoute();
@@ -99,30 +115,28 @@ function handleMenuClick(item) {
 }
 
 const handleSubBtnClick = (event, callback) => {
-
   // 이벤트 버블링 중단
   event.preventDefault();
   event.stopPropagation();
   if (callback) {
     callback(router);
   }
-}
+};
 
-const isDisplayFlex = subItem => !!subItem.sub_btn;
+const isDisplayFlex = (subItem) => !!subItem.sub_btn;
 
 const handlerClickHelpCenter = () => {
-  router.push('/faq/list')
+  router.push("/faq/list");
   gnbStore.deactivate();
-}
+};
 
 const profileImageUrl = computed(() => {
-  if(profile.value.userProfileImage === null) {
-    return '/img/join/profile-empty.png'
+  if (profile.value.userProfileImage === null) {
+    return "/img/join/profile-empty.png";
   } else {
-    return `data:image/png;base64,${profile.value.userProfileImage}`
+    return `data:image/png;base64,${profile.value.userProfileImage}`;
   }
-})
-
+});
 </script>
 <style lang="scss" scoped>
 .profile {
@@ -185,7 +199,6 @@ const profileImageUrl = computed(() => {
   }
 }
 
-
 .menu {
   --#{$prefix}-menu-icon-bg: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="8" height="14" viewBox="0 0 8 14" fill="none"><path d="M1 1L7 7L1 13" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>');
   padding: 12px $grid-margin;
@@ -217,7 +230,7 @@ const profileImageUrl = computed(() => {
       &:after {
         display: block;
         position: absolute;
-        content: '';
+        content: "";
         right: 28px;
         width: 8px; /* SVG 너비 */
         height: 14px; /* SVG 높이 */
@@ -253,7 +266,7 @@ const profileImageUrl = computed(() => {
       a {
         color: inherit;
         font: {
-          size: 14px
+          size: 14px;
         }
         text-decoration: none;
       }
@@ -274,7 +287,7 @@ const profileImageUrl = computed(() => {
   }
 
   .btn {
-    --#{$prefix}-btn-border-color: #DFDFDF;
+    --#{$prefix}-btn-border-color: #dfdfdf;
     --#{$prefix}-btn-border-radius: 4px;
     --#{$prefix}-btn-padding-y: 8px;
     font: {
