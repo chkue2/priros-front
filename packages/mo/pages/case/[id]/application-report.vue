@@ -151,6 +151,17 @@
         </label>
       </div>
     </div>
+    <div class="report-warning-container">
+      <img src="/img/cha/cha-06.png" alt="" />
+      <p class="report-warning-text">
+        <b>매도인의 주소경정등기 누락</b>은 등기취하 및 재접수가 필요한
+        중요사항입니다.
+      </p>
+      <p class="report-warning-text">
+        일치하는 주소가 있는 경우에도 취득일자에 해당하는 주소가 아니라면
+        경정등기 대상임을 주의하세요!
+      </p>
+    </div>
     <div class="report-bottom-container">
       <div>
         <CommonBottomButton
@@ -389,5 +400,29 @@ const handlerChangeOpenModalEvent = (e) => {
 @import "~/assets/scss/report/form.scss";
 .application-report-title {
   font-weight: $ft-bold;
+}
+.report-warning-container {
+  margin: -36px 16px 0;
+  padding-bottom: 100px;
+  border-top: 1px solid #c9c9c9;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  & > img {
+    width: 100px;
+    margin-top: 24px;
+  }
+  .report-warning-text {
+    font-size: 14px;
+    font-weight: $ft-medium;
+    margin-top: 8px;
+    text-align: center;
+    word-break: keep-all;
+    & > b {
+      color: red;
+      font-weight: $ft-bold;
+    }
+  }
 }
 </style>
