@@ -29,7 +29,7 @@ const nextDepth = () => {
       depth.value++;
     })
     .catch((e) => {
-      alertStore.open("비밀번호를 다시 확인해주세요.");
+      alertStore.open(e.repsonse.data.message);
     });
 };
 </script>

@@ -14,8 +14,6 @@ const getEndpoint = (url, params) => {
 const getEndpointOfRepay = (url, params, data) => {
   let endpoint = getEndpoint(url, params);
 
-  console.log(data);
-
   for (const key in data) {
     if (!endpoint.includes("?")) endpoint += `?${key}=${data[key]}`;
     else endpoint += `&${key}=${data[key]}`;
@@ -40,9 +38,12 @@ const defineApi = (config) => {
           refreshToken: refreshToken,
         })
         .catch((e) => {
-          if (e.response.data.errorCode === "A011") {
+          if (
+            e.response.data.errorCode === "A011" ||
+            e.response.data.errorCode === "A009"
+          ) {
             tokenApi.clearAll();
-            alert("로그아웃되었습니다. 다시 로그인해주세요.");
+            alert("인증 토큰 만료로 로그아웃되었습니다. 다시 로그인해주세요.");
             location.href = "/";
           }
         });
