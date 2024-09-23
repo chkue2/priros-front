@@ -116,6 +116,10 @@
           <p class="estimate-accordion-contents-text">{{ rtmsApplyPay }} 원</p>
           <p class="estimate-accordion-contents-title">다중매매</p>
           <p class="estimate-accordion-contents-text">{{ multiPay }} 원</p>
+          <p class="estimate-accordion-contents-title">특수매도인</p>
+          <p class="estimate-accordion-contents-text">
+            {{ specialSellerPay }} 원
+          </p>
           <p class="estimate-accordion-contents-title">수수료계</p>
           <p class="estimate-accordion-contents-text">{{ payedPaySum }} 원</p>
           <p class="estimate-accordion-contents-title">부가세</p>
@@ -327,6 +331,13 @@ const rtmsApplyPay = computed(() =>
 const multiPay = computed(() =>
   !isEmpty(detailCaseStore.fetcehdEstimate.fee)
     ? Number(detailCaseStore.fetcehdEstimate.fee.multiPay).toLocaleString()
+    : ""
+);
+const specialSellerPay = computed(() =>
+  !isEmpty(detailCaseStore.fetcehdEstimate.fee)
+    ? Number(
+        detailCaseStore.fetcehdEstimate.fee.specialSellerPay
+      ).toLocaleString()
     : ""
 );
 const payedPaySum = computed(() =>
