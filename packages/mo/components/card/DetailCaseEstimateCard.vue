@@ -116,8 +116,10 @@
           <p class="estimate-accordion-contents-text">{{ rtmsApplyPay }} 원</p>
           <p class="estimate-accordion-contents-title">다중매매</p>
           <p class="estimate-accordion-contents-text">{{ multiPay }} 원</p>
-          <p class="estimate-accordion-contents-title">특수매도인</p>
-          <p class="estimate-accordion-contents-text">
+          <p v-if="false" class="estimate-accordion-contents-title">
+            특수매도인
+          </p>
+          <p v-if="false" class="estimate-accordion-contents-text">
             {{ specialSellerPay }} 원
           </p>
           <p class="estimate-accordion-contents-title">수수료계</p>
