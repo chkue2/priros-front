@@ -110,8 +110,10 @@ onMounted(() => {
   tradeCaseReceptionReport
     .get(tradeCaseId)
     .then(({ data }) => {
-      if (data.receiveDateTime !== null) {
-        receiveDate.value = data.receiveDateTime.split("T")[0];
+      if (data.receiveDate) {
+        receiveDate.value = data.receiveDate;
+      } else {
+        receiveDate.value = dayjs(new Date()).format("YYYY-MM-DD");
       }
       receiveBuyer.value = data.buyer;
       receiveNo.value = data.receiveNo;
