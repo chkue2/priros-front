@@ -34,7 +34,10 @@
           placeholder="본인인증 후 자동입력"
           readonly
         />
-        <button class="join-form-gray-button" @click="sendNiceForm">
+        <button
+          class="join-form-gray-button"
+          @click="handlerClickSelfIdentification"
+        >
           본인확인
         </button>
       </div>
@@ -77,36 +80,31 @@ const actionUrl = ref("");
 const form = ref({});
 
 onMounted(() => {
+  const receiveData = async (e) => {
+    if (e.data.name) {
+      form.value.name = e.data.name;
+      form.value.phone = e.data.phone;
+      form.value.responseNo = e.data.responseNo;
+    }
+  };
+
+  window.addEventListener("message", receiveData, false);
+});
+
+const handlerClickSelfIdentification = () => {
   join
-    .getNice(`${window.location.origin}/user/join/nice-result`)
+    .getNice({
+      checkId: true,
+      return_url: `/nice/decrypt/priros/v2`,
+    })
     .then(({ data }) => {
-      document.getElementById("token_version_id").value = data.tokenVersionId;
-      document.getElementById("enc_data").value = data.encData;
-      document.getElementById("integrity_value").value = data.integrityValue;
-      actionUrl.value = data.actionUrl;
-
-      const receiveData = async (e) => {
-        if (e.data.name) {
-          form.value.name = e.data.name;
-          form.value.mobileNo = e.data.phone;
-        }
-      };
-
-      window.addEventListener("message", receiveData, false);
+      const wnd = window.open(undefined, "new window", "width=500, height=600");
+      wnd.document.write(data);
     })
     .catch((e) => {
       console.log(e);
       alertStore.open(e.response.data.message);
     });
-});
-
-// 본인 인증
-const sendNiceForm = () => {
-  const form = document.getElementById("niceForm");
-
-  form.action = actionUrl.value;
-  form.target = "popupChk";
-  form.submit();
 };
 
 const handlerClickApplyButton = () => {
