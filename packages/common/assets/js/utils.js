@@ -122,14 +122,25 @@ const fileDownloadBase64 = (base64, fileName, ext) => {
   const contentType = base64.split(":")[1].split(";")[0];
 
   const blob = new Blob([arraybuffer], { type: contentType });
-
-  const url = window.URL.createObjectURL(blob);
-  const link = document.createElement("a");
-  link.href = url;
-  link.setAttribute("download", `${fileName}.${ext}`);
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
+  if (
+    navigator.userAgent.includes("Android") &&
+    navigator.userAgent.includes("Build")
+  ) {
+    const reader = new FileReader();
+    reader.onloadend = function () {
+      const base64data = reader.result;
+      window.Android.downloadBase64Blob(base64data, fileName);
+    };
+    reader.readAsDataURL(blob);
+  } else {
+    const url = window.URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.setAttribute("download", `${fileName}.${ext}`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
 };
 
 /**
