@@ -88,7 +88,7 @@ const fileDownload = (data, fileName, ext) => {
     const reader = new FileReader();
     reader.onloadend = function () {
       const base64data = reader.result;
-      window.Android.downloadBase64Blob(base64data, fileName);
+      window.Android.downloadBase64Blob(base64data, `${fileName}.${ext}`);
     };
     reader.readAsDataURL(blob);
   } else {
@@ -129,7 +129,7 @@ const fileDownloadBase64 = (base64, fileName, ext) => {
     const reader = new FileReader();
     reader.onloadend = function () {
       const base64data = reader.result;
-      window.Android.downloadBase64Blob(base64data, fileName);
+      window.Android.downloadBase64Blob(base64data, `${fileName}.${ext}`);
     };
     reader.readAsDataURL(blob);
   } else {
