@@ -15,6 +15,10 @@ export default defineNuxtConfig({
           content: "no-store",
         },
         {
+          name: "viewport",
+          content: "width=device-width, initial-scale=1, user-scalable=no",
+        },
+        {
           name: "referrer",
           content: "origin",
         },
