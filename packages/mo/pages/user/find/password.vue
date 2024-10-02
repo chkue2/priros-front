@@ -83,8 +83,7 @@ onMounted(() => {
   const receiveData = async (e) => {
     if (e.data.name) {
       form.value.name = e.data.name;
-      form.value.phone = e.data.phone;
-      form.value.responseNo = e.data.responseNo;
+      form.value.mobileNo = e.data.phone;
     }
   };
 
