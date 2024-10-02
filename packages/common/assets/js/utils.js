@@ -79,12 +79,18 @@ const rexFormatPhone = (text) => {
  * @param {string} ext
  */
 const fileDownload = (data, fileName, ext) => {
-  const url = window.URL.createObjectURL(new Blob([data]));
+  const blob = new Blob([data], { type: "application/octet-stream" });
+  const url = window.URL.createObjectURL(blob);
   if (
     navigator.userAgent.includes("Android") &&
     navigator.userAgent.includes("Build")
   ) {
-    window.Android.downloadBlob(url, fileName);
+    const reader = new FileReader();
+    reader.onloadend = function () {
+      const base64data = reader.result;
+      window.Android.downloadBase64Blob(base64data, fileName);
+    };
+    reader.readAsDataURL(blob);
   } else {
     const link = document.createElement("a");
     link.href = url;
