@@ -81,10 +81,7 @@ const rexFormatPhone = (text) => {
 const fileDownload = (data, fileName, ext) => {
   const blob = new Blob([data], { type: "application/octet-stream" });
   const url = window.URL.createObjectURL(blob);
-  if (
-    navigator.userAgent.includes("Android") &&
-    navigator.userAgent.includes("Build")
-  ) {
+  if (androidAppCheck()) {
     const reader = new FileReader();
     reader.onloadend = function () {
       const base64data = reader.result;
@@ -122,10 +119,7 @@ const fileDownloadBase64 = (base64, fileName, ext) => {
   const contentType = base64.split(":")[1].split(";")[0];
 
   const blob = new Blob([arraybuffer], { type: contentType });
-  if (
-    navigator.userAgent.includes("Android") &&
-    navigator.userAgent.includes("Build")
-  ) {
+  if (androidAppCheck()) {
     const reader = new FileReader();
     reader.onloadend = function () {
       const base64data = reader.result;
@@ -251,6 +245,14 @@ const convertToKoreanCurrency = (num) => {
   return result.join("");
 };
 
+// 안드로이드앱 체크
+const androidAppCheck = () => {
+  return (
+    navigator.userAgent.includes("Android") &&
+    navigator.userAgent.includes("Build")
+  );
+};
+
 export {
   changeTimeFormatAddDot,
   changeTimeFormatAmPm,
@@ -264,4 +266,5 @@ export {
   zeroStr,
   isValidId,
   isValidPassword,
+  androidAppCheck,
 };
