@@ -12,6 +12,7 @@ run_container() {
     docker run -d -p $2:3000 \
         --restart=always \
         -e API_URL=$API_URL \
+        -e AES_SECRET_KEY=$AES_SECRET_KEY \
         --network $DOCKER_NETWORK \
         --name $1 $DOCKER_IMAGE:$DOCKER_IMAGE_TAG
 }

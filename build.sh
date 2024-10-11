@@ -16,7 +16,7 @@ echo "API_URL: $API_URL"
 echo "DOCKER_IMAGE: $DOCKER_IMAGE"
 echo "DOCKER_IMAGE_TAG: $DOCKER_IMAGE_TAG"
 
-docker build --build-arg "API_URL=${API_URL}" -f $DOCKERFILE -t $DOCKER_IMAGE:$DOCKER_IMAGE_TAG .
+docker build --build-arg "API_URL=${API_URL}" --build-arg "AES_SECRET_KEY=${AES_SECRET_KEY}" -f $DOCKERFILE -t $DOCKER_IMAGE:$DOCKER_IMAGE_TAG .
 
 if [ $? -ne 0 ]; then
     echo "Docker build 실패"
