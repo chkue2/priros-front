@@ -43,6 +43,7 @@ export default defineNuxtConfig({
   runtimeConfig: {
     public: {
       apiURL: process.env.API_URL,
+      aesSecretKey: process.env.AES_SECRET_KEY,
     },
   },
   modules: ["@pinia/nuxt", "@nuxt/image"],

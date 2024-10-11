@@ -1,4 +1,4 @@
-version: '3'
+version: "3"
 
 services:
   prirosfront:
@@ -12,12 +12,13 @@ services:
       - 3001:3001
     environment:
       - API_URL=https://pro-api.dev.priros.com
+      - AES_SECRET_KEY=22ea0aeac00792392c73b53ea359abf2
     expose:
       - 3000
       - 3001
     networks:
       priros_local_network:
-    command: ["sh","-c","pnpm dev"]
+    command: ["sh", "-c", "pnpm dev"]
 
 networks:
   priros_local_network:

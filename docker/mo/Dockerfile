@@ -7,11 +7,13 @@ FROM node:${NODE_VERSION}-alpine as base
 RUN npm i -g pnpm && npm i -g npm@latest
 
 ARG API_URL
+ARG AES_SECRET_KEY
 
 
 # 환경변수 설정
 ENV NODE_ENV=${NODE_ENV}
 ENV API_URL=${API_URL}
+ENV AES_SECRET_KEY=${AES_SECRET_KEY}
 
 FROM base as build
 
