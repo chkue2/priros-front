@@ -24,6 +24,7 @@
       <p class="join-form-title">회원유형 *</p>
       <div class="join-form-input-container">
         <select v-model="form['firmType']" class="join-form-input">
+          <option value="" hidden>회원유형을 선택해주세요</option>
           <option v-for="t in userTypeEnum" :key="t" :value="t">{{ t }}</option>
         </select>
       </div>
@@ -34,6 +35,7 @@
           type="text"
           class="join-form-input w-60"
           placeholder="직책을 입력해주세요"
+          :readonly="isPositionReadonly"
         />
       </div>
       <p class="join-form-title">아이디 *</p>
@@ -194,7 +196,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, computed } from "vue";
+import { ref, onMounted, computed, watch } from "vue";
 import { useRouter } from "vue-router";
 import CommonBottomButton from "@priros/common/components/button/CommonBottomButton.vue";
 
@@ -215,8 +217,6 @@ const userTypeEnum = [
   "합동변호사",
   "법무법인",
   "금융기관",
-  "일반사용자",
-  "공인중개사",
 ];
 const validateEnum = [
   "userProfileImage",
@@ -233,7 +233,7 @@ const validateEnum = [
   "cert",
 ];
 
-const form = ref({});
+const form = ref({ firmType: "" });
 const checkId = ref(false);
 const userProfileImage = ref(null);
 const businessLicenseFile = ref(null);
@@ -251,6 +251,21 @@ onMounted(() => {
 
   window.addEventListener("message", receiveData, false);
 });
+
+watch(
+  () => form.value.firmType,
+  () => {
+    if (["법무사", "합동법무사", "법무사법인"].includes(form.value.firmType)) {
+      form.value.position = "법무사";
+    } else if (
+      ["변호사", "합동변호사", "법무법인"].includes(form.value.firmType)
+    ) {
+      form.value.position = "변호사";
+    } else {
+      form.value.position = "";
+    }
+  }
+);
 
 const formValidation = computed(() => {
   for (const e of validateEnum) {
@@ -270,6 +285,8 @@ const formValidation = computed(() => {
 
   return true;
 });
+
+const isPositionReadonly = computed(() => form.value.firmType !== "금융기관");
 
 const businessLicenseButtonText = computed(() =>
   !form.value["businessLicense"]
