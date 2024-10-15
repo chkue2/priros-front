@@ -127,7 +127,7 @@
             "
             class="detail-case-table-contents-warning"
           >
-            ! 필증우편금지 !
+            ! 각하결정빈번 !
           </p>
           <p
             v-if="
