@@ -155,9 +155,9 @@ onMounted(() => {
       console.log(e);
     });
 
-  function receiveToken(token) {
+  window.receiveToken = function receiveToken(token) {
     alert("token : " + token);
-  }
+  };
 });
 
 let isMainIntroLandingModalShow = ref(false);
