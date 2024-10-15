@@ -156,7 +156,7 @@ onMounted(() => {
     });
 
   function receiveToken(token) {
-    console.log("token : " + token);
+    alert("token : " + token);
   }
 });
 
