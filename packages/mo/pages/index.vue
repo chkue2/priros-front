@@ -132,6 +132,7 @@ import { banners } from "~/assets/js/main/swiperBanner";
 import { howToUse } from "~/assets/js/main/howToUse";
 import { partners } from "~/assets/js/main/partners";
 import { intro } from "~/services/intro.js";
+import { androidAppCheck } from "@priros/common/assets/js/utils.js";
 
 import "swiper/css";
 
@@ -154,10 +155,9 @@ onMounted(() => {
     .catch((e) => {
       console.log(e);
     });
-
-  window.receiveToken = function receiveToken(token) {
-    alert("token : " + token);
-  };
+  if (androidAppCheck()) {
+    alert("token" + window.Android.getFCMToken());
+  }
 });
 
 let isMainIntroLandingModalShow = ref(false);
