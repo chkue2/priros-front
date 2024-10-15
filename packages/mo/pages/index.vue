@@ -156,7 +156,7 @@ onMounted(() => {
       console.log(e);
     });
   if (androidAppCheck()) {
-    alert("token" + window.Android.getFCMToken());
+    window.localStorage.setItem("prirosFcmToken", window.Android.getFCMToken());
   }
 });
 
