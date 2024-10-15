@@ -154,6 +154,10 @@ onMounted(() => {
     .catch((e) => {
       console.log(e);
     });
+
+  function receiveToken(token) {
+    console.log("token : " + token);
+  }
 });
 
 let isMainIntroLandingModalShow = ref(false);
