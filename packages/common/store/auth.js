@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { POST, GET_AUTH } from "~/composables/useApi.js";
+import { POST, GET_AUTH, POST_AUTH } from "~/composables/useApi.js";
 import { tokenApi, userSessionKey } from "@priros/common/utils/tokenApi";
 import { useEncrypted, useDecrypted } from "@priros/common/composables/aes256";
 
@@ -57,9 +57,15 @@ export const useAuthStore = defineStore("auth", {
     },
     saveFCMToken() {
       const token = window.localStorage.getItem("priros-fcm-token");
-      console.log(token);
-      if (token) {
-        alert("token success");
+      try {
+        if (token) {
+          POST_AUTH("/user/fcm", { pushToken: token }).then(() => {
+            return true;
+          });
+        }
+      } catch (e) {
+        console.log(e);
+        return false;
       }
     },
   },
