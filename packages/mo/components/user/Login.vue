@@ -140,6 +140,7 @@ const handlerClickLoginButton = async () => {
     } else {
       localStorage.removeItem("userId");
     }
+    await auth.saveFCMToken();
     await auth.userProfile();
     gnbStore.deactivate();
     router.push("/case/my-case/");

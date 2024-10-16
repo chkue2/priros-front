@@ -55,5 +55,12 @@ export const useAuthStore = defineStore("auth", {
         return false;
       }
     },
+    saveFCMToken() {
+      const token = window.localStorage.getItem("priros-fcm-token");
+      console.log(token);
+      if (token) {
+        alert("token success");
+      }
+    },
   },
 });
