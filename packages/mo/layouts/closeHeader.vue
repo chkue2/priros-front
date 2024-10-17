@@ -17,7 +17,11 @@ const router = useRouter();
 const alertStore = useAlertStore();
 
 const handlerClickCloseButton = () => {
-  router.back();
+  if (router.getRoutes().length === 0) {
+    router.push("/");
+  } else {
+    router.back();
+  }
 };
 
 let headerTitleText = ref("");
