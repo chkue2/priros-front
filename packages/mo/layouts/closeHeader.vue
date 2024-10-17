@@ -17,10 +17,10 @@ const router = useRouter();
 const alertStore = useAlertStore();
 
 const handlerClickCloseButton = () => {
-  if (router.getRoutes().length === 0) {
-    router.push("/");
-  } else {
+  if (window.history.length > 1) {
     router.back();
+  } else {
+    router.push("/");
   }
 };
 

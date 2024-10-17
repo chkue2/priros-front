@@ -23,10 +23,10 @@ const alertStore = useAlertStore();
 const headerTitleText = computed(() => props.headerTitle || "팝업");
 const handlerClickCloseButton = () => {
   document.querySelector("body").removeAttribute("style");
-  if (router.getRoutes().length === 0) {
-    router.push("/");
-  } else {
+  if (window.history.length > 1) {
     router.back();
+  } else {
+    router.push("/");
   }
 };
 </script>
