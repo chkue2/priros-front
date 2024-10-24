@@ -17,7 +17,7 @@ const router = useRouter();
 const alertStore = useAlertStore();
 
 const handlerClickCloseButton = () => {
-  if (window.history.length > 1) {
+  if (window.history.length > 0) {
     router.back();
   } else {
     router.push("/");
