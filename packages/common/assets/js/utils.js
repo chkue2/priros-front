@@ -267,10 +267,7 @@ const convertToKoreanCurrency = (num) => {
 
 // 안드로이드앱 체크
 const androidAppCheck = () => {
-  return (
-    navigator.userAgent.includes("Android") &&
-    navigator.userAgent.includes("Build")
-  );
+  return navigator.userAgent.includes("ANDROID PRIROS");
 };
 
 // ios앱 체크
