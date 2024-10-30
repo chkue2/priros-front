@@ -47,6 +47,7 @@ export default defineNuxtConfig({
     },
   },
   modules: ["@pinia/nuxt", "@nuxt/image"],
+  plugins: ["~/plugins/fcm.js"],
   css: ["@priros/common/assets/scss/_style.scss"],
   vite: {
     plugins: [pluginSvgVue()],
