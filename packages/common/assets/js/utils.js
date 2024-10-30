@@ -81,7 +81,17 @@ const rexFormatPhone = (text) => {
 const fileDownload = (data, fileName, ext) => {
   const blob = new Blob([data], { type: "application/octet-stream" });
   const url = window.URL.createObjectURL(blob);
-  if (androidAppCheck()) {
+  if (iosAppCheck()) {
+    const reader = new FileReader();
+    reader.onloadend = function () {
+      const base64data = reader.result;
+      window.webkit.messageHandlers.downloadBase64File.postMessage({
+        base64: base64data,
+        filename: `${fileName}.${ext}`,
+      });
+    };
+    reader.readAsDataURL(blob);
+  } else if (androidAppCheck()) {
     const reader = new FileReader();
     reader.onloadend = function () {
       const base64data = reader.result;
@@ -119,7 +129,17 @@ const fileDownloadBase64 = (base64, fileName, ext) => {
   const contentType = base64.split(":")[1].split(";")[0];
 
   const blob = new Blob([arraybuffer], { type: contentType });
-  if (androidAppCheck()) {
+  if (iosAppCheck()) {
+    const reader = new FileReader();
+    reader.onloadend = function () {
+      const base64data = reader.result;
+      window.webkit.messageHandlers.downloadBase64File.postMessage({
+        base64: base64data,
+        filename: `${fileName}.${ext}`,
+      });
+    };
+    reader.readAsDataURL(blob);
+  } else if (androidAppCheck()) {
     const reader = new FileReader();
     reader.onloadend = function () {
       const base64data = reader.result;
