@@ -253,6 +253,11 @@ const androidAppCheck = () => {
   );
 };
 
+// ios앱 체크
+const iosAppCheck = () => {
+  return navigator.userAgent.includes("IOS PRIROS");
+};
+
 export {
   changeTimeFormatAddDot,
   changeTimeFormatAmPm,
@@ -267,4 +272,5 @@ export {
   isValidId,
   isValidPassword,
   androidAppCheck,
+  iosAppCheck,
 };

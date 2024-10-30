@@ -3,7 +3,13 @@
 </template>
 
 <script setup>
+import { iosAppCheck } from "@priros/common/assets/js/utils.js";
 onMounted(() => {
+  if (iosAppCheck()) {
+    window.close = function () {
+      window.webkit.messageHandlers.closeWindow.postMessage("closeWindow");
+    };
+  }
   const urlSearch = new URLSearchParams(window.location.search);
   const status = urlSearch.get("status");
   const name = decodingBase64(urlSearch.get("name"));
