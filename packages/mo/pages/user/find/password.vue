@@ -93,7 +93,7 @@ onMounted(() => {
 const handlerClickSelfIdentification = () => {
   join
     .getNice({
-      checkId: true,
+      checkId: false,
       return_url: `/nice/decrypt/priros/v2`,
     })
     .then(({ data }) => {
