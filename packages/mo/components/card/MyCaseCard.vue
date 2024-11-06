@@ -19,10 +19,6 @@
         <img :src="bankIcon" aria-hidden alt="" />
         <p>{{ bankTitle }}</p>
       </div>
-      <div v-if="false" class="my-case-card-bank">
-        <img src="/img/icon/soda.png" aria-hidden alt="" />
-        <p>등기소다</p>
-      </div>
       <span
         class="my-case-card-tag"
         v-for="(tag, index) in tags"
