@@ -52,6 +52,9 @@ const defineApi = (config) => {
         tokenApi.setToken(response.data.token, response.data.refreshToken);
         return true;
       }
+    } else {
+      alert("인증 토큰이 없습니다. 다시 로그인해주세요.");
+      location.href = "/";
     }
 
     return false;
@@ -82,9 +85,8 @@ const defineApi = (config) => {
       const response = error.response;
       if (response) {
         const request = error.config;
-        if (response.status === 401 && !request._retry) {
-          // token 인증만료
-          if (response.data.errorCode === "A010") {
+        if (response.status === 401 && request._retry !== true) {
+          if (response.data.errorCode === ERROR_CODES.A010) {
             const isOk = await requestRefreshTokenUpdate();
             if (isOk) {
               request._retry = 1;
