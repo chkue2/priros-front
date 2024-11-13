@@ -133,7 +133,7 @@ const handlerClickLoginButton = async () => {
   }
 
   const isSuccess = await auth.login(credentials.value);
-  if (isSuccess) {
+  if (isSuccess.state) {
     localStorage.setItem("saveId", isSwitchToggle.value);
     if (isSwitchToggle.value) {
       localStorage.setItem("userId", credentials.value.userId);
@@ -145,7 +145,7 @@ const handlerClickLoginButton = async () => {
     gnbStore.deactivate();
     router.push("/case/my-case/");
   } else {
-    alertStore.open("아이디 또는 비밀번호가 다릅니다.");
+    alertStore.open(isSuccess.message);
   }
 };
 </script>
