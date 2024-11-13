@@ -40,7 +40,8 @@ const defineApi = (config) => {
         .catch((e) => {
           if (
             e.response.data.errorCode === "A011" ||
-            e.response.data.errorCode === "A009"
+            e.response.data.errorCode === "A009" ||
+            e.response.data.errorCode === "A008"
           ) {
             tokenApi.clearAll();
             alert("인증 토큰 만료로 로그아웃되었습니다. 다시 로그인해주세요.");
@@ -86,7 +87,7 @@ const defineApi = (config) => {
       if (response) {
         const request = error.config;
         if (response.status === 401 && request._retry !== true) {
-          if (response.data.errorCode === ERROR_CODES.A010) {
+          if (response.data.errorCode === "A010") {
             const isOk = await requestRefreshTokenUpdate();
             if (isOk) {
               request._retry = 1;
