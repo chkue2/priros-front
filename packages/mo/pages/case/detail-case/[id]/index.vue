@@ -270,12 +270,14 @@
       @handler-click-close="toggleContractModalShow"
     >
       <div class="contract-container">
-        <img
-          class="contract-preview"
-          :class="{ scale: contractFile.fileExt === 'pdf' }"
-          :src="contractImageSrc"
-          alt
-        />
+        <div id="contractPanzoom" class="contract-preview-container f-panzoom">
+          <img
+            class="contract-preview f-panzoom__content"
+            :class="{ scale: contractFile.fileExt === 'pdf' }"
+            :src="contractImageSrc"
+            alt
+          />
+        </div>
         <button
           v-if="
             !contractImageSrc.includes('empty') &&
@@ -319,12 +321,17 @@
       @handler-click-close="toggleFilePreviewModalShow"
     >
       <div class="contract-container">
-        <img
-          class="contract-preview"
-          :class="{ scale: previewFile.fileExt === 'pdf' }"
-          :src="filePreviewImageSrc"
-          alt
-        />
+        <div
+          id="filePreviewPanzoom"
+          class="contract-preview-container f-panzoom"
+        >
+          <img
+            class="contract-preview f-panzoom__content"
+            :class="{ scale: previewFile.fileExt === 'pdf' }"
+            :src="filePreviewImageSrc"
+            alt
+          />
+        </div>
         <button
           v-if="!filePreviewImageSrc.includes('empty-file')"
           class="contract-button"
@@ -421,7 +428,7 @@
 </template>
 
 <script setup>
-import { computed, onMounted, ref } from "vue";
+import { computed, onMounted, ref, nextTick } from "vue";
 import { useRoute } from "vue-router";
 import { useDetailCaseStore } from "~/store/case/detailCase.js";
 
@@ -454,6 +461,9 @@ import {
 } from "@priros/common/assets/js/utils.js";
 import { useAlertStore } from "~/store/alert.js";
 
+import { Panzoom } from "@priros/common/node_modules/@fancyapps/ui/dist/panzoom/panzoom.esm.js";
+import "@priros/common/node_modules/@fancyapps/ui/dist/panzoom/panzoom.css";
+
 definePageMeta({
   layout: false,
 });
@@ -462,6 +472,8 @@ const route = useRoute();
 const detailCaseStore = useDetailCaseStore();
 const alertStore = useAlertStore();
 const tradeCaseId = route.params.id;
+
+const panzoomOptions = { click: "toggleCover" };
 
 onMounted(() => {
   detailCaseStore.fetchDetailCase(tradeCaseId);
@@ -618,10 +630,22 @@ const handlerClickTab = (v) => {
 const isContractModalShow = ref(false);
 const toggleContractModalShow = () => {
   isContractModalShow.value = !isContractModalShow.value;
+  if (isContractModalShow.value) {
+    nextTick(() => {
+      const container = document.getElementById("contractPanzoom");
+      new Panzoom(container, panzoomOptions);
+    });
+  }
 };
 const isFilePreviewModalShow = ref(false);
 const toggleFilePreviewModalShow = () => {
   isFilePreviewModalShow.value = !isFilePreviewModalShow.value;
+  if (isFilePreviewModalShow.value) {
+    nextTick(() => {
+      const container = document.getElementById("filePreviewPanzoom");
+      new Panzoom(container, panzoomOptions);
+    });
+  }
 };
 const isConfigAgentModalShow = ref(false);
 const toggleConfigAgentModalShow = () => {
