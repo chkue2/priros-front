@@ -4,7 +4,6 @@
       {{ notice.title }}
       <img v-if="isNew" src="/img/icon/board-new.svg" aria-hidden />
     </p>
-    <p class="notice-card-date">{{ created }}</p>
   </div>
 </template>
 
