@@ -1,7 +1,7 @@
 <template>
   <div class="notice-card" @click="handlerClickMoveToNoticeList">
     <p class="notice-card-title">
-      {{ notice.title }}
+      [중요] {{ notice.title }}
       <img v-if="isNew" src="/img/icon/board-new.svg" aria-hidden />
     </p>
   </div>
