@@ -1,4 +1,3 @@
-
 <template>
   <div :id="`swiperCard${idx}`" class="swiper-card">
     <p class="swiper-card-page">
@@ -9,11 +8,11 @@
       <p class="swiper-card-middle-title" v-html="middleTitle"></p>
       <p class="swiper-card-content" v-html="content"></p>
     </div>
-    <img :src="image" alt="banner image" class="swiper-card-image">
+    <img :src="image" alt="banner image" class="swiper-card-image" />
   </div>
 </template>
 <script setup>
-import { onMounted } from 'vue'
+import { onMounted } from "vue";
 
 const props = defineProps({
   idx: Number,
@@ -24,10 +23,11 @@ const props = defineProps({
   content: String,
   backgroundColor: String,
   image: String,
-})
+});
 onMounted(() => {
-  document.querySelector(`#swiperCard${props.idx}`).style.backgroundColor = props.backgroundColor
-})
+  document.querySelector(`#swiperCard${props.idx}`).style.backgroundColor =
+    props.backgroundColor;
+});
 </script>
 
 <style lang="scss" scoped>
@@ -47,24 +47,28 @@ onMounted(() => {
       color: #000000;
     }
   }
-  .swiper-card-text{
+  .swiper-card-text {
     position: absolute;
     top: 0;
     left: 0;
     z-index: 2;
     padding: 33px 0 0 16px;
   }
-  .swiper-card-top-title,
-  .swiper-card-content{
+  .swiper-card-top-title {
     font-weight: $ft-medium;
   }
-  .swiper-card-middle-title{
+  .swiper-card-middle-title {
     font-size: 30px;
     font-weight: $ft-bold;
-    margin: 9px 0 17px;
-    line-height: 1.25;
+    margin: 9px 0;
+    line-height: 36px;
   }
-  .swiper-card-image{
+  .swiper-card-content {
+    font-size: 14px;
+    font-weight: $ft-medium;
+    color: #686868;
+  }
+  .swiper-card-image {
     width: calc(100% - 30px);
     height: auto;
     position: absolute;
