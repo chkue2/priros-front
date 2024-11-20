@@ -69,7 +69,13 @@
         <img src="/img/icon/expand-right-lightgray.svg" aira-hidden />
       </p>
     </div>
-    <NoticeCard :notice="recentBoard" />
+    <div v-if="recentBoardList.length > 0">
+      <NoticeCard
+        v-for="(recentBoard, index) in recentBoardList"
+        :key="index"
+        :notice="recentBoard"
+      />
+    </div>
   </div>
   <p class="main-title-text">프리로스 마켓은 어떤 곳인가요?</p>
   <p class="main-content-text">
@@ -142,7 +148,7 @@ import "swiper/css";
 const totalCaseCnt = ref(0);
 const recentCaseCnt = ref(0);
 const userCnt = ref(0);
-const recentBoard = ref({});
+const recentBoardList = ref([]);
 
 const modules = [Autoplay];
 
@@ -153,7 +159,7 @@ onMounted(() => {
       totalCaseCnt.value = data.totalCaseCnt;
       recentCaseCnt.value = data.recentCaseCnt;
       userCnt.value = data.userCnt;
-      recentBoard.value = data.recentBoardList[0];
+      recentBoardList.value = data.recentBoardList;
     })
     .catch((e) => {
       console.log(e);

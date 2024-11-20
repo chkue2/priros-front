@@ -42,6 +42,9 @@ const handlerClickMoveToNoticeList = () => {
 .notice-card {
   display: flex;
   flex-direction: column;
+  & + .notice-card {
+    margin-top: 12px;
+  }
   .notice-card-title {
     font-size: 14px;
     display: flex;
