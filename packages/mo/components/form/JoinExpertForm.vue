@@ -25,7 +25,9 @@
       <div class="join-form-input-container">
         <select v-model="form['firmType']" class="join-form-input">
           <option value="" hidden disabled>회원유형을 선택해주세요</option>
-          <option v-for="t in userTypeEnum" :key="t" :value="t">{{ t }}</option>
+          <option v-for="t in userTypeEnum" :key="t" :value="t.code">
+            {{ t.key }}
+          </option>
         </select>
       </div>
       <p class="join-form-title">직책 *</p>
@@ -210,13 +212,13 @@ const router = useRouter();
 const alertStore = useAlertStore();
 
 const userTypeEnum = [
-  "법무사",
-  "합동법무사",
-  "법무사법인",
-  "변호사",
-  "합동변호사",
-  "법무법인",
-  "금융기관",
+  { key: "법무사", code: "00" },
+  { key: "합동법무사", code: "01" },
+  { key: "법무사법인", code: "02" },
+  { key: "변호사", code: "10" },
+  { key: "합동변호사", code: "11" },
+  { key: "법무법인", code: "12" },
+  { key: "금융기관", code: "20" },
 ];
 const validateEnum = [
   "userProfileImage",
@@ -255,11 +257,9 @@ onMounted(() => {
 watch(
   () => form.value.firmType,
   () => {
-    if (["법무사", "합동법무사", "법무사법인"].includes(form.value.firmType)) {
+    if (["00", "01", "02"].includes(form.value.firmType)) {
       form.value.position = "법무사";
-    } else if (
-      ["변호사", "합동변호사", "법무법인"].includes(form.value.firmType)
-    ) {
+    } else if (["10", "11", "12"].includes(form.value.firmType)) {
       form.value.position = "변호사";
     } else {
       form.value.position = "";
@@ -286,7 +286,7 @@ const formValidation = computed(() => {
   return true;
 });
 
-const isPositionReadonly = computed(() => form.value.firmType !== "금융기관");
+const isPositionReadonly = computed(() => form.value.firmType !== "20");
 
 const businessLicenseButtonText = computed(() =>
   !form.value["businessLicense"]
