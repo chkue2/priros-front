@@ -77,13 +77,24 @@
           </div>
         </div>
       </div>
-      <div class="bottom">
+      <div class="bottom flex">
+        <CommonBottomButton
+          id="btn-delete"
+          text="회원탈퇴"
+          backgroundColor="#d8d9db"
+          height="60px"
+          width="40%"
+          color="#fff"
+          :font-weight="700"
+          :disabled="false"
+          @handler-click-button="handlerClickDeleteButton"
+        />
         <CommonBottomButton
           id="btn-send"
           text="회원정보 변경"
           backgroundColor="#000000"
           height="60px"
-          width="100%"
+          width="60%"
           color="#fff"
           :font-weight="700"
           :disabled="false"
@@ -104,6 +115,10 @@
         <img id="previewImage" :src="previewFileSrc" aria-hidden />
       </div>
     </CommonFullScreenFadeModal>
+    <CustomConfirmModal
+      v-if="alertStore.isConfirmOpen"
+      @click-button="handlerClickDeleteApplyButton"
+    />
     <LoadingModal v-if="isLoading" text="변경중입니다" />
   </NuxtLayout>
 </template>
@@ -111,20 +126,25 @@
 <script setup>
 import { ref, onMounted, computed } from "vue";
 
+import CommonBottomButton from "@priros/common/components/button/CommonBottomButton.vue";
+import SearchAddressModal from "~/components/modal/SearchAddressModal.vue";
+import CommonFullScreenFadeModal from "~/components/modal/CommonFullScreenFadeModal.vue";
+import CustomConfirmModal from "~/components/modal/CustomConfirmModal.vue";
+import LoadingModal from "@priros/common/components/modal/LoadingModal.vue";
+
 import { firm } from "~/services/firm.js";
 import { isEmpty } from "@priros/common/assets/js/utils.js";
 import { base64 } from "@priros/common/assets/js/filePreview.js";
 import { useAlertStore } from "~/store/alert.js";
+import { useAuthStore } from "@priros/common/store/auth.js";
+import { user } from "~/services/user.js";
 
-import CommonBottomButton from "@priros/common/components/button/CommonBottomButton.vue";
-import SearchAddressModal from "~/components/modal/SearchAddressModal.vue";
-import CommonFullScreenFadeModal from "~/components/modal/CommonFullScreenFadeModal.vue";
-import LoadingModal from "@priros/common/components/modal/LoadingModal.vue";
 definePageMeta({
   layout: false,
 });
 
 const alertStore = useAlertStore();
+const authStore = useAuthStore();
 
 const form = ref({
   firmName: "",
@@ -257,6 +277,26 @@ const handleBtnSendClick = () => {
       isLoading.value = false;
     });
 };
+
+const handlerClickDeleteButton = () => {
+  alertStore.confirmOpen(
+    "회원 산하의 모든 사용자들도 이용이 정지됩니다. 회원 탈퇴를 진행하시겠습니까 ?"
+  );
+};
+
+const handlerClickDeleteApplyButton = () => {
+  alertStore.confirmClose();
+  user
+    .leaveUser()
+    .then(() => {
+      authStore.logout();
+      location.href = "/";
+      alert("탈퇴 되었습니다.\n이용해주셔서 감사합니다.");
+    })
+    .catch((e) => {
+      alertStore.open(e.response.data.message);
+    });
+};
 </script>
 
 <style scoped lang="scss">
@@ -298,5 +338,8 @@ const handleBtnSendClick = () => {
     width: 100%;
     height: auto;
   }
+}
+.flex {
+  display: flex;
 }
 </style>

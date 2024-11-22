@@ -1,4 +1,10 @@
-import { API_URL, GET_AUTH, POST, POST_AUTH } from "~/composables/useApi.js";
+import {
+  API_URL,
+  GET_AUTH,
+  PUT_AUTH,
+  POST,
+  POST_AUTH,
+} from "~/composables/useApi.js";
 
 export const user = {
   async vertifyPassword(data) {
@@ -18,5 +24,8 @@ export const user = {
   },
   async sendProfile(data) {
     return await POST_AUTH(API_URL.USER.PROFILE_SEND, data);
+  },
+  async leaveUser() {
+    return await PUT_AUTH(API_URL.USER.LEAVE);
   },
 };

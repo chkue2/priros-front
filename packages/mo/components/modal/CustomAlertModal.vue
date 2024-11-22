@@ -2,7 +2,10 @@
   <div class="common-alert-modal">
     <div class="alert-modal-container">
       <img src="/img/icon/logo-mo-03.svg" alt="" class="alert-modal-logo" />
-      <p class="alert-modal-text" v-html="alertStore.message"></p>
+      <p
+        class="alert-modal-text"
+        v-html="alertStore.message?.replaceAll('\n', '<br>')"
+      ></p>
       <button class="alert-modal-bottom-button" @click="handlerClickOkButton">
         확인
       </button>

@@ -20,6 +20,7 @@ const API_URL = {
     FIND_ID: "/user/findId",
     FIND_PW: "/user/findPw",
     PROFILE_SEND: "/firm/profile-send",
+    LEAVE: "/user/leave",
   },
   NICE: {
     CHECK_PHONE: "/nice/check-phone/v2",
