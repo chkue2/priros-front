@@ -9,6 +9,7 @@
           <input
             ref="userProfileImage"
             type="file"
+            accept="image/*"
             @change="handlerChangeProfileImage"
           />
           <button @click="handlerClickProfileImageUpload">
