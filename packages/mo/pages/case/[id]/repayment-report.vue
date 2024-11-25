@@ -26,6 +26,7 @@
                 <input
                   ref="remitFileList"
                   type="file"
+                  accept=".gif, .jpg, .jpeg, .png, .pdf, .bmp, .tif, .tiff"
                   multiple
                   @change="handlerChangeRemitFileList"
                 />
@@ -46,6 +47,7 @@
                 <input
                   ref="profFileList"
                   type="file"
+                  accept=".gif, .jpg, .jpeg, .png, .pdf, .bmp, .tif, .tiff"
                   multiple
                   @change="handlerChangeProfFileList"
                 />
@@ -66,6 +68,7 @@
                 <input
                   ref="etcFileList"
                   type="file"
+                  accept=".gif, .jpg, .jpeg, .png, .pdf, .bmp, .tif, .tiff"
                   multiple
                   @change="handlerChangeEtcFileList"
                 />

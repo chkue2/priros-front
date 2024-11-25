@@ -133,6 +133,7 @@
         <input
           type="file"
           ref="businessLicenseFile"
+          accept=".gif, .jpg, .jpeg, .png, .pdf, .bmp, .tif, .tiff"
           @change="handlerChangeBusinessLicenseFile"
         />
       </div>
@@ -147,6 +148,7 @@
         <input
           type="file"
           ref="expertLicenseFile"
+          accept=".gif, .jpg, .jpeg, .png, .pdf, .bmp, .tif, .tiff"
           @change="handlerChangeExpertLicenseFile"
         />
       </div>
@@ -172,6 +174,7 @@
               type="file"
               class="join-form-input"
               ref="certFile"
+              accept=".gif, .jpg, .jpeg, .png, .pdf, .bmp, .tif, .tiff"
               @change="handlerChangeCertFile"
             />
           </div>

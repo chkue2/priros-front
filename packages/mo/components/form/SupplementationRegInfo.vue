@@ -12,6 +12,7 @@
                 <input
                   ref="registSupplementFileList"
                   type="file"
+                  accept=".gif, .jpg, .jpeg, .png, .pdf, .bmp, .tif, .tiff"
                   maxlength="5"
                   multiple
                   @change="handlerChangeRegistSupplementFileList"
